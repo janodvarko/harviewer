@@ -1,0 +1,128 @@
+/* See license.txt for terms of usage */
+
+body {
+    margin: 0;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 13px;
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 17px;
+    border-bottom: 1px solid threedlightshadow;
+}
+
+pre {
+    margin: 0;
+    font: inherit;
+}
+
+/************************************************************************************************/
+
+#content {
+    overflow: auto;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.link {
+    color:blue;
+}
+
+.link:hover {
+    text-decoration: underline;
+    cursor:pointer;
+}
+
+.running {
+    width: 16px;
+    height: 16px;
+    background-image: url(images/loading_16.gif);
+}
+
+.collapsed,
+[collapsed="true"] {
+    display: none;
+}
+
+/************************************************************************************************/
+
+.tabInputBody {
+    padding: 8px;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 11.7px;
+    font-weight: 400;
+    font-style: normal;
+    color: #222222;
+}
+
+.tabPreviewBody {
+    min-height: 20px;
+}
+
+.previewContent {
+    margin: 8px;
+    height: 100%;
+}
+
+.tabDOMBody {
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 11px;
+    min-height: 20px;
+}
+
+.tabSchemaBody, .tabSourceBody {
+    min-height: 20px;
+    height: 100%;
+    padding: 8px;
+}
+
+.tabHelpBody {
+    padding: 8px;
+    padding-top: 0;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 11.7px;
+    font-weight: 400;
+    font-style: normal;
+    color:  #222222;
+}
+
+.tabHelpBody h2 {
+    color:  #DD467B;
+    font-size: 22.8px;
+    font-weight:lighter;
+}
+
+.tabHelpBody h3 {
+    color:  #DD467B;
+    font-weight:lighter;
+}
+
+.tabHelpBody code {
+    color:  green;
+}
+
+/************************************************************************************************/
+
+.SchemaTab {
+}
+
+.HelpTab {
+    margin-left:100px;
+}
+
+/************************************************************************************************/
+
+.schemaPreview, .sourcePreview {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    font-family: Monaco, monospace;
+    font-size: 12px;
+    overflow: auto;
+}

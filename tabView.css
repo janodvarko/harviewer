@@ -1,0 +1,64 @@
+/* See license.txt for terms of usage */
+
+.tabView {
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.tabViewCol {
+    border-top: 1px solid #EEEEEE;
+    background: url(images/group.gif) repeat-x #FFFFFF;
+    vertical-align:top;
+}
+
+.tabViewBody {
+    /*margin: 10px 0 4px 10px;*/
+    margin: 10px 0px 0px 0px;
+}
+
+.tabBar {
+    position: relative;
+    padding-left: 14px;
+}
+
+.tab {
+    position: relative;
+    top: -3px;
+    margin-top: 10px;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    color: #565656;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+}
+
+.tab:hover {
+    cursor: pointer;
+    border-color: #D7D7D7;
+    -moz-border-radius: 4px 4px 0 0;
+}
+
+.tab[selected="true"],
+.tab .selected {
+    cursor: default !important;
+    border-color: #D7D7D7;
+    -moz-border-radius: 4px 4px 0 0;
+    background-color: #FFFFFF;
+}
+
+.tabBody {
+    display: none;
+    margin: 0;
+    border-top: 1px solid #D7D7D7;
+    background-color: #FFFFFF;
+}
+
+.tabBody[selected="true"],
+.tabBody .selected {
+    display: block;
+}

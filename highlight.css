@@ -1,0 +1,22 @@
+
+.string {
+    color: red;
+}
+
+
+.keyword {
+    color: blue;
+    font-weight: bold;
+}
+
+.comment {
+    color: green;
+}
+
+.literal {
+    color: rgb(128, 0, 64);
+}
+
+.number {
+    color: blue;
+}

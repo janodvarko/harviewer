@@ -1,0 +1,56 @@
+/* See license.txt for terms of usage */
+
+.pageTable {
+    width: 100%;
+    overflow: hidden;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 11px;
+}
+
+.pageCol {
+    white-space: nowrap;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.pageRow {
+    font-weight: bold;
+    height:18px;
+}
+
+.opened > .pageCol > .pageName {
+    background-image: url(images/twistyOpen.png);
+}
+
+.pageName {
+    background-image: url(images/twistyClosed.png);
+    background-repeat: no-repeat;
+    background-position: 2px 1px;
+    padding-left: 18px;
+    font-weight: bold;
+    cursor:pointer;
+}
+
+.pageID {
+    color: gray;
+}
+
+.pageInfoCol {
+    background: url(images/group.gif) repeat-x #FFFFFF;
+    padding: 0px 0px 4px 17px;
+}
+
+.pageRemoveAction {
+    white-space:nowrap;
+    padding-left: 15px;
+    padding-right: 5px;
+    font-weight: normal;
+}
+
+.pageRemoveAction.link {
+    color: #0000ff;
+    cursor:pointer;
+}
+
+.pageRemoveAction.link:hover {
+    text-decoration:underline;
+}

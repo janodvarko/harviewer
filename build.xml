@@ -1,0 +1,160 @@
+<?xml version="1.0" ?>
+
+<!-- Build instruction for HARViewer application. In order to build final
+    distribuition, run: $ant build within the application directory and
+    deploy all files located within the new 'release' directory -->
+<project name="HARViewer" basedir="." default="build">
+
+    <!-- Directories -->
+    <property name="build.dir" value="release"/>
+    <property name="temp.dir" value="release/temp"/>
+    <property name="examples.dir" value="examples"/>
+    <property name="images.dir" value="images"/>
+    <property name="xslt.dir" value="xslt"/>
+    <property file="ant.properties"/>
+
+    <!-- Files -->
+    <property name="jsmin.jar" value="C:\www\jsmin\jsmin.0.2.3.jar"/>
+    <property name="js_build_tools.jar" value="C:\www\js-build-tools\trunk\lib\js_build_tools.jar"/>
+
+    <!-- Paths -->
+    <path id="compress-js">
+        <fileset dir="C:/www/dojo/shrink-safe" includes="**/*.jar"/>
+    </path>
+
+    <path id="js-build-tasks.classpath">
+        <pathelement location="."/>
+        <fileset dir="C:\www\js-build-tools\trunk\lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- Task definitions -->
+    <taskdef name="compress-js"
+        classname="com.webpanes.tools.ant.taskdefs.CompressJS"
+        classpathref="compress-js"/>
+    <taskdef name="jsmin"
+        classname="net.matthaynes.jsmin.JSMin_Task"
+        classpath="${jsmin.jar}"/>
+    <taskdef name="preprocess"
+        classname="com.moxiecode.ant.tasks.PreProcessTask"
+        classpathref="js-build-tasks.classpath"/>
+
+    <!-- Clean -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <!-- Build -->
+    <target name="build" depends="clean">
+        <mkdir dir="${build.dir}"/>
+
+        <!-- Copy examples -->
+        <copy todir="${build.dir}/${examples.dir}">
+            <fileset dir="${examples.dir}">
+                <include name="*.har"/>
+            </fileset>
+        </copy>
+
+        <!-- Copy images -->
+        <copy todir="${build.dir}/${images.dir}">
+            <fileset dir="${images.dir}">
+                <include name="*.gif"/>
+                <include name="*.png"/>
+            </fileset>
+        </copy>
+
+        <!-- Schema is displayed in the UI so, copy to the build -->
+        <copy file="schema.js" todir="${build.dir}"/>
+
+        <!-- Copy license.txt file to the build -->
+        <copy file="license.txt" tofile="${build.dir}/license.txt" />
+
+        <!-- Preprocess har.core.js
+            (http://code.google.com/p/js-build-tools/wiki/AntTasks)
+            and move it into the temp directory -->
+        <preprocess infile="har.core.js" outfile="har.core.preprocessed.js"
+            defines="_RELEASE" />
+
+        <!-- Compress HAR files and move to the temp directory
+            dojo.js, har.dojo.js: already compressed by dojo build
+            har.core.js: preprocessed into another file
+            domplate.js: must be minimized using jsmin 
+            schema.js: displayed in the UI, must not be compressed -->
+        <compress-js todir="${temp.dir}">
+            <fileset dir=".">
+                <include name="*.js"/>
+                <exclude name="dojo.js"/>
+                <exclude name="har.dojo.js"/>
+                <exclude name="har.core.js"/>
+                <exclude name="domplate.js"/>
+                <exclude name="schema.js"/>
+            </fileset>
+        </compress-js>
+
+        <!-- Rename preprocessed har.core.js file back to the original -->
+        <move file="${temp.dir}/har.core.preprocessed.js"
+            tofile="${temp.dir}/har.core.js"/>
+
+        <!-- Compress domplate using jsmin and move to the temp -->
+        <jsmin srcfile="domplate.js" suffix="true"/>
+        <move file="domplate.min.js" tofile="${temp.dir}/domplate.js"/>
+
+        <!-- Copy all css files to the temp, it'll be yet concatenated -->
+        <copy todir="${temp.dir}">
+            <fileset dir="." includes="*.css"/>
+        </copy>
+
+        <!-- Copy dojo, it's already compressed -->
+        <copy file="dojo.js" todir="${temp.dir}"/>
+        <copy file="har.dojo.js" todir="${temp.dir}"/>
+
+        <!-- Process index.php file. This transformation removes all
+            embedded resoureces and inserts just two: one big har.js file
+            with all concatenated *.js files and one big har.css file
+            with all *.css files. -->
+        <xslt style="${xslt.dir}/index.xsl" in="index.php" out="${build.dir}/index.php">
+            <xmlcatalog>
+                <dtd publicId="-//W3C//DTD XHTML 1.0 Strict//EN"
+                    location="${xslt.dir}/xhtml1-strict.dtd"/>
+            </xmlcatalog>
+        </xslt>
+
+        <!-- Join core JS files in this order:
+            dojo.js, har.dojo.js, har.core.js, har.lib.js, har.rep.js  -->
+        <concat destfile="${build.dir}/har.js">
+            <filelist dir="${temp.dir}"
+                files="dojo.js,har.dojo.js,har.core.js,har.lib.js,har.rep.js" />
+        </concat>
+
+        <!-- Append the other files -->
+        <concat destfile="${build.dir}/har.js" append="true">
+            <fileset dir="${temp.dir}">
+                 <include name="*.js"/>
+                 <exclude name="dojo.js"/>
+                 <exclude name="har.dojo.js"/>
+                 <exclude name="har.core.js"/>
+                 <exclude name="har.lib.js"/>
+                 <exclude name="har.rep.js"/>
+            </fileset>
+        </concat>
+
+        <!-- Join all CSS files into one har.css file and move to build -->
+        <concat destfile="${build.dir}/har.css">
+            <fileset dir="${temp.dir}" includes="*.css" />
+        </concat>
+
+        <!-- Delete temp directory -->
+        <delete dir="${temp.dir}"/>
+
+        <!-- Generate version number -->
+        <replace file="${build.dir}/index.php" propertyFile="ant.properties">
+            <replacefilter token="@VERSION@" property="VERSION"/>
+        </replace>
+
+        <!-- Final version message -->
+        <echo message="HARViewer version: ${VERSION}"/>
+
+    </target>
+
+</project>

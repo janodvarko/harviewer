@@ -1,0 +1,18 @@
+/* See license.txt for terms of usage */
+
+.infoTip {
+    z-index: 2147483647;
+    position: fixed;
+    padding: 2px 3px;
+    border: 1px solid #CBE087;
+    background: LightYellow;
+    font-family: Monaco, monospace;
+    color: #000000;
+    display: none;
+    white-space: nowrap;
+}
+
+.infoTip[active="true"] {
+    display: block;
+}
+

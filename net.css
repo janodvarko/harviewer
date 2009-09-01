@@ -1,0 +1,444 @@
+/* See license.txt for terms of usage */
+
+.netTable {
+    width: 100%;
+    border-left: 1px solid #EFEFEF;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 11px;
+}
+
+/************************************************************************************************/
+
+.hideCategory-undefined .category-undefined,
+.hideCategory-html .category-html,
+.hideCategory-css .category-css,
+.hideCategory-js .category-js,
+.hideCategory-image .category-image,
+.hideCategory-xhr .category-xhr,
+.hideCategory-flash .category-flash,
+.hideCategory-txt .category-txt,
+.hideCategory-bin .category-bin {
+    display: none;
+}
+
+/************************************************************************************************/
+
+.netHeadRow {
+    background: url(images/group.gif) repeat-x #FFFFFF;
+}
+
+.netHeadCol {
+    border-bottom: 1px solid #CCCCCC;
+    padding: 2px 4px 2px 18px;
+    font-weight: bold;
+}
+
+.netHeadLabel {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/************************************************************************************************/
+
+.netRow {
+    background: white;
+}
+
+.netRow.loaded {
+    background: #FFFFFF;
+}
+
+.netHrefCol:hover {
+    background: white;
+}
+
+.netRow.loaded:hover {
+    background: #EFEFEF;
+}
+
+.netCol {
+    padding: 0;
+    vertical-align: top;
+    border-bottom: 1px solid #EFEFEF;
+    white-space: nowrap;
+}
+
+.netStatusCol {
+    padding-left: 10px;
+    color: rgb(128, 128, 128);
+}
+
+.responseError > .netStatusCol {
+    color: red;
+}
+
+.netDomainCol {
+    padding-left: 5px;
+}
+
+.netSizeCol {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.netHrefLabel {
+    -moz-box-sizing: padding-box;
+    overflow: hidden;
+    z-index: 100;
+    position: absolute;
+    padding-left: 18px;
+    padding-top: 1px;
+    max-width: 15%;
+    font-weight: bold;
+}
+
+.netFullHrefLabel {
+    display: none;
+    -moz-user-select: none;
+    padding-right: 10px;
+    padding-bottom: 3px;
+    max-width: 100%;
+    background: #FFFFFF;
+}
+
+.netHrefCol:hover > .netStatusLabel,
+.netHrefCol:hover > .netDomainLabel,
+.netHrefCol:hover > .netHrefLabel {
+    display: none;
+}
+
+.netHrefCol:hover > .netFullHrefLabel {
+    display: block;
+}
+
+.netRow.loaded:hover > .netCol > .netFullHrefLabel {
+    background-color: #EFEFEF;
+}
+
+.netSizeLabel {
+    padding-left: 6px;
+}
+
+.netStatusLabel,
+.netDomainLabel,
+.netSizeLabel,
+.netBar {
+    padding: 1px 0 2px 0 !important;
+}
+
+.responseError {
+    color: red;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.hasHeaders .netHrefLabel:hover {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+/************************************************************************************************/
+
+.netBar {
+    position: relative;
+    border-right: 50px solid transparent;
+}
+
+.netBlockingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/netBarBlocking.gif) repeat-x;
+    min-width: 0px;
+    z-index:70;
+}
+
+.netResolvingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/netBarResolving.gif) repeat-x;
+    min-width: 0px;
+    z-index:60;
+}
+
+.netConnectingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/netBarConnecting.gif) repeat-x;
+    min-width: 0px;
+    z-index:50;
+}
+
+.netSendingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/netBarSending.gif) repeat-x;
+    min-width: 0px;
+    z-index:40;
+}
+
+.netWaitingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/netBarWaiting.gif) repeat-x;
+    min-width: 0px;
+    z-index:30;
+}
+
+.netReceivingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/netBarReceiving.gif) repeat-x;
+    min-width: 0px;
+    z-index:20;
+}
+
+.netWindowLoadBar,
+.netContentLoadBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: red;
+    z-index:90;
+    opacity: 0.5;
+    display: none;
+    margin-bottom:-1px;
+}
+
+.netContentLoadBar {
+    background-color: Blue;
+}
+
+.netTimeLabel {
+    -moz-box-sizing: padding-box;
+    position: absolute;
+    top: 1px;
+    left: 100%;
+    padding-left: 6px;
+    color: #444444;
+    min-width: 16px;
+}
+
+.timeInfoTip {
+    width: 150px; 
+    height: 40px;
+    font-size: 11px;
+}
+
+.sizeInfoTip {
+    font-size: 11px;
+}
+
+.timeInfoTipBar {
+    position: relative;
+    display: block;
+    margin: 0;
+    opacity: 1;
+    height: 15px;
+}
+
+.netSummaryRow .netTimeLabel,
+.loaded .netTimeLabel {
+    background: transparent;
+}
+
+.loaded .netTimeBar {
+    background: #B6B6B6 url(images/netBarLoaded.gif) repeat-x;
+    border-color: #B6B6B6;
+}
+
+.fromCache .netTimeBar {
+    background: #D6D6D6 url(images/netBarCached.gif) repeat-x;
+    border-color: #D6D6D6;
+}
+
+.netSummaryRow .netTimeBar {
+    background: #BBBBBB;
+    border: none;
+}
+
+/************************************************************************************************/
+
+.netSummaryLabel {
+    color: #222222;
+}
+
+.netSummaryRow {
+    background: #BBBBBB !important;
+    font-weight: bold;
+}
+
+.netSummaryRow .netBar {
+    border-right-color: #BBBBBB;
+}
+
+.netSummaryRow > .netCol {
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid;
+    border-bottom-color: #999999;
+    padding-top: 1px;
+}
+
+.netSummaryRow > .netCol:first-child {
+    border-left: 1px solid #999999;
+}
+
+.netCountLabel {
+    padding-left: 18px;
+}
+
+.netTotalSizeCol {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.netTotalTimeCol {
+    text-align: right;
+}
+
+.netCacheSizeLabel {
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+}
+
+/************************************************************************************************/
+
+.netInfoCol {
+    border-top: 1px solid #EEEEEE;
+    background: url(images/group.gif) repeat-x #FFFFFF;
+}
+
+.netInfoBody {
+    margin: 10px 0 4px 10px;
+}
+
+.netInfoTabs {
+    position: relative;
+    padding-left: 14px;
+}
+
+.netInfoTab {
+    position: relative;
+    top: -3px;
+    margin-top: 10px;
+    padding: 4px 6px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    font-weight: bold;
+    color: #565656;
+}
+
+.netInfoTab:hover {
+    cursor: pointer;
+}
+
+.netInfoTab[selected="true"] {
+    cursor: default !important;
+    border-color: #D7D7D7;
+    -moz-border-radius: 4px 4px 0 0;
+    background-color: #FFFFFF;
+}
+
+.logRow-netInfo.error .netInfoTitle {
+    color: red;
+}
+
+.logRow-netInfo.loading .netInfoResponseText {
+    font-style: italic;
+    color: #888888;
+}
+
+.loading .netInfoResponseHeadersTitle {
+    display: none;
+}
+
+.netInfoText {
+    display: none;
+    margin: 0;
+    border: 1px solid #D7D7D7;
+    border-right: none;
+    padding: 8px;
+    background-color: #FFFFFF;
+    font-family: Monaco, monospace;
+    /*overflow-x: auto; HTML is damaged in case of big (2-3MB) responses */  
+}
+
+.netInfoText[selected="true"] {
+    display: block;
+}
+
+.netInfoParamName {
+    padding: 0 10px 0 0;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-weight: bold;
+    vertical-align: top;
+    text-align: right;
+}
+
+.netInfoHeadersText,
+.netInfoCookiesText {
+    padding-top: 0;
+}
+
+.netInfoHeadersGroup,
+.netInfoCookiesGroup {
+    margin-bottom: 4px;
+    border-bottom: 1px solid #D7D7D7;
+    padding-top: 8px;
+    padding-bottom: 2px;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-weight: bold;
+    color: #565656;
+}
+
+.netInfoHtmlPreview {
+    border: 0;
+    width: 100%;
+    height:100%;
+}
+
+/************************************************************************************************/
+
+.netActivationRow {
+    background: rgb(229, 229, 229) !important;
+    font-weight: normal;
+    color: black;
+}
+
+.netActivationLabel {
+    background: url(images/infoIcon.png) no-repeat 3px 2px;
+    padding-left: 22px;
+}
+
+.netActivationRow > .netCol {
+    border-bottom: 2px solid;
+    -moz-border-bottom-colors: #EFEFEF #999999;
+    padding-top: 2px;
+    padding-bottom: 3px;
+}
+
+/*.hasHeaders */.netHrefLabel {
+    background-image: url(images/twistyClosed.png);
+    background-repeat: no-repeat;
+    background-position: 2px 2px;
+}
+
+.netRow.opened > .netCol > .netHrefLabel {
+    background-image: url(images/twistyOpen.png);
+}
