@@ -44,11 +44,22 @@ HAR.Viewer = domplate(
         if (inputUrl)
             this.loadRemoteArchive(inputUrl, callback);
 
+        // Register window onresize listener for adapting
+        // source editor width.
+        window.onresize = bind(this.onWindowResize, this);
+        this.onWindowResize();
+
         // Viewer is initialized so, notify all listeners. This is helpful
         // for extending the page using e.g. Firefox extensions.
         fireEvent(content, "onViewerInit");
 
         HAR.log("har; Viewer initialized.", schema);
+    },
+
+    onWindowResize: function()
+    {
+        var editor = HAR.$("sourceEditor");
+        editor.style.width = (window.innerWidth - 40) + "px";
     },
 
     selectTabByName: function(tabName)
