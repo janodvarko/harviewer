@@ -1,11 +1,10 @@
 ﻿/* See license.txt for terms of usage */
 
 .domTable {
-    width: 100%;
 }
 
 .memberLabelCell {
-    padding: 2px 0 2px 0;
+    padding: 2px 50px 2px 0;
     vertical-align: top;
 }
 

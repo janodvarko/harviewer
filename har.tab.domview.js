@@ -32,7 +32,7 @@ HAR.Tab.DomView = domplate(
             $hasChildren: "$member|hasChildren",
             _repObject: "$member", level: "$member.level"},
             TD({"class": "memberLabelCell", style: "padding-left: $member.indent\\px"},
-                DIV({"class": "memberLabel $member.type\\Label"}, "$member.name")
+                SPAN({"class": "memberLabel $member.type\\Label"}, "$member.name")
             ),
             TD({"class": "memberValueCell"},
                 TAG("$member.tag", {object: "$member.value"})

@@ -59,7 +59,7 @@ to load an example of existing HTTP log.</p>
         <td style="vertical-align:middle;padding-bottom: 1px;">Validate data before processing?</td>
     </tr>
 </table>
-<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="10"
+<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="15"
     onchange="HAR.Viewer.onSourceChange();"></textarea>
 <p><table cellpadding="0" cellspacing="0">
     <tr>
