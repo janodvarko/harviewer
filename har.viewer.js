@@ -59,7 +59,8 @@ HAR.Viewer = domplate(
     onWindowResize: function()
     {
         var editor = HAR.$("sourceEditor");
-        editor.style.width = (window.innerWidth - 40) + "px";
+        var body = getBody(document);
+        editor.style.width = (body.clientWidth - 40) + "px";
     },
 
     selectTabByName: function(tabName)
