@@ -37,6 +37,9 @@ HAR.Rep = domplate(
 
     getTitle: function(object)
     {
+        if (dojo.isArray(object))
+            return "Array";
+
         var label = safeToString(object);
 
         var re = /\[object (.*?)\]/;
