@@ -53,7 +53,7 @@ HAR.Lib = extend(
     formatTime: function(elapsed)
     {
         if (elapsed == -1)
-            return "_"; // should be &nbsp; but this will be escaped so we need something that is no whitespace
+            return "-"; // should be &nbsp; but this will be escaped so we need something that is no whitespace
         else if (elapsed < 1000)
             return elapsed + "ms";
         else if (elapsed < 60000)
