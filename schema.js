@@ -194,7 +194,6 @@ var cacheType = {
     "cacheType": {
         "id": "cacheType",
         "description": "Info about a response coming from the cache.",
-        "optional": true,
         "properties": {
             "beforeRequest": {"$ref": "cacheEntryType"},
             "afterRequest": {"$ref": "cacheEntryType"}
@@ -208,8 +207,7 @@ var cacheEntryType = {
         "optional": true,
         "description": "Info about cache entry.",
         "properties": {
-            "expires": {"type": "string"},
-            "lastModification": {"type": "string"},
+            "expires": {"type": "string", optional: "true"},
             "lastAccess": {"type": "string"},
             "eTag": {"type": "string"},
             "hitCount": {"type": "integer"}
