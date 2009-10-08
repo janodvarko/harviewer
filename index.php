@@ -48,7 +48,7 @@
 <!-- Input JSON Tab Template -->
 <div id="InputTabTemplate" style="display:none">
 <p>Paste HTML Archive source code (JSON) into the text box below and
-press Preview button. <br/> Click
+press the <b>Preview</b> button. <br/> Click
 <span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-1.har');">here</span> or
 <span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-2.har');">here</span>
 to load an example of existing HTTP log.</p>
@@ -66,6 +66,8 @@ to load an example of existing HTTP log.</p>
         <td><button id="appendPreview" onclick="HAR.Viewer.onAppendPreview();">Preview</button></td>
     </tr>
 </table></p>
+<br/>
+<p><i>This viewer supports HAR 1.1 (see the <b>About</b> tab).<br/></i></p>
 </div>
 
 <!-- Help Tab Template -->
@@ -77,47 +79,57 @@ to load an example of existing HTTP log.</p>
 
 <tr><td>
 <p>The purpose of this online tool is to visualize
-<a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">HTTP Archive</a>
+<a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">
+    HTTP Archive 1.1</a>
 log files (JSON) created by HTTP tracking tools. These files contain log of HTTP
 client/server conversation and can be used for an additional analysis of e.g. 
 page load performance.</p>
 
 <p>User interface of this tool is composed from the following tabs:</p>
 <ul>
-<li><i>Input JSON</i> - Paste content of a log file into the text box in this tab.</li>
-<li><i>Preview</i> - Switch to this tab if you want to see visualised HTTP traffic.</li>
-<li><i>DOM</i> - Use this tab to see structure of the input JSON data as an expandable tree.</li>
-<li><i>Schema</i> - Explore format of the input log in this tab.</li>
+<li><b>Input JSON</b> - Paste content of a log file into the text box in this tab.</li>
+<li><b>Preview</b> - Switch to this tab if you want to see visualised HTTP traffic.</li>
+<li><b>DOM</b> - Use this tab to see structure of the input JSON data as an expandable tree.</li>
+<li><b>Schema</b> - Explore format of the input log in this tab.</li>
 </ul>
 </td></tr>
 
 <tr><td>
-<h3>Create Logs using Firebug</h3>
+<h3>Discussion Group</h3>
+<p>Send feedback to: <a href="http://groups.google.com/group/http-archive-specification">
+    http://groups.google.com/group/http-archive-specification</a></p>
+</td></tr>
+
+<tr><td>
+<h3>Create Logs using Firebug 1.5</h3>
 One of the tools you can use to log data transfered over HTTP protocol
 is <b>Firebug</b>. To do this you have to also install Firebug extension
 called <b>NetExport.</b>
 
 <p>Recommended configurations:</p>
 <ul>
-    <li><b>Firebug 1.4</b> - <a href="http://www.softwareishard.com/har/viewer/">HAR Viewer 1.0</a>, download NetExport <a href="http://getfirebug.com/releases/export/1.4/">here</a></li>
-    <li><b>Firebug 1.5</b> - HAR Viewer 1.1 (this page), download NetExport <a href="http://getfirebug.com/releases/export/1.5">here</a>
+    <li><a href="http://getfirebug.com/releases/firebug/1.5X/">
+        Firebug 1.5</a> +
+    <a href="http://getfirebug.com/releases/export/1.5">NetExport 0.7</a>
+    (supports 
+    <a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">
+    HAR Spec 1.1</a>) 
     </li>
 </ul>
-
-<i></i>
 </td></tr>
 
 <tr><td>
-<h3>HTTP Archive</h3>
-<p>Required structure of the input <a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">HTTP Archive</a>
-file (*.har) is described using
+<h3>HTTP Archive Specification</h3>
+<p>Required
+<a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">
+structure</a> of the input HTTP Archive file (*.har) is described using
 <a href="http://www.json.com/json-schema-proposal/">JSON Schema</a>.
 You can explore the current schema definition within the <b>Shema</b>
 tab on this page.</p>
 </td></tr>
 
 <tr><td>
-<h3>Request Timing</h3>
+<h3>Request Timing Fields</h3>
 <p>Part of the HTTP log is also a timing info about network request executions.
 Here is a description of individual request/response phases:</p>
 <ul>
@@ -131,7 +143,7 @@ Here is a description of individual request/response phases:</p>
 </td></tr>
 
 <tr><td>
-<h3>Preview Online Log Files</h3>
+<h3>Online Log Files</h3>
 <p>HAR Viewer also support JSONP and so it's possible to load log files 
 from differet domains. This allows to link your online logs and preview them
 automaticaly within the viewer.</p>
@@ -146,15 +158,13 @@ the file in <b>inputUrl</b> parameter:</i></p>
 <p><i>3. A custom name of the callback function can be specified in a <b>callback</b> parameter
 (by default it's <b>onInputData</b>):</i></p>
 <code>http://www.softwareishard.com/har/viewer/?inputUrl=http://www.example.com/netData.har&apm;callback=onInputData</code>
-
-<p><i>* The HAR Viewer 1.1 is currently located at http://www.softwareishard.com/har/viewer-1.1,
-but will be moved to http://www.softwareishard.com/har/viewer as soon as the schema
-v1.1 is ready.</i></p>
+<br/><br/>
 </td></tr>
 
 <tr><td>
-<h3>Feedback</h3>
-<p>Send any feedback to: <i>odvarko@gmail.com</i></p>
+<h3>Previous Viewers</h3>
+<p>Old logs created using HAR spec 1.0 (deprecated) can be previewed
+<a href="http://www.softwareishard.com/har/viewer-1.0/">here</a>.</p>
 </td></tr>
 
 </table>
