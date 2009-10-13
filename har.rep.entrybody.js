@@ -149,9 +149,7 @@ HAR.Rep.EntryBody = domplate(
 
     hideResponse: function(file)
     {
-        if (file.response.content.text)
-            return !file.response.content.text.length;
-        return false;
+        return !file.response.content.size;
     },
 
     hideCache: function(file)

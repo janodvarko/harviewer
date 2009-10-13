@@ -317,13 +317,10 @@ HAR.Tab.Preview = HAR.extend(
             {
                 ++fileCount;
 
-                var text = file.response.content.text;
-                if (text && text.length)
-                {
-                    totalSize += text.length;
-                    if (file.fromCache)
-                        cachedSize += text.length;
-                }
+                var size = file.response.content.size;
+                totalSize += size;
+                if (file.fromCache)
+                    cachedSize += size;
 
                 if (!minTime || startedDateTime < minTime)
                     minTime = startedDateTime;
