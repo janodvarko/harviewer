@@ -78,12 +78,12 @@ HAR.Lib = extend(
     {
         return event.button == 0 && this.noKeyModifiers(event);
     },
-    
+
     noKeyModifiers: function(event)
     {
         return !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey;
     },
-    
+
     getAncestorByClass: function(node, className)
     {
         for (var parent = node; parent; parent = parent.parentNode)
@@ -91,7 +91,7 @@ HAR.Lib = extend(
             if (this.hasClass(parent, className))
                 return parent;
         }
-    
+
         return null;
     },
 
@@ -110,10 +110,10 @@ HAR.Lib = extend(
                     return found;
             }
         }
-    
+
         return null;
     },
-    
+
     getChildByClass: function(node) // ,classname, classname, classname...
     {
         for (var i = 1; i < arguments.length; ++i)
@@ -130,10 +130,10 @@ HAR.Lib = extend(
                 }
             }
         }
-    
+
         return node;
     },
-    
+
     hasClass: function(node, name) // className, className, ...
     {
         if (!node || node.nodeType != 1)
@@ -154,13 +154,13 @@ HAR.Lib = extend(
             return true;
         }
     },
-    
+
     setClass: function(node, name)
     {
         if (node && !this.hasClass(node, name))
             node.className += " " + name;
     },
-    
+
     removeClass: function(node, name)
     {
         if (node && node.className)
@@ -173,7 +173,7 @@ HAR.Lib = extend(
             }
         }
     },
-    
+
     toggleClass: function(elt, name)
     {
         if (this.hasClass(elt, name))
@@ -229,7 +229,7 @@ HAR.Lib = extend(
         {
             if (this.hasClass(child, "repTarget"))
                 target = child;
-    
+
             if (child.repObject)
             {
                 if (!target && this.hasClass(child, "repIgnore"))
@@ -239,7 +239,7 @@ HAR.Lib = extend(
             }
         }
     },
-    
+
     getElementPanel: function(element)
     {
         for (; element; element = element.parentNode)
@@ -248,14 +248,14 @@ HAR.Lib = extend(
                 return element.ownerPanel;
         }
     },
-    
+
     wrapText: function(text, noEscapeHTML)
     {
         var reNonAlphaNumeric = /[^A-Za-z_$0-9'"-]/;
-    
+
         var html = [];
         var wrapWidth = 100;
-    
+
         // Split long text into lines and put every line into an <pre> element (only in case
         // if noEscapeHTML is false). This is useful for automatic scrolling when searching
         // within response body (in order to scroll we need an element).
@@ -269,25 +269,25 @@ HAR.Lib = extend(
                 var wrapIndex = wrapWidth+ (m ? m.index : 0);
                 var subLine = line.substr(0, wrapIndex);
                 line = line.substr(wrapIndex);
-    
+
                 if (!noEscapeHTML) html.push("<pre>");
                 html.push(noEscapeHTML ? subLine : this.escapeHTML(subLine));
                 if (!noEscapeHTML) html.push("</pre>");
             }
-    
+
             if (!noEscapeHTML) html.push("<pre>");
             html.push(noEscapeHTML ? line : this.escapeHTML(line));
             if (!noEscapeHTML) html.push("</pre>");
         }
-    
+
         return html.join(noEscapeHTML ? "\n" : "");
     },
-    
+
     insertWrappedText: function(text, textBox, noEscapeHTML)
     {
         textBox.innerHTML = "<pre>" + this.wrapText(text, noEscapeHTML) + "</pre>";
     },
-    
+
     splitLines: function(text)
     {
         var reSplitLines = /\r\n|\r|\n/;
@@ -300,13 +300,13 @@ HAR.Lib = extend(
             return theSplit;
         }
     },
-    
+
     getPrettyDomain: function(url)
     {
         var m = /[^:]+:\/{1,3}(www\.)?([^\/]+)/.exec(url);
         return m ? m[2] : "";
     },
-    
+
     escapeHTML: function(value)
     {
         function replaceChars(ch)
@@ -328,37 +328,37 @@ HAR.Lib = extend(
         };
         return String(value).replace(/[<>&"']/g, replaceChars);
     },
-    
+
     getFileName: function(url)
     {
         var split = this.splitURLBase(url);
         return split.name;
     },
-    
+
     splitURLBase: function(url)
     {
         if (this.isDataURL(url))
             return this.splitDataURL(url);
         return this.splitURLTrue(url);
     },
-    
+
     isDataURL: function(url)
     {
         return (url && url.substr(0,5) == "data:");
     },
-    
+
     splitDataURL: function(url)
     {
         var mark = url.indexOf(':', 3);
         if (mark != 4)
             return false;   //  the first 5 chars must be 'data:'
-    
+
         var point = url.indexOf(',', mark+1);
         if (point < mark)
             return false; // syntax error
-    
+
         var props = { encodedContent: url.substr(point+1) };
-    
+
         var metadataBuffer = url.substr(mark+1, point);
         var metadata = metadataBuffer.split(';');
         for (var i = 0; i < metadata.length; i++)
@@ -394,10 +394,10 @@ HAR.Lib = extend(
             if (!props.hasOwnProperty('name'))
                 props['name'] =  decodeURIComponent(props['encodedContent'].substr(0,200)).replace(/\s*$/, "");
         }
-    
+
         return props;
     },
-    
+
     splitURLTrue: function(url)
     {
         var reSplitFile = /:\/{1,3}(.*?)\/([^\/]*?)\/?($|\?.*)/;
@@ -409,7 +409,7 @@ HAR.Lib = extend(
         else
             return {path: m[1], name: m[2]+m[3]};
     },
-    
+
     eraseNode: function(node)
     {
         while (node.lastChild)
@@ -425,7 +425,7 @@ HAR.Lib = extend(
     {
         if (obj == null || typeof(obj) != "object")
             return obj;
-    
+
         try
         {
             var temp = obj.constructor();
@@ -440,16 +440,16 @@ HAR.Lib = extend(
     
         return null;
     },
-    
+
     cropString: function(text, limit)
     {
         text = text + "";
-    
+
         if (!limit)
             var halfLimit = 50;
         else
             var halfLimit = limit / 2;
-    
+
         if (text.length > limit)
             return this.escapeNewLines(text.substr(0, halfLimit) + "..." + text.substr(text.length-halfLimit));
         else
