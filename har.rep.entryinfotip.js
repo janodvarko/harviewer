@@ -5,80 +5,131 @@ HAR.ns(function() { with (Domplate) { with (HAR.Lib) {
 //-----------------------------------------------------------------------------
 
 /**
- * This object represents a popup info tip with detailed info for an 
+ * This object represents a popup info tip with detailed timing info for an 
  * entry (request).
  */
 HAR.Rep.EntryTimeInfoTip = domplate(
 {
-    tag:
-        TABLE({"class": "timeInfoTip"},
-            TBODY(
-                TR(
-                    TD({"class": "netBlockingBar timeInfoTipBar"}),
-                    TD("$file.timings.blocked|formatTime : " + $STR("request.phase.Block"))
+    tableTag:
+        TABLE({"class": "timeInfoTip", "id": "fbNetTimeInfoTip"},
+            TBODY()
+        ),
+
+    timingsTag:
+        FOR("time", "$timings",
+            TR({"class": "timeInfoTipRow", $collapsed: "$time|hideBar"},
+                TD({"class": "$time|getBarClass timeInfoTipBar",
+                    $loaded: "$time.loaded",
+                    $fromCache: "$time.fromCache",
+                }),
+                TD({"class": "timeInfoTipCell startTime"},
+                    "$time.start|formatStartTime"
                 ),
-                TR(
-                    TD({"class": "netResolvingBar timeInfoTipBar"}),
-                    TD("$file.timings.dns|formatTime : " + $STR("request.phase.DNS"))
+                TD({"class": "timeInfoTipCell elapsedTime"},
+                    "$time.elapsed|formatTime"
                 ),
-                TR(
-                    TD({"class": "netConnectingBar timeInfoTipBar"}),
-                    TD("$file.timings.connect|formatTime : " + $STR("request.phase.Connect"))
+                TD("$time|getLabel")
+            )
+        ),
+
+    separatorTag:
+        TR(
+            TD({"colspan": 4, "height": "10px"})
+        ),
+
+    eventsTag:
+        FOR("event", "$events",
+            TR({"class": "timeInfoTipEventRow"},
+                TD({"class": "timeInfoTipBar", align: "center"},
+                    DIV({"class": "$event|getBarClass timeInfoTipEventBar"})
                 ),
-                TR(
-                    TD({"class": "netSendingBar timeInfoTipBar"}),
-                    TD("$file.timings.send|formatTime : " + $STR("request.phase.Send"))
-                ),
-                TR(
-                    TD({"class": "netWaitingBar timeInfoTipBar"}),
-                    TD("$file.timings.wait|formatTime : " + $STR("request.phase.Wait"))
-                ),
-                TR(
-                    TD({"class": "netReceivingBar timeInfoTipBar"}),
-                    TD("$file.timings.receive|formatTime : " + $STR("request.phase.Receive"))
-                ),
-                TR(
-                    TD({"colspan": 2, "height": "10px"})
-                ),
-                TR(
-                    TD({align: "center"},
-                        DIV({"class": "netContentLoadBar timeInfoTipBar"})
-                    ),
-                    TD("$file|getOnContentLoadTime : " + $STR("page.event.ContentLoad"))
-                ),
-                TR(
-                    TD({align: "center"},
-                        DIV({"class": "netWindowLoadBar timeInfoTipBar"})
-                    ),
-                    TD("$file|getOnLoadTime : " + $STR("page.event.Load"))
+                TD("$event.start|formatStartTime"),
+                TD({"colspan": 2},
+                    "$event|getLabel"
                 )
             )
         ),
+
+    hideBar: function(obj)
+    {
+        return !obj.elapsed && obj.bar == "Blocking";
+    },
+
+    getBarClass: function(obj)
+    {
+        return "net" + obj.bar + "Bar";
+    },
 
     formatTime: function(time)
     {
         return HAR.Lib.formatTime(time);
     },
 
-    formatPageEventTime: function(file, page, eventTime)
+    formatStartTime: function(time)
     {
+        var label = HAR.Lib.formatTime(time);
+        if (!time)
+            return label;
+
+        return (time > 0 ? "+" : "") + label;
+    },
+
+    getLabel: function(obj)
+    {
+        return $STR("requestinfo." + obj.bar);
+    },
+
+    render: function(file, parentNode)
+    {
+        var page = HAR.Model.getParentPage(file);
         var pageStart = parseISO8601(page.startedDateTime);
         var requestStart = parseISO8601(file.startedDateTime);
 
-        var time = (pageStart + eventTime) - requestStart;
-        return (time > 0 ? "+" : "") + this.formatTime(time);
-    },
+        var infoTip = HAR.Rep.EntryTimeInfoTip.tableTag.replace({}, parentNode);
 
-    getOnLoadTime: function(file)
-    {
-        var page = HAR.Model.getParentPage(file);
-        return this.formatPageEventTime(file, page, page.pageTimings.onLoad);
-    },
+        var startTime = 0;
+        var timings = [];
+        timings.push({bar: "Resolving",
+            elapsed: file.timings.dns,
+            start: startTime});
+        timings.push({bar: "Connecting",
+            elapsed: file.timings.connect,
+            start: startTime += file.timings.dns});
+        timings.push({bar: "Blocking",
+            elapsed: file.timings.blocked,
+            start: startTime += file.timings.connect});
+        timings.push({bar: "Sending",
+            elapsed: file.timings.send,
+            start: startTime += file.timings.blocked});
+        timings.push({bar: "Waiting",
+            elapsed: file.timings.wait,
+            start: startTime += file.timings.send});
+        timings.push({bar: "Receiving",
+            elapsed: file.timings.receive,
+            start: startTime += file.timings.wait,
+            loaded: file.loaded, fromCache: file.fromCache});
 
-    getOnContentLoadTime: function(file)
-    {
-        var page = HAR.Model.getParentPage(file);
-        return this.formatPageEventTime(file, page, page.pageTimings.onContentLoad);
+        // Insert request timing info.
+        this.timingsTag.insertRows({timings: timings}, infoTip.firstChild);
+
+        var events = [];
+        if (page.pageTimings.onContentLoad)
+            events.push({bar: "ContentLoad",
+                start: pageStart + page.pageTimings.onContentLoad - requestStart});
+        if (page.pageTimings.onLoad)
+            events.push({bar: "WindowLoad",
+                start: pageStart + page.pageTimings.onLoad - requestStart});
+
+        if (!events.length)
+            return;
+
+        // Insert separator.
+        this.separatorTag.insertRows({}, infoTip.firstChild);
+
+        // Insert events timing info.
+        this.eventsTag.insertRows({events: events}, infoTip.firstChild);
+
+        return true;
     }
 });
 

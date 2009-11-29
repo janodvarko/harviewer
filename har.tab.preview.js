@@ -363,7 +363,7 @@ HAR.Tab.Preview = HAR.extend(
 
     populateTimeInfoTip: function(infoTip, file)
     {
-        var infoTip = HAR.Rep.EntryTimeInfoTip.tag.replace({file: file}, infoTip);
+        HAR.Rep.EntryTimeInfoTip.render(file, infoTip);
         return true;
     },
 

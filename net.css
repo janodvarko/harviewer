@@ -150,7 +150,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/netBarBlocking.gif) repeat-x;
+    background: #FFFFFF url(images/netBarWaiting.gif) repeat-x;
     min-width: 0px;
     z-index:70;
 }
@@ -190,7 +190,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/netBarWaiting.gif) repeat-x;
+    background: #FFFFFF url(images/netBarResponded.gif) repeat-x;
     min-width: 0px;
     z-index:30;
 }
@@ -200,9 +200,15 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/netBarReceiving.gif) repeat-x;
+    background: #B6B6B6 url(images/netBarLoaded.gif) repeat-x;
     min-width: 0px;
-    z-index:20;
+    z-index: 20;
+}
+
+.fromCache .netReceivingBar,
+.fromCache.netReceivingBar {
+    background: #D6D6D6 url(images/netBarCached.gif) repeat-x;
+    border-color: #D6D6D6;
 }
 
 .netWindowLoadBar,
@@ -243,12 +249,23 @@
     font-size: 11px;
 }
 
-.timeInfoTipBar {
+.timeInfoTipBar,
+.timeInfoTipEventBar {
     position: relative;
     display: block;
     margin: 0;
     opacity: 1;
     height: 15px;
+    width: 4px;
+}
+
+.timeInfoTipEventBar {
+    width: 1px !important;
+}
+
+.netWindowLoadBar.timeInfoTipBar,
+.netContentLoadBar.timeInfoTipBar {
+    width: 1px;
 }
 
 .netSummaryRow .netTimeLabel,
@@ -269,6 +286,15 @@
 .netSummaryRow .netTimeBar {
     background: #BBBBBB;
     border: none;
+}
+
+.timeInfoTipCell.startTime {
+    padding-right: 8px;
+}
+
+.timeInfoTipCell.elapsedTime {
+    text-align: right;
+    padding-right: 8px;
 }
 
 /************************************************************************************************/
