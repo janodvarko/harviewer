@@ -20,6 +20,34 @@ HAR.Tab.InputView = domplate(
         // Clean up the template so, there are no elements with the same ID
         // (e.g. the "sourceEditor).
         clearNode(template);
+    },
+
+    onAppendPreview: function(jsonString)
+    {
+        HAR.log("har; onAppendPreview");
+
+        if (!jsonString)
+            jsonString = HAR.$("sourceEditor").value;
+
+        var validate = HAR.$("validate").checked; 
+        var docNode = document.documentElement;
+        var tabPreviewBody = getElementByClass(docNode, "tabPreviewBody");
+
+        // Parse and validate.
+        var inputData = HAR.Rep.Schema.parseInputData(jsonString, tabPreviewBody, validate);
+        if (inputData)
+        {
+            // Append new data into the Preview tab. This is optimalization so,
+            // the view doesn't have to be entirely refreshed.
+            HAR.Tab.Preview.append(inputData, tabPreviewBody);
+
+            // DOM tab must be regenerated
+            var tabDOMBody = getElementByClass(docNode, "tabDOMBody");
+            tabDOMBody.updated = false;
+        }
+
+        // Switch to the Preview tab.
+        HAR.Viewer.selectTabByName("Preview");
     }
 });
 

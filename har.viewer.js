@@ -88,34 +88,6 @@ HAR.Viewer = domplate(
         this.TabView.selectTabByName(this.tabView, tabName);
     },
 
-    onAppendPreview: function(jsonString)
-    {
-        HAR.log("har; onAppendPreview");
-
-        if (!jsonString)
-            jsonString = HAR.$("sourceEditor").value;
-
-        var validate = HAR.$("validate").checked; 
-        var docNode = document.documentElement;
-        var tabPreviewBody = getElementByClass(docNode, "tabPreviewBody");
-
-        // Parse and validate.
-        var inputData = HAR.Rep.Schema.parseInputData(jsonString, tabPreviewBody, validate);
-        if (inputData)
-        {
-            // Append new data into the Preview tab. This is optimalization so,
-            // the view doesn't have to be entirely refreshed.
-            HAR.Tab.Preview.append(inputData, tabPreviewBody);
-
-            // DOM tab must be regenerated
-            var tabDOMBody = getElementByClass(docNode, "tabDOMBody");
-            tabDOMBody.updated = false;
-        }
-
-        // Switch to the Preview tab.
-        HAR.Viewer.selectTabByName("Preview");
-    },
-
     loadLocalArchive: function(filePath)
     {
         HAR.log("har; loadLocalArchive " + filePath);
@@ -135,7 +107,7 @@ HAR.Viewer = domplate(
                 HAR.Viewer.onSourceChange();
 
                 // Press the Preview button.
-                HAR.Viewer.onAppendPreview(response);
+                HAR.Tab.InputView.onAppendPreview(response);
             },
 
             error: function(response, ioArgs)
@@ -190,7 +162,7 @@ HAR.Viewer = domplate(
         editor.value = jsonString;
 
         this.onSourceChange();
-        this.onAppendPreview(jsonString);
+        HAR.Tab.InputView.onAppendPreview(jsonString);
     },
 
     onValidationChange: function()
