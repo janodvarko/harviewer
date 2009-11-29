@@ -28,7 +28,7 @@ function $STRF(name, args)
 //-----------------------------------------------------------------------------
 
 var strings = {
-    "viewer.tab.Input": "Input JSON",
+    "viewer.tab.Input": "Input HAR",
     "viewer.tab.Preview": "Preview",
     "viewer.tab.DOM": "DOM",
     "viewer.tab.About": "About",
