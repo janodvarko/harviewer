@@ -45,9 +45,9 @@ HAR.Lib = extend(
         else if (bytes < 1024)
             return bytes + " B";
         else if (bytes < (1024*1024))
-            return Math.floor(bytes/1024) + " KB";
+            return Math.round(bytes/1024) + " KB";
         else
-            return Math.floor((bytes/(1024*1024))*100)/100 + " MB";
+            return Math.round((bytes/(1024*1024))*100)/100 + " MB";
     },
 
     formatTime: function(elapsed)
