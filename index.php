@@ -27,6 +27,7 @@
     <script type="text/javascript" src="har.rep.entrylist.js" ></script>
     <script type="text/javascript" src="har.rep.entrybody.js" ></script>
     <script type="text/javascript" src="har.rep.entryinfotip.js" ></script>
+    <script type="text/javascript" src="har.tab.inputview.js" ></script>
     <script type="text/javascript" src="har.tab.preview.js" ></script>
     <script type="text/javascript" src="har.tab.domview.js" ></script>
     <script type="text/javascript" src="har.rep.schema.js" ></script>
@@ -47,11 +48,11 @@
 
 <!-- Input JSON Tab Template -->
 <div id="InputTabTemplate" style="display:none">
-<p>Paste HTML Archive source code (JSON) into the text box below and
+<p>Paste <span style="color:#DD467B">HTML Archive</span> (HAR) log into the text box below and
 press the <b>Preview</b> button. <br/> Click
 <span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-1.har');">here</span> or
 <span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-2.har');">here</span>
-to load an example of existing HTTP log.</p>
+to load an example of existing HAR file.</p>
 <table cellpadding="0" cellspacing="4">
     <tr>
         <td><input type="checkbox" id="validate" checked="true"

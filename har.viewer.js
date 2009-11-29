@@ -24,7 +24,27 @@ HAR.Viewer = domplate(
     {
         var content = HAR.$("content");
 
-        // Reneder page content and select the Input tab by default.
+        // Preload images
+        var images =[
+            "images/netBarWaiting.gif",
+            "images/netBarResolving.gif",
+            "images/netBarConnecting.gif",
+            "images/netBarSending.gif",
+            "images/netBarResponded.gif",
+            "images/netBarLoaded.gif",
+            "images/netBarCached.gif",
+            "images/group.gif",
+            "images/twistyClosed.png",
+            "images/twistyOpen.png",
+        ];
+
+        for (var i=0; i<images.length; i++) {
+            var image = new Image();
+            image.src = images[i];
+            images[i] = image;
+        }
+
+        // Render basic page content (tab view) and select the Input tab by default.
         this.tabView = this.TabView.tag.replace({}, content, this.TabView);
         this.selectTabByName("Input");
 
@@ -68,13 +88,15 @@ HAR.Viewer = domplate(
         this.TabView.selectTabByName(this.tabView, tabName);
     },
 
-    onAppendPreview: function()
+    onAppendPreview: function(jsonString)
     {
         HAR.log("har; onAppendPreview");
 
-        var docNode = document.documentElement;
-        var jsonString = HAR.$("sourceEditor").value;
+        if (!jsonString)
+            jsonString = HAR.$("sourceEditor").value;
+
         var validate = HAR.$("validate").checked; 
+        var docNode = document.documentElement;
         var tabPreviewBody = getElementByClass(docNode, "tabPreviewBody");
 
         // Parse and validate.
@@ -113,7 +135,7 @@ HAR.Viewer = domplate(
                 HAR.Viewer.onSourceChange();
 
                 // Press the Preview button.
-                HAR.Viewer.onAppendPreview();
+                HAR.Viewer.onAppendPreview(response);
             },
 
             error: function(response, ioArgs)
@@ -163,11 +185,12 @@ HAR.Viewer = domplate(
     {
         HAR.log("har; HAR.Viewer.onRemoteArchiveLoaded");
 
+        var jsonString = dojo.toJson(data, true);
         var editor = HAR.$("sourceEditor");
-        editor.value = dojo.toJson(data, true);
+        editor.value = jsonString;
 
         this.onSourceChange();
-        this.onAppendPreview();
+        this.onAppendPreview(jsonString);
     },
 
     onValidationChange: function()
@@ -239,10 +262,7 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
         if (hasClass(tab, "InputTab") && !tabInputBody.updated)
         {
             tabInputBody.updated = true;
-
-            var template = HAR.$("InputTabTemplate");
-            tabInputBody.innerHTML = template.innerHTML;
-            //eraseNode(template.innerHTML);
+            HAR.Tab.InputView.render(tabInputBody);
         }
 
         // If PreviewTab or DOMTab are selected we have to make sure the 
