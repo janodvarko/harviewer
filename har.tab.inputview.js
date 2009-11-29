@@ -48,6 +48,54 @@ HAR.Tab.InputView = domplate(
 
         // Switch to the Preview tab.
         HAR.Viewer.selectTabByName("Preview");
+    },
+
+    onValidationChange: function()
+    {
+        var docNode = document.documentElement;
+
+        var tabPreviewBody = getElementByClass(docNode, "tabPreviewBody");
+        tabPreviewBody.updated = false;
+
+        var tabDOMBody = getElementByClass(docNode, "tabDOMBody");
+        tabDOMBody.updated = false;
+
+        HAR.Model.setData(null);
+    },
+
+    onSourceChange: function()
+    {
+        HAR.log("har; onSourceChange.");
+        this.onValidationChange();
+    },
+
+    onDrop: function(event)
+    {
+        cancelEvent(event);
+
+        try
+        {
+            this.handleDrop(event.dataTransfer);
+        }
+        catch (err)
+        {
+            HAR.log("har; HAR.Tab.InputView.onDrop EXCEPTION", err);
+        }
+    },
+
+    handleDrop: function(dataTransfer)
+    {
+        if (!dataTransfer)
+            return false;
+
+        var files = dataTransfer.files;
+        if (!files)
+            return;
+
+        HAR.log("har; HAR.Tab.InputView.handleDrop " + files.length, files);
+
+        for (var i=0; i<files.length; i++)
+            this.onAppendPreview(files[i].getAsText(""));
     }
 });
 

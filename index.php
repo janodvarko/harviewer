@@ -48,11 +48,12 @@
 
 <!-- Input JSON Tab Template -->
 <div id="InputTabTemplate" style="display:none">
-<p>Paste <span style="color:#DD467B">HTML Archive</span> (HAR) log into the text box below and
-press the <b>Preview</b> button. <br/> Click
-<span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-1.har');">here</span> or
-<span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-2.har');">here</span>
-to load an example of existing HAR file.</p>
+<ul style="padding-left: 20px; line-height: 20px; margin-top: 0px">
+<li>Paste <a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">HAR</a>
+log into the text box below and
+press the <b>Preview</b> button.</li>
+<li>Or drop <span class="red">*.har</span> file(s) directly into the text box (you need Firefox 3.6).</li>
+</ul>
 <table cellpadding="0" cellspacing="4">
     <tr>
         <td><input type="checkbox" id="validate" checked="true"
@@ -60,15 +61,23 @@ to load an example of existing HAR file.</p>
         <td style="vertical-align:middle;padding-bottom: 1px;">Validate data before processing?</td>
     </tr>
 </table>
-<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="15"
-    onchange="HAR.Viewer.onSourceChange();"></textarea>
+<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="13"
+    onchange="HAR.Tab.InputView.onSourceChange();"
+    ondragenter="HAR.Lib.cancelEvent(event);"
+    ondragover="HAR.Lib.cancelEvent(event);"
+    ondrop="HAR.Tab.InputView.onDrop(event);"></textarea>
 <p><table cellpadding="0" cellspacing="0">
     <tr>
-        <td><button id="appendPreview" onclick="HAR.Viewer.onAppendPreview();">Preview</button></td>
+        <td><button id="appendPreview" onclick="HAR.Tab.InputView.onAppendPreview();">Preview</button></td>
     </tr>
 </table></p>
 <br/>
 <p><i>This viewer supports HAR 1.1 (see the <b>About</b> tab).<br/></i></p>
+<p><i>Click
+<span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-1.har');">here</span> or
+<span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-2.har');">here</span>
+to load an example of existing HAR file.</i></p>
+
 </div>
 
 <!-- Help Tab Template -->
