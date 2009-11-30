@@ -52,12 +52,13 @@ HAR.Rep.EntryTimeInfoTip = domplate(
 
     hideBar: function(obj)
     {
-        return !obj.elapsed && obj.bar == "Blocking";
+        return !obj.elapsed && obj.bar == "request.phase.Blocking";
     },
 
     getBarClass: function(obj)
     {
-        return "net" + obj.bar + "Bar";
+        var className = obj.bar.substr(obj.bar.lastIndexOf(".") + 1);
+        return "net" + className + "Bar";
     },
 
     formatTime: function(time)
@@ -67,16 +68,17 @@ HAR.Rep.EntryTimeInfoTip = domplate(
 
     formatStartTime: function(time)
     {
-        var label = HAR.Lib.formatTime(time);
+        var positive = time > 0;
+        var label = HAR.Lib.formatTime(Math.abs(time));
         if (!time)
             return label;
 
-        return (time > 0 ? "+" : "") + label;
+        return (positive > 0 ? "+" : "-") + label;
     },
 
     getLabel: function(obj)
     {
-        return $STR("requestinfo." + obj.bar);
+        return $STR(obj.bar);
     },
 
     render: function(file, parentNode)
@@ -89,22 +91,22 @@ HAR.Rep.EntryTimeInfoTip = domplate(
 
         var startTime = 0;
         var timings = [];
-        timings.push({bar: "Resolving",
+        timings.push({bar: "request.phase.Resolving",
             elapsed: file.timings.dns,
             start: startTime});
-        timings.push({bar: "Connecting",
+        timings.push({bar: "request.phase.Connecting",
             elapsed: file.timings.connect,
             start: startTime += file.timings.dns});
-        timings.push({bar: "Blocking",
+        timings.push({bar: "request.phase.Blocking",
             elapsed: file.timings.blocked,
             start: startTime += file.timings.connect});
-        timings.push({bar: "Sending",
+        timings.push({bar: "request.phase.Sending",
             elapsed: file.timings.send,
             start: startTime += file.timings.blocked});
-        timings.push({bar: "Waiting",
+        timings.push({bar: "request.phase.Waiting",
             elapsed: file.timings.wait,
             start: startTime += file.timings.send});
-        timings.push({bar: "Receiving",
+        timings.push({bar: "request.phase.Receiving",
             elapsed: file.timings.receive,
             start: startTime += file.timings.wait,
             loaded: file.loaded, fromCache: file.fromCache});
@@ -128,6 +130,12 @@ HAR.Rep.EntryTimeInfoTip = domplate(
 
         // Insert events timing info.
         this.eventsTag.insertRows({events: events}, infoTip.firstChild);
+
+        // Display the blocking time in gray. This phase is not included
+        // in total (displayed) time.
+        var blockingBar = getElementByClass(infoTip, "netBlockingBar");
+        var blockingRow = getAncestorByClass(blockingBar, "timeInfoTipRow");
+        blockingRow.setAttribute("style", "color:gray");
 
         return true;
     }

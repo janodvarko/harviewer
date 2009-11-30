@@ -145,16 +145,6 @@
     border-right: 50px solid transparent;
 }
 
-.netBlockingBar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    background: #FFFFFF url(images/netBarWaiting.gif) repeat-x;
-    min-width: 0px;
-    z-index:70;
-}
-
 .netResolvingBar {
     position: absolute;
     left: 0;
@@ -162,7 +152,7 @@
     bottom: 0;
     background: #FFFFFF url(images/netBarResolving.gif) repeat-x;
     min-width: 0px;
-    z-index:60;
+    z-index: 70;
 }
 
 .netConnectingBar {
@@ -171,6 +161,16 @@
     top: 0;
     bottom: 0;
     background: #FFFFFF url(images/netBarConnecting.gif) repeat-x;
+    min-width: 0px;
+    z-index:60;
+}
+
+.netBlockingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/netBarWaiting.gif) repeat-x;
     min-width: 0px;
     z-index:50;
 }
@@ -191,7 +191,7 @@
     top: 0;
     bottom: 0;
     background: #FFFFFF url(images/netBarResponded.gif) repeat-x;
-    min-width: 0px;
+    min-width: 1px; /* So, at least something is always visible */
     z-index:30;
 }
 
@@ -289,7 +289,7 @@
 }
 
 .timeInfoTipCell.startTime {
-    padding-right: 8px;
+    padding-right: 25px;
 }
 
 .timeInfoTipCell.elapsedTime {

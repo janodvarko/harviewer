@@ -160,10 +160,10 @@ HAR.Tab.Preview = HAR.extend(
         // HTTP-ON-MODIFY-REQUEST -> HTTP-ON-EXAMINE-CACHED-RESPONSE
 
         // Compute end of each phase since the request start.
-        var blocking = ((file.timings.blocked < 0) ? 0 : file.timings.blocked);
-        var resolving = blocking + ((file.timings.dns < 0) ? 0 : file.timings.dns);
+        var resolving = ((file.timings.dns < 0) ? 0 : file.timings.dns);
         var connecting = resolving + ((file.timings.connect < 0) ? 0 : file.timings.connect);
-        var sending = connecting + ((file.timings.send < 0) ? 0 : file.timings.send);
+        var blocking = connecting + ((file.timings.blocked < 0) ? 0 : file.timings.blocked);
+        var sending = blocking + ((file.timings.send < 0) ? 0 : file.timings.send);
         var waiting = sending + ((file.timings.wait < 0) ? 0 : file.timings.wait);
         var receiving = waiting + ((file.timings.receive < 0) ? 0 : file.timings.receive);
 
@@ -174,9 +174,9 @@ HAR.Tab.Preview = HAR.extend(
         // Compute size of each bar. Left side of each bar starts at the 
         // beginning. The first bar is on top of all and the last one is
         // at the bottom (z-index). 
-        this.barBlockingWidth = Math.round((blocking/this.phaseElapsed) * 100);
         this.barResolvingWidth = Math.round((resolving/this.phaseElapsed) * 100);
         this.barConnectingWidth = Math.round((connecting/this.phaseElapsed) * 100);
+        this.barBlockingWidth = Math.round((blocking/this.phaseElapsed) * 100);
         this.barSendingWidth = Math.round((sending/this.phaseElapsed) * 100);
         this.barWaitingWidth = Math.round((waiting/this.phaseElapsed) * 100);
         this.barReceivingWidth = Math.round((receiving/this.phaseElapsed) * 100);
@@ -219,27 +219,27 @@ HAR.Tab.Preview = HAR.extend(
             delete file.phase;
 
             // Get bar nodes. Every node represents one part of the graph-timeline.
-            var blockingBar = row.childNodes[4].firstChild.childNodes[1];
-            var resolvingBar = blockingBar.nextSibling;
+            var resolvingBar = row.childNodes[4].firstChild.childNodes[1];
             var connectingBar = resolvingBar.nextSibling;
-            var sendingBar = connectingBar.nextSibling;
+            var blockingBar = connectingBar.nextSibling;
+            var sendingBar = blockingBar.nextSibling;
             var waitingBar = sendingBar.nextSibling;
             var contentLoadBar = waitingBar.nextSibling;
             var windowLoadBar = contentLoadBar.nextSibling;
             var receivingBar = windowLoadBar.nextSibling;
 
             // All bars starts at the beginning of the appropriate request graph. 
-            blockingBar.style.left =
-                resolvingBar.style.left = 
+            resolvingBar.style.left = 
                 connectingBar.style.left =
+                blockingBar.style.left =
                 sendingBar.style.left = 
                 waitingBar.style.left =
                 receivingBar.style.left = this.barOffset + "%";
 
             // Sets width of all bars (using style). The width is computed according to measured timing.
+            resolvingBar.style.width = this.barResolvingWidth + "%";
+            connectingBar.style.width = this.barConnectingWidth + "%";
             blockingBar.style.width = this.barBlockingWidth + "%";
-            resolvingBar.style.width = this.barResolvingWidth ? this.barResolvingWidth + "%" : "1px";
-            connectingBar.style.width = this.barConnectingWidth ? this.barConnectingWidth + "%" : "1px";
             sendingBar.style.width = this.barSendingWidth + "%";
             waitingBar.style.width = this.barWaitingWidth + "%";
             receivingBar.style.width = this.barReceivingWidth + "%";
