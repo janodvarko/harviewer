@@ -97,7 +97,7 @@ page load performance.</p>
 
 <p>User interface of this tool is composed from the following tabs:</p>
 <ul>
-<li><b>Input JSON</b> - Paste content of a log file into the text box in this tab.</li>
+<li><b>Input HAR</b> - Paste content of a log file into the text box in this tab.</li>
 <li><b>Preview</b> - Switch to this tab if you want to see visualised HTTP traffic.</li>
 <li><b>DOM</b> - Use this tab to see structure of the input JSON data as an expandable tree.</li>
 <li><b>Schema</b> - Explore format of the input log in this tab.</li>
