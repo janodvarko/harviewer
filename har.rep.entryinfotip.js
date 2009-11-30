@@ -131,12 +131,6 @@ HAR.Rep.EntryTimeInfoTip = domplate(
         // Insert events timing info.
         this.eventsTag.insertRows({events: events}, infoTip.firstChild);
 
-        // Display the blocking time in gray. This phase is not included
-        // in total (displayed) time.
-        var blockingBar = getElementByClass(infoTip, "netBlockingBar");
-        var blockingRow = getAncestorByClass(blockingBar, "timeInfoTipRow");
-        blockingRow.setAttribute("style", "color:gray");
-
         return true;
     }
 });
