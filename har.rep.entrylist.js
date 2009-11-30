@@ -165,8 +165,8 @@ HAR.Rep.EntryList = domplate(
     getElapsedTime: function(file)
     {
         // Total request time doesn't include the time spent in queue.
-        var elapsed = file.time - file.timings.blocked;
-        return formatTime(elapsed);
+        //var elapsed = file.time - file.timings.blocked;
+        return formatTime(file.time);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

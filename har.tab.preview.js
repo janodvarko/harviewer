@@ -124,9 +124,8 @@ HAR.Tab.Preview = HAR.extend(
             if (phase.endTime == undefined || phase.endTime < startedDateTime + file.time)
                 phase.endTime = startedDateTime + file.time;
 
-            var onLoad = page ? page.pageTimings.onLoad : 0;
-            if (file.phase == this.phases[0] && phase.endTime < pageStartedDateTime + onLoad)
-                phase.endTime = pageStartedDateTime + onLoad;
+            if (file.phase == this.phases[0] && phase.endTime < pageStartedDateTime + onLoadTime)
+                phase.endTime = pageStartedDateTime + onLoadTime;
         }
 
         this.updateTimeline(page);
