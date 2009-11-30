@@ -110,15 +110,12 @@ HAR.Rep.EntryList = domplate(
 
     getIndent: function(file)
     {
-        // XXXjoe Turn off indenting for now, it's confusing since we don't
-        // actually place nested files directly below their parent
-        //return file.document.level * indentWidth;
         return 0;
     },
 
     isError: function(file)
     {
-        var errorRange = Math.floor(file.status/100);
+        var errorRange = Math.floor(file.response.status/100);
         return errorRange == 4 || errorRange == 5;
     },
 
@@ -139,7 +136,8 @@ HAR.Rep.EntryList = domplate(
 
     getStatus: function(file)
     {
-        return file.response.status + " " + file.response.statusText;
+        var status = file.response.status > 0 ? (file.response.status + " ") : "";
+        return status + file.response.statusText;
     },
 
     getDomain: function(file)
