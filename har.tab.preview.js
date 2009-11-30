@@ -87,6 +87,7 @@ HAR.Tab.Preview = HAR.extend(
         var phase = null;
 
         var pageStartedDateTime = page ? parseISO8601(page.startedDateTime) : null;
+        var onLoadTime = (page && page.pageTimings) ? page.pageTimings.onLoad : 0;
 
         for (var i=0; i<requests.length; i++)
         {
@@ -102,12 +103,19 @@ HAR.Tab.Preview = HAR.extend(
             var startedDateTime = parseISO8601(file.startedDateTime);
             var phaseLastStartTime = phase ? parseISO8601(phase.getLastStartTime()) : 0;
 
-            if (!phase || (startedDateTime - phaseLastStartTime) >= phaseInterval)
+            // New phase is started if:
+            // 1) There is no phase yet.
+            // 2) There is a gap between this request and the last one.
+            // 3) The new request is not started during the page load. 
+            if (!phase || ((startedDateTime - phaseLastStartTime) >= phaseInterval) &&
+                (startedDateTime > (pageStartedDateTime + onLoadTime)))
             {
                 phase = this.startPhase(file);
             }
             else
+            {
                 phase.addFile(file);
+            }
 
             if (phase.startTime == undefined || phase.startTime > startedDateTime)
                 phase.startTime = startedDateTime;
