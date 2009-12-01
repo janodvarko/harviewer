@@ -218,47 +218,17 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
             HAR.Tab.InputView.render(tabInputBody);
         }
 
-        // If PreviewTab or DOMTab are selected we have to make sure the 
-        // JSON input data are parsed and validated.
-        var inputData = HAR.Model.inputData; 
-        if (!inputData && (hasClass(tab, "PreviewTab") || hasClass(tab, "DOMTab")))
-        {
-            var view = tab.getAttribute("view");
-            var tabBody = getElementByClass(viewBody, "tab" + view + "Body");
-
-            // Don't validate for the DOMTab so, it's easier to explore problems.
-            var validate = HAR.$("validate").checked && !hasClass(tab, "DOMTab"); 
-
-            // Don't update PreviewTab and DOMTab if the parsing or validation failed.
-            var jsonString = HAR.$("sourceEditor").value;
-            inputData = HAR.Rep.Schema.parseInputData(jsonString, tabBody, validate);
-            if (!inputData)
-                return;
-
-            HAR.Model.setData(inputData);
-        }
-
         var tabPreviewBody = getElementByClass(viewBody, "tabPreviewBody");
         if (hasClass(tab, "PreviewTab") && !tabPreviewBody.updated)
         {
-            tabPreviewBody.updated = true;
-
-            // If the source has been changed, render content of the Preview tab.
-            // Don't append, just render what is in the sourve editor.
-            HAR.Tab.Preview.render(HAR.Model.inputData, tabPreviewBody);
+            // The content is appended dynamically e.g. by dropping a HAR file.
         }
 
         var tabDOMBody = getElementByClass(viewBody, "tabDOMBody");
         if (hasClass(tab, "DOMTab") && !tabDOMBody.updated)
         {
             tabDOMBody.updated = true;
-
-            // Render DOM tab content. Use parsed input data above or 
-            // data coming from the model. Model can be empty if there is 
-            // validation error, but the inputData above should be initialized
-            // (not validated) in case of the Dom tab.  
-            inputData = inputData || HAR.Model.inputData;
-            HAR.Tab.DomView.render(inputData, tabDOMBody);
+            HAR.Tab.DomView.render(HAR.Model.inputData, tabDOMBody);
         }
 
         var tabSchemaBody = getElementByClass(viewBody, "tabSchemaBody");

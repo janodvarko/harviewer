@@ -118,15 +118,7 @@ HAR.Rep.TabView = domplate(HAR.Rep,
         HAR.Lib.setClass(viewBody.selectedBody, "selected");
         HAR.Lib.setClass(viewBody.selectedTab, "selected");
 
-        // Update tab body asynchronously. If the user insert a JSON log and
-        // switch directly to the Preview tab (by clicking on the tab), the 
-        // onchange event can come after the content is generated and reset
-        // HAR.Model.inputData to null. This is because the event is fired
-        // on kill focus (which is when the user clicks the tab).
-        var self = this;
-        setTimeout(function() {
-            self.updateTabBody(viewBody, view, null);
-        }, 10)
+        this.updateTabBody(viewBody, view, null);
     },
 
     updateTabBody: function(viewBody, view, object)

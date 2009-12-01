@@ -58,8 +58,6 @@ HAR.Rep.Schema = domplate(
             if (!results.valid)
             {
                 HAR.log("har; Validation failed.", results.errors);
-
-                HAR.Model.setData(null);
                 this.renderErrorList(errorOutput, results.errors);
                 return null;
             }
@@ -72,7 +70,7 @@ HAR.Rep.Schema = domplate(
 
     renderErrorList: function(parentNode, errors)
     {
-        this.errorTable.replace({errors:errors}, parentNode, this);
+        this.errorTable.append({errors:errors}, parentNode, this);
     }
 });
 

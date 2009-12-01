@@ -50,28 +50,6 @@ HAR.Tab.InputView = domplate(
         HAR.Viewer.selectTabByName("Preview");
     },
 
-    onValidationChange: function()
-    {
-        var docNode = document.documentElement;
-
-        var tabPreviewBody = getElementByClass(docNode, "tabPreviewBody");
-        tabPreviewBody.updated = false;
-
-        var tabDOMBody = getElementByClass(docNode, "tabDOMBody");
-        tabDOMBody.updated = false;
-
-        // xxxHonza: the problem is that the current model is removed
-        // while the UI still shows some results.
-        // And the time tooltip can't find associted page.
-        HAR.Model.setData(null);
-    },
-
-    onSourceChange: function()
-    {
-        HAR.log("har; onSourceChange.");
-        this.onValidationChange();
-    },
-
     onDrop: function(event)
     {
         cancelEvent(event);

@@ -9,15 +9,6 @@ HAR.ns(function() { with (Domplate) { with (HAR.Lib) {
  */
 HAR.Tab.Preview = HAR.extend(
 {
-    render: function(inputData, parentNode)
-    {
-        // Clear the current content in the Preview tab.
-        clearNode(parentNode);
-
-        // Build page list from what we have.
-        this.buildPageList(parentNode, inputData);
-    },
-
     append: function(inputData, parentNode)
     {
         // Load JSON support on demand.
@@ -26,14 +17,20 @@ HAR.Tab.Preview = HAR.extend(
         // Merge new input data with existing data in the model.
         var newData = HAR.Model.appendData(inputData);
 
-        var start = HAR.now();
-
         // Update source editor to show merged data.
-        // xxxHonza: This is one of the most time expensive operations.
-        var editor = HAR.$("sourceEditor");
-        editor.value = dojo.toJson(newData, true);
+        // xxxHonza: This is one of the most time expensive operation.
+        //var start = HAR.now();
+        //var editor = HAR.$("sourceEditor");
+        //editor.value = dojo.toJson(newData, true);
+        //HAR.log("har; toJSON: " + HAR.Lib.formatTime(HAR.now() - start));
 
-        HAR.log("har; toJSON: " + HAR.Lib.formatTime(HAR.now() - start));
+        // Remove possible errors from the page.
+        var errors = getElementsByClass(parentNode, "errorTable");
+        for (var i=0; i<errors.length; i++)
+        {
+            var error = errors[i];
+            error.parentNode.removeChild(error);
+        }
 
         // Build page list from what we have.
         this.buildPageList(parentNode, inputData);

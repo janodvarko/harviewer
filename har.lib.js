@@ -114,6 +114,26 @@ HAR.Lib = extend(
         return null;
     },
 
+    getElementsByClass: function(node, className)  // className, className, ...
+    {
+        function iteratorHelper(node, classNames, result)
+        {
+            for (var child = node.firstChild; child; child = child.nextSibling)
+            {
+                var args1 = HAR.Lib.cloneArray(classNames); args1.unshift(child);
+                if (HAR.Lib.hasClass.apply(null, args1))
+                    result.push(child);
+    
+                iteratorHelper(child, classNames, result);
+            }
+        }
+    
+        var result = [];
+        var args = this.cloneArray(arguments); args.shift();
+        iteratorHelper(node, args, result);
+        return result;
+    },
+
     getChildByClass: function(node) // ,classname, classname, classname...
     {
         for (var i = 1; i < arguments.length; ++i)

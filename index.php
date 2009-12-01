@@ -44,7 +44,10 @@
     <link rel="stylesheet" href="infoTip.css" type="text/css"/>
 </head>
 <body>
-<div id="content" version="@VERSION@"></div>
+<div id="content" version="@VERSION@"
+    ondragenter="HAR.Lib.cancelEvent(event);"
+    ondragover="HAR.Lib.cancelEvent(event);"
+    ondrop="HAR.Tab.InputView.onDrop(event);"></div>
 
 <!-- Input HAR Tab Template -->
 <div id="InputTabTemplate" style="display:none">
@@ -52,7 +55,7 @@
 <li>Paste <a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">HAR</a>
 log into the text box below and
 press the <b>Preview</b> button.</li>
-<li>Or drop <span class="red">*.har</span> file(s) directly into the text box (you need Firefox 3.6).</li>
+<li>Or drop <span class="red">*.har</span> file(s) anywhere on the page (you need Firefox 3.6).</li>
 </ul>
 <table cellpadding="0" cellspacing="4">
     <tr>
@@ -61,11 +64,7 @@ press the <b>Preview</b> button.</li>
         <td style="vertical-align:middle;padding-bottom: 1px;">Validate data before processing?</td>
     </tr>
 </table>
-<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="13"
-    onchange="HAR.Tab.InputView.onSourceChange();"
-    ondragenter="HAR.Lib.cancelEvent(event);"
-    ondragover="HAR.Lib.cancelEvent(event);"
-    ondrop="HAR.Tab.InputView.onDrop(event);"></textarea>
+<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="10"></textarea>
 <p><table cellpadding="0" cellspacing="0">
     <tr>
         <td><button id="appendPreview" onclick="HAR.Tab.InputView.onAppendPreview();">Preview</button></td>
