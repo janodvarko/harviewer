@@ -200,14 +200,16 @@ HAR.Tab.Preview = HAR.extend(
             var pageStartedDateTime = parseISO8601(page.startedDateTime);
 
             // onContentLoad (e.g. DOMContentLoad for Firefox)
-            if (file.phase == this.phases[0])
+            var onContentLoad = page.pageTimings.onContentLoad;
+            if (file.phase == this.phases[0] && onContentLoad > 0)
                 this.contentLoadBarOffset = Math.floor(
-                    ((pageStartedDateTime+page.pageTimings.onContentLoad-phase.startTime)/this.phaseElapsed) * 100);
+                    ((pageStartedDateTime+onContentLoad-phase.startTime)/this.phaseElapsed) * 100);
 
             // onLoad (e.g. onLoad for Firefox)
-            if (file.phase == this.phases[0])
+            var onLoad = page.pageTimings.onLoad;
+            if (file.phase == this.phases[0] && onLoad > 0)
                 this.windowLoadBarOffset = Math.floor(
-                    ((pageStartedDateTime+page.pageTimings.onLoad-phase.startTime)/this.phaseElapsed) * 100);
+                    ((pageStartedDateTime+onLoad-phase.startTime)/this.phaseElapsed) * 100);
         }
 
         return phase;

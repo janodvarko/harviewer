@@ -134,10 +134,10 @@ HAR.Rep.EntryTimeInfoTip = domplate(
         this.timingsTag.insertRows({timings: timings}, infoTip.firstChild);
 
         var events = [];
-        if (page.pageTimings.onContentLoad)
+        if (page.pageTimings.onContentLoad > 0)
             events.push({bar: "ContentLoad",
                 start: pageStart + page.pageTimings.onContentLoad - requestStart});
-        if (page.pageTimings.onLoad)
+        if (page.pageTimings.onLoad > 0)
             events.push({bar: "WindowLoad",
                 start: pageStart + page.pageTimings.onLoad - requestStart});
 
