@@ -46,7 +46,7 @@
 <body>
 <div id="content" version="@VERSION@"></div>
 
-<!-- Input JSON Tab Template -->
+<!-- Input HAR Tab Template -->
 <div id="InputTabTemplate" style="display:none">
 <ul style="padding-left: 20px; line-height: 20px; margin-top: 0px">
 <li>Paste <a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">HAR</a>

@@ -60,6 +60,9 @@ HAR.Tab.InputView = domplate(
         var tabDOMBody = getElementByClass(docNode, "tabDOMBody");
         tabDOMBody.updated = false;
 
+        // xxxHonza: the problem is that the current model is removed
+        // while the UI still shows some results.
+        // And the time tooltip can't find associted page.
         HAR.Model.setData(null);
     },
 

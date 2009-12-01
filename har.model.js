@@ -16,7 +16,10 @@ HAR.Model = extend(
     {
         try
         {
-            return eval("(" + jsonString + ")");
+            var start = HAR.now();
+            var result = eval("(" + jsonString + ")");
+            HAR.log("har; parse data: " + HAR.Lib.formatTime(HAR.now() - start));
+            return result;
         }
         catch (err)
         {
@@ -46,8 +49,10 @@ HAR.Model = extend(
 
         if (this.inputData)
         {
+            var start = HAR.now();
             for (var i=0; i<inputData.log.pages.length; i++)
                 this.importPage(inputData.log.pages[i], inputData.log.entries);
+            HAR.log("har; Merge Data: " + HAR.Lib.formatTime(HAR.now() - start));
         }
         else
         {

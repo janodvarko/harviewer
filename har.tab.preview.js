@@ -15,25 +15,25 @@ HAR.Tab.Preview = HAR.extend(
         clearNode(parentNode);
 
         // Build page list from what we have.
-        var start = HAR.now();
         this.buildPageList(parentNode, inputData);
-
-        HAR.log("har; Render preview data: " + formatTime(HAR.now() - start));
     },
 
     append: function(inputData, parentNode)
     {
-        HAR.log("har; Append new data.");
-
         // Load JSON support on demand.
         dojo.require("dojo._base.json");
 
         // Merge new input data with existing data in the model.
         var newData = HAR.Model.appendData(inputData);
 
+        var start = HAR.now();
+
         // Update source editor to show merged data.
+        // xxxHonza: This is one of the most time expensive operations.
         var editor = HAR.$("sourceEditor");
         editor.value = dojo.toJson(newData, true);
+
+        HAR.log("har; toJSON: " + HAR.Lib.formatTime(HAR.now() - start));
 
         // Build page list from what we have.
         this.buildPageList(parentNode, inputData);
@@ -43,6 +43,8 @@ HAR.Tab.Preview = HAR.extend(
     {
         if (!inputData)
             return;
+
+        var start = HAR.now();
 
         // According to the spec, network requests doesn't have to be 
         // associated with the parent page. This is to support even
@@ -64,6 +66,12 @@ HAR.Tab.Preview = HAR.extend(
             if (table.firstChild.firstChild)
                 PageList.toggleRow(table.firstChild.firstChild);
         }
+
+        // Mark the preview tab as initialized so, it isn't rendered 
+        // again as soon as the tab is selected.
+        parentNode.updated = true; 
+
+        HAR.log("har; Render preview data: " + formatTime(HAR.now() - start));
     },
 
     buildPageContent: function(parentNode, page)

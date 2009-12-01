@@ -43,6 +43,8 @@ HAR.Rep.Schema = domplate(
         // Validate the input JSON if the user wants it.
         if (validate)
         {
+            var start = HAR.now();
+
             dojo.require("dojox.json.schema");
             dojo.require("dojox.json.ref"); 
 
@@ -61,6 +63,8 @@ HAR.Rep.Schema = domplate(
                 this.renderErrorList(errorOutput, results.errors);
                 return null;
             }
+
+            HAR.log("har; validate data: " + HAR.Lib.formatTime(HAR.now() - start));
         }
 
         return inputData;
