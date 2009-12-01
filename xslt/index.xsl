@@ -7,9 +7,9 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   exclude-result-prefixes="xhtml xsl xs">
 
-<xsl:output method="html" version="1.0" encoding="UTF-8" 
-    doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" 
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" 
+<xsl:output method="html" version="1.0" encoding="UTF-8"
+    doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
     indent="yes"/>
 
 <!-- the identity template -->
@@ -42,7 +42,7 @@
   </xsl:copy>
 </xsl:template>
 
-<!-- Remove new lines --> 
+<!-- Remove new lines -->
 <xsl:template match="node/@TEXT | text()">
   <xsl:if test="normalize-space(.)">
     <xsl:value-of select=

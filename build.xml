@@ -120,7 +120,12 @@
             </xmlcatalog>
         </xslt>
 
-        <!-- Join core JS files in this order:
+        <!-- Copy har.php file into the build directory. This file contains
+            PHP header that forces compression
+            xxxHonza: how to force to cache the file? -->
+        <copy file="har.php" todir="${build.dir}"/>
+
+        <!-- Append core JS files to har.php in this order:
             dojo.js, har.dojo.js, har.core.js, har.lib.js, har.rep.js  -->
         <concat destfile="${build.dir}/har.js">
             <filelist dir="${temp.dir}"
