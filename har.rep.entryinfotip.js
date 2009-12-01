@@ -32,6 +32,15 @@ HAR.Rep.EntryTimeInfoTip = domplate(
             )
         ),
 
+    startTimeTag:
+        TR(
+            TD(),
+            TD("$startTime.time|formatStartTime"),
+            TD({"colspan": 2},
+                "$startTime|getLabel"
+            )
+        ),
+
     separatorTag:
         TR(
             TD({"colspan": 4, "height": "10px"})
@@ -81,13 +90,23 @@ HAR.Rep.EntryTimeInfoTip = domplate(
         return $STR(obj.bar);
     },
 
-    render: function(file, parentNode)
+    render: function(row, parentNode)
     {
+        var file = row.repObject;
         var page = HAR.Model.getParentPage(file);
         var pageStart = parseISO8601(page.startedDateTime);
         var requestStart = parseISO8601(file.startedDateTime);
 
         var infoTip = HAR.Rep.EntryTimeInfoTip.tableTag.replace({}, parentNode);
+
+        // Insert start request time.
+        var startTime = {};
+        startTime.time = requestStart - row.phase.startTime;
+        startTime.bar = "request.Started";
+        this.startTimeTag.insertRows({startTime: startTime}, infoTip.firstChild);
+
+        // Insert separator.
+        this.separatorTag.insertRows({}, infoTip.firstChild);
 
         var startTime = 0;
         var timings = [];

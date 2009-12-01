@@ -49,5 +49,6 @@ var strings = {
     "request.phase.Receiving": "Receiving",
     "page.event.ContentLoad": "Page Content Loaded",
     "page.event.Load": "Page Loaded",
+    "request.Started": "Started",
     "tooltip.size": "%S (%S bytes)"
 };

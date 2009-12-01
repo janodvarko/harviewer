@@ -223,6 +223,12 @@ HAR.Tab.Preview = HAR.extend(
                 continue;
 
             phase = this.calculateFileTimes(page, file, phase);
+
+            // Remember the phase it's utilized by the time info-tip.
+            row.phase = file.phase;
+
+            // Remove the phase from the file object so, it's not displayed
+            // in the DOM tab.
             delete file.phase;
 
             // Get bar nodes. Every node represents one part of the graph-timeline.
@@ -354,7 +360,7 @@ HAR.Tab.Preview = HAR.extend(
                     return true;
 
                 this.infoTipURL = infoTipURL;
-                return this.populateTimeInfoTip(infoTip, row.repObject);
+                return this.populateTimeInfoTip(infoTip, row);
             }
             else if (hasClass(target, "netSizeLabel"))
             {
@@ -363,20 +369,21 @@ HAR.Tab.Preview = HAR.extend(
                     return true;
 
                 this.infoTipURL = infoTipURL;
-                return this.populateSizeInfoTip(infoTip, row.repObject);
+                return this.populateSizeInfoTip(infoTip, row);
             }
         }
     },
 
-    populateTimeInfoTip: function(infoTip, file)
+    populateTimeInfoTip: function(infoTip, row)
     {
-        HAR.Rep.EntryTimeInfoTip.render(file, infoTip);
+        HAR.Rep.EntryTimeInfoTip.render(row, infoTip);
         return true;
     },
 
-    populateSizeInfoTip: function(infoTip, file)
+    populateSizeInfoTip: function(infoTip, row)
     {
-        var infoTip = HAR.Rep.EntrySizeInfoTip.tag.replace({file: file}, infoTip);
+        var infoTip = HAR.Rep.EntrySizeInfoTip.tag.replace(
+            {file: row.repObject}, infoTip);
         return true;
     }
 });
