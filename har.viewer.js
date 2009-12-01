@@ -104,7 +104,6 @@ HAR.Viewer = domplate(
             {
                 // Put loaded JSON into the text box and fire fake onchange event.
                 editor.value = response;
-                HAR.Tab.InputView.onSourceChange();
 
                 // Press the Preview button.
                 HAR.Tab.InputView.onAppendPreview(response);
@@ -161,7 +160,6 @@ HAR.Viewer = domplate(
         var editor = HAR.$("sourceEditor");
         editor.value = jsonString;
 
-        HAR.Tab.InputView.onSourceChange();
         HAR.Tab.InputView.onAppendPreview(jsonString);
     }
 });
