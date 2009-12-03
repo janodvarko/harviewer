@@ -35,7 +35,7 @@
 }
 
 .pageInfoCol {
-    background: url(images/group.gif) repeat-x #FFFFFF;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
     padding: 0px 0px 4px 17px;
 }
 

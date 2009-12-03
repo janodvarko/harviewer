@@ -24,26 +24,6 @@ HAR.Viewer = domplate(
     {
         var content = HAR.$("content");
 
-        // Preload images
-        var images =[
-            "images/netBarWaiting.gif",
-            "images/netBarResolving.gif",
-            "images/netBarConnecting.gif",
-            "images/netBarSending.gif",
-            "images/netBarResponded.gif",
-            "images/netBarLoaded.gif",
-            "images/netBarCached.gif",
-            "images/group.gif",
-            "images/twistyClosed.png",
-            "images/twistyOpen.png",
-        ];
-
-        for (var i=0; i<images.length; i++) {
-            var image = new Image();
-            image.src = images[i];
-            images[i] = image;
-        }
-
         // Render basic page content (tab view) and select the Input tab by default.
         this.tabView = this.TabView.tag.replace({}, content, this.TabView);
         this.selectTabByName("Input");

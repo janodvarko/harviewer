@@ -24,7 +24,7 @@
 /************************************************************************************************/
 
 .netHeadRow {
-    background: url(images/group.gif) repeat-x #FFFFFF;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
 }
 
 .netHeadCol {
@@ -150,9 +150,10 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/netBarResolving.gif) repeat-x;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -16px #FFFFFF;
     min-width: 0px;
     z-index: 70;
+    height: 16px;
 }
 
 .netConnectingBar {
@@ -160,9 +161,10 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/netBarConnecting.gif) repeat-x;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -32px #FFFFFF;
     min-width: 0px;
-    z-index:60;
+    z-index: 60;
+    height: 16px;
 }
 
 .netBlockingBar {
@@ -170,9 +172,10 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/netBarWaiting.gif) repeat-x;
+    background: #FFFFFF url(images/timeline-sprites.png) repeat-x;
     min-width: 0px;
-    z-index:50;
+    z-index: 50;
+    height: 16px;
 }
 
 .netSendingBar {
@@ -180,9 +183,10 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/netBarSending.gif) repeat-x;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -48px #FFFFFF;
     min-width: 0px;
-    z-index:40;
+    z-index: 40;
+    height: 16px;
 }
 
 .netWaitingBar {
@@ -190,9 +194,10 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/netBarResponded.gif) repeat-x;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -64px #FFFFFF;
     min-width: 1px; /* So, at least something is always visible */
-    z-index:30;
+    z-index: 30;
+    height: 16px;
 }
 
 .netReceivingBar {
@@ -200,15 +205,17 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #B6B6B6 url(images/netBarLoaded.gif) repeat-x;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -80px #B6B6B6;
     min-width: 0px;
     z-index: 20;
+    height: 16px;
 }
 
 .fromCache .netReceivingBar,
 .fromCache.netReceivingBar {
-    background: #D6D6D6 url(images/netBarCached.gif) repeat-x;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -96px #D6D6D6;
     border-color: #D6D6D6;
+    height: 16px;
 }
 
 .netWindowLoadBar,
@@ -347,7 +354,7 @@
 
 .netInfoCol {
     border-top: 1px solid #EEEEEE;
-    background: url(images/group.gif) repeat-x #FFFFFF;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
 }
 
 .netInfoBody {

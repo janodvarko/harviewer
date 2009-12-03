@@ -93,7 +93,7 @@ HAR.Rep.EntryList = domplate(
             TD({"class": "netTotalSizeCol netCol"},
                 DIV({"class": "netTotalSizeLabel netSummaryLabel"}, "0KB")
             ),
-            TD({"class": "netTotalTimeCol netCol", colspan: 2},
+            TD({"class": "netTotalTimeCol netCol"},
                 DIV({"class": "netBar"},
                     DIV({"class": "netCacheSizeLabel netSummaryLabel"},
                         "(",

@@ -37,8 +37,8 @@
 <xsl:template match="xhtml:head">
   <xsl:copy>
     <xsl:apply-templates select="@*|node()"/>
-    <script type="text/javascript" src="har.js"></script>
     <link rel="StyleSheet" href="har.css" type="text/css"/>
+    <script type="text/javascript" src="har.js"></script>
   </xsl:copy>
 </xsl:template>
 
