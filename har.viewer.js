@@ -88,9 +88,6 @@ HAR.Viewer = domplate(
 
             load: function(response, ioArgs)
             {
-                // Put loaded JSON into the text box and fire fake onchange event.
-                editor.value = response;
-
                 // Press the Preview button.
                 HAR.Tab.InputView.onAppendPreview(response);
             },
@@ -143,9 +140,6 @@ HAR.Viewer = domplate(
         HAR.log("har; HAR.Viewer.onRemoteArchiveLoaded");
 
         var jsonString = dojo.toJson(data, true);
-        var editor = HAR.$("sourceEditor");
-        editor.value = jsonString;
-
         HAR.Tab.InputView.onAppendPreview(jsonString);
     }
 });
