@@ -23,9 +23,11 @@ HAR.Viewer = domplate(
     initialize: function()
     {
         var content = HAR.$("content");
+        if (!content)
+            return;
 
         // Render basic page content (tab view) and select the Input tab by default.
-        this.tabView = this.TabView.tag.replace({}, content, this.TabView);
+        this.tabView = this.TabView.render(content);
         this.selectTabByName("Input");
 
         // The URL can specify default file with input data.
@@ -48,6 +50,9 @@ HAR.Viewer = domplate(
         // source editor width.
         window.onresize = bind(this.onWindowResize, this);
         this.onWindowResize();
+
+        // Create download button.
+        HAR.Download.create();
 
         // Viewer is initialized so, notify all listeners. This is helpful
         // for extending the page using e.g. Firefox extensions.
@@ -76,7 +81,8 @@ HAR.Viewer = domplate(
         editor.value = "Loading...";
 
         // Execute XHR to get a local file (the same domain).
-        dojo.xhrGet({
+        dojo.xhrGet(
+        {
             url: filePath,
             handleAs: "text",
 
@@ -91,7 +97,7 @@ HAR.Viewer = domplate(
 
             error: function(response, ioArgs)
             {
-                HAR.log("har; loadLocalArchive ERROR " + response);
+                HAR.error("har; loadLocalArchive ERROR " + response);
                 editor.value = response;
             }
         });
@@ -147,6 +153,42 @@ HAR.Viewer = domplate(
 //-----------------------------------------------------------------------------
 
 /**
+ * Download HAR source using Downloadify.
+ */
+HAR.Download = domplate(
+{
+    tag:
+        SPAN({"class": "harDownloadButton", id: "harDownloadButton",
+            title: $STR("tooltip.Download_HAR_File")}),
+
+    create: function()
+    {
+        Downloadify.create("harDownloadButton",
+        {
+            filename: function() {
+                return "netData.har";
+            },
+            data: function() {
+                return dojo.toJson(HAR.Model.inputData, true);
+            },
+            onComplete: function() {},
+            onCancel: function() {},
+            onError: function() {
+                alert("Failed to save.");
+            },
+            swf: "downloadify/media/downloadify.swf",
+            downloadImage: "images/download-sprites.png",
+            width: 16,
+            height: 16,
+            transparent: true,
+            append: false
+        });
+    }
+});
+
+//-----------------------------------------------------------------------------
+
+/**
  * Domplate template for the main tabbed UI.
  */
 HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
@@ -165,8 +207,8 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
                 ),
                 A({"class": "HelpTab tab", onmousedown: "$onClickTab", view: "Help"},
                     $STR("viewer.tab.About"),
-                    "&nbsp;",
-                    SPAN({"style": "font-size:11px;color:#DD467B;"},
+                    SPAN("&nbsp;"),
+                    SPAN({"class": "red", "style": "font-size:11px;"},
                         "$version"
                     )
                 ),
@@ -174,13 +216,31 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
                     $STR("viewer.tab.Schema")
                 )
             ),
-            DIV({"class": "tabInputBody tabBody"}),
-            DIV({"class": "tabPreviewBody tabBody"}),
+            DIV({"class": "tabInputBody tabBody"},
+                DIV({"class": "inputBody"})
+            ),
+            DIV({"class": "tabPreviewBody tabBody"},
+                TAG("$previewToolbar"),
+                DIV({"class": "pageTimeline"}),
+                DIV({"class": "pageStats"}),
+                DIV({"class": "pageList"})
+            ),
             DIV({"class": "tabDOMBody tabBody"}),
-            DIV({"class": "tabHelpBody tabBody"}),
+            DIV({"class": "tabHelpBody tabBody"},
+                DIV({"class": "helpBody"})
+            ),
             DIV({"class": "tabSchemaBody tabBody"},
                 PRE({"class": "schemaPreview"})
             )
+        ),
+
+    previewToolbar:
+        DIV({"class": "previewToolbar"},
+            TAG(HAR.Page.ShowTimeline.tag),
+            SPAN({style: "color: gray;"}, " | "),
+            TAG(HAR.Page.ShowStats.tag),
+            SPAN({style: "color: gray;"}, " | "),
+            TAG(HAR.Download.tag)
         ),
 
     version: HAR.getVersion(),
@@ -192,14 +252,17 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
         var tabInputBody = getElementByClass(viewBody, "tabInputBody");
         if (hasClass(tab, "InputTab") && !tabInputBody.updated)
         {
+            var inputBody = getElementByClass(tabInputBody, "inputBody");
+
             tabInputBody.updated = true;
-            HAR.Tab.InputView.render(tabInputBody);
+            HAR.Tab.InputView.render(inputBody);
         }
 
         var tabPreviewBody = getElementByClass(viewBody, "tabPreviewBody");
         if (hasClass(tab, "PreviewTab") && !tabPreviewBody.updated)
         {
-            // The content is appended dynamically e.g. by dropping a HAR file.
+            tabPreviewBody.updated = true;
+            HAR.Tab.Preview.render(tabPreviewBody);
         }
 
         var tabDOMBody = getElementByClass(viewBody, "tabDOMBody");
@@ -237,10 +300,16 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
         {
             tabHelpBody.updated = true;
 
+            var helpBody = getElementByClass(tabHelpBody, "helpBody");
             var template = HAR.$("HelpTabTemplate");
-            tabHelpBody.innerHTML = template.innerHTML;
+            helpBody.innerHTML = template.innerHTML;
             //eraseNode(template);
         }
+    },
+
+    render: function(parentNode)
+    {
+        return this.tag.replace({}, parentNode, this);
     }
 });
 

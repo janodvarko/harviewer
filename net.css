@@ -384,8 +384,11 @@
 .netInfoTab[selected="true"] {
     cursor: default !important;
     border-color: #D7D7D7;
-    -moz-border-radius: 4px 4px 0 0;
     background-color: #FFFFFF;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-radius: 4px 4px 0 0;
 }
 
 .logRow-netInfo.error .netInfoTitle {

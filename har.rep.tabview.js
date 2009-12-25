@@ -23,44 +23,6 @@ HAR.Rep.TabView = domplate(HAR.Rep,
             )
         ),
 
-    tabList:
-        DIV({"class": "tabViewBody"},
-            TAG("$tabBar"),
-            TAG("$tabBodies")
-        ),
-
-    tabBar: 
-        DIV({"class": "tabBar"}/*,
-            A({class: "ParamsTab tab", onclick: "$onClickTab", view: "Params"},
-                "Parameters"
-            )*/
-        ),
-
-    tabBodies: 
-        DIV({"class": "tabBodies"}/*,
-            DIV({class: "tabParamsBody tabBody"},
-                "Hello from static tab."
-            )*/
-        ),
-
-    appendTab: function(tabId, tabTitle)
-    {
-        // Create new tab tag.
-        this.tabBar.tag.merge([
-            A({"class": tabId + "Tab tab", 
-                onclick: "$onClickTab", 
-                $collapsed: "$this|hideTab",
-                view: tabId}, 
-                tabTitle
-            )
-        ], this.tabBar.tag);
-
-        // Create new body tag.
-        this.tabBodies.tag.merge([
-            DIV({"class": "tab" + tabId + "Body tabBody"})
-        ], this.tabBodies.tag);
-    },
-
     hideTab: function(context)
     {
         return false;

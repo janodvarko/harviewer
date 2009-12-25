@@ -11,7 +11,7 @@ HAR.ns(function() { with (Domplate) { with (HAR.Lib) {
 HAR.Rep.EntryTimeInfoTip = domplate(
 {
     tableTag:
-        TABLE({"class": "timeInfoTip", "id": "fbNetTimeInfoTip"},
+        TABLE({"class": "timeInfoTip"},
             TBODY()
         ),
 
@@ -20,7 +20,7 @@ HAR.Rep.EntryTimeInfoTip = domplate(
             TR({"class": "timeInfoTipRow", $collapsed: "$time|hideBar"},
                 TD({"class": "$time|getBarClass timeInfoTipBar",
                     $loaded: "$time.loaded",
-                    $fromCache: "$time.fromCache",
+                    $fromCache: "$time.fromCache"
                 }),
                 TD({"class": "timeInfoTipCell startTime"},
                     "$time.start|formatStartTime"

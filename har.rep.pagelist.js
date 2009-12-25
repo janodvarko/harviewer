@@ -19,7 +19,7 @@ HAR.Rep.PageList = domplate(
 
     rowTag:
         FOR("group", "$groups",
-            TR({"class": "pageRow", _repObject: "$group"},
+            TR({"class": "pageRow", _repObject: "$group", onmousemove: "$onMouseMove"},
                 TD({"class": "groupName pageCol"},
                     SPAN({"class": "pageName"},
                         "$group|getPageTitle"
@@ -37,7 +37,7 @@ HAR.Rep.PageList = domplate(
         ),
 
     bodyTag:
-        TR({"class": "pageInfoRow"},
+        TR({"class": "pageInfoRow", style: "height:auto;display:none;"},
             TD({"class": "pageInfoCol"})
         ),
 
@@ -83,21 +83,19 @@ HAR.Rep.PageList = domplate(
         if (opened && forceOpen)
             return;
 
+        //xxxHonza: the dojo wipeIn and Out effect doesn't work.
         toggleClass(row, "opened");
         if (hasClass(row, "opened"))
         {
-            var page = row.repObject;
-            if (!page)
-                return;
-
-            var netInfoRow = this.bodyTag.insertRows({}, row)[0];
-            HAR.Tab.Preview.buildPageContent(netInfoRow.firstChild, page);
+            var infoBodyRow = this.bodyTag.insertRows({}, row)[0];
+            HAR.Tab.Preview.buildPageContent(infoBodyRow.firstChild, row.repObject);
+            dojo.fx.wipeIn({node: infoBodyRow}).play();
         }
         else
         {
             var infoBodyRow = row.nextSibling;
-            if (infoBodyRow)
-                row.parentNode.removeChild(infoBodyRow);
+            dojo.fx.wipeOut({node: infoBodyRow}).play();
+            row.parentNode.removeChild(infoBodyRow);
         }
     },
 
@@ -124,6 +122,32 @@ HAR.Rep.PageList = domplate(
         // DOM tab must be regenerated
         var tabDOMBody = getElementByClass(document.documentElement, "tabDOMBody");
         tabDOMBody.updated = false;
+    },
+
+    onMouseMove: function(event)
+    {
+        var e = HAR.eventFix(event || window.event);
+        cancelEvent(event);
+
+        var pageRow = getAncestorByClass(e.target, "pageRow");
+        var page = pageRow.repObject;
+
+        var previewBody = getAncestorByClass(pageRow, "tabPreviewBody");
+        var pageTimelineTable = getElementByClass(previewBody, "pageTimelineTable");
+        var tbody = pageTimelineTable.firstChild;
+        var row = tbody.firstChild;
+
+        var pageBar;
+        var col = row.firstChild;
+        while (col)
+        {
+            if (col.firstChild.repObject == page)
+            {
+                HAR.Page.Timeline.updateDesc(previewBody, col.firstChild);
+                break;
+            }
+            col = col.nextSibling;
+        }
     }
 });
 

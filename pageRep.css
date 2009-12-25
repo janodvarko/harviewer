@@ -1,8 +1,11 @@
 /* See license.txt for terms of usage */
 
+.pageList {
+    width: 100%;
+}
+
 .pageTable {
     width: 100%;
-    overflow: hidden;
     font-family: Lucida Grande, Tahoma, sans-serif;
     font-size: 11px;
 }
@@ -14,7 +17,11 @@
 
 .pageRow {
     font-weight: bold;
-    height:18px;
+    height: 18px;
+}
+
+.pageRow:hover {
+    background: #EFEFEF;
 }
 
 .opened > .pageCol > .pageName {

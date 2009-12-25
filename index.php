@@ -9,9 +9,15 @@
     <meta http-equiv="Pragma" content="no-cache"></meta>
     <meta HTTP-equiv="Expires" content="-1"></meta>
 
+    <!--[if IE]><script type="text/javascript" src="excanvas/excanvas.compiled.js"></script><![endif]-->
+
     <!-- Dojo -->
     <script type="text/javascript" src="dojo.js" ></script>
     <script type="text/javascript" src="har.dojo.js" ></script>
+
+    <!-- Downloadify -->
+    <script type="text/javascript" src="downloadify/js/swfobject.js"></script>
+    <script type="text/javascript" src="downloadify/src/downloadify.js"></script>
 
     <!-- HAR Viewer JS -->
     <script type="text/javascript" src="strings.js" ></script>
@@ -31,6 +37,9 @@
     <script type="text/javascript" src="har.tab.preview.js" ></script>
     <script type="text/javascript" src="har.tab.domview.js" ></script>
     <script type="text/javascript" src="har.rep.schema.js" ></script>
+    <script type="text/javascript" src="har.page.pie.js" ></script>
+    <script type="text/javascript" src="har.page.timeline.js" ></script>
+    <script type="text/javascript" src="har.page.stats.js" ></script>
     <script type="text/javascript" src="har.viewer.js" ></script>
 
     <!-- HAR Viewer CSS -->
@@ -42,6 +51,8 @@
     <link rel="stylesheet" href="schemaRep.css" type="text/css"/>
     <link rel="stylesheet" href="highlight.css" type="text/css"/>
     <link rel="stylesheet" href="infoTip.css" type="text/css"/>
+    <link rel="stylesheet" href="har.page.timeline.css" type="text/css"/>
+    <link rel="stylesheet" href="har.page.stats.css" type="text/css"/>
 </head>
 <body>
 <div id="content" version="@VERSION@"

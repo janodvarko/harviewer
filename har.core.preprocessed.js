@@ -24,6 +24,7 @@ this.initialize = function()
     HAR.Rep = {};
     HAR.Tab = {};
     HAR.Lib = {};
+    HAR.Page = {};
 
     // Initialize registered namespaces.
     for (var i=0; i<namespaces.length; i+=2) {
@@ -41,7 +42,8 @@ this.initialize = function()
 this.getVersion = function()
 {
     var content = HAR.$("content");
-    return content.getAttribute("version");
+    if (content)
+        return content.getAttribute("version");
 }
 
 //-----------------------------------------------------------------------------
@@ -50,6 +52,7 @@ this.getVersion = function()
  * Support for debugging.
  */
 this.log = function() {};
+this.error = function() {};
 
 
 //-----------------------------------------------------------------------------
@@ -57,8 +60,23 @@ this.log = function() {};
 /**
  * Helper functions. xxxHonza: should be in LIB.
  */
-this.extend = dojo.extend;
 this.$ = dojo.byId;
+
+//xxxHonza: should be the one from Dojo.
+//xxxHonza: duplicated in domplate.
+this.extend = function copyObject(l, r)
+{
+    var m = {};
+    extend(m, l);
+    extend(m, r);
+    return m;
+}
+
+function extend(l, r)
+{
+    for (var n in r)
+        l[n] = r[n];
+}
 
 // xxxHonza: Use Dojo for this if possible. 
 this.now = function() { return (new Date()).getTime(); }

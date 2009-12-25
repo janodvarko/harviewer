@@ -42,14 +42,20 @@
     cursor: pointer;
     border-color: #D7D7D7;
     -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-radius: 4px 4px 0 0;
 }
 
 .tab[selected="true"],
 .tab .selected {
     cursor: default !important;
     border-color: #D7D7D7;
-    -moz-border-radius: 4px 4px 0 0;
     background-color: #FFFFFF;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-radius: 4px 4px 0 0;
 }
 
 .tabBody {
@@ -57,6 +63,13 @@
     margin: 0;
     border-top: 1px solid #D7D7D7;
     background-color: #FFFFFF;
+
+    position: absolute;
+    width: 100%;
+    top: 32px;
+    bottom: 0px;
+    overflow: auto;
+    z-index: -1;
 }
 
 .tabBody[selected="true"],

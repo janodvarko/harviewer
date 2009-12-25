@@ -9,14 +9,13 @@ HAR.ns(function() { with (Domplate) { with (HAR.Lib) {
  */
 HAR.Tab.Preview = HAR.extend(
 {
+    render: function(parentNode)
+    {
+        // The content is appended dynamically e.g. by dropping a HAR file.
+    },
+
     append: function(inputData, parentNode)
     {
-        // Load JSON support on demand.
-        dojo.require("dojo._base.json");
-
-        // Merge new input data with existing data in the model.
-        var newData = HAR.Model.appendData(inputData);
-
         // Update source editor to show merged data.
         // xxxHonza: This is one of the most time expensive operation.
         //var start = HAR.now();
@@ -59,9 +58,12 @@ HAR.Tab.Preview = HAR.extend(
             var table = PageList.tableTag.append({groups: inputData.log.pages},
                 parentNode, PageList);
 
-            // Expand appended page by default.
-            if (table.firstChild.firstChild)
+            // Expand appended page by default, but only if there is only one page.
+            if (table.firstChild.firstChild &&
+                HAR.Model.inputData.log.pages.length == 1)
+            {
                 PageList.toggleRow(table.firstChild.firstChild);
+            }
         }
 
         // Mark the preview tab as initialized so, it isn't rendered 
@@ -301,9 +303,7 @@ HAR.Tab.Preview = HAR.extend(
             return;
 
         var countLabel = row.firstChild.firstChild;
-        countLabel.firstChild.nodeValue = fileCount == 1
-            ? $STR("Request")
-            : $STRF("RequestCount", [fileCount]);
+        countLabel.firstChild.nodeValue = this.formatRequestCount(fileCount);
 
         var sizeLabel = row.childNodes[1].firstChild;
         sizeLabel.setAttribute("totalSize", totalSize);
@@ -315,6 +315,11 @@ HAR.Tab.Preview = HAR.extend(
 
         var timeLabel = row.lastChild.firstChild.lastChild.firstChild;
         timeLabel.innerHTML = formatTime(totalTime);
+    },
+
+    formatRequestCount: function(count)
+    {
+        return (count == 1) ? $STR("Request") : $STRF("RequestCount", [count]);
     },
 
     summarizePhase: function(phase)
@@ -378,7 +383,12 @@ HAR.Tab.Preview = HAR.extend(
                 this.infoTipURL = infoTipURL;
                 return this.populateSizeInfoTip(infoTip, row);
             }
+            return;
         }
+
+        var statsPanel = getAncestorByClass(target, "pageStats");
+        if (statsPanel)
+            return HAR.Page.Stats.showInfoTip(infoTip, target, x, y);
     },
 
     populateTimeInfoTip: function(infoTip, row)

@@ -32,14 +32,20 @@ HAR.Tab.InputView = domplate(
         var validate = HAR.$("validate").checked; 
         var docNode = document.documentElement;
         var tabPreviewBody = getElementByClass(docNode, "tabPreviewBody");
+        var pageList = getElementByClass(tabPreviewBody, "pageList");
+        var pageTimeline = getElementByClass(tabPreviewBody, "pageTimeline");
 
         // Parse and validate.
-        var inputData = HAR.Rep.Schema.parseInputData(jsonString, tabPreviewBody, validate);
+        var inputData = HAR.Rep.Schema.parseInputData(jsonString, pageList, validate);
         if (inputData)
         {
+            // Merge new input data with existing data in the model.
+            HAR.Model.appendData(inputData);
+
             // Append new data into the Preview tab. This is optimalization so,
             // the view doesn't have to be entirely refreshed.
-            HAR.Tab.Preview.append(inputData, tabPreviewBody);
+            HAR.Tab.Preview.append(inputData, pageList);
+            HAR.Page.Timeline.append(inputData, pageTimeline);
 
             // DOM tab must be regenerated
             var tabDOMBody = getElementByClass(docNode, "tabDOMBody");

@@ -191,14 +191,6 @@ HAR.Rep.EntryBody = domplate(
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    appendTab: function(netInfoBox, tabId, tabTitle)
-    {
-        // Create new tab and body.
-        var args = {tabId: tabId, tabTitle: tabTitle};
-        this.customTab.append(args, getElementByClass(netInfoBox, "netInfoTabs"));
-        this.customBody.append(args, getElementByClass(netInfoBox, "netInfoBodies"));
-    },
-
     selectTabByName: function(netInfoBox, tabName)
     {
         var tab = getChildByClass(netInfoBox, "netInfoTabs", "netInfo"+tabName+"Tab");

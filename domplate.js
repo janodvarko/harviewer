@@ -581,6 +581,7 @@ DomplateLoop.prototype = copyObject(DomplateTag.prototype,
 {
     merge: function(args, oldTag)
     {
+        this.isLoop = true;
         this.varName = oldTag ? oldTag.varName : args[0];
         this.iter = oldTag ? oldTag.iter : parseValue(args[1]);
         this.vars = [];
@@ -926,7 +927,7 @@ var Renderer =
         }
 
         var offset = 0;
-        if (before.tagName.toLowerCase() == "tr")
+        if (this.tag.isLoop)
         {
             var node = firstRow.parentNode.firstChild;
             for (; node && node != firstRow; node = node.nextSibling)
@@ -1024,6 +1025,39 @@ var Renderer =
         this.tag.renderDOM.apply(self ? self : this.tag.subject, domArgs);
 
         return root;
+    },
+
+    insertCols: function(args, parent, self)
+    {
+        this.tag.compile();
+
+        var outputs = [];
+        var html = this.renderHTML(args, outputs, self);
+
+        var table = parent.ownerDocument.createElement("table");
+        var womb = parent.ownerDocument.createElement("tr");
+        table.appendChild(womb);
+        womb.innerHTML = html;
+
+        var firstCol = womb.firstChild;
+        while (womb.firstChild)
+            parent.appendChild(womb.firstChild);
+
+        // See insertRows for comment.
+        var offset = 0;
+        if (this.tag.isLoop)
+        {
+            var node = firstCol.parentNode.firstChild;
+            for (; node && node != firstCol; node = node.nextSibling)
+                ++offset;
+        }
+
+        var domArgs = [firstCol, this.tag.context, offset];
+        domArgs.push.apply(domArgs, this.tag.domArgs);
+        domArgs.push.apply(domArgs, outputs);
+        this.tag.renderDOM.apply(self ? self : this.tag.subject, domArgs);
+
+        return firstCol;
     }
 };
 
@@ -1045,10 +1079,8 @@ defineTags(
     "a", "button", "br", "canvas", "col", "colgroup", "div", "fieldset", "form", "h1", "h2", "h3", "hr",
      "img", "input", "label", "legend", "li", "ol", "optgroup", "option", "p", "pre", "select",
     "span", "strong", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "tr", "tt", "ul", "code",
-    "iframe"
+    "iframe", "canvas"
 );
 
-  
-        
 }).apply(Domplate);
 

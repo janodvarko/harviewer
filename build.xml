@@ -10,6 +10,7 @@
     <property name="temp.dir" value="release/temp"/>
     <property name="examples.dir" value="examples"/>
     <property name="images.dir" value="images"/>
+    <property name="downloadify.dir" value="downloadify"/>
     <property name="xslt.dir" value="xslt"/>
     <property file="ant.properties"/>
 
@@ -122,8 +123,8 @@
 
         <!-- Copy har.php file into the build directory. This file contains
             PHP header that forces compression
-            xxxHonza: how to force to cache the file? -->
-        <copy file="har.php" todir="${build.dir}"/>
+            xxxHonza: how to force to cache the file?
+        <copy file="har.php" todir="${build.dir}"/> -->
 
         <!-- Append core JS files to har.php in this order:
             dojo.js, har.dojo.js, har.core.js, har.lib.js, har.rep.js  -->
@@ -131,6 +132,27 @@
             <filelist dir="${temp.dir}"
                 files="dojo.js,har.dojo.js,har.core.js,har.lib.js,har.rep.js" />
         </concat>
+
+        <!-- Append Downloadify files, these are already minimized. -->
+        <concat destfile="${build.dir}/har.js" append="true">
+            <filelist dir="${downloadify.dir}/js"
+                files="downloadify.min.js,swfobject.js" />
+        </concat>
+
+        <!-- Copy Downloadify implementation in Flash. -->
+        <copy todir="${build.dir}/downloadify/media">
+            <fileset dir="${downloadify.dir}/media">
+                <include name="*.swf"/>
+            </fileset>
+        </copy>
+
+        <!-- Copy Excanvas (already compiled). This file is not appended
+            into the har.js file since it's downloaded only by IE. -->
+        <copy todir="${build.dir}/excanvas">
+            <fileset dir="excanvas">
+                <include name="excanvas.compiled.js"/>
+            </fileset>
+        </copy>
 
         <!-- Append the other files -->
         <concat destfile="${build.dir}/har.js" append="true">
