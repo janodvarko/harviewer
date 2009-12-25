@@ -9,9 +9,22 @@ HAR.ns(function() { with (Domplate) { with (HAR.Lib) {
  */
 HAR.Tab.Preview = HAR.extend(
 {
+    timeline: HAR.Page.Timeline,
+    stats: HAR.Page.Stats,
+
     render: function(parentNode)
     {
-        // The content is appended dynamically e.g. by dropping a HAR file.
+        // Render basic structure of the timeline.
+        this.timeline.render(getElementByClass(parentNode, "pageTimeline"));
+        this.stats.render(getElementByClass(parentNode, "pageStats"));
+
+        if (getCookie("timeline") == "true")
+            this.timeline.show(false);
+
+        if (getCookie("stats") == "true")
+            this.stats.show(false);
+
+        // The page list is appended dynamically e.g. by dropping a HAR file.
     },
 
     append: function(inputData, parentNode)
@@ -33,6 +46,9 @@ HAR.Tab.Preview = HAR.extend(
 
         // Build page list from what we have.
         this.buildPageList(parentNode, inputData);
+
+        // Update also page timeline.
+        this.timeline.append(inputData);
     },
 
     buildPageList: function(parentNode, inputData)

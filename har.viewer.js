@@ -309,7 +309,8 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
 
     render: function(parentNode)
     {
-        return this.tag.replace({}, parentNode, this);
+        var tabView = this.tag.replace({}, parentNode, this);
+        return tabView;
     }
 });
 

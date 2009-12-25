@@ -63,6 +63,11 @@ HAR.Model = extend(
     },
 
     // Support for pages.
+    getPages: function()
+    {
+        return this.inputData.log.pages;
+    },
+
     removePage: function(page)
     {
         // Remove the page from the page list.

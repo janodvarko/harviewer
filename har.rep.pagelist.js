@@ -130,24 +130,7 @@ HAR.Rep.PageList = domplate(
         cancelEvent(event);
 
         var pageRow = getAncestorByClass(e.target, "pageRow");
-        var page = pageRow.repObject;
-
-        var previewBody = getAncestorByClass(pageRow, "tabPreviewBody");
-        var pageTimelineTable = getElementByClass(previewBody, "pageTimelineTable");
-        var tbody = pageTimelineTable.firstChild;
-        var row = tbody.firstChild;
-
-        var pageBar;
-        var col = row.firstChild;
-        while (col)
-        {
-            if (col.firstChild.repObject == page)
-            {
-                HAR.Page.Timeline.updateDesc(previewBody, col.firstChild);
-                break;
-            }
-            col = col.nextSibling;
-        }
+        HAR.Tab.Preview.timeline.updateDescByPage(pageRow.repObject);
     }
 });
 

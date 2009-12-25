@@ -158,31 +158,32 @@ var unknownTypes = {
  */
 HAR.Page.Stats = domplate(
 {
-    statsBody: null,
+    node: null,
 
     tag:
         DIV({"class": "pageStatsBody", style: "height: auto; display: none"}),
 
-    render: function(parentNode, page)
+    render: function(parentNode)
     {
-        HAR.log("har; Page statistics, render: ", page);
-        this.statsBody = this.tag.replace({}, parentNode);
+        HAR.log("har; Page statistics, render: ");
+
+        this.node = this.tag.replace({}, parentNode);
 
         // Generate HTML for pie graphs.
-        this.timingPie = HAR.Page.Pie.render(timingPie, this.statsBody);
-        this.contentPie = HAR.Page.Pie.render(contentPie, this.statsBody);
-        this.trafficPie = HAR.Page.Pie.render(trafficPie, this.statsBody);
-        this.cachePie = HAR.Page.Pie.render(cachePie, this.statsBody);
+        this.timingPie = HAR.Page.Pie.render(timingPie, this.node);
+        this.contentPie = HAR.Page.Pie.render(contentPie, this.node);
+        this.trafficPie = HAR.Page.Pie.render(trafficPie, this.node);
+        this.cachePie = HAR.Page.Pie.render(cachePie, this.node);
 
         // This graph is the last one so remove the separator right border
         this.cachePie.style.borderRight = 0;
 
-        return this.statsBody;
+        return this.node;
     },
 
-    update: function(pageStats, page)
+    update: function(page)
     {
-        if (!this.statsBody)
+        if (!this.isOpened())
             return;
 
         this.cleanUp();
@@ -261,6 +262,50 @@ HAR.Page.Stats = domplate(
     showInfoTip: function(infoTip, target, x, y)
     {
         return HAR.Page.Pie.showInfoTip(infoTip, target, x, y);
+    },
+
+    show: function(animation)
+    {
+        if (this.isOpened())
+            return;
+
+        setClass(this.node, "opened");
+
+        if (dojo.isIE || !animation)
+            this.node.style.display = "block";
+        else
+            dojo.fx.wipeIn({node: this.node}).play();
+
+        // If there is no selection yet, use the first page if any so,
+        // the pie graphs display something.
+        if (!HAR.Page.Timeline.highlightedPage)
+        {
+            if (HAR.Model.input && HAR.Model.input.log.pages.length)
+                HAR.Page.Timeline.highlightedPage = HAR.Model.input.log.pages[0];
+        }
+
+        // Update button label.
+        HAR.Page.ShowStats.update();
+
+        // Draw
+        HAR.Page.Stats.update(HAR.Page.Timeline.highlightedPage);
+    },
+
+    hide: function(animation)
+    {
+        removeClass(this.node, "opened");
+
+        if (dojo.isIE)
+            this.node.style.display = "none";
+         else
+            dojo.fx.wipeOut({node: this.node}).play();
+
+        HAR.Page.ShowStats.update();
+    },
+
+    isOpened: function()
+    {
+        return hasClass(this.node, "opened");
     }
 });
 
@@ -269,9 +314,19 @@ HAR.Page.Stats = domplate(
 HAR.Page.ShowStats = domplate(
 {
     tag:
-        SPAN({"class": "harButton", onclick: "$onToggle"},
+        SPAN({"class": "harButton harShowStats", onclick: "$onToggle"},
             $STR("button.Show_Page_Stats")
         ),
+
+    update: function()
+    {
+        var opened = HAR.Tab.Preview.stats.isOpened();
+
+        // xxxHonza: the button should not be global.
+        var button = getElementByClass(document.documentElement, "harShowStats")
+        button.innerHTML = opened ? $STR("button.Hide_Page_Stats") :
+            $STR("button.Show_Page_Stats");
+    },
 
     onToggle: function(event)
     {
@@ -282,46 +337,14 @@ HAR.Page.ShowStats = domplate(
         if (!hasClass(button, "harButton"))
             return;
 
-        var body = getAncestorByClass(button, "tabPreviewBody");
-        var statsBody = getElementByClass(body, "pageStatsBody");
-        if (!statsBody)
-            statsBody = HAR.Page.Stats.render(getElementByClass(body, "pageStats"));
-
-        var openNow = toggleClass(statsBody, "opened");
-        setCookie("stats", openNow);
-        if (openNow)
-        {
-            if (dojo.isIE)
-                statsBody.style.display = "block";
-            else
-                dojo.fx.wipeIn({node: statsBody}).play();
-
-            button.innerHTML = $STR("button.Hide_Page_Stats");
-
-            // If there is no selection yet, use the first page if any so,
-            // the pie graphs display something.
-            if (!HAR.Page.Timeline.highlightedPage)
-            {
-                if (HAR.Model.input && HAR.Model.input.log.pages.length)
-                    HAR.Page.Timeline.highlightedPage = HAR.Model.input.log.pages[0];
-            }
-
-            HAR.Page.Stats.update(statsBody, HAR.Page.Timeline.highlightedPage);
-        }
+        var stats = HAR.Tab.Preview.stats;
+        var opened = stats.isOpened();
+        if (opened)
+            stats.hide(true);
         else
-        {
-            if (dojo.isIE)
-                statsBody.style.display = "none";
-            else
-                dojo.fx.wipeOut({node: statsBody}).play();
+            stats.show(true);
 
-            button.innerHTML = $STR("button.Show_Page_Stats");
-        }
-    },
-
-    show: function()
-    {
-        
+        setCookie("stats", !opened);
     }
 });
 

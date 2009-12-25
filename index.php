@@ -33,13 +33,13 @@
     <script type="text/javascript" src="har.rep.entrylist.js" ></script>
     <script type="text/javascript" src="har.rep.entrybody.js" ></script>
     <script type="text/javascript" src="har.rep.entryinfotip.js" ></script>
+    <script type="text/javascript" src="har.page.pie.js" ></script>
+    <script type="text/javascript" src="har.page.timeline.js" ></script>
+    <script type="text/javascript" src="har.page.stats.js" ></script>
     <script type="text/javascript" src="har.tab.inputview.js" ></script>
     <script type="text/javascript" src="har.tab.preview.js" ></script>
     <script type="text/javascript" src="har.tab.domview.js" ></script>
     <script type="text/javascript" src="har.rep.schema.js" ></script>
-    <script type="text/javascript" src="har.page.pie.js" ></script>
-    <script type="text/javascript" src="har.page.timeline.js" ></script>
-    <script type="text/javascript" src="har.page.stats.js" ></script>
     <script type="text/javascript" src="har.viewer.js" ></script>
 
     <!-- HAR Viewer CSS -->
