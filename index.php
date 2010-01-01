@@ -116,8 +116,10 @@ page load performance.</p>
 
 <tr><td>
 <h3>Discussion Group</h3>
-<p>Send feedback to: <a href="http://groups.google.com/group/http-archive-specification">
+<p>Feedback: <a href="http://groups.google.com/group/http-archive-specification">
     http://groups.google.com/group/http-archive-specification</a></p>
+<p>Report issue: <a href="http://code.google.com/p/harviewer/issues/list">
+    http://code.google.com/p/harviewer/issues/list</a></p>
 </td></tr>
 
 <tr><td>
