@@ -82,7 +82,7 @@ press the <b>Preview</b> button.</li>
     </tr>
 </table></p>
 <br/>
-<p><i>This viewer supports HAR 1.1 (see the <b>About</b> tab).<br/></i></p>
+<p><i>This viewer supports HAR 1.1 (see the <span class="link" onclick="HAR.Tab.InputView.onAbout()">About</span> tab).<br/></i></p>
 <p><i>Click
 <span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-1.har');">here</span> or
 <span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-2.har');">here</span>
@@ -107,9 +107,9 @@ page load performance.</p>
 
 <p>User interface of this tool is composed from the following tabs:</p>
 <ul>
-<li><b>Input HAR</b> - Paste content of a log file into the text box in this tab.</li>
+<li><b>Home</b> - Paste content of a log file into the text box in this tab.</li>
 <li><b>Preview</b> - Switch to this tab if you want to see visualised HTTP traffic.</li>
-<li><b>DOM</b> - Use this tab to see structure of the input JSON data as an expandable tree.</li>
+<li><b>HAR</b> - Use this tab to see structure of the input JSON data as an expandable tree.</li>
 <li><b>Schema</b> - Explore format of the input log in this tab.</li>
 </ul>
 </td></tr>

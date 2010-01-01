@@ -85,6 +85,12 @@ HAR.Tab.InputView = domplate(
 
         for (var i=0; i<files.length; i++)
             this.onAppendPreview(files[i].getAsText(""));
+    },
+
+    onAbout: function()
+    {
+        // Switch to the About tab.
+        HAR.Viewer.selectTabByName("Help");
     }
 });
 
