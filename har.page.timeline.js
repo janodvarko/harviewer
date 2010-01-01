@@ -173,6 +173,7 @@ HAR.Page.Timeline = domplate(
     recalcLayout: function()
     {
         var prevMaxElapsedTime = this.maxElapsedTime; 
+        delete this.maxElapsedTime;
 
         // Iterate over all pages and find the max load-time so, the vertical
         // graph extent can be set.
@@ -180,12 +181,12 @@ HAR.Page.Timeline = domplate(
         for (var i=0; i<pages.length; i++)
         {
             var onLoadTime = pages[i].pageTimings.onLoad;
-            if (this.maxElapsedTime < onLoadTime)
+            if (!this.maxElapsedTime || this.maxElapsedTime < onLoadTime)
                 this.maxElapsedTime = onLoadTime;
         }
 
         // Recalculate height of all pages only if there is new maximum.
-        if (prevMaxElapsedTime < this.maxElapsedTime)
+        if (prevMaxElapsedTime != this.maxElapsedTime)
         {
             var bars = getElementsByClass(this.rootNode, "pageBar");
             for (var i=0; i<bars.length; i++)
