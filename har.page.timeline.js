@@ -135,17 +135,20 @@ HAR.Page.Timeline = domplate(
 
     updateDescByPage: function(page)
     {
-        var table = getElementByClass(this.rootNode, "pageTimelineTable");
+        var pageBar = this.getPageBar(page);
+        if (pageBar)
+            this.updateDesc(pageBar);
+    },
 
+    getPageBar: function(page)
+    {
         // Iterate over all columns and find the one that represents the page.
+        var table = getElementByClass(this.rootNode, "pageTimelineTable");
         var col = table.firstChild.firstChild.firstChild;
         while (col)
         {
             if (col.firstChild.repObject == page)
-            {
-                HAR.Tab.Preview.timeline.updateDesc(col.firstChild);
-                break;
-            }
+                return col.firstChild;
             col = col.nextSibling;
         }
     },
@@ -188,6 +191,30 @@ HAR.Page.Timeline = domplate(
             for (var i=0; i<bars.length; i++)
                 bars[i].style.height = this.getHeight(bars[i].repObject) + "px";
         } 
+    },
+
+    removePage: function(page)
+    {
+        var pageBar = this.getPageBar(page);
+        if (!pageBar)
+            return;
+
+        var col = pageBar.parentNode;
+        col.parentNode.removeChild(col);
+
+        this.recalcLayout();
+
+        if (this.highlightedPage == page)
+        {
+            this.highlightedPage = null;
+            this.updateSelection();
+        }
+
+        if (!this.highlightedPage)
+        {
+            var descBox = getElementByClass(this.rootNode, "pageDescBox");
+            descBox.style.visibility = "hidden";
+        }
     },
 
     render: function(parentNode)

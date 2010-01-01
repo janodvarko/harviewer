@@ -29,13 +29,6 @@ HAR.Tab.Preview = HAR.extend(
 
     append: function(inputData, parentNode)
     {
-        // Update source editor to show merged data.
-        // xxxHonza: This is one of the most time expensive operation.
-        //var start = HAR.now();
-        //var editor = HAR.$("sourceEditor");
-        //editor.value = dojo.toJson(newData, true);
-        //HAR.log("har; toJSON: " + HAR.Lib.formatTime(HAR.now() - start));
-
         // Remove possible errors from the page.
         var errors = getElementsByClass(parentNode, "errorTable");
         for (var i=0; i<errors.length; i++)

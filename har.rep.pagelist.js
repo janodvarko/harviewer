@@ -113,11 +113,13 @@ HAR.Rep.PageList = domplate(
         // Remove the page-row
         row.parentNode.removeChild(row);
 
-        // Regenerate JSON string.
+        // Remove from model.
         var page = row.repObject;
         var newData = HAR.Model.removePage(page);
-        var sourceEditor = HAR.$("sourceEditor");
-        sourceEditor.value = dojo.toJson(newData, true);
+
+        // Remove from timeline and update stats.
+        HAR.Tab.Preview.timeline.removePage(page);
+        HAR.Tab.Preview.stats.update(HAR.Tab.Preview.timeline.highlightedPage);
 
         // DOM tab must be regenerated
         var tabDOMBody = getElementByClass(document.documentElement, "tabDOMBody");
