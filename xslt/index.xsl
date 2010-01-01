@@ -47,4 +47,8 @@
   </xsl:copy>
 </xsl:template>
 
+<xsl:template match="xhtml:br">
+  <xsl:value-of select="'&lt;br/&gt;'" disable-output-escaping="yes"/>
+</xsl:template>
+
 </xsl:stylesheet>
