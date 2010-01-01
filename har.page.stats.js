@@ -158,7 +158,7 @@ var unknownTypes = {
  */
 HAR.Page.Stats = domplate(
 {
-    node: null,
+    rootNode: null,
 
     tag:
         DIV({"class": "pageStatsBody", style: "height: auto; display: none"}),
@@ -167,18 +167,18 @@ HAR.Page.Stats = domplate(
     {
         HAR.log("har; Page statistics, render: ");
 
-        this.node = this.tag.replace({}, parentNode);
+        this.rootNode = this.tag.replace({}, parentNode);
 
         // Generate HTML for pie graphs.
-        this.timingPie = HAR.Page.Pie.render(timingPie, this.node);
-        this.contentPie = HAR.Page.Pie.render(contentPie, this.node);
-        this.trafficPie = HAR.Page.Pie.render(trafficPie, this.node);
-        this.cachePie = HAR.Page.Pie.render(cachePie, this.node);
+        this.timingPie = HAR.Page.Pie.render(timingPie, this.rootNode);
+        this.contentPie = HAR.Page.Pie.render(contentPie, this.rootNode);
+        this.trafficPie = HAR.Page.Pie.render(trafficPie, this.rootNode);
+        this.cachePie = HAR.Page.Pie.render(cachePie, this.rootNode);
 
         // This graph is the last one so remove the separator right border
         this.cachePie.style.borderRight = 0;
 
-        return this.node;
+        return this.rootNode;
     },
 
     update: function(page)
@@ -269,12 +269,12 @@ HAR.Page.Stats = domplate(
         if (this.isOpened())
             return;
 
-        setClass(this.node, "opened");
+        setClass(this.rootNode, "opened");
 
         if (dojo.isIE || !animation)
-            this.node.style.display = "block";
+            this.rootNode.style.display = "block";
         else
-            dojo.fx.wipeIn({node: this.node}).play();
+            dojo.fx.wipeIn({node: this.rootNode}).play();
 
         // If there is no selection yet, use the first page if any so,
         // the pie graphs display something.
@@ -293,19 +293,19 @@ HAR.Page.Stats = domplate(
 
     hide: function(animation)
     {
-        removeClass(this.node, "opened");
+        removeClass(this.rootNode, "opened");
 
         if (dojo.isIE)
-            this.node.style.display = "none";
+            this.rootNode.style.display = "none";
          else
-            dojo.fx.wipeOut({node: this.node}).play();
+            dojo.fx.wipeOut({node: this.rootNode}).play();
 
         HAR.Page.ShowStats.update();
     },
 
     isOpened: function()
     {
-        return hasClass(this.node, "opened");
+        return hasClass(this.rootNode, "opened");
     }
 });
 

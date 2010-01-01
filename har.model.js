@@ -65,7 +65,7 @@ HAR.Model = extend(
     // Support for pages.
     getPages: function()
     {
-        return this.inputData.log.pages;
+        return this.inputData ? this.inputData.log.pages : [];
     },
 
     removePage: function(page)
@@ -99,7 +99,7 @@ HAR.Model = extend(
     getPageEntries: function(page)
     {
         var result = [];
-        var entries = this.inputData.log.entries;
+        var entries = this.inputData ? this.inputData.log.entries : null;
         if (!entries)
             return result;
 

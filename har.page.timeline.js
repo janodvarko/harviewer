@@ -10,7 +10,7 @@ HAR.ns(function() { with (Domplate) { with (HAR.Lib) {
  */
 HAR.Page.Timeline = domplate(
 {
-    node: null,
+    rootNode: null,
     maxElapsedTime: -1,
 
     graphCols:
@@ -100,12 +100,12 @@ HAR.Page.Timeline = domplate(
         this.highlightedPage = page;
 
         // Update connector position, but only if the timeline is visible
-        if (hasClass(this.node, "opened"))
+        if (hasClass(this.rootNode, "opened"))
         {
-            var descBox = getElementByClass(this.node, "pageDescBox");
+            var descBox = getElementByClass(this.rootNode, "pageDescBox");
             descBox.style.visibility = "visible";
 
-            var conn = getElementByClass(this.node, "connector");
+            var conn = getElementByClass(this.rootNode, "connector");
             conn.style.marginLeft = pageBar.parentNode.offsetLeft + "px";
 
             // Collect page summary info.
@@ -135,7 +135,7 @@ HAR.Page.Timeline = domplate(
 
     updateDescByPage: function(page)
     {
-        var table = getElementByClass(this.node, "pageTimelineTable");
+        var table = getElementByClass(this.rootNode, "pageTimelineTable");
 
         // Iterate over all columns and find the one that represents the page.
         var col = table.firstChild.firstChild.firstChild;
@@ -153,7 +153,7 @@ HAR.Page.Timeline = domplate(
     append: function(inputData)
     {
         // If it's not rendered yet, bail out.
-        if (!this.node)
+        if (!this.rootNode)
             return;
 
         HAR.log("har; Page timeline, append inputData: ", inputData);
@@ -161,8 +161,10 @@ HAR.Page.Timeline = domplate(
         this.recalcLayout();
 
         // Otherwise just append a new columns to the existing graph.
-        var timelineRow = getElementByClass(this.pageTimeline, "pageTimelineRow");
+        var timelineRow = getElementByClass(this.rootNode, "pageTimelineRow");
         this.graphCols.insertCols({pages: inputData.log.pages}, timelineRow);
+
+        this.updateSelection();
     },
 
     recalcLayout: function()
@@ -182,7 +184,7 @@ HAR.Page.Timeline = domplate(
         // Recalculate height of all pages only if there is new maximum.
         if (prevMaxElapsedTime < this.maxElapsedTime)
         {
-            var bars = getElementsByClass(this.node, "pageBar");
+            var bars = getElementsByClass(this.rootNode, "pageBar");
             for (var i=0; i<bars.length; i++)
                 bars[i].style.height = this.getHeight(bars[i].repObject) + "px";
         } 
@@ -191,8 +193,7 @@ HAR.Page.Timeline = domplate(
     render: function(parentNode)
     {
         // Render basic structure, use the current model data
-        this.node = this.tag.replace({pages: HAR.Model.getPages()}, parentNode, this);
-
+        this.rootNode = this.tag.replace({pages: HAR.Model.getPages()}, parentNode);
         this.recalcLayout();
     },
 
@@ -201,21 +202,27 @@ HAR.Page.Timeline = domplate(
         if (this.isOpened())
             return;
 
-        setClass(this.node, "opened");
-
         if (dojo.isIE || !animation)
-            this.node.style.display = "block";
+            this.rootNode.style.display = "block";
         else
-            dojo.fx.wipeIn({node: this.node}).play();
+            dojo.fx.wipeIn({node: this.rootNode}).play();
+
+        setClass(this.rootNode, "opened");
 
         HAR.Page.ShowTimeline.update();
 
-        // Make sure the decription (tooltip) is displayed for the first page automatically.
-        if (!this.updateDescription)
+        this.updateSelection();
+    },
+
+    updateSelection: function()
+    {
+        // Make sure the decription (tooltip) is displayed for the first
+        // page automatically.
+        if (!this.highlightedPage && HAR.Model.getPages().length > 0)
         {
-            this.updateDescription = true;
-            var firstPageBar = getElementByClass(this.node, "pageBar");
-            HAR.Lib.fireEvent(firstPageBar, "mousemove");
+            var firstPageBar = getElementByClass(this.rootNode, "pageBar");
+            if (firstPageBar)
+                HAR.Lib.fireEvent(firstPageBar, "mousemove");
         }
     },
 
@@ -224,19 +231,19 @@ HAR.Page.Timeline = domplate(
         if (!this.isOpened())
             return;
 
-        removeClass(this.node, "opened");
-
         if (dojo.isIE || !animation)
-            this.node.style.display = "none";
+            this.rootNode.style.display = "none";
         else
-            dojo.fx.wipeOut({node: this.node}).play();
+            dojo.fx.wipeOut({node: this.rootNode}).play();
+
+        removeClass(this.rootNode, "opened");
 
         HAR.Page.ShowTimeline.update();
     },
 
     isOpened: function()
     {
-        return hasClass(this.node, "opened");
+        return hasClass(this.rootNode, "opened");
     }
 });
 
