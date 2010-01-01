@@ -39,6 +39,8 @@
     <xsl:apply-templates select="@*|node()"/>
     <link rel="StyleSheet" href="har.css" type="text/css"/>
     <script type="text/javascript" src="har.js"></script>
+    <!-- The excanvas script is inserted within MS if clause -->
+    <xsl:comment><![CDATA[[if IE]><script type="text/javascript" src="excanvas/excanvas.compiled.js"></script><![endif]]]></xsl:comment>
   </xsl:copy>
 </xsl:template>
 
