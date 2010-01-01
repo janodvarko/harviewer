@@ -40,14 +40,25 @@ HAR.Lib = extend(
 
     formatSize: function(bytes)
     {
+        var sizePrecision = 1; // Can be customizable from cookies?
+        sizePrecision = (sizePrecision > 2) ? 2 : sizePrecision;
+        sizePrecision = (sizePrecision < -1) ? -1 : sizePrecision;
+
+        if (sizePrecision == -1)
+            return bytes + " B";
+
+        var a = Math.pow(10, sizePrecision);
+
         if (bytes == -1 || bytes == undefined)
             return "?";
+        else if (bytes == 0)
+            return "0";
         else if (bytes < 1024)
             return bytes + " B";
         else if (bytes < (1024*1024))
-            return Math.round(bytes/1024) + " KB";
+            return Math.round((bytes/1024)*a)/a + " KB";
         else
-            return Math.round((bytes/(1024*1024))*100)/100 + " MB";
+            return Math.round((bytes/(1024*1024))*a)/a + " MB";
     },
 
     formatTime: function(elapsed)

@@ -230,17 +230,17 @@ HAR.Page.Stats = domplate(
             trafficPie.data[3].value += resBodySize;
 
             // Get Cache info
-            if (entry.response.status == 200) { // Downloaded
-                cachePie.data[0].value += resBodySize;
-                cachePie.data[0].count++;
-            }
-            else  if (entry.response.status == 206) { // Partial content
+            if (entry.response.status == 206) { // Partial content
                 cachePie.data[1].value += resBodySize;
                 cachePie.data[1].count++;
             }
             else if (entry.response.status == 304) { // From cache
                 cachePie.data[2].value += resBodySize;
                 cachePie.data[2].count++;
+            }
+            else if (resBodySize > 0){ // Downloaded
+                cachePie.data[0].value += resBodySize;
+                cachePie.data[0].count++;
             }
         }
 
