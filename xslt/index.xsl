@@ -12,6 +12,9 @@
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
     indent="yes"/>
 
+<!-- Remove new lines -->
+<xsl:strip-space  elements="*"/>
+
 <!-- the identity template -->
 <xsl:template match="@*|node()">
   <xsl:copy>
@@ -42,15 +45,6 @@
     <!-- The excanvas script is inserted within MS if clause -->
     <xsl:comment><![CDATA[[if IE]><script type="text/javascript" src="excanvas/excanvas.compiled.js"></script><![endif]]]></xsl:comment>
   </xsl:copy>
-</xsl:template>
-
-<!-- Remove new lines -->
-<xsl:template match="node/@TEXT | text()">
-  <xsl:if test="normalize-space(.)">
-    <xsl:value-of select=
-     "concat(normalize-space(.), '&#xA;')"/>
-  </xsl:if>
-  <xsl:apply-templates />
 </xsl:template>
 
 </xsl:stylesheet>

@@ -21,6 +21,11 @@ a {
     text-decoration: none;
 }
 
+/* This is a little cheating, the shape attribute is appended by XSLT */
+a:hover[shape="rect"] {
+    text-decoration: underline;
+}
+
 /************************************************************************************************/
 
 .red {
