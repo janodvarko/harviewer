@@ -8,6 +8,7 @@ function Pie() {}
 Pie.prototype =
 {
     data: [],
+    title: "",
 
     getLabelTooltipText: function(item)
     {
@@ -27,6 +28,8 @@ Pie.prototype =
 function TimingPie() {};
 TimingPie.prototype = HAR.extend(Pie.prototype,
 {
+    title: "Summary of request times.",
+
     data: [
         {value: 0, label: $STR("pie.label.DNS"),     color: "rgb(119, 192, 203)"},
         {value: 0, label: $STR("pie.label.Connect"), color: "rgb(179, 222, 93)"},
@@ -45,6 +48,8 @@ TimingPie.prototype = HAR.extend(Pie.prototype,
 function ContentPie() {};
 ContentPie.prototype = HAR.extend(Pie.prototype,
 {
+    title: "Summary of content types.",
+
     data: [
         {value: 0, label: $STR("pie.label.HTML/Text"), color: "rgb(174, 234, 218)"},
         {value: 0, label: $STR("pie.label.JavaScript"), color: "rgb(245, 230, 186)"},
@@ -63,6 +68,8 @@ ContentPie.prototype = HAR.extend(Pie.prototype,
 function TrafficPie() {};
 TrafficPie.prototype = HAR.extend(Pie.prototype,
 {
+    title: "Summary of sent and received bodies & headers.",
+
     data: [
         {value: 0, label: $STR("pie.label.Headers Sent"), color: "rgb(247, 179, 227)"},
         {value: 0, label: $STR("pie.label.Bodies Sent"), color: "rgb(226, 160, 241)"},
@@ -74,6 +81,8 @@ TrafficPie.prototype = HAR.extend(Pie.prototype,
 function CachePie() {};
 CachePie.prototype = HAR.extend(Pie.prototype,
 {
+    title: "Comparison of downloaded data from the server and browser cache.",
+
     data: [
         {value: 0, label: $STR("pie.label.Downloaded"), color: "rgb(182, 182, 182)"},
         {value: 0, label: $STR("pie.label.Partial"), color: "rgb(218, 218, 218)"},

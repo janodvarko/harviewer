@@ -11,7 +11,7 @@ HAR.Page.Pie = domplate(
             _repObject: "$pie"},
             TBODY(
                 TR(
-                    TD({"class": "pieBox"}),
+                    TD({"class": "pieBox", title: "$pie.title"}),
                     TD(
                         FOR("item", "$pie.data",
                             DIV({"class": "pieLabel", _repObject: "$item"},

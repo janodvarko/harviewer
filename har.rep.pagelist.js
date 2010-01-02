@@ -34,7 +34,7 @@ HAR.Rep.PageList = domplate(
             TD({"class": "pageInfoCol"})
         ),
 
-    getPageTitle: function(page) 
+    getPageTitle: function(page)
     {
         return page.title;
     },
