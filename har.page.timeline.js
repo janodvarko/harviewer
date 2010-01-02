@@ -33,15 +33,6 @@ HAR.Page.Timeline = domplate(
             )
         ),
 
-    pageDesc:
-        DIV({"class": "pageDescBox"},
-            DIV({"class": "connector"}),
-            DIV({"class": "desc"},
-                SPAN({"class": "summary"}, "&nbsp;"),
-                SPAN({"class": "url"}, "&nbsp;")
-            )
-        ),
-
     tag:
         DIV({"class": "pageTimelineBody", style: "height: auto; display: none"},
             TABLE({style: "margin: 7px;", cellpadding: 0, cellspacing: 0},
@@ -52,9 +43,7 @@ HAR.Page.Timeline = domplate(
                         )
                     ),
                     TR(
-                        TD({colspan: 2},
-                            TAG("$pageDesc")
-                        )
+                        TD({"class": "pageDescContainer", colspan: 2})
                     )
                 )
             )
@@ -103,30 +92,8 @@ HAR.Page.Timeline = domplate(
         // Update connector position, but only if the timeline is visible
         if (hasClass(this.rootNode, "opened"))
         {
-            var descBox = getElementByClass(this.rootNode, "pageDescBox");
-            descBox.style.visibility = "visible";
-
-            var conn = getElementByClass(this.rootNode, "connector");
-            conn.style.marginLeft = pageBar.parentNode.offsetLeft + "px";
-
-            // Collect page summary info.
-            var summary = "";
-            if (page.pageTimings.onLoad)
-            {
-                summary += $STR("label.Page_Load") + ": " +
-                    formatTime(page.pageTimings.onLoad) + ", ";
-            }
-
-            var requests = HAR.Model.getPageEntries(page);
-            summary += HAR.Tab.Preview.formatRequestCount(requests.length);
-
-            // Page tooltip update: summary
-            var summaryNode = getElementByClass(descBox, "summary");
-            summaryNode.innerHTML = summary; 
-
-            // Page tooltip update: URL 
-            var desc = getElementByClass(descBox, "desc");
-            desc.childNodes[1].innerHTML = page.title;
+            var descContainer = getElementByClass(this.rootNode, "pageDescContainer");
+            HAR.Page.Timeline.Desc.render(descContainer, pageBar);
         }
 
         // Update pie graph.
@@ -273,6 +240,57 @@ HAR.Page.Timeline = domplate(
     isOpened: function()
     {
         return hasClass(this.rootNode, "opened");
+    }
+});
+
+//-----------------------------------------------------------------------------
+
+HAR.Page.Timeline.Desc = domplate(
+{
+    tag:
+        DIV({"class": "pageDescBox"},
+            DIV({"class": "connector"}),
+            DIV({"class": "desc"},
+                SPAN({"class": "summary"}, "$page|getSummary"),
+                SPAN({"class": "time"}, "$page|getTime"),
+                SPAN({"class": "title"}, "$page|getTitle")
+            )
+        ),
+
+    getSummary: function(page)
+    {
+        var summary = "";
+        if (page.pageTimings.onLoad)
+        {
+            summary += $STR("label.Page_Load") + ": " +
+                formatTime(page.pageTimings.onLoad) + ", ";
+        }
+
+        var requests = HAR.Model.getPageEntries(page);
+        summary += HAR.Tab.Preview.formatRequestCount(requests.length);
+
+        return summary;
+    },
+
+    getTime: function(page)
+    {
+        var pageStart = parseISO8601(page.startedDateTime);
+        var date = new Date(pageStart);
+        return date.toLocaleString();
+    },
+
+    getTitle: function(page)
+    {
+        return page.title;
+    },
+
+    render: function(parentNode, pageBar)
+    {
+        var page = pageBar.repObject;
+        var rootNode = this.tag.replace({page: page}, parentNode);
+
+        var conn = getElementByClass(rootNode, "connector");
+        conn.style.marginLeft = pageBar.parentNode.offsetLeft + "px";
     }
 });
 
