@@ -63,7 +63,8 @@ HAR.Tab.Preview = HAR.extend(
         if (pages && pages.length)
         {
             // OK, a page exists so, let's build the page list first.
-            var table = HAR.Rep.PageList.render(pages, parentNode);
+            var PageList = HAR.Rep.PageList;
+            var table = PageList.render(pages, parentNode);
 
             // Expand appended page by default, but only if there is only one page.
             if (table.firstChild.firstChild && pages.length == 1)
