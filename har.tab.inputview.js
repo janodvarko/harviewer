@@ -26,10 +26,6 @@ HAR.Tab.InputView = domplate(
     {
         HAR.log("har; onAppendPreview");
 
-        var sourceEditor = HAR.$("sourceEditor");
-        if (!jsonString)
-            jsonString = sourceEditor.value;
-
         var validate = HAR.$("validate").checked; 
         var docNode = document.documentElement;
         var tabPreviewBody = getElementByClass(docNode, "tabPreviewBody");
@@ -46,8 +42,9 @@ HAR.Tab.InputView = domplate(
             // the view doesn't have to be entirely refreshed.
             HAR.Tab.Preview.append(inputData, pageList);
 
-            // Clear the input data now.
-            sourceEditor.value ="";
+            // Clear the source editor now (the Loading... text).
+            var sourceEditor = HAR.$("sourceEditor");
+            sourceEditor.value = "";
 
             // DOM tab must be regenerated
             var tabDOMBody = getElementByClass(docNode, "tabDOMBody");

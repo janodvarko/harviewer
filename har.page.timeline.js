@@ -75,7 +75,8 @@ HAR.Page.Timeline = domplate(
         if (!hasClass(target, "pageBar"))
             return;
 
-        toggleClass(target, "selected");
+        // xxxHonza: not sure what the selection could be useful for.
+        //toggleClass(target, "selected");
     },
 
     onMouseMove: function(event)
