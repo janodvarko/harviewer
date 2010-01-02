@@ -186,7 +186,7 @@ the file in <b>inputUrl</b> parameter:</i></p>
 
 <p><i>3. A custom name of the callback function can be specified in a <b>callback</b> parameter
 (by default it's <b>onInputData</b>):</i></p>
-<code>http://www.softwareishard.com/har/viewer/?inputUrl=http://www.example.com/netData.har&callback=onInputData</code>
+<code>http://www.softwareishard.com/har/viewer/?inputUrl=http://www.example.com/netData.har&amp;callback=onInputData</code>
 <br/><br/>
 </td></tr>
 
