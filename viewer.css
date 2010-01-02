@@ -26,6 +26,17 @@ a:hover[shape="rect"] {
     text-decoration: underline;
 }
 
+h2 {
+    color:  #DD467B;
+    font-size: 22.8px;
+    font-weight:lighter;
+}
+
+h3 {
+    color: #DD467B;
+    font-weight: bold;
+}
+
 /************************************************************************************************/
 
 .red {
@@ -122,17 +133,6 @@ a:hover[shape="rect"] {
 
 .helpBody {
     padding: 8px;
-}
-
-.tabHelpBody h2 {
-    color:  #DD467B;
-    font-size: 22.8px;
-    font-weight:lighter;
-}
-
-.tabHelpBody h3 {
-    color: #DD467B;
-    font-weight:bold;
 }
 
 .tabHelpBody code {

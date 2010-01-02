@@ -141,6 +141,11 @@ HAR.Viewer = domplate(
 
         var jsonString = dojo.toJson(data, true);
         HAR.Tab.InputView.onAppendPreview(jsonString);
+    },
+
+    loadExample: function(path)
+    {
+        document.location = "/har/viewer?path=" + path;
     }
 });
 
@@ -234,8 +239,17 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
             SPAN({style: "color: gray;"}, " | "),
             TAG(HAR.Page.ShowStats.tag),
             SPAN({style: "color: gray;"}, " | "),
+            SPAN({"class": "harButton", onclick: "$onClear", title: "Clean up the viewer."},
+                $STR("button.Clear")
+            ),
+            SPAN({style: "color: gray;"}, " | "),
             TAG(HAR.Download.tag)
         ),
+
+    onClear: function()
+    {
+        document.location = "/har/viewer";
+    },
 
     version: HAR.getVersion(),
 

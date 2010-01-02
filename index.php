@@ -75,19 +75,26 @@ press the <b>Preview</b> button.</li>
         <td style="vertical-align:middle;padding-bottom: 1px;">Validate data before processing?</td>
     </tr>
 </table>
-<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="10"></textarea>
+<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="5"></textarea>
 <p><table cellpadding="0" cellspacing="0">
     <tr>
         <td><button id="appendPreview" onclick="HAR.Tab.InputView.onAppendPreview();">Preview</button></td>
     </tr>
 </table></p>
 <br/>
+<h3>HAR Log Examples</h3>
+<ul style="line-height:20px;">
+<li><span class="link" onclick="HAR.Viewer.loadExample('examples/google.com.har');">
+Single page</span> - Single page load (empty cache).</li>
+<li><span class="link" onclick="HAR.Viewer.loadExample('examples/softwareishard.com.har');">
+Browser cache</span> - Impact of the browser cache on page load (the same page loaded three times).</li>
+<li><span class="link" onclick="HAR.Viewer.loadExample('examples/inline-scripts-block.har');">
+Inline scripts block</span> - Inline scripts block the page load.</li>
+<li><span class="link" onclick="HAR.Viewer.loadExample('examples/browser-blocking-time.har');">
+Blocking time</span> - Impact of a limit of max number of parallel connections.</li>
+</ul>
+<br/>
 <p><i>This viewer supports HAR 1.1 (see the <span class="link" onclick="HAR.Tab.InputView.onAbout()">About</span> tab).<br/></i></p>
-<p><i>Click
-<span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-1.har');">here</span> or
-<span class="link" onclick="HAR.Viewer.loadLocalArchive('examples/netData-2.har');">here</span>
-to load an example of existing HAR file.</i></p>
-
 </div>
 
 <!-- Help Tab Template -->
@@ -179,7 +186,7 @@ the file in <b>inputUrl</b> parameter:</i></p>
 
 <p><i>3. A custom name of the callback function can be specified in a <b>callback</b> parameter
 (by default it's <b>onInputData</b>):</i></p>
-<code>http://www.softwareishard.com/har/viewer/?inputUrl=http://www.example.com/netData.har&apm;callback=onInputData</code>
+<code>http://www.softwareishard.com/har/viewer/?inputUrl=http://www.example.com/netData.har&callback=onInputData</code>
 <br/><br/>
 </td></tr>
 
