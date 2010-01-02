@@ -145,7 +145,13 @@ HAR.Viewer = domplate(
 
     loadExample: function(path)
     {
-        document.location = "/har/viewer?path=" + path;
+        var href = document.location.href;
+        var index = href.indexOf("?");
+        document.location = href.substr(0, index) + "?path=" + path;
+
+        // Show timeline and stats by default if an example is displayed.
+        setCookie("timeline", true);
+        setCookie("stats", true);
     }
 });
 
@@ -248,7 +254,9 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
 
     onClear: function()
     {
-        document.location = "/har/viewer";
+        var href = document.location.href;
+        var index = href.indexOf("?");
+        document.location = href.substr(0, index);
     },
 
     version: HAR.getVersion(),

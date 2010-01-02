@@ -59,7 +59,7 @@ HAR.Tab.Preview = HAR.extend(
         this.buildPageContent(parentNode, null);
 
         // If there are any pages, build regular page list.
-        var pages = HAR.Model.getPages();
+        var pages = inputData.log.pages;
         if (pages && pages.length)
         {
             // OK, a page exists so, let's build the page list first.

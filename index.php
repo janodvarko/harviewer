@@ -84,14 +84,14 @@ press the <b>Preview</b> button.</li>
 <br/>
 <h3>HAR Log Examples</h3>
 <ul style="line-height:20px;">
-<li><span class="link" onclick="HAR.Viewer.loadExample('examples/google.com.har');">
-Single page</span> - Single page load (empty cache).</li>
-<li><span class="link" onclick="HAR.Viewer.loadExample('examples/softwareishard.com.har');">
-Browser cache</span> - Impact of the browser cache on page load (the same page loaded three times).</li>
 <li><span class="link" onclick="HAR.Viewer.loadExample('examples/inline-scripts-block.har');">
 Inline scripts block</span> - Inline scripts block the page load.</li>
 <li><span class="link" onclick="HAR.Viewer.loadExample('examples/browser-blocking-time.har');">
 Blocking time</span> - Impact of a limit of max number of parallel connections.</li>
+<li><span class="link" onclick="HAR.Viewer.loadExample('examples/softwareishard.com.har');">
+Browser cache</span> - Impact of the browser cache on page load (the same page loaded three times).</li>
+<li><span class="link" onclick="HAR.Viewer.loadExample('examples/google.com.har');">
+Single page</span> - Single page load (empty cache).</li>
 </ul>
 <br/>
 <p><i>This viewer supports HAR 1.1 (see the <span class="link" onclick="HAR.Tab.InputView.onAbout()">About</span> tab).<br/></i></p>
