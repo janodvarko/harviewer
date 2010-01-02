@@ -21,13 +21,9 @@ HAR.Rep.PageList = domplate(
         FOR("group", "$groups",
             TR({"class": "pageRow", _repObject: "$group", onmousemove: "$onMouseMove"},
                 TD({"class": "groupName pageCol"},
-                    SPAN({"class": "pageName"},
-                        "$group|getPageTitle"
-                    ),
-                    SPAN("&nbsp;"),
-                    SPAN({"class": "pageRemoveAction link",
-                        onclick: "$onRemove"},
-                        SPAN("Remove")
+                    SPAN({"class": "pageName"}, "$group|getPageTitle" ),
+                    SPAN({"class": "pageRemoveAction", title: "Remove Page",
+                        onclick: "$onRemove"}
                     )
                 )
             )

@@ -17,7 +17,7 @@
 
 .pageRow {
     font-weight: bold;
-    height: 18px;
+    height: 17px;
 }
 
 .pageRow:hover {
@@ -47,17 +47,16 @@
 }
 
 .pageRemoveAction {
-    white-space:nowrap;
-    padding-left: 15px;
-    padding-right: 5px;
-    font-weight: normal;
+    position: relative;
+    top: 1px;
+    background: url(images/close-sprites.png) repeat-x scroll 0 -50px transparent;
+    width: 16px;
+    height: 12px;
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
-.pageRemoveAction.link {
-    color: #0000ff;
-    cursor:pointer;
-}
-
-.pageRemoveAction.link:hover {
-    text-decoration:underline;
+.pageRemoveAction:hover {
+    background: url(images/close-sprites.png) repeat-x scroll 0 -18px transparent;
 }
