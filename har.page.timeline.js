@@ -253,7 +253,8 @@ HAR.Page.Timeline.Desc = domplate(
             DIV({"class": "desc"},
                 SPAN({"class": "summary"}, "$page|getSummary"),
                 SPAN({"class": "time"}, "$page|getTime"),
-                SPAN({"class": "title"}, "$page|getTitle")
+                SPAN({"class": "title"}, "$page|getTitle"),
+                DIV({"class": "comment"}, "$page|getComment")
             )
         ),
 
@@ -282,6 +283,12 @@ HAR.Page.Timeline.Desc = domplate(
     getTitle: function(page)
     {
         return page.title;
+    },
+
+    getComment: function(page)
+    {
+        //xxxHonza: Support for comments should be in HAR 1.2
+        return page._comment ? page._comment : "";
     },
 
     render: function(parentNode, pageBar)
