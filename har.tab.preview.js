@@ -59,20 +59,15 @@ HAR.Tab.Preview = HAR.extend(
         this.buildPageContent(parentNode, null);
 
         // If there are any pages, build regular page list.
-        var pages = inputData.log.pages;
+        var pages = HAR.Model.getPages();
         if (pages && pages.length)
         {
             // OK, a page exists so, let's build the page list first.
-            var PageList = HAR.Rep.PageList;
-            var table = PageList.tableTag.append({groups: inputData.log.pages},
-                parentNode, PageList);
+            var table = HAR.Rep.PageList.render(pages, parentNode);
 
             // Expand appended page by default, but only if there is only one page.
-            if (table.firstChild.firstChild &&
-                HAR.Model.inputData.log.pages.length == 1)
-            {
+            if (table.firstChild.firstChild && pages.length == 1)
                 PageList.toggleRow(table.firstChild.firstChild);
-            }
         }
 
         // Mark the preview tab as initialized so, it isn't rendered 

@@ -64,7 +64,8 @@ HAR.Page.Timeline = domplate(
         if (!hasClass(target, "pageBar"))
             return;
 
-        // xxxHonza: not sure what the selection could be useful for.
+        HAR.Rep.PageList.togglePage(target.repObject);
+
         //toggleClass(target, "selected");
     },
 

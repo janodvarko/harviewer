@@ -25,9 +25,6 @@ HAR.Rep.PageList = domplate(
                         "$group|getPageTitle"
                     ),
                     SPAN("&nbsp;"),
-                    SPAN({"class": "pageID"},
-                        "$group|getPageID"
-                    ),
                     SPAN({"class": "pageRemoveAction link",
                         onclick: "$onRemove"},
                         SPAN("Remove")
@@ -65,40 +62,6 @@ HAR.Rep.PageList = domplate(
         }
     },
 
-    expandGroup: function(row)
-    {
-        if (hasClass(row, "pageRow"))
-            this.toggleRow(row, true);
-    },
-
-    collapseGroup: function(row)
-    {
-        if (hasClass(row, "pageRow", "opened"))
-            this.toggleRow(row);
-    },
-
-    toggleRow: function(row, forceOpen)
-    {
-        var opened = hasClass(row, "opened");
-        if (opened && forceOpen)
-            return;
-
-        //xxxHonza: the dojo wipeIn and Out effect doesn't work.
-        toggleClass(row, "opened");
-        if (hasClass(row, "opened"))
-        {
-            var infoBodyRow = this.bodyTag.insertRows({}, row)[0];
-            HAR.Tab.Preview.buildPageContent(infoBodyRow.firstChild, row.repObject);
-            dojo.fx.wipeIn({node: infoBodyRow}).play();
-        }
-        else
-        {
-            var infoBodyRow = row.nextSibling;
-            dojo.fx.wipeOut({node: infoBodyRow}).play();
-            row.parentNode.removeChild(infoBodyRow);
-        }
-    },
-
     onRemove: function(event)
     {
         var e = HAR.eventFix(event || window.event);
@@ -131,8 +94,67 @@ HAR.Rep.PageList = domplate(
         var e = HAR.eventFix(event || window.event);
         cancelEvent(event);
 
-        var pageRow = getAncestorByClass(e.target, "pageRow");
-        HAR.Tab.Preview.timeline.updateDescByPage(pageRow.repObject);
+        // This seems to be not useful.
+        //var pageRow = getAncestorByClass(e.target, "pageRow");
+        //HAR.Tab.Preview.timeline.updateDescByPage(pageRow.repObject);
+    },
+
+    toggleRow: function(row, forceOpen)
+    {
+        var opened = hasClass(row, "opened");
+        if (opened && forceOpen)
+            return;
+
+        //xxxHonza: the dojo wipeIn and Out effect doesn't work.
+        toggleClass(row, "opened");
+        if (hasClass(row, "opened"))
+        {
+            var infoBodyRow = this.bodyTag.insertRows({}, row)[0];
+            HAR.Tab.Preview.buildPageContent(infoBodyRow.firstChild, row.repObject);
+            dojo.fx.wipeIn({node: infoBodyRow}).play();
+        }
+        else
+        {
+            var infoBodyRow = row.nextSibling;
+            dojo.fx.wipeOut({node: infoBodyRow}).play();
+            row.parentNode.removeChild(infoBodyRow);
+        }
+    },
+
+    getPageRow: function(page)
+    {
+        var rows = getElementsByClass(this.rootNode, "pageRow");
+        for (var i=0; i<rows.length; i++)
+        {
+            var row = rows[i];
+            if (row.repObject == page)
+                return row;
+        }
+    },
+
+    render: function(inputData, parentNode)
+    {
+        this.rootNode = this.tableTag.append({groups: inputData}, parentNode);
+        return this.rootNode;
+    },
+
+    togglePage: function(page)
+    {
+        var row = this.getPageRow(page);
+        this.toggleRow(row);
+    },
+
+    expandPage: function(page)
+    {
+        var row = this.getPageRow(page);
+        this.toggleRow(row, true);
+    },
+
+    collapsePage: function(page)
+    {
+        var row = this.getPageRow(page);
+        if (hasClass(row, "opened"))
+            this.toggleRow(row);
     }
 });
 
