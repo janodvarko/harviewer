@@ -26,6 +26,12 @@ HAR.Tab.InputView = domplate(
     {
         HAR.log("har; onAppendPreview");
 
+        // The method is also used as a handler for the "Preview" button.
+        // In that case the jsonString must be initialized with the content
+        // from source editor.
+        if (!jsonString)
+            jsonString = HAR.$("sourceEditor").value;
+
         var validate = HAR.$("validate").checked; 
         var docNode = document.documentElement;
         var tabPreviewBody = getElementByClass(docNode, "tabPreviewBody");
