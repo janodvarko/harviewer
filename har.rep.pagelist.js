@@ -82,7 +82,8 @@ HAR.Rep.PageList = domplate(
 
         // DOM tab must be regenerated
         var tabDOMBody = getElementByClass(document.documentElement, "tabDOMBody");
-        tabDOMBody.updated = false;
+        if (tabDOMBody)
+            tabDOMBody.updated = false;
     },
 
     onMouseMove: function(event)
@@ -117,6 +118,17 @@ HAR.Rep.PageList = domplate(
         }
     },
 
+    expandAll: function(pageList)
+    {
+        var row = pageList.firstChild.firstChild;
+        while (row)
+        {
+            if (hasClass(row, "pageRow"))
+                this.toggleRow(row, true);
+            row = row.nextSibling;
+        }
+    },
+
     getPageRow: function(page)
     {
         var rows = getElementsByClass(this.rootNode, "pageRow");
@@ -130,7 +142,7 @@ HAR.Rep.PageList = domplate(
 
     render: function(inputData, parentNode)
     {
-        this.rootNode = this.tableTag.append({groups: inputData}, parentNode);
+        this.rootNode = this.tableTag.replace({groups: inputData}, parentNode);
         return this.rootNode;
     },
 

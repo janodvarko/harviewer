@@ -5,6 +5,7 @@
     border-left: 1px solid #EFEFEF;
     font-family: Lucida Grande, Tahoma, sans-serif;
     font-size: 11px;
+    table-layout: fixed;
 }
 
 /************************************************************************************************/
@@ -61,6 +62,8 @@
     vertical-align: top;
     border-bottom: 1px solid #EFEFEF;
     white-space: nowrap;
+    text-overflow: clip;
+    overflow: hidden;
 }
 
 .netStatusCol {
@@ -72,32 +75,37 @@
     color: red;
 }
 
-.netDomainCol {
-    padding-left: 5px;
+.netStatusCol,
+.netDomainCol,
+.netSizeCol,
+.netTimeCol {
+    padding-left: 8px;
+}
+
+.netTimeCol {
+    overflow: visible;
 }
 
 .netSizeCol {
     text-align: right;
-    padding-right: 10px;
 }
 
 .netHrefLabel {
     -moz-box-sizing: padding-box;
     overflow: hidden;
     z-index: 100;
-    position: absolute;
+    position: relative;
     padding-left: 18px;
     padding-top: 1px;
-    max-width: 15%;
     font-weight: bold;
 }
 
 .netFullHrefLabel {
+    position: absolute;
     display: none;
     -moz-user-select: none;
     padding-right: 10px;
     padding-bottom: 3px;
-    max-width: 100%;
     background: #FFFFFF;
 }
 

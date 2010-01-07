@@ -58,13 +58,15 @@ HAR.Tab.Preview = HAR.extend(
         // associated with any page. Make sure these are displayed too. 
         this.buildPageContent(parentNode, null);
 
+        var table;
+
         // If there are any pages, build regular page list.
         var pages = inputData.log.pages;
         if (pages && pages.length)
         {
             // OK, a page exists so, let's build the page list first.
             var PageList = HAR.Rep.PageList;
-            var table = PageList.render(pages, parentNode);
+            table = PageList.render(pages, parentNode);
 
             // Expand appended page by default, but only if there is only one page.
             if (table.firstChild.firstChild && pages.length == 1)
@@ -76,6 +78,8 @@ HAR.Tab.Preview = HAR.extend(
         parentNode.updated = true; 
 
         HAR.log("har; Render preview data: " + formatTime(HAR.now() - start));
+
+        return table;
     },
 
     buildPageContent: function(parentNode, page)

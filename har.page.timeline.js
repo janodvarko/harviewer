@@ -111,6 +111,9 @@ HAR.Page.Timeline = domplate(
 
     getPageBar: function(page)
     {
+        if (!this.rootNode)
+            return;
+
         // Iterate over all columns and find the one that represents the page.
         var table = getElementByClass(this.rootNode, "pageTimelineTable");
         var col = table.firstChild.firstChild.firstChild;

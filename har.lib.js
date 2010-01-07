@@ -16,6 +16,25 @@ HAR.Lib = extend(
         return function() { return fn.apply(object, HAR.Lib.arrayInsert(HAR.Lib.cloneArray(args), 0, arguments)); }
     },
 
+    dispatch: function(listeners, name, args)
+    {
+        for (var i=0; listeners && i<listeners.length; i++)
+        {
+            var listener = listeners[i];
+            if (listener[name])
+            {
+                try
+                {
+                    listener[name].apply(listener, args);
+                }
+                catch (exc)
+                {
+                    HAR.exception(exc);
+                }
+            }
+        }
+    },
+
     getBody: function(doc)
     {
         if (doc.body)

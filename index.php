@@ -1,3 +1,7 @@
+<?php
+header('Cache-Control: no-cache');
+header('Pragma: no-cache');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -7,7 +11,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="Pragma" content="no-cache"></meta>
-    <meta HTTP-equiv="Expires" content="-1"></meta>
+    <meta http-equiv="Expires" content="-1"></meta>
 
     <!--[if IE]><script type="text/javascript" src="excanvas/excanvas.compiled.js"></script><![endif]-->
 

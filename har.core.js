@@ -25,6 +25,7 @@ this.initialize = function()
     HAR.Tab = {};
     HAR.Lib = {};
     HAR.Page = {};
+    HAR.Service = {};
 
     // Initialize registered namespaces.
     for (var i=0; i<namespaces.length; i+=2) {
@@ -33,9 +34,8 @@ this.initialize = function()
         fn.apply(ns);
     }
 
-    // Initialize application viewer (main app object).
-    HAR.Viewer.initialize();
-    HAR.InfoTip.initialize();
+    // Initialize registered modules
+    HAR.Lib.dispatch(this.modules, "initialize", []);
 };
 
 // Returns HARViewer version
@@ -44,7 +44,15 @@ this.getVersion = function()
     var content = HAR.$("content");
     if (content)
         return content.getAttribute("version");
-}
+};
+
+//-----------------------------------------------------------------------------
+
+this.modules = [];
+this.registerModule = function(module)
+{
+    this.modules.push(module);
+};
 
 //-----------------------------------------------------------------------------
 
@@ -53,6 +61,7 @@ this.getVersion = function()
  */
 this.log = function() {};
 this.error = function() {};
+this.exception = function() {};
 
 // #ifdef _DEBUG
 this.log = function()
@@ -79,6 +88,11 @@ this.error = function()
     catch (err)
     {
     }
+}
+
+this.exception = function(exc)
+{
+    this.error(exc);
 }
 // #endif
 
@@ -181,7 +195,9 @@ this.eventFix = function(event)
 
 //-----------------------------------------------------------------------------
 
-dojo.addOnLoad(HAR.initialize);
+dojo.addOnLoad(function() {
+    HAR.initialize();
+});
 
 //-----------------------------------------------------------------------------
 }).apply(HAR);

@@ -73,12 +73,13 @@ HAR.Viewer = domplate(
         this.TabView.selectTabByName(this.tabView, tabName);
     },
 
-    loadLocalArchive: function(filePath)
+    loadLocalArchive: function(filePath, callback)
     {
         HAR.log("har; loadLocalArchive " + filePath);
 
         var editor = HAR.$("sourceEditor");
-        editor.value = "Loading...";
+        if (editor)
+            editor.value = "Loading...";
 
         // Execute XHR to get a local file (the same domain).
         dojo.xhrGet(
@@ -88,14 +89,18 @@ HAR.Viewer = domplate(
 
             load: function(response, ioArgs)
             {
-                // Press the Preview button.
-                HAR.Tab.InputView.onAppendPreview(response);
+                // Call specified callback or press the Preview button by default.
+                if (callback)
+                    callback(response);
+                else
+                    HAR.Tab.InputView.onAppendPreview(response);
             },
 
             error: function(response, ioArgs)
             {
                 HAR.error("har; loadLocalArchive ERROR " + response);
-                editor.value = response;
+                if (editor)
+                    editor.value = response;
             }
         });
     },
@@ -329,6 +334,11 @@ HAR.Viewer.TabView = domplate(HAR.Rep.TabView,
         return tabView;
     }
 });
+
+//-----------------------------------------------------------------------------
+// Registration
+
+HAR.registerModule(HAR.Viewer);
 
 //-----------------------------------------------------------------------------
 }}});

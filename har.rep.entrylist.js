@@ -14,11 +14,11 @@ HAR.Rep.EntryList = domplate(
         TABLE({"class": "netTable", cellpadding: 0, cellspacing: 0, onclick: "$onClick"},
             TBODY(
                 TR(
-                    TD({width: "18%"}),
+                    TD({width: "23%"}),
+                    TD({width: "10%"}),
                     TD({width: "12%"}),
-                    TD({width: "12%"}),
-                    TD({width: "4%"}),
-                    TD({width: "54%"})
+                    TD({width: "8%"}),
+                    TD({width: "47%"})
                 )
             )
         ),
