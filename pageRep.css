@@ -18,6 +18,7 @@
 .pageRow {
     font-weight: bold;
     height: 17px;
+    background-color: white;
 }
 
 .pageRow:hover {

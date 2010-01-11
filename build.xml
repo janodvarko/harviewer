@@ -121,6 +121,15 @@
             </xmlcatalog>
         </xslt>
 
+        <!-- Process har.service.pagelist.php file -->
+        <xslt style="${xslt.dir}/pagelist.xsl" in="har.service.pagelist.php"
+            out="${build.dir}/pagelist.php">
+            <xmlcatalog>
+                <dtd publicId="-//W3C//DTD XHTML 1.0 Strict//EN"
+                    location="${xslt.dir}/xhtml1-strict.dtd"/>
+            </xmlcatalog>
+        </xslt>
+
         <!-- Copy har.php file into the build directory. This file contains
             PHP header that forces compression
             xxxHonza: how to force to cache the file?
