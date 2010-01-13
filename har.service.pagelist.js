@@ -8,7 +8,7 @@ HAR.ns(function() { with (HAR.Lib) { with (Domplate) {
 HAR.Service.PageList = domplate(
 {
     tag:
-        TABLE({"style": "width:100%; height:220px", border: "0"},
+        TABLE({"style": "width:100%", border: "0"},
             TR(
                 TD({"class": "defaultContent",
                     "style": "vertical-align:middle; text-align:center;"},
@@ -29,7 +29,6 @@ HAR.Service.PageList = domplate(
     loadTag:
         DIV(
             BUTTON({"class": "loadButton", onclick: "$onLoad"}, "Load HAR"),
-            BR(),
             BR(),
             A({style: "font-size: 10px", target: "_tab",
                 href: "$filePath|getFullPreviewLink"}, "Full Preview")
@@ -96,7 +95,30 @@ HAR.Service.PageList = domplate(
      */
     initialize: function()
     {
-        this.render(HAR.$("pageList"));
+        var table = this.render(HAR.$("pageList"));
+        
+        // But we need dijit.
+        //dojo.require("dijit._base.place");
+        //var vp = dijit.getViewport();
+        //vp.x, vp.y, vp.t, vp.l (scrolloffset)
+
+        var h = 0;
+
+        //IE
+        if (!window.innerHeight)
+        {
+            //strict mode
+            if (!(document.documentElement.clientHeight == 0))
+                h = document.documentElement.clientHeight;
+            //quirks mode
+            else
+                h = document.body.clientHeight;
+        }
+        //w3c
+        else
+            h = window.innerHeight;
+
+        table.style.height = h + "px";
     }
 })
 
