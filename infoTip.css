@@ -34,3 +34,6 @@
     display: block;
 }
 
+.infoTip[multiline="true"] {
+    background-image: none;
+}

@@ -145,7 +145,7 @@ HAR.Tab.Preview = HAR.extend(
         }
 
         this.updateTimeline(page);
-        this.updateSummaries();
+        this.updateSummaries(page);
     },
 
     startPhase: function(file)
@@ -289,11 +289,9 @@ HAR.Tab.Preview = HAR.extend(
         }
     },
 
-    updateSummaries: function()
+    updateSummaries: function(page)
     {
         var phases = this.phases;
-
-        var p
         var fileCount = 0, totalSize = 0, cachedSize = 0, totalTime = 0;
         for (var i = 0; i < phases.length; ++i)
         {
@@ -304,7 +302,7 @@ HAR.Tab.Preview = HAR.extend(
             fileCount += summary.fileCount;
             totalSize += summary.totalSize;
             cachedSize += summary.cachedSize;
-            totalTime += summary.totalTime
+            totalTime += summary.totalTime;
         }
 
         var row = this.summaryRow;
@@ -323,7 +321,13 @@ HAR.Tab.Preview = HAR.extend(
         cacheSizeLabel.childNodes[1].firstChild.nodeValue = formatSize(cachedSize);
 
         var timeLabel = row.lastChild.firstChild.lastChild.firstChild;
-        timeLabel.innerHTML = formatTime(totalTime);
+        var timeText = formatTime(totalTime);
+
+        // xxxHonza: localization?
+        if (page.pageTimings.onLoad)
+            timeText += " (onload: " + formatTime(page.pageTimings.onLoad) + ")";
+
+        timeLabel.innerHTML = timeText;
     },
 
     formatRequestCount: function(count)
@@ -353,14 +357,15 @@ HAR.Tab.Preview = HAR.extend(
 
                 var size = file.response.content.size;
                 totalSize += size;
-                if (file.fromCache)
+                if (file.response.status == 304)
                     cachedSize += size;
 
                 if (!minTime || startedDateTime < minTime)
                     minTime = startedDateTime;
 
-                if (phase.endTime > maxTime)
-                    maxTime = phase.endTime;
+                var fileEndTime = startedDateTime + file.time;
+                if (fileEndTime > maxTime)
+                    maxTime = fileEndTime;
             }
         }
 
@@ -376,6 +381,7 @@ HAR.Tab.Preview = HAR.extend(
         {
             if (getAncestorByClass(target, "netTimeCol"))
             {
+                infoTip.setAttribute("multiline", true);
                 var infoTipURL = row.repObject.startedDateTime + "-nettime"; //xxxHonza the ID should be URL.
                 if (infoTipURL == this.infoTipURL)
                     return true;

@@ -12,7 +12,7 @@ HAR.Service.PageList = domplate(
             TR(
                 TD({"class": "defaultContent",
                     "style": "vertical-align:middle; text-align:center;"},
-                    TAG("$content")
+                    TAG("$filePath|getContentTag", {filePath: "$filePath"})
                 )
             )
         ),
@@ -27,10 +27,27 @@ HAR.Service.PageList = domplate(
         ),
 
     loadTag:
-        BUTTON({onclick: "$onLoad"}, "Load HAR"),
+        DIV(
+            BUTTON({"class": "loadButton", onclick: "$onLoad"}, "Load HAR"),
+            BR(),
+            BR(),
+            A({style: "font-size: 10px", target: "_tab",
+                href: "$filePath|getFullPreviewLink"}, "Full Preview")
+        ),
 
     loadingTag:
         IMG({"src": "images/ajax-loader.gif"}),
+
+    getContentTag: function(filePath)
+    {
+        return filePath ? this.loadTag : this.errorTag;
+    },
+
+    getFullPreviewLink: function(filePath)
+    {
+        return "/har/viewer?path=" + filePath;
+    },
+
 
     /**
      * The Load button was clicked so, load the HAR file and preview.
@@ -38,6 +55,10 @@ HAR.Service.PageList = domplate(
     onLoad: function(event)
     {
         var e = HAR.eventFix(event || window.event);
+
+        // Avoid clicks on links.
+        if (!hasClass(e.target, "loadButton"))
+            return;
 
         // Replace the button with ajax-loader icon.
         var content = getAncestorByClass(e.target, "defaultContent");
@@ -67,9 +88,7 @@ HAR.Service.PageList = domplate(
     {
         var filePath = HAR.Lib.getURLParameter("path");
         HAR.log("har.service.pageList; render " + filePath);
-
-        var contentTag = filePath ? this.loadTag : this.errorTag;
-        return this.tag.replace({content: contentTag}, parentNode);
+        return this.tag.replace({filePath: filePath}, parentNode);
     },
 
     /**

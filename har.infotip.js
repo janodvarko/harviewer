@@ -91,6 +91,8 @@ HAR.InfoTip = extend(
         //xxxHonza: should be the current tab.
         var currentTab = HAR.Tab.Preview;
 
+        this.infoTip.setAttribute("multiline", false);
+
         var x = event.clientX, y = event.clientY;
         this.showInfoTip(this.infoTip, currentTab, event.target,
             x, y, event.rangeParent, event.rangeOffset);

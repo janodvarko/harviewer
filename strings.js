@@ -39,6 +39,7 @@ var strings = {
     "net.file.SizeInfotip": "Size: %S (%S bytes)",
     "Request": "1 request",
     "RequestCount": "%S requests",
+    "FromCache": "From Cache",
     "SourceTabDesc": "Paste HTML Archive source code (JSON) into the text box below and press Preview button.",
     "request.phase.Resolving": "DNS Lookup",
     "request.phase.Connecting": "Connecting",

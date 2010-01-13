@@ -14,11 +14,11 @@ HAR.Rep.EntryList = domplate(
         TABLE({"class": "netTable", cellpadding: 0, cellspacing: 0, onclick: "$onClick"},
             TBODY(
                 TR(
-                    TD({width: "23%"}),
+                    TD({width: "20%"}),
                     TD({width: "10%"}),
-                    TD({width: "12%"}),
-                    TD({width: "8%"}),
-                    TD({width: "47%"})
+                    TD({width: "10%"}),
+                    TD({width: "10%"}),
+                    TD({width: "50%"})
                 )
             )
         ),
@@ -94,14 +94,14 @@ HAR.Rep.EntryList = domplate(
                 DIV({"class": "netTotalSizeLabel netSummaryLabel"}, "0KB")
             ),
             TD({"class": "netTotalTimeCol netCol"},
-                DIV({"class": "netBar"},
+                DIV({"class": "", style: "width: 100%"},
                     DIV({"class": "netCacheSizeLabel netSummaryLabel"},
                         "(",
                         SPAN("0KB"),
                         SPAN(" " + $STR("FromCache")),
                         ")"
                     ),
-                    DIV({"class": "netTimeBar", style: "width: 100%"},
+                    DIV({"class": "netTimeBar"},
                         SPAN({"class": "netTotalTimeLabel netSummaryLabel"}, "0ms")
                     )
                 )

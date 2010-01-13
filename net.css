@@ -301,6 +301,7 @@
 .netSummaryRow .netTimeBar {
     background: #BBBBBB;
     border: none;
+    display: inline-block;
 }
 
 .timeInfoTipCell.startTime {
@@ -321,6 +322,10 @@
 .netSummaryRow {
     background: #BBBBBB !important;
     font-weight: bold;
+}
+
+.netSummaryRow TD {
+    padding: 1px 0 2px 0 !important;
 }
 
 .netSummaryRow .netBar {
@@ -344,7 +349,6 @@
 
 .netTotalSizeCol {
     text-align: right;
-    padding-right: 10px;
 }
 
 .netTotalTimeCol {
@@ -352,10 +356,13 @@
 }
 
 .netCacheSizeLabel {
-    position: absolute;
-    z-index: 1000;
-    left: 0;
-    top: 0;
+    display: inline-block;
+    float:left;
+    padding-left: 6px;
+}
+
+.netTotalTimeLabel {
+    padding-right: 6px;
 }
 
 /************************************************************************************************/
