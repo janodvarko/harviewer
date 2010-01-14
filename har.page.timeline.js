@@ -258,7 +258,7 @@ HAR.Page.Timeline.Desc = domplate(
                 SPAN({"class": "summary"}, "$page|getSummary"),
                 SPAN({"class": "time"}, "$page|getTime"),
                 SPAN({"class": "title"}, "$page|getTitle"),
-                DIV({"class": "comment"}, "$page|getComment")
+                PRE({"class": "comment"}, "$page|getComment")
             )
         ),
 
