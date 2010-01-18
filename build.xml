@@ -114,7 +114,8 @@
             embedded resoureces and inserts just two: one big har.js file
             with all concatenated *.js files and one big har.css file
             with all *.css files. -->
-        <xslt style="${xslt.dir}/index.xsl" in="index.php" out="${build.dir}/index.php">
+        <xslt style="${xslt.dir}/index.xsl" in="index.php"
+            out="${build.dir}/index.php">
             <xmlcatalog>
                 <dtd publicId="-//W3C//DTD XHTML 1.0 Strict//EN"
                     location="${xslt.dir}/xhtml1-strict.dtd"/>

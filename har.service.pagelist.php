@@ -49,11 +49,53 @@
     <link rel="stylesheet" href="infoTip.css" type="text/css"/>
     <link rel="stylesheet" href="har.page.timeline.css" type="text/css"/>
     <link rel="stylesheet" href="har.page.stats.css" type="text/css"/>
+
+    <style type="text/css">
+    body {
+        overflow-y:auto;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+    }
+    #ajaxLoaderTable {
+        width:100%;
+    }
+    #ajaxLoaderTable td {
+        vertical-align:middle;
+        text-align:center;
+    }
+    </style>
 </head>
-<body style="overflow-y:auto; background-color: white;">
+<body>
+
+<div id="pageList" version="@VERSION@">
 
 <!-- Content for page list, there is a loading progress indicator by default. -->
-<div id="pageList" version="@VERSION@"></div>
+<table id="ajaxLoaderTable" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+        <td style="vertical-align:middle; text-align:center;">
+            <img src="images/ajax-loader.gif" />
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+var table = document.getElementById("ajaxLoaderTable");
+var height = 0;
+if (!window.innerHeight) { //IE
+    if (!(document.documentElement.clientHeight == 0)) //strict mode
+        height = document.documentElement.clientHeight;
+    else //quirks mode
+        height = document.body.clientHeight;
+} else //w3c
+    height = window.innerHeight;
+table.style.height = height + "px";
+</script>
+
+</div>
+
+<!-- HAR Schema -->
+<script type="text/javascript" src="schema.js" preserve="true"></script>
 
 <!-- Google Analytics -->
 <script type="text/javascript">

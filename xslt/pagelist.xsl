@@ -37,7 +37,7 @@
 <!-- Append new script and link elements into the head.
     These contain all contatenated javascript and css files.
     to optimize page load performance -->
-<xsl:template match="xhtml:head">
+<xsl:template match="xhtml:body">
   <xsl:copy>
     <xsl:apply-templates select="@*|node()"/>
     <link rel="StyleSheet" href="har.css" type="text/css"/>
