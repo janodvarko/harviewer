@@ -179,7 +179,7 @@ HAR.Download = domplate(
                 return "netData.har";
             },
             data: function() {
-                return dojo.toJson(HAR.Model.inputData, true);
+                return HAR.Model.toJSON();
             },
             onComplete: function() {},
             onCancel: function() {},

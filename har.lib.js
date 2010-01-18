@@ -354,11 +354,11 @@ HAR.Lib = extend(
     {
         var reSplitLines = /\r\n|\r|\n/;
         if (text.split)
-            return text.split(this.reSplitLines);
+            return text.split(reSplitLines);
         else
         {
             var str = text+"";
-            var theSplit = str.split(this.reSplitLines);
+            var theSplit = str.split(reSplitLines);
             return theSplit;
         }
     },

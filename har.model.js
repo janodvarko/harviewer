@@ -17,7 +17,7 @@ HAR.Model = extend(
         try
         {
             var start = HAR.now();
-            var result = eval("(" + jsonString + ")");
+            var result = dojo.fromJson(jsonString);
             HAR.log("har; parse data: " + HAR.Lib.formatTime(HAR.now() - start));
             return result;
         }
@@ -166,8 +166,53 @@ HAR.Model = extend(
                 return pageId;
             counter++;
         }
+    },
+
+    toJSON : function()
+    {
+        if (!this.inputData)
+            return "";
+
+        // xxxHonza: we don't have to iterate all entries again if it did already.
+        var entries = this.inputData.log.entries;
+        for (var i=0; i<entries.length; i++) {
+            var entry = entries[i];
+            if (entry.response.content.text)
+                entry.response.content.__json__ = contentToUnicode;
+        }
+
+        var jsonString = dojo.toJson(this.inputData, true);
+        var result = jsonString.replace(/\\\\u/g, "\\u");
+        return result;
     }
 });
+
+// Make sure the response (it can be binary) is converted to Unicode.
+function contentToUnicode()
+{
+    var newContent = {};
+    for (var prop in this) {
+        if (prop != "__json__")
+            newContent[prop] = this[prop];
+    }
+
+    if (!this.text)
+        return newContent;
+
+    newContent.text = Array.map(this.text, function(x) {
+        var charCode = x.charCodeAt(0);
+        if ((charCode >= 0x20 && charCode < 0x7F) ||
+             charCode == 0xA || charCode == 0xD)
+            return x.charAt(0);
+
+        var unicode = charCode.toString(16).toUpperCase();
+        while (unicode.length < 4)
+            unicode = "0" + unicode;
+        return "\\u" + unicode;
+    }).join("");
+
+    return newContent;
+}
 
 //-----------------------------------------------------------------------------
 
