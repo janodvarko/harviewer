@@ -93,8 +93,6 @@ HAR.Rep.EntryTimeInfoTip = domplate(
     render: function(row, parentNode)
     {
         var file = row.repObject;
-        var page = HAR.Model.getParentPage(file);
-        var pageStart = parseISO8601(page.startedDateTime);
         var requestStart = parseISO8601(file.startedDateTime);
 
         var infoTip = HAR.Rep.EntryTimeInfoTip.tableTag.replace({}, parentNode);
@@ -133,11 +131,14 @@ HAR.Rep.EntryTimeInfoTip = domplate(
         // Insert request timing info.
         this.timingsTag.insertRows({timings: timings}, infoTip.firstChild);
 
+        // Get page event timing info (if the page exists).
         var events = [];
-        if (page.pageTimings.onContentLoad > 0)
+        var page = HAR.Model.getParentPage(file);
+        var pageStart = page ? parseISO8601(page.startedDateTime) : null;
+        if (page && page.pageTimings.onContentLoad > 0)
             events.push({bar: "ContentLoad",
                 start: pageStart + page.pageTimings.onContentLoad - requestStart});
-        if (page.pageTimings.onLoad > 0)
+        if (page && page.pageTimings.onLoad > 0)
             events.push({bar: "WindowLoad",
                 start: pageStart + page.pageTimings.onLoad - requestStart});
 
