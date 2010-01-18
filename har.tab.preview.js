@@ -324,7 +324,7 @@ HAR.Tab.Preview = HAR.extend(
         var timeText = formatTime(totalTime);
 
         // xxxHonza: localization?
-        if (page.pageTimings.onLoad)
+        if (page && page.pageTimings.onLoad)
             timeText += " (onload: " + formatTime(page.pageTimings.onLoad) + ")";
 
         timeLabel.innerHTML = timeText;

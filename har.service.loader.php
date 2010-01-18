@@ -75,14 +75,13 @@ function onPageLoad()
     content.style.height = height + "px";
 
     var fullPreview = document.getElementById("fullPreview");
-    var fullLink = "/har/viewer?path=" + getURLParameter("path");
+    var fullLink = "index.php?path=" + getURLParameter("path");
     fullPreview.setAttribute("href", fullLink);
 }
 function onHARLoad()
 {
     content.style.display = "none";
-    location.href = "/har/viewer/" + serviceName +
-        ".php?path=" + path + "&expand=" + (expand ? "true" : "false");
+    location.href = serviceName + ".php?path=" + path + "&expand=" + (expand ? "true" : "false");
 }
 ]]></script>
 

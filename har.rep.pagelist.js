@@ -142,7 +142,7 @@ HAR.Rep.PageList = domplate(
 
     render: function(inputData, parentNode)
     {
-        this.rootNode = this.tableTag.replace({groups: inputData}, parentNode);
+        this.rootNode = this.tableTag.append({groups: inputData}, parentNode);
         return this.rootNode;
     },
 

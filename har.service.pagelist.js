@@ -25,6 +25,7 @@ HAR.Service.PageList = domplate(
             if (inputData)
             {
                 HAR.Model.appendData(inputData);
+                clearNode(content);
                 var pageList = HAR.Tab.Preview.buildPageList(content, inputData);
                 if (HAR.Lib.getURLParameter("expand"))
                     HAR.Rep.PageList.expandAll(pageList);
