@@ -52,10 +52,10 @@
 
     <style type="text/css">
     body {
-        overflow-y:auto;
-        background-color: white;
-        margin: 0;
-        padding: 0;
+        overflow-y:auto !important;
+        background-color:white;
+        margin:0;
+        padding:0;
     }
     #ajaxLoaderTable {
         width:100%;

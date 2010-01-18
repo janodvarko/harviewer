@@ -81,7 +81,7 @@ function onPageLoad()
 function onHARLoad()
 {
     content.style.display = "none";
-    location.href = "/har/viewer/release/" + serviceName +
+    location.href = "/har/viewer/" + serviceName +
         ".php?path=" + path + "&expand=" + (expand ? "true" : "false");
 }
 ]]></script>
