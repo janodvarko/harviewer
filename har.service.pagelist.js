@@ -12,11 +12,15 @@ HAR.Service.PageList = domplate(
      */
     initialize: function()
     {
+        // Page list service (template) only applies to har.service.pagelist.php
+        var content = HAR.$("pageList");
+        if (!content)
+            return;
+
         // Load the HAR log asynchronously.
         var filePath = HAR.Lib.getURLParameter("path");
         HAR.Viewer.loadLocalArchive(filePath, function(response)
         {
-            var content = HAR.$("pageList");
             var inputData = HAR.Rep.Schema.parseInputData(response, content, false);
             if (inputData)
             {
