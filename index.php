@@ -144,9 +144,9 @@ called <b>NetExport.</b>
 
 <p>Recommended configurations:</p>
 <ul>
-    <li><a href="http://getfirebug.com/releases/firebug/1.5X/">
+    <li><a href="http://getfirebug.com/releases/firebug/1.5/">
         Firebug 1.5</a> +
-    <a href="http://getfirebug.com/releases/export/1.5">NetExport 0.7</a>
+    <a href="http://getfirebug.com/releases/netexport/">NetExport 0.7</a>
     (supports 
     <a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">
     HAR Spec 1.1</a>) 
