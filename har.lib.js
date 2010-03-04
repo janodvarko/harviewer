@@ -397,6 +397,21 @@ HAR.Lib = extend(
         return split.name;
     },
 
+    getFileExtension: function(url)
+    {
+        if (!url)
+            return null;
+
+        // Remove query string from the URL if any.
+        var queryString = url.indexOf("?");
+        if (queryString != -1)
+            url = url.substr(0, queryString);
+
+        // Now get the file extension.
+        var lastDot = url.lastIndexOf(".");
+        return url.substr(lastDot+1);
+    },
+
     splitURLBase: function(url)
     {
         if (this.isDataURL(url))
@@ -566,7 +581,7 @@ HAR.Lib = extend(
         {
             var pair = vars[i].split("=");
             if (pair[0] == variable)
-                return pair[1];
+                return unescape(pair[1]);
         }
         return null;
     },
