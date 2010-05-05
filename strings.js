@@ -51,6 +51,8 @@ var strings = {
     "page.event.Load": "Page Loaded",
     "request.Started": "Started",
     "tooltip.size": "%S (%S bytes)",
+    "tooltip.zippedSize": "%S (%S bytes) - compressed",
+    "tooltip.unzippedSize": "%S (%S bytes) - uncompressed",
     "button.Show_Page_Timeline": "Show Page Timeline",
     "button.Hide_Page_Timeline": "Hide Page Timeline",
     "button.Show_Page_Stats": "Show Statistics",

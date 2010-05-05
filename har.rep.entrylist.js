@@ -147,7 +147,11 @@ HAR.Rep.EntryList = domplate(
 
     getSize: function(file)
     {
-        return this.formatSize(file.response.bodySize);
+        var bodySize = file.response.bodySize;
+        var size = (bodySize && bodySize != -1) ? bodySize :
+            file.response.content.size;
+
+        return this.formatSize(size);
     },
 
     hasResponseHeaders: function(file)

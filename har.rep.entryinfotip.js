@@ -162,11 +162,39 @@ HAR.Rep.EntrySizeInfoTip = domplate(
     tag:
         DIV({"class": "sizeInfoTip"}, "$file|getSize"),
 
+    zippedTag:
+        DIV(
+            DIV({"class": "sizeInfoTip"}, "$file|getBodySize"),
+            DIV({"class": "sizeInfoTip"}, "$file|getContentSize")
+        ),
+
     getSize: function(file)
     {
         var bodySize = file.response.bodySize;
         return $STRF("tooltip.size", [formatSize(bodySize),
-            ((file.size < 0) ? "?" : formatNumber(bodySize))]);
+            ((bodySize.size < 0) ? "?" : formatNumber(bodySize))]);
+    },
+
+    getBodySize: function(file)
+    {
+        var bodySize = file.response.bodySize;
+        return $STRF("tooltip.zippedSize", [formatSize(bodySize),
+            ((bodySize.size < 0) ? "?" : formatNumber(bodySize))]);
+    },
+
+    getContentSize: function(file)
+    {
+        var contentSize = file.response.content.size;
+        return $STRF("tooltip.unzippedSize", [formatSize(contentSize),
+            ((contentSize.size < 0) ? "?" : formatNumber(contentSize))]);
+    },
+
+    render: function(file, parentNode)
+    {
+        if (file.response.bodySize == file.response.content.size)
+            return this.tag.replace({file: file}, parentNode);
+
+        return this.zippedTag.replace({file: file}, parentNode);
     }
 });
 

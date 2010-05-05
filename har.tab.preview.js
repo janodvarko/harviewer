@@ -355,7 +355,9 @@ HAR.Tab.Preview = HAR.extend(
             {
                 ++fileCount;
 
-                var size = file.response.content.size;
+                var bodySize = file.response.bodySize;
+                var size = (bodySize && bodySize != -1) ? bodySize : file.response.content.size;
+
                 totalSize += size;
                 if (file.response.status == 304)
                     cachedSize += size;
@@ -383,8 +385,9 @@ HAR.Tab.Preview = HAR.extend(
             {
                 infoTip.setAttribute("multiline", true);
                 var infoTipURL = row.repObject.startedDateTime + "-nettime"; //xxxHonza the ID should be URL.
-                if (infoTipURL == this.infoTipURL)
-                    return true;
+                // xxxHonza: there can be requests to the same URLs with different timings.
+                //if (infoTipURL == this.infoTipURL)
+                //    return true;
 
                 this.infoTipURL = infoTipURL;
                 return this.populateTimeInfoTip(infoTip, row);
@@ -392,8 +395,9 @@ HAR.Tab.Preview = HAR.extend(
             else if (hasClass(target, "netSizeLabel"))
             {
                 var infoTipURL = row.repObject.startedDateTime + "-netsize"; //xxxHonza the ID should be URL.
-                if (infoTipURL == this.infoTipURL)
-                    return true;
+                // xxxHonza: there can be requests to the same URLs with different response sizes.
+                //if (infoTipURL == this.infoTipURL)
+                //    return true;
 
                 this.infoTipURL = infoTipURL;
                 return this.populateSizeInfoTip(infoTip, row);
@@ -414,11 +418,10 @@ HAR.Tab.Preview = HAR.extend(
 
     populateSizeInfoTip: function(infoTip, row)
     {
-        var infoTip = HAR.Rep.EntrySizeInfoTip.tag.replace(
-            {file: row.repObject}, infoTip);
+        HAR.Rep.EntrySizeInfoTip.render(row.repObject, infoTip);
         return true;
     }
 });
- 
+
 //-----------------------------------------------------------------------------
 }}});
