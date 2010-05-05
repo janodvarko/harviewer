@@ -131,7 +131,8 @@ HAR.Rep.PageList = domplate(
 
     getPageRow: function(page)
     {
-        var rows = getElementsByClass(this.rootNode, "pageRow");
+        var pageList = this.rootNode.parentNode;
+        var rows = getElementsByClass(pageList, "pageRow");
         for (var i=0; i<rows.length; i++)
         {
             var row = rows[i];
