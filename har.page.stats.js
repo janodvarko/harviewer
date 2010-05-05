@@ -120,6 +120,10 @@ var htmlTypes = {
 var cssTypes = {
     "text/css": 1
 }
+var imageTypes = {
+    "image/png": 1,
+    "image/jpeg": 1,
+}
 
 var flashTypes = {
     "application/x-shockwave-flash": 1
@@ -213,7 +217,7 @@ HAR.Page.Stats = domplate(
 
             var resBodySize = entry.response.bodySize > 0 ? entry.response.bodySize : 0;
 
-            // Get Content typ info.
+            // Get Content type info.
             var mimeType = entry.response.content.mimeType;
             if (htmlTypes[mimeType]) {
                 contentPie.data[0].value += resBodySize;
@@ -227,7 +231,15 @@ HAR.Page.Stats = domplate(
                 contentPie.data[2].value += resBodySize;
                 contentPie.data[2].count++;
             }
-            else if (cssTypes[mimeType]) {
+            else if (imageTypes[mimeType]) {
+                contentPie.data[3].value += resBodySize;
+                contentPie.data[3].count++;
+            }
+            else if (flashTypes[mimeType]) {
+                contentPie.data[4].value += resBodySize;
+                contentPie.data[4].count++;
+            }
+            else {
                 contentPie.data[5].value += resBodySize;
                 contentPie.data[5].count++;
             }
