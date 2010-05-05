@@ -13,19 +13,22 @@
     <property name="downloadify.dir" value="downloadify"/>
     <property name="xslt.dir" value="xslt"/>
     <property file="ant.properties"/>
+    <property name="build.tools.dir" value="build-tools" />
 
-    <!-- Files -->
-    <property name="jsmin.jar" value="C:\www\jsmin\jsmin.0.2.3.jar"/>
-    <property name="js_build_tools.jar" value="C:\www\js-build-tools\trunk\lib\js_build_tools.jar"/>
+    <!-- Tools for building release package of HAR Viewer.
+        js-build-tools: http://code.google.com/p/js-build-tools/
+        js-min (ant task): http://code.google.com/p/jsmin-ant-task/
+        shrink-safe: http://shrinksafe.dojotoolkit.org/ -->
+    <property name="jsmin.jar" value="${build.tools.dir}/jsmin/jsmin.0.2.3.jar"/>
+    <property name="js_build_tools.jar" value="${build.tools.dir}/js-build-tools/lib/js_build_tools.jar"/>
 
-    <!-- Paths -->
     <path id="compress-js">
-        <fileset dir="C:/www/dojo/shrink-safe" includes="**/*.jar"/>
+        <fileset dir="${build.tools.dir}/dojo/shrink-safe" includes="**/*.jar"/>
     </path>
 
     <path id="js-build-tasks.classpath">
         <pathelement location="."/>
-        <fileset dir="C:\www\js-build-tools\trunk\lib">
+        <fileset dir="${build.tools.dir}/js-build-tools/lib">
             <include name="**/*.jar"/>
         </fileset>
     </path>
@@ -41,12 +44,12 @@
         classname="com.moxiecode.ant.tasks.PreProcessTask"
         classpathref="js-build-tasks.classpath"/>
 
-    <!-- Clean -->
+    <!-- Remove the previous HAR Viewer package. -->
     <target name="clean">
         <delete dir="${build.dir}"/>
     </target>
 
-    <!-- Build -->
+    <!-- Build HAR Viewer package (the result is copied into ${build.dir}) -->
     <target name="build" depends="clean">
         <mkdir dir="${build.dir}"/>
 
@@ -193,7 +196,7 @@
         <!-- Delete temp directory -->
         <delete dir="${temp.dir}"/>
 
-        <!-- Generate version number -->
+        <!-- Generate version number. The version info is loaded from 'ant.properties' file. -->
         <replace file="${build.dir}/index.php" propertyFile="ant.properties">
             <replacefilter token="@VERSION@" property="VERSION"/>
         </replace>
