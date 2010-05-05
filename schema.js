@@ -99,7 +99,7 @@ var requestType = {
         "id": "requestType",
         "description": "Monitored request",
         "properties": {
-            "method": {"type": "string", "enum": ["GET", "POST", "PUT", "DELETE"]},
+            "method": {"type": "string"},
             "url": {"type": "string"},
             "httpVersion": {"type" : "string"},
             "cookies" : {"type": "array", "items": {"$ref": "cookieType"}},
