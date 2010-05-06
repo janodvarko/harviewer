@@ -353,14 +353,15 @@ HAR.Lib = extend(
     splitLines: function(text)
     {
         var reSplitLines = /\r\n|\r|\n/;
-        if (text.split)
+
+        if (!text)
+            return [];
+        else if (text.split)
             return text.split(reSplitLines);
-        else
-        {
-            var str = text+"";
-            var theSplit = str.split(reSplitLines);
-            return theSplit;
-        }
+
+        var str = text + "";
+        var theSplit = str.split(reSplitLines);
+        return theSplit;
     },
 
     getPrettyDomain: function(url)
