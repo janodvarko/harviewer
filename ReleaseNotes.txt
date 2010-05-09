@@ -1,0 +1,16 @@
+Author: Jan Odvarko, odvarko@gmail.com, http://www.softwareishard.com/
+Home page: http://www.janodvarko.cz/har/viewer
+Issue list: http://code.google.com/p/harviewer/issues/list
+
+
+HAR Viewer 1.1-9 (in progress)
+----------------
+
+== Bug Fixes ==
+Issue 1: Flash content not reported
+Issue 3: HEAD request shows an error
+Issue 4: KB total is wrong
+Issue 7: No Images in Summary of Content Types
+Issue 8: ant build fails because Windows specific path locations in build.xml
+Issue 9: [Patch] Fix undefined error when no text is passed in
+Issue 10: Add addtional Installation requirement information

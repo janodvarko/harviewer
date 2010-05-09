@@ -73,6 +73,7 @@
 
         <!-- Copy license.txt file to the build -->
         <copy file="license.txt" tofile="${build.dir}/license.txt" />
+        <copy file="ReleaseNotes.txt" tofile="${build.dir}/ReleaseNotes.txt" />
 
         <!-- Preprocess har.core.js
             (http://code.google.com/p/js-build-tools/wiki/AntTasks)
