@@ -22,8 +22,8 @@
   </xsl:copy>
 </xsl:template>
 
-<!-- Remove all script elements within the head that does *note* have
-    an attribute 'preserve' with value set to 'true' -->
+<!-- Remove all script elements within the head that does *not* have
+    an attribute 'preserve' with the value set to 'true' -->
 <xsl:template match="xhtml:head/xhtml:script[not(@preserve='true')]">
 </xsl:template>
 
