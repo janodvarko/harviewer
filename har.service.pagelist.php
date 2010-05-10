@@ -99,17 +99,22 @@ table.style.height = height + "px";
 
 <!-- Google Analytics -->
 <script type="text/javascript">
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-3586722-1']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-    var ga = document.createElement('script');
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 
-        'http://www') + '.google-analytics.com/ga.js';
-    ga.setAttribute('async', 'true');
-    document.documentElement.firstChild.appendChild(ga);
-})();
+// Google analytics profile comes from the ant.properies file.
+var gaProfile = "@GOOGLE-ANALYTICS-PROFILE@";
+if (gaProfile && gaProfile.charAt(0) != "@")
+{
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', gaProfile]);
+    _gaq.push(['_trackPageview']);
+    
+    (function(){
+        var ga = document.createElement('script');
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') +
+        '.google-analytics.com/ga.js';
+        ga.setAttribute('async', 'true');
+        document.documentElement.firstChild.appendChild(ga);
+    })();
+}
 </script>
 </body>
 </html>

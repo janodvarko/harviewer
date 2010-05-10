@@ -71,7 +71,7 @@
         <!-- Schema is displayed in the UI so, copy to the build -->
         <copy file="schema.js" todir="${build.dir}"/>
 
-        <!-- Copy license.txt file to the build -->
+        <!-- Copy specific files to the build -->
         <copy file="license.txt" tofile="${build.dir}/license.txt" />
         <copy file="ReleaseNotes.txt" tofile="${build.dir}/ReleaseNotes.txt" />
 
@@ -200,6 +200,17 @@
         <!-- Generate version number. The version info is loaded from 'ant.properties' file. -->
         <replace file="${build.dir}/index.php" propertyFile="ant.properties">
             <replacefilter token="@VERSION@" property="VERSION"/>
+            <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
+        </replace>
+
+        <replace file="${build.dir}/loader.php" propertyFile="ant.properties">
+            <replacefilter token="@VERSION@" property="VERSION"/>
+            <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
+        </replace>
+
+        <replace file="${build.dir}/pagelist.php" propertyFile="ant.properties">
+            <replacefilter token="@VERSION@" property="VERSION"/>
+            <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
         </replace>
 
         <!-- Final version message -->
