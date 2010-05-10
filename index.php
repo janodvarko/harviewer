@@ -113,7 +113,7 @@ Single page</span> - Single page load (empty cache).</li>
 
 <tr><td>
 <p>The purpose of this online tool is to visualize
-<a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">
+<a href="http://groups.google.com/group/http-archive-specification/web/har-1-1-spec">
     HTTP Archive 1.1</a>
 log files (JSON) created by HTTP tracking tools. These files contain log of HTTP
 client/server conversation and can be used for an additional analysis of e.g. 
