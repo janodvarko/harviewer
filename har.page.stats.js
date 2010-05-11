@@ -122,7 +122,7 @@ var cssTypes = {
 }
 var imageTypes = {
     "image/png": 1,
-    "image/jpeg": 1,
+    "image/jpeg": 1
 }
 
 var flashTypes = {
