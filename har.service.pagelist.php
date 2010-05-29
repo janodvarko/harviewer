@@ -21,6 +21,7 @@
     <script type="text/javascript" src="har.core.js" ></script>
     <script type="text/javascript" src="har.lib.js" ></script>
     <script type="text/javascript" src="har.model.js" ></script>
+    <script type="text/javascript" src="har.model.loader.js" ></script>
     <script type="text/javascript" src="har.infotip.js" ></script>
     <script type="text/javascript" src="har.rep.js" ></script>
     <script type="text/javascript" src="har.rep.tabview.js" ></script>
@@ -99,7 +100,7 @@ table.style.height = height + "px";
 
 <!-- Google Analytics -->
 <script type="text/javascript">
-// Google analytics profile comes from the ant.properies file.
+// Google analytics profile comes from the ant.properties file.
 var gaProfile = "@GOOGLE-ANALYTICS-PROFILE@";
 if (gaProfile && gaProfile.charAt(0) != "@")
 {

@@ -33,6 +33,7 @@
     <script type="text/javascript" src="har.core.js" ></script>
     <script type="text/javascript" src="har.lib.js" ></script>
     <script type="text/javascript" src="har.model.js" ></script>
+    <script type="text/javascript" src="har.model.loader.js" ></script>
     <script type="text/javascript" src="har.infotip.js" ></script>
     <script type="text/javascript" src="har.rep.js" ></script>
     <script type="text/javascript" src="har.rep.tabview.js" ></script>
@@ -91,13 +92,13 @@ press the <b>Preview</b> button.</li>
 <br/>
 <h3>HAR Log Examples</h3>
 <ul style="line-height:20px;">
-<li><span class="link" onclick="HAR.Viewer.loadExample('examples/inline-scripts-block.har');">
+<li><span id="example1" class="link" onclick="HAR.Viewer.loadExample('examples/inline-scripts-block.har');">
 Inline scripts block</span> - Inline scripts block the page load.</li>
-<li><span class="link" onclick="HAR.Viewer.loadExample('examples/browser-blocking-time.har');">
+<li><span id="example2" class="link" onclick="HAR.Viewer.loadExample('examples/browser-blocking-time.har');">
 Blocking time</span> - Impact of a limit of max number of parallel connections.</li>
-<li><span class="link" onclick="HAR.Viewer.loadExample('examples/softwareishard.com.har');">
+<li><span id="example3" class="link" onclick="HAR.Viewer.loadExample('examples/softwareishard.com.har');">
 Browser cache</span> - Impact of the browser cache on page load (the same page loaded three times).</li>
-<li><span class="link" onclick="HAR.Viewer.loadExample('examples/google.com.har');">
+<li><span id="example4" class="link" onclick="HAR.Viewer.loadExample('examples/google.com.har');">
 Single page</span> - Single page load (empty cache).</li>
 </ul>
 <br/>
@@ -208,7 +209,7 @@ the file in <b>inputUrl</b> parameter:</i></p>
 
 <!-- Google Analytics -->
 <script type="text/javascript">
-// Google analytics profile comes from the ant.properies file.
+// Google analytics profile comes from the ant.properties file.
 var gaProfile = "@GOOGLE-ANALYTICS-PROFILE@";
 if (gaProfile && gaProfile.charAt(0) != "@")
 {

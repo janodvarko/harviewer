@@ -19,7 +19,7 @@ HAR.Service.PageList = domplate(
 
         // Load the HAR log asynchronously.
         var filePath = HAR.Lib.getURLParameter("path");
-        HAR.Viewer.loadLocalArchive(filePath, function(response)
+        HAR.Model.Loader.loadLocalArchive(filePath, function(response)
         {
             var inputData = HAR.Rep.Schema.parseInputData(response, content, false);
             if (inputData)
