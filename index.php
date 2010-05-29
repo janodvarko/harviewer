@@ -15,13 +15,6 @@
     <script type="text/javascript" src="dojo.js" ></script>
     <script type="text/javascript" src="har.dojo.js" ></script>
 
-    <!-- Dojo
-    <script type="text/javascript" src="../../dojo/dojo-src-1.3.1/dojo/dojo.js" ></script>
-    <script type="text/javascript">
-        dojo.registerModulePath("dojox", "../../dojo-src-1.3.1/dojox");
-        dojo.registerModulePath("dojo", "../../dojo-src-1.3.1/dojo");
-    </script> -->
-
     <!-- Downloadify -->
     <script type="text/javascript" src="downloadify/js/swfobject.js"></script>
     <script type="text/javascript" src="downloadify/src/downloadify.js"></script>
