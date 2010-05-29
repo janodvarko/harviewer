@@ -110,44 +110,14 @@
             <fileset dir="." includes="*.css"/>
         </copy>
 
+        <!-- Copy all PHP files to the build directory -->
+        <copy todir="${build.dir}">
+            <fileset dir="." includes="*.php"/>
+        </copy>
+
         <!-- Copy dojo, it's already compressed -->
         <copy file="dojo.js" todir="${temp.dir}"/>
         <copy file="har.dojo.js" todir="${temp.dir}"/>
-
-        <!-- Process index.php file. This transformation removes all
-            embedded resoureces and inserts just two: one big har.js file
-            with all concatenated *.js files and one big har.css file
-            with all *.css files. -->
-        <xslt style="${xslt.dir}/index.xsl" in="index.php"
-            out="${build.dir}/index.php">
-            <xmlcatalog>
-                <dtd publicId="-//W3C//DTD XHTML 1.0 Strict//EN"
-                    location="${xslt.dir}/xhtml1-strict.dtd"/>
-            </xmlcatalog>
-        </xslt>
-
-        <!-- Process har.service.pagelist.php file -->
-        <xslt style="${xslt.dir}/pagelist.xsl" in="har.service.pagelist.php"
-            out="${build.dir}/pagelist.php">
-            <xmlcatalog>
-                <dtd publicId="-//W3C//DTD XHTML 1.0 Strict//EN"
-                    location="${xslt.dir}/xhtml1-strict.dtd"/>
-            </xmlcatalog>
-        </xslt>
-
-        <!-- Process service loader page. -->
-        <xslt style="${xslt.dir}/loader.xsl" in="har.service.loader.php"
-            out="${build.dir}/loader.php">
-            <xmlcatalog>
-                <dtd publicId="-//W3C//DTD XHTML 1.0 Strict//EN"
-                    location="${xslt.dir}/xhtml1-strict.dtd"/>
-            </xmlcatalog>
-        </xslt>
-
-        <!-- Copy har.php file into the build directory. This file contains
-            PHP header that forces compression
-            xxxHonza: how to force to cache the file?
-        <copy file="har.php" todir="${build.dir}"/> -->
 
         <!-- Append core JS files to har.php in this order:
             dojo.js, har.dojo.js, har.core.js, har.lib.js, har.rep.js  -->
@@ -198,20 +168,14 @@
         <delete dir="${temp.dir}"/>
 
         <!-- Generate version number. The version info is loaded from 'ant.properties' file. -->
-        <replace file="${build.dir}/index.php" propertyFile="ant.properties">
+        <replace dir="${build.dir}" propertyFile="ant.properties">
+            <include name="**/*.php" />
             <replacefilter token="@VERSION@" property="VERSION"/>
             <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
         </replace>
 
-        <replace file="${build.dir}/loader.php" propertyFile="ant.properties">
-            <replacefilter token="@VERSION@" property="VERSION"/>
-            <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
-        </replace>
-
-        <replace file="${build.dir}/pagelist.php" propertyFile="ant.properties">
-            <replacefilter token="@VERSION@" property="VERSION"/>
-            <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
-        </replace>
+        <!-- Mark created distributin as "release" -->
+        <replace file="${build.dir}/global.php" token="@dev@" value="release" />
 
         <!-- Final version message -->
         <echo message="HARViewer version: ${VERSION}"/>

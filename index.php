@@ -1,3 +1,7 @@
+<?php 
+require_once("global.php");
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -11,49 +15,7 @@
 
     <!--[if IE]><script type="text/javascript" src="excanvas/excanvas.compiled.js"></script><![endif]-->
 
-    <!-- Dojo -->
-    <script type="text/javascript" src="dojo.js" ></script>
-    <script type="text/javascript" src="har.dojo.js" ></script>
-
-    <!-- Downloadify -->
-    <script type="text/javascript" src="downloadify/js/swfobject.js"></script>
-    <script type="text/javascript" src="downloadify/src/downloadify.js"></script>
-
-    <!-- HAR Viewer JS -->
-    <script type="text/javascript" src="strings.js" ></script>
-    <script type="text/javascript" src="schema.js" preserve="true"></script>
-    <script type="text/javascript" src="domplate.js" ></script>
-    <script type="text/javascript" src="har.core.js" ></script>
-    <script type="text/javascript" src="har.lib.js" ></script>
-    <script type="text/javascript" src="har.model.js" ></script>
-    <script type="text/javascript" src="har.model.loader.js" ></script>
-    <script type="text/javascript" src="har.infotip.js" ></script>
-    <script type="text/javascript" src="har.rep.js" ></script>
-    <script type="text/javascript" src="har.rep.tabview.js" ></script>
-    <script type="text/javascript" src="har.rep.pagelist.js" ></script>
-    <script type="text/javascript" src="har.rep.entrylist.js" ></script>
-    <script type="text/javascript" src="har.rep.entrybody.js" ></script>
-    <script type="text/javascript" src="har.rep.entryinfotip.js" ></script>
-    <script type="text/javascript" src="har.page.pie.js" ></script>
-    <script type="text/javascript" src="har.page.timeline.js" ></script>
-    <script type="text/javascript" src="har.page.stats.js" ></script>
-    <script type="text/javascript" src="har.tab.inputview.js" ></script>
-    <script type="text/javascript" src="har.tab.preview.js" ></script>
-    <script type="text/javascript" src="har.tab.domview.js" ></script>
-    <script type="text/javascript" src="har.rep.schema.js" ></script>
-    <script type="text/javascript" src="har.viewer.js" ></script>
-
-    <!-- HAR Viewer CSS -->
-    <link rel="stylesheet" href="tabView.css" type="text/css"/>
-    <link rel="stylesheet" href="viewer.css" type="text/css"/>
-    <link rel="stylesheet" href="net.css" type="text/css"/>
-    <link rel="stylesheet" href="pageRep.css" type="text/css"/>
-    <link rel="stylesheet" href="domView.css" type="text/css"/>
-    <link rel="stylesheet" href="schemaRep.css" type="text/css"/>
-    <link rel="stylesheet" href="highlight.css" type="text/css"/>
-    <link rel="stylesheet" href="infoTip.css" type="text/css"/>
-    <link rel="stylesheet" href="har.page.timeline.css" type="text/css"/>
-    <link rel="stylesheet" href="har.page.stats.css" type="text/css"/>
+    <?php include("har-files.php") ?>
 </head>
 <body>
 <div id="content" version="@VERSION@"
@@ -200,24 +162,7 @@ the file in <b>inputUrl</b> parameter:</i></p>
 </table>
 </div>
 
-<!-- Google Analytics -->
-<script type="text/javascript">
-// Google analytics profile comes from the ant.properties file.
-var gaProfile = "@GOOGLE-ANALYTICS-PROFILE@";
-if (gaProfile && gaProfile.charAt(0) != "@")
-{
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', gaProfile]);
-    _gaq.push(['_trackPageview']);
+<?php include("ga.php") ?>
 
-    (function() {
-        var ga = document.createElement('script');
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 
-            'http://www') + '.google-analytics.com/ga.js';
-        ga.setAttribute('async', 'true');
-        document.documentElement.firstChild.appendChild(ga);
-    })();
-}
-</script>
 </body>
 </html>

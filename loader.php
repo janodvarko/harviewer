@@ -85,5 +85,7 @@ function onHARLoad()
 }
 ]]></script>
 
+<?php include("ga.php") ?>
+
 </body>
 </html>
