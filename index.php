@@ -1,10 +1,8 @@
 <?php 
-require_once("global.php");
+require_once("lib/global.php");
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>HTTP Archive Viewer @VERSION@</title>
@@ -15,7 +13,7 @@ require_once("global.php");
 
     <!--[if IE]><script type="text/javascript" src="excanvas/excanvas.compiled.js"></script><![endif]-->
 
-    <?php include("har-files.php") ?>
+    <?php include("lib/har-files.php") ?>
 </head>
 <body>
 <div id="content" version="@VERSION@"
@@ -162,7 +160,7 @@ the file in <b>inputUrl</b> parameter:</i></p>
 </table>
 </div>
 
-<?php include("ga.php") ?>
+<?php include("lib/ga.php") ?>
 
 </body>
 </html>

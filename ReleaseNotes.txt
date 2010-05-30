@@ -6,6 +6,13 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 HAR Viewer 1.1-9 (in progress)
 ----------------
 
+== Refactoring ==
+- All Javascript files are now locatecd within 'lib' directory
+- Deploy process doesn't use XSLT anymore. Different includes (js files are concatenated) are now
+  managed using PHP conditions, see: 'buildType' in lib/config.php
+- Selenium tests (PHPUnit)
+
+
 == Bug Fixes ==
 Issue 1: Flash content not reported
 Issue 3: HEAD request shows an error

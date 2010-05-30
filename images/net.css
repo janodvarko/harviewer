@@ -25,7 +25,7 @@
 /************************************************************************************************/
 
 .netHeadRow {
-    background: url(images/timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
+    background: url(timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
 }
 
 .netHeadCol {
@@ -158,7 +158,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: url(images/timeline-sprites.png) repeat-x scroll 0 -16px #FFFFFF;
+    background: url(timeline-sprites.png) repeat-x scroll 0 -16px #FFFFFF;
     min-width: 0px;
     z-index: 70;
     height: 16px;
@@ -169,7 +169,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: url(images/timeline-sprites.png) repeat-x scroll 0 -32px #FFFFFF;
+    background: url(timeline-sprites.png) repeat-x scroll 0 -32px #FFFFFF;
     min-width: 0px;
     z-index: 60;
     height: 16px;
@@ -180,7 +180,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(images/timeline-sprites.png) repeat-x;
+    background: #FFFFFF url(timeline-sprites.png) repeat-x;
     min-width: 0px;
     z-index: 50;
     height: 16px;
@@ -191,7 +191,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: url(images/timeline-sprites.png) repeat-x scroll 0 -48px #FFFFFF;
+    background: url(timeline-sprites.png) repeat-x scroll 0 -48px #FFFFFF;
     min-width: 0px;
     z-index: 40;
     height: 16px;
@@ -202,7 +202,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: url(images/timeline-sprites.png) repeat-x scroll 0 -64px #FFFFFF;
+    background: url(timeline-sprites.png) repeat-x scroll 0 -64px #FFFFFF;
     min-width: 1px; /* So, at least something is always visible */
     z-index: 30;
     height: 16px;
@@ -213,7 +213,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    background: url(images/timeline-sprites.png) repeat-x scroll 0 -80px #B6B6B6;
+    background: url(timeline-sprites.png) repeat-x scroll 0 -80px #B6B6B6;
     min-width: 0px;
     z-index: 20;
     height: 16px;
@@ -221,7 +221,7 @@
 
 .fromCache .netReceivingBar,
 .fromCache.netReceivingBar {
-    background: url(images/timeline-sprites.png) repeat-x scroll 0 -96px #D6D6D6;
+    background: url(timeline-sprites.png) repeat-x scroll 0 -96px #D6D6D6;
     border-color: #D6D6D6;
     height: 16px;
 }
@@ -289,12 +289,12 @@
 }
 
 .loaded .netTimeBar {
-    background: #B6B6B6 url(images/netBarLoaded.gif) repeat-x;
+    background: #B6B6B6 url(netBarLoaded.gif) repeat-x;
     border-color: #B6B6B6;
 }
 
 .fromCache .netTimeBar {
-    background: #D6D6D6 url(images/netBarCached.gif) repeat-x;
+    background: #D6D6D6 url(netBarCached.gif) repeat-x;
     border-color: #D6D6D6;
 }
 
@@ -369,7 +369,7 @@
 
 .netInfoCol {
     border-top: 1px solid #EEEEEE;
-    background: url(images/timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
+    background: url(timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
 }
 
 .netInfoBody {
@@ -474,7 +474,7 @@
 }
 
 .netActivationLabel {
-    background: url(images/infoIcon.png) no-repeat 3px 2px;
+    background: url(infoIcon.png) no-repeat 3px 2px;
     padding-left: 22px;
 }
 
@@ -486,11 +486,11 @@
 }
 
 /*.hasHeaders */.netHrefLabel {
-    background-image: url(images/twistyClosed.png);
+    background-image: url(twistyClosed.png);
     background-repeat: no-repeat;
     background-position: 2px 2px;
 }
 
 .netRow.opened > .netCol > .netHrefLabel {
-    background-image: url(images/twistyOpen.png);
+    background-image: url(twistyOpen.png);
 }

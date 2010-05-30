@@ -26,7 +26,7 @@
 }
 
 .memberRow.hasChildren.opened > .memberLabelCell > .memberLabel {
-    background-image: url(images/twistyOpen.png);
+    background-image: url(twistyOpen.png);
 }
 
 .memberRow.hasChildren > .memberLabelCell > .memberLabel:hover {
@@ -36,7 +36,7 @@
 }
 
 .memberRow.hasChildren > .memberLabelCell > .memberLabel {
-    background-image: url(images/twistyClosed.png);
+    background-image: url(twistyClosed.png);
     background-repeat: no-repeat;
     background-position: 2px 3px;
 }

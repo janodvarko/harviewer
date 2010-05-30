@@ -13,7 +13,7 @@
     <property name="downloadify.dir" value="downloadify"/>
     <property name="xslt.dir" value="xslt"/>
     <property file="ant.properties"/>
-    <property name="build.tools.dir" value="build-tools" />
+    <property name="build.tools.dir" value="build-tools"/>
 
     <!-- Tools for building release package of HAR Viewer.
         js-build-tools: http://code.google.com/p/js-build-tools/
@@ -52,6 +52,7 @@
     <!-- Build HAR Viewer package (the result is copied into ${build.dir}) -->
     <target name="build" depends="clean">
         <mkdir dir="${build.dir}"/>
+        <mkdir dir="${temp.dir}"/>
 
         <!-- Copy examples -->
         <copy todir="${build.dir}/${examples.dir}">
@@ -68,26 +69,40 @@
             </fileset>
         </copy>
 
+        <!-- Copy all css files to the temp, it'll be yet concatenated -->
+        <copy todir="${temp.dir}">
+            <fileset dir="images" includes="*.css"/>
+        </copy>
+
+        <!-- These PHP files are copied into the root directory -->
+        <copy file="index.php" tofile="${build.dir}/index.php" />
+        <copy file="loader.php" tofile="${build.dir}/loader.php" />
+        <copy file="pagelist.php" tofile="${build.dir}/pagelist.php" />
+
+        <!-- Copy the rest PHP files to the lib directory -->
+        <copy todir="${build.dir}/lib">
+            <fileset dir="lib" includes="*.php"/>
+        </copy>
+
         <!-- Schema is displayed in the UI so, copy to the build -->
-        <copy file="schema.js" todir="${build.dir}"/>
+        <copy file="lib/schema.js" todir="${build.dir}/lib"/>
 
         <!-- Copy specific files to the build -->
         <copy file="license.txt" tofile="${build.dir}/license.txt" />
         <copy file="ReleaseNotes.txt" tofile="${build.dir}/ReleaseNotes.txt" />
 
-        <!-- Preprocess har.core.js
-            (http://code.google.com/p/js-build-tools/wiki/AntTasks)
-            and move it into the temp directory -->
-        <preprocess infile="har.core.js" outfile="har.core.preprocessed.js"
-            defines="_RELEASE" />
+        <!-- Preprocess har.core.js, move it into the temp directory. and compress.
+            (http://code.google.com/p/js-build-tools/wiki/AntTasks) -->
+        <preprocess infile="lib/har.core.js" outfile="${temp.dir}/har.core.js" defines="_RELEASE" />
+        <compress-js file="${temp.dir}/har.core.js" todir="${temp.dir}" />
 
         <!-- Compress HAR files and move to the temp directory
             dojo.js, har.dojo.js: already compressed by dojo build
-            har.core.js: preprocessed into another file
+            har.core.js: already preprocessed & compressed into temp directory.
             domplate.js: must be minimized using jsmin 
             schema.js: displayed in the UI, must not be compressed -->
         <compress-js todir="${temp.dir}">
-            <fileset dir=".">
+            <fileset dir="lib">
                 <include name="*.js"/>
                 <exclude name="dojo.js"/>
                 <exclude name="har.dojo.js"/>
@@ -97,37 +112,23 @@
             </fileset>
         </compress-js>
 
-        <!-- Rename preprocessed har.core.js file back to the original -->
-        <move file="${temp.dir}/har.core.preprocessed.js"
-            tofile="${temp.dir}/har.core.js"/>
-
         <!-- Compress domplate using jsmin and move to the temp -->
-        <jsmin srcfile="domplate.js" suffix="true"/>
-        <move file="domplate.min.js" tofile="${temp.dir}/domplate.js"/>
-
-        <!-- Copy all css files to the temp, it'll be yet concatenated -->
-        <copy todir="${temp.dir}">
-            <fileset dir="." includes="*.css"/>
-        </copy>
-
-        <!-- Copy all PHP files to the build directory -->
-        <copy todir="${build.dir}">
-            <fileset dir="." includes="*.php"/>
-        </copy>
+        <jsmin srcfile="lib/domplate.js" suffix="true"/>
+        <move file="lib/domplate.min.js" tofile="${temp.dir}/domplate.js"/>
 
         <!-- Copy dojo, it's already compressed -->
-        <copy file="dojo.js" todir="${temp.dir}"/>
-        <copy file="har.dojo.js" todir="${temp.dir}"/>
+        <copy file="lib/dojo.js" todir="${temp.dir}"/>
+        <copy file="lib/har.dojo.js" todir="${temp.dir}"/>
 
-        <!-- Append core JS files to har.php in this order:
+        <!-- Append core JS files to har.js in this order:
             dojo.js, har.dojo.js, har.core.js, har.lib.js, har.rep.js  -->
-        <concat destfile="${build.dir}/har.js">
+        <concat destfile="${build.dir}/lib/har.js">
             <filelist dir="${temp.dir}"
                 files="dojo.js,har.dojo.js,har.core.js,har.lib.js,har.rep.js" />
         </concat>
 
         <!-- Append Downloadify files, these are already minimized. -->
-        <concat destfile="${build.dir}/har.js" append="true">
+        <concat destfile="${build.dir}/lib/har.js" append="true">
             <filelist dir="${downloadify.dir}/js"
                 files="downloadify.min.js,swfobject.js" />
         </concat>
@@ -148,19 +149,19 @@
         </copy>
 
         <!-- Append the other files -->
-        <concat destfile="${build.dir}/har.js" append="true">
+        <concat destfile="${build.dir}/lib/har.js" append="true">
             <fileset dir="${temp.dir}">
-                 <include name="*.js"/>
-                 <exclude name="dojo.js"/>
-                 <exclude name="har.dojo.js"/>
-                 <exclude name="har.core.js"/>
-                 <exclude name="har.lib.js"/>
-                 <exclude name="har.rep.js"/>
+                <include name="*.js"/>
+                <exclude name="dojo.js"/>
+                <exclude name="har.dojo.js"/>
+                <exclude name="har.core.js"/>
+                <exclude name="har.lib.js"/>
+                <exclude name="har.rep.js"/>
             </fileset>
         </concat>
 
-        <!-- Join all CSS files into one har.css file and move to build -->
-        <concat destfile="${build.dir}/har.css">
+        <!-- Join all CSS files into one har.css file and move to the build/images dir  -->
+        <concat destfile="${build.dir}/images/har.css">
             <fileset dir="${temp.dir}" includes="*.css" />
         </concat>
 
@@ -175,7 +176,7 @@
         </replace>
 
         <!-- Mark created distributin as "release" -->
-        <replace file="${build.dir}/global.php" token="@dev@" value="release" />
+        <replace file="${build.dir}/lib/global.php" token="@dev@" value="release" />
 
         <!-- Final version message -->
         <echo message="HARViewer version: ${VERSION}"/>

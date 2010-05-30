@@ -27,7 +27,7 @@
 
 .pageBar {
     width: 9px;
-    background: url(images/page-timeline.png) repeat-y scroll 0px 0px #FFFFFF;
+    background: url(page-timeline.png) repeat-y scroll 0px 0px #FFFFFF;
     cursor: pointer;
 }
 
@@ -38,13 +38,13 @@
 }
 
 .pageTimelineCol:hover .pageBar {
-    background: url(images/page-timeline.png) repeat-y scroll -8px 0px #FFFFFF;
+    background: url(page-timeline.png) repeat-y scroll -8px 0px #FFFFFF;
 }
 
 .pageTimelineBody .connector {
     margin-left: 16px;
     display: block;
-    background: url(images/tooltipConnectorUp.png) no-repeat;
+    background: url(tooltipConnectorUp.png) no-repeat;
     width: 16px;
     height: 11px;
     position: relative;
@@ -56,7 +56,7 @@
 .pageDescBox .desc {
     font-size: 11px;
     border: 1px solid rgb(126, 171, 205);
-    background: url(images/tabEnabled.png) repeat-x scroll 0px 0px rgb(234, 234, 234);
+    background: url(tabEnabled.png) repeat-x scroll 0px 0px rgb(234, 234, 234);
     padding: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;

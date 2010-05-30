@@ -1,5 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?php 
+require_once("lib/global.php");
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>HAR Viewer - Service Loader</title>
@@ -45,7 +48,7 @@
 
 <!-- Use CDATA section so, this file can be processed by XSLT (e.g. to remove
      comments and reduce size). -->
-<script type="text/javascript"><![CDATA[
+<script type="text/javascript">
 function getURLParameter(name)
 {
     var query = window.location.search.substring(1);
@@ -81,11 +84,12 @@ function onPageLoad()
 function onHARLoad()
 {
     content.style.display = "none";
-    location.href = serviceName + ".php?path=" + path + "&expand=" + (expand ? "true" : "false");
+    var url = serviceName + ".php?path=" + path + "&expand=" + (expand ? "true" : "false");
+    location.href = url;
 }
-]]></script>
+</script>
 
-<?php include("ga.php") ?>
+<?php include("lib/ga.php") ?>
 
 </body>
 </html>
