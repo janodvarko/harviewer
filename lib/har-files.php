@@ -12,10 +12,10 @@
     <script type="text/javascript" src="downloadify/src/downloadify.js"></script>
 
     <!-- HAR Viewer JS -->
+    <script type="text/javascript" src="lib/har.core.js"></script>
+    <script type="text/javascript" src="lib/domplate.js"></script>
     <script type="text/javascript" src="lib/strings.js"></script>
     <script type="text/javascript" src="lib/schema.js"></script>
-    <script type="text/javascript" src="lib/domplate.js"></script>
-    <script type="text/javascript" src="lib/har.core.js"></script>
     <script type="text/javascript" src="lib/har.lib.js"></script>
     <script type="text/javascript" src="lib/har.model.js"></script>
     <script type="text/javascript" src="lib/har.model.loader.js"></script>

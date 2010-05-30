@@ -5,9 +5,8 @@ require_once("global.php");
 <?php if ($googleAnalyticsProfile && substr($googleAnalyticsProfile, 0, 1) != "@") { ?>
 <!-- Google Analytics -->
 <script type="text/javascript">
-var gaProfile = <?php echo "'".$googleAnalyticsProfile."'"; ?>;
 var _gaq = _gaq || [];
-_gaq.push(['_setAccount', gaProfile]);
+_gaq.push(['_setAccount', <?php echo "'".$googleAnalyticsProfile."'"; ?>]);
 _gaq.push(['_trackPageview']);
 
 (function() {

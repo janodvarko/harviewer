@@ -124,7 +124,7 @@
             dojo.js, har.dojo.js, har.core.js, har.lib.js, har.rep.js  -->
         <concat destfile="${build.dir}/lib/har.js">
             <filelist dir="${temp.dir}"
-                files="dojo.js,har.dojo.js,har.core.js,har.lib.js,har.rep.js" />
+                files="dojo.js,har.dojo.js,har.core.js,domplate.js,strings.js,har.lib.js,har.rep.js" />
         </concat>
 
         <!-- Append Downloadify files, these are already minimized. -->
@@ -155,6 +155,8 @@
                 <exclude name="dojo.js"/>
                 <exclude name="har.dojo.js"/>
                 <exclude name="har.core.js"/>
+                <exclude name="domplate.js"/>
+                <exclude name="strings.js"/>
                 <exclude name="har.lib.js"/>
                 <exclude name="har.rep.js"/>
             </fileset>
