@@ -8,7 +8,10 @@ class HAR_TestRemoteLoad extends HAR_TestCase
 {
     public function testRemoteLoad()
     {
-        $this->open($GLOBALS["harviewer_base"]);
+        $base = $GLOBALS["harviewer_base"];
+        $this->open($base."?inputUrl=".$base."examples/inline-scripts-block.harp");
+
+        $this->assertElementContainsText("css=.PreviewTab.selected", "Preview");
     }
 }
 ?>

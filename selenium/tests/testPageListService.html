@@ -1,3 +1,11 @@
+<?php
+require_once("config.php");
+
+// Compute URL for an iframe used in this test.
+$url = $harviewer_base."loader.php?service=pagelist&amp;path=".
+    $test_base."/tests/simple-page-load.har&amp;expand=false";
+?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
@@ -16,7 +24,7 @@ function test()
 <!-- HAR log embedded in the page -->
 <iframe id="pageList" name="pageList" width="518px" height="220px" frameborder="0" border="0"
     style="border: 1px solid rgb(225, 225, 211);"
-    src="/har/viewer/loader.php?service=pagelist&amp;path=/har/viewer/selenium/tests/simple-page-load.har&amp;expand=false"></iframe>
+    src="<?php echo $url; ?>"></iframe>
 
 </body>
 </html>

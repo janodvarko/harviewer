@@ -22,6 +22,9 @@ class HAR_TestExamples extends HAR_TestCase
 
         $this->assertElementExists("id=".$exampleId);
 
+        // The third example takes some time to parse.
+        $this->setSleep(3);
+
         // Click on the example link
         $this->clickAndWait("id=".$exampleId);
 

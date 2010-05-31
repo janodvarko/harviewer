@@ -10,7 +10,7 @@ class HAR_TestPageListService extends HAR_TestCase
     {
         print "\nTestPageListService()";
 
-        $this->open("selenium/tests/testPageListService.html");
+        $this->open($GLOBALS["test_base"]."tests/testPageListService.html");
         $this->assertElementExists("id=pageList");
 
         // Click on the example link
