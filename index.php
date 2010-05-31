@@ -24,7 +24,7 @@ require_once("lib/global.php");
 <!-- Input HAR Tab Template -->
 <div id="InputTabTemplate" style="display:none">
 <ul style="padding-left: 20px; line-height: 20px; margin-top: 0px">
-<li>Paste <a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">HAR</a>
+<li>Paste <a href="<?php echo $harSpecLink; ?>">HAR</a>
 log into the text box below and
 press the <b>Preview</b> button.</li>
 <li>Or drop <span class="red">*.har</span> file(s) anywhere on the page (you need Firefox 3.6).</li>
@@ -67,7 +67,7 @@ Single page</span> - Single page load (empty cache).</li>
 
 <tr><td>
 <p>The purpose of this online tool is to visualize
-<a href="http://groups.google.com/group/http-archive-specification/web/har-1-1-spec">
+<a href="<?php echo $harSpecLink; ?>">
     HTTP Archive 1.1</a>
 log files (JSON) created by HTTP tracking tools. These files contain log of HTTP
 client/server conversation and can be used for an additional analysis of e.g. 
@@ -100,10 +100,9 @@ called <b>NetExport.</b>
 <ul>
     <li><a href="http://getfirebug.com/releases/firebug/1.5/">
         Firebug 1.5</a> +
-    <a href="http://getfirebug.com/releases/netexport/">NetExport 0.7</a>
+    <a href="http://getfirebug.com/releases/netexport/">NetExport 0.8</a>
     (supports 
-    <a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">
-    HAR Spec 1.1</a>) 
+    <a href="<?php echo $harSpecLink; ?>">HAR Spec 1.1</a>) 
     </li>
 </ul>
 </td></tr>
@@ -111,7 +110,7 @@ called <b>NetExport.</b>
 <tr><td>
 <h3>HTTP Archive Specification</h3>
 <p>Required
-<a href="http://groups.google.com/group/firebug-working-group/web/http-tracing---export-format">
+<a href="<?php echo $harSpecLink; ?>">
 structure</a> of the input HTTP Archive file (*.har) is described using
 <a href="http://www.json.com/json-schema-proposal/">JSON Schema</a>.
 You can explore the current schema definition within the <b>Shema</b>
@@ -136,7 +135,9 @@ Here is a description of individual request/response phases:</p>
 <h3>Online Log Files</h3>
 <p>HAR Viewer also support JSONP and so it's possible to load log files 
 from differet domains. This allows to link your online logs and preview them
-automaticaly within the viewer.</p>
+automaticaly within the viewer. See live
+<a href="?inputUrl=http://www.janodvarko.cz/har/viewer/examples/inline-scripts-block.harp">example</a>.
+</p>
 
 <p><i>1. The Content of a *.har file must be enclosed within a callback function:</i></p>
 <code>onInputData({ "log": { ... } })</code>
@@ -149,12 +150,6 @@ the file in <b>inputUrl</b> parameter:</i></p>
 (by default it's <b>onInputData</b>):</i></p>
 <code>http://www.softwareishard.com/har/viewer/?inputUrl=http://www.example.com/netData.har&amp;callback=onInputData</code>
 <br/><br/>
-</td></tr>
-
-<tr><td>
-<h3>Previous Viewers</h3>
-<p>Old logs created using HAR spec 1.0 (deprecated) can be previewed
-<a href="http://www.softwareishard.com/har/viewer-1.0/">here</a>.</p>
 </td></tr>
 
 </table>

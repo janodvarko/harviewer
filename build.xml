@@ -58,6 +58,7 @@
         <copy todir="${build.dir}/${examples.dir}">
             <fileset dir="${examples.dir}">
                 <include name="*.har"/>
+                <include name="*.harp"/>
             </fileset>
         </copy>
 

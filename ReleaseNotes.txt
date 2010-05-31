@@ -1,16 +1,20 @@
 Author: Jan Odvarko, odvarko@gmail.com, http://www.softwareishard.com/
 Home page: http://www.janodvarko.cz/har/viewer
 Issue list: http://code.google.com/p/harviewer/issues/list
+Project home: http://code.google.com/p/harviewer/
 
-
-HAR Viewer 1.1-9 (in progress)
+HAR Viewer 1.1-9
 ----------------
 
 == Refactoring ==
-- All Javascript files are now locatecd within 'lib' directory
-- Deploy process doesn't use XSLT anymore. Different includes (js files are concatenated) are now
-  managed using PHP conditions, see: 'buildType' in lib/config.php
-- Selenium tests (PHPUnit)
+
+- Source files use different underlying structure.
+  lib: directory for JS and PHP files.
+  images: contains even CSS files.
+- Deploy process doesn't use XSLT anymore. Different includes
+- Selenium tests (PHPUnit), see: selenium/readme.txt
+- New global.php file used as a configuration file.
+- Customization of Google Analytics (using config.php and ant.properties)
 
 
 == Bug Fixes ==
@@ -21,3 +25,7 @@ Issue 7: No Images in Summary of Content Types
 Issue 8: ant build fails because Windows specific path locations in build.xml
 Issue 9: [Patch] Fix undefined error when no text is passed in
 Issue 10: Add addtional Installation requirement information
+Issue 11: xslt Processing markup and rendering issues
+Issue 12: Remove or add config flag for Google Analytics
+Issue 13: [Patch] Fix IE syntax error
+Issue 15: forgot to add global.php in r109
