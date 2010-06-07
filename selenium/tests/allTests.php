@@ -4,6 +4,7 @@ require_once("testExamples.php");
 require_once("testPageListService.php");
 require_once("testPreviewSource.php");
 require_once("testRemoteLoad.php");
+require_once("testLoadMultipleFiles.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
@@ -17,6 +18,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestPageListService");
         $suite->addTestSuite("HAR_TestPreviewSource");
         $suite->addTestSuite("HAR_TestRemoteLoad");
+        $suite->addTestSuite("HAR_TestLoadMultipleFiles");
 
         return $suite;
     }
