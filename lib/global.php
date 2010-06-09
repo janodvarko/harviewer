@@ -7,6 +7,6 @@ $buildType = "@dev@";
 $googleAnalyticsProfile = "@GOOGLE-ANALYTICS-PROFILE@";
 
 # Link to HAR spec
-$harSpecLink = "http://groups.google.com/group/http-archive-specification/web/har-1-1-spec";
+$harSpecLink = "http://groups.google.com/group/http-archive-specification/web/har-1-2-spec";
 ?>
 

@@ -55,7 +55,7 @@ Browser cache</span> - Impact of the browser cache on page load (the same page l
 Single page</span> - Single page load (empty cache).</li>
 </ul>
 <br/>
-<p><i>This viewer supports HAR 1.1 (see the <span class="link" onclick="HAR.Tab.InputView.onAbout()">About</span> tab).<br/></i></p>
+<p><i>This viewer supports HAR 1.2 (see the <span class="link" onclick="HAR.Tab.InputView.onAbout()">About</span> tab).<br/></i></p>
 </div>
 
 <!-- Help Tab Template -->
@@ -68,7 +68,7 @@ Single page</span> - Single page load (empty cache).</li>
 <tr><td>
 <p>The purpose of this online tool is to visualize
 <a href="<?php echo $harSpecLink; ?>">
-    HTTP Archive 1.1</a>
+    HTTP Archive (HAR)</a>
 log files (JSON) created by HTTP tracking tools. These files contain log of HTTP
 client/server conversation and can be used for an additional analysis of e.g. 
 page load performance.</p>
@@ -101,8 +101,6 @@ called <b>NetExport.</b>
     <li><a href="http://getfirebug.com/releases/firebug/1.5/">
         Firebug 1.5</a> +
     <a href="http://getfirebug.com/releases/netexport/">NetExport 0.8</a>
-    (supports 
-    <a href="<?php echo $harSpecLink; ?>">HAR Spec 1.1</a>) 
     </li>
 </ul>
 </td></tr>
