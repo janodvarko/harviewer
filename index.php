@@ -27,7 +27,7 @@ require_once("lib/global.php");
 <li>Paste <a href="<?php echo $harSpecLink; ?>">HAR</a>
 log into the text box below and
 press the <b>Preview</b> button.</li>
-<li>Or drop <span class="red">*.har</span> file(s) anywhere on the page (you need Firefox 3.6).</li>
+<li>Or drop <span class="red">*.har</span> file(s) anywhere on the page (if your browser supports that).</li>
 </ul>
 <table cellpadding="0" cellspacing="4">
     <tr>
