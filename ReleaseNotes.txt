@@ -3,6 +3,16 @@ Home page: http://www.janodvarko.cz/har/viewer
 Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 
+
+HAR Viewer 1.1-10
+-----------------
+
+== Bug Fixes ==
+Issue 16: Content-Type with charset issue
+Issue 17: Infotip with neg. timings show up
+Issue 18: Typo in har.tab.preview.js "pageSstartedDateTime"
+
+
 HAR Viewer 1.1-9
 ----------------
 
@@ -15,7 +25,6 @@ HAR Viewer 1.1-9
 - Selenium tests (PHPUnit), see: selenium/readme.txt
 - New global.php file used as a configuration file.
 - Customization of Google Analytics (using config.php and ant.properties)
-
 
 == Bug Fixes ==
 Issue 1: Flash content not reported
