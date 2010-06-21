@@ -11,7 +11,7 @@ HAR Viewer 1.1-10
 Issue 16: Content-Type with charset issue
 Issue 17: Infotip with neg. timings show up
 Issue 18: Typo in har.tab.preview.js "pageSstartedDateTime"
-
+Issue 19: PAGES are optional
 
 HAR Viewer 1.1-9
 ----------------
