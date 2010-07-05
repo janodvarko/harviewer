@@ -80,7 +80,7 @@
         <copy file="loader.php" tofile="${build.dir}/loader.php" />
         <copy file="pagelist.php" tofile="${build.dir}/pagelist.php" />
 
-        <!-- Copy the rest PHP files to the lib directory -->
+        <!-- Copy the rest of PHP files to the lib directory -->
         <copy todir="${build.dir}/lib">
             <fileset dir="lib" includes="*.php"/>
         </copy>

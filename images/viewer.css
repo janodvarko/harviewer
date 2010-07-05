@@ -140,52 +140,14 @@ h3 {
 }
 
 /************************************************************************************************/
-/* Toolbar */
-
-.previewToolbar {
-    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    font-style: normal;
-    border-bottom: 1px solid #EEEEEE;
-    padding: 5px 0 2px 3px;
-}
-
-/************************************************************************************************/
-/* Toolbar Buttons */
-
-.harButton {
-    padding: 3px;
-    border: 1px solid transparent;
-    vertical-align: text-top;
-}
-
-.harButton:hover {
-    color: #000000;
-    cursor: pointer;
-    background: url(bg-button.gif) repeat-x scroll 0 0 #FFFFFF;
-    border-top:1px solid #bbb;
-    border-bottom:1px solid #aaa;
-    border-left:1px solid #bbb;
-    border-right:1px solid #aaa;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-}
-
-.harButton:active {
-    background-position: 0 -400px;
-}
-
-.harDownloadButton {
-    display: inline-block;
-    vertical-align: middle;
-    height: 20px !important;
-    width: 16px !important;
-}
+/* Preview toolbar */
 
 /* Remove the dotted outline when focused */
 .harDownloadButton OBJECT {
     outline: none;
     -moz-user-focus: ignore;
+}
+
+.harSaveButton {
+    background: url(save.png) no-repeat;
 }

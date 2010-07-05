@@ -19,8 +19,10 @@
     <script type="text/javascript" src="lib/har.lib.js"></script>
     <script type="text/javascript" src="lib/har.model.js"></script>
     <script type="text/javascript" src="lib/har.model.loader.js"></script>
+    <script type="text/javascript" src="lib/har.model.storage.js"></script>
     <script type="text/javascript" src="lib/har.infotip.js"></script>
     <script type="text/javascript" src="lib/har.rep.js"></script>
+    <script type="text/javascript" src="lib/har.rep.toolbar.js"></script>
     <script type="text/javascript" src="lib/har.rep.tabview.js"></script>
     <script type="text/javascript" src="lib/har.rep.pagelist.js"></script>
     <script type="text/javascript" src="lib/har.rep.entrylist.js"></script>
@@ -32,6 +34,9 @@
     <script type="text/javascript" src="lib/har.tab.inputview.js"></script>
     <script type="text/javascript" src="lib/har.tab.preview.js"></script>
     <script type="text/javascript" src="lib/har.tab.domview.js"></script>
+    <script type="text/javascript" src="lib/har.tab.helpview.js"></script>
+    <script type="text/javascript" src="lib/har.tab.schemaview.js"></script>
+    <script type="text/javascript" src="lib/har.tab.archive.js"></script>
     <script type="text/javascript" src="lib/har.rep.schema.js"></script>
     <script type="text/javascript" src="lib/har.viewer.js"></script>
 
@@ -49,4 +54,6 @@
     <link rel="stylesheet" href="images/infoTip.css" type="text/css"/>
     <link rel="stylesheet" href="images/har.page.timeline.css" type="text/css"/>
     <link rel="stylesheet" href="images/har.page.stats.css" type="text/css"/>
+    <link rel="stylesheet" href="images/archive.css" type="text/css"/>
+    <link rel="stylesheet" href="images/toolbar.css" type="text/css"/>
 <?php }?>

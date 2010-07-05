@@ -36,6 +36,7 @@
     font-weight: bold;
     font-family: Lucida Grande, Tahoma, sans-serif;
     white-space: nowrap;
+    -moz-user-select: none;
 }
 
 .tab:hover {
