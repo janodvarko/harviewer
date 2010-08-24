@@ -6,6 +6,7 @@ require_once("testPreviewSource.php");
 require_once("testRemoteLoad.php");
 require_once("testLoadMultipleFiles.php");
 require_once("testNoPageLog.php");
+require_once("testPageTimings.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
