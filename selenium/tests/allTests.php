@@ -21,6 +21,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestRemoteLoad");
         $suite->addTestSuite("HAR_TestLoadMultipleFiles");
         $suite->addTestSuite("HAR_TestNoPageLog");
+        $suite->addTestSuite("HAR_TestPageTimings");
 
         return $suite;
     }
