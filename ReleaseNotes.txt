@@ -3,9 +3,14 @@ Home page: http://www.janodvarko.cz/har/viewer
 Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 
+HAR Viewer 1.1-12
+-----------------
+Issue 22: Timing bars disproportional 
+
+
 HAR Viewer 1.1-11
 -----------------
-Issue 20:    pageTimings without onLoad or with onLoad equals -1
+Issue 20: pageTimings without onLoad or with onLoad equals -1
 
 
 HAR Viewer 1.1-10

@@ -5,7 +5,7 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Selenium Requirements
 ---------------------
 * PHPUnit 3.0 http://www.phpunit.de
-* Testing_Selenium http://pear.php.net/
+* Selenium http://pear.php.net/
 * Java 5 (1.5.0) is needed for Selenium RC http://java.sun.com
 * Selenium Remote Control (RC) http://openqa.org/
 
