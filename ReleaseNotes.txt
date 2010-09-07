@@ -3,6 +3,11 @@ Home page: http://www.janodvarko.cz/har/viewer
 Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 
+HAR Viewer 1.1-13
+-----------------
+Issue 23: start time of subsequent entry not displayed correctly ?
+
+
 HAR Viewer 1.1-12
 -----------------
 Issue 22: Timing bars disproportional 
