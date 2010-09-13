@@ -1,0 +1,265 @@
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* dijit.css */
+
+.dijitReset {
+    /* Use this style to null out padding, margin, border in your template elements
+        so that page specific styles don't break them.
+        - Use in all TABLE, TR and TD tags. 
+    */
+    margin:0;
+    border:0;
+    padding:0;
+    line-height:normal;
+    font: inherit;
+    color: inherit;
+}
+
+.dijitHidden {
+    /* To hide unselected panes in StackContainer etc. */
+    display: none !important;
+}
+
+.dijitVisible {
+    /* To show selected pane in StackContainer etc. */
+    display: block !important;  /* override user's display:none setting via style setting or indirectly via class */
+    position: relative;         /* to support setting width/height, see #2033 */
+}
+
+/*
+ * Popup items have a wrapper div (dijitPopup)
+ * with the real popup inside, and maybe an iframe too
+ */
+.dijitPopup {
+    position: absolute;
+    background-color: transparent;
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Menu */
+
+.dijitMenu {
+    border:1px solid black;
+    background-color:white;
+}
+.dijitMenuTable {
+    margin:1px 0;
+    border-collapse:collapse;
+    border-width:0;
+    background-color:white;
+}
+
+/* workaround for webkit bug #8427, remove this when it is fixed upstream */
+.dj_webkit .dijitMenuTable td[colspan="2"]{
+    border-right:hidden;
+}
+
+.dijitMenuItem {
+    text-align: left;
+    white-space: nowrap;
+    padding:.1em .2em;
+    cursor:pointer;
+}
+
+.dijitMenuPassive .dijitMenuItemHover,
+.dijitMenuItemSelected {
+    /*
+     * dijitMenuItemHover refers to actual mouse over
+     * dijitMenuItemSelected is used after a menu has been "activated" by
+     * clicking it, tabbing into it, or being opened from a parent menu,
+     * and denotes that the menu item has focus or that focus is on a child
+     * menu
+     */
+    background-color:black;
+    color:white;
+}
+
+.dijitMenuItemIcon, .dijitMenuExpand {
+    background-repeat: no-repeat;
+}
+
+.dijitMenuItemDisabled * {
+    /* for a disabled menu item, just set it to mostly transparent */
+    opacity:0.3;
+    cursor:default;
+}
+.dj_ie .dijit_a11y .dijitMenuItemDisabled td,
+.dj_ie .dijitMenuItemDisabled *,
+.dj_ie .dijitMenuItemDisabled td {
+    color:gray !important;
+    filter: alpha(opacity=35);
+}
+
+.dijitMenuItemLabel {
+    position: relative;
+    vertical-align: middle;
+}
+
+.dijit_a11y .dijitMenuItemSelected .dijitMenuItemLabel {
+    border-width: 1px;
+    border-style: solid;
+}
+.dijit_a11y .dijitMenuItemSelected {
+    border: 1px #fff dotted !important;
+}
+
+.dijitMenuExpandA11y {
+    display: none;
+}
+.dijit_a11y .dijitMenuExpandA11y {
+    display: inline;
+}
+
+.dijitMenuSeparator td {
+    border: 0;
+    padding: 0;
+}
+
+/* separator can be two pixels -- set border of either one to 0 to have only one */
+.dijitMenuSeparatorTop {
+    height: 50%;
+    margin: 0;
+    margin-top:3px;
+    font-size: 1px;
+}
+
+.dijitMenuSeparatorBottom {
+    height: 50%;
+    margin: 0;
+    margin-bottom:3px;
+    font-size: 1px;
+}
+
+/* the checked menu item */
+.dijitCheckedMenuItemIconChar {
+    vertical-align: middle;
+    visibility:hidden;
+}
+.dijitCheckedMenuItemChecked .dijitCheckedMenuItemIconChar {
+    visibility: visible;
+}
+.dijit_a11y .dijitCheckedMenuItemIconChar {
+    display:inline !important;
+}
+.dijit_a11y .dijitCheckedMenuItemIcon {
+    display: none;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Menu.css */
+
+.tundra .dijitMenu,
+.tundra .dijitMenuBar {
+    border: 1px solid #7eabcd;
+    margin: 0px;
+    padding: 0px;
+    background-color: #f7f7f7;
+    /* background:#eaeaea url("resources/titleBar.png") repeat-x top left; */
+}
+
+.tundra .dijitBorderContainer .dijitMenuBar {
+    border:1px solid #ccc;
+}
+
+.tundra .dijitMenuItem {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.tundra .dijitMenuBar .dijitMenuItem {
+    padding: 4px 5px;
+}
+
+.tundra .dijitMenuPreviousButton, .tundra .dijitMenuNextButton {
+    font-style: italic;
+}
+.tundra .dijitMenuItem td {
+    /*padding: 2px;*/
+}
+
+.tundra .dijitMenuPassive .dijitMenuItemHover,
+.tundra .dijitMenuItemSelected {
+    background-color: #3559ac;
+    color:#fff;
+}
+
+.tundra .dijitMenuItemIcon {
+    width: 16px;
+    /*height: 16px;*/
+}
+
+.tundra .dijitMenuExpand {
+    width: 7px;
+    height: 7px;
+    background-image: url('spriteArrows.png');
+    background-position: -14px 0px;
+}
+.dj_ie6 .tundra .dijitMenuExpand {
+    background-image: url('spriteArrows.gif');
+}
+
+/* separator can be two pixels -- set border of either one to 0px to have only one */
+.tundra .dijitMenuSeparatorTop {
+    border-bottom: 1px solid #9b9b9b;
+}
+
+.tundra .dijitMenuSeparatorBottom {
+    border-top: 1px solid #e8e8e8;
+}
+
+/* the checked menu item */
+.tundra .dijitCheckedMenuItemIconChar {
+    display: none;
+}
+
+.tundra .dijitCheckedMenuItemIcon {
+    background-image: url('checkmark.png');
+    background-position: -80px;
+    /*height: 16px;*/
+}
+
+.dj_ie6 .tundra .dijitCheckedMenuItemIcon {
+    background-image: url('checkmark.gif');
+}
+
+.tundra .dijitCheckedMenuItemChecked .dijitCheckedMenuItemIcon {
+    background-position: -64px;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Customization xxxHonza */
+
+.dijitMenu {
+    -moz-box-shadow: gray 2px 2px 3px;
+    -webkit-box-shadow: gray 2px 2px 3px;
+    box-shadow: gray 2px 2px 3px;
+}
+
+.tundra .dijitMenuItem {
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 11px;
+    vertical-align: middle;
+}
+
+.tundra .dijitMenuItemIcon {
+    /*height: 16px;*/
+    margin: 3px 5px 2px 3px;
+    vertical-align: middle;
+}
+
+.tundra .dijitMenuPassive .dijitMenuItemHover,
+.tundra .dijitMenuItemSelected {
+/*    background-color: rgb(128, 141, 192);*/
+    outline: none;
+}
+
+.tundra .dijitMenuSeparatorTop {
+    border-bottom: 1px solid #7EABCD;
+}
+
+.tundra .dijitMenuSeparatorBottom {
+    border: 0;
+}

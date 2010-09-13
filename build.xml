@@ -178,7 +178,7 @@
             <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
         </replace>
 
-        <!-- Mark created distributin as "release" -->
+        <!-- Mark created distribution as "release" -->
         <replace file="${build.dir}/lib/global.php" token="@dev@" value="release" />
 
         <!-- Final version message -->

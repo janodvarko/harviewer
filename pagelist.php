@@ -30,7 +30,7 @@ require_once("lib/global.php");
     }
     </style>
 </head>
-<body>
+<body class="tundra">
 
 <div id="pageList" version="@VERSION@">
 

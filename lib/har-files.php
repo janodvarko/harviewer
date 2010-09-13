@@ -3,7 +3,10 @@
     <script type="text/javascript" src="lib/har.js"></script>
     <script type="text/javascript" src="lib/schema.js"></script>
 <?php } else {?>
-    <!-- Dojo -->
+    <!-- Dojo
+    <script type="text/javascript" src="lib/dojo.js.uncompressed.js"></script>
+    <script type="text/javascript" src="lib/har.dojo.js.uncompressed.js"></script>
+    -->
     <script type="text/javascript" src="lib/dojo.js"></script>
     <script type="text/javascript" src="lib/har.dojo.js"></script>
 
@@ -56,4 +59,7 @@
     <link rel="stylesheet" href="images/har.page.stats.css" type="text/css"/>
     <link rel="stylesheet" href="images/archive.css" type="text/css"/>
     <link rel="stylesheet" href="images/toolbar.css" type="text/css"/>
+
+    <!-- DOJO Themes -->
+    <link rel="stylesheet" href="images/dojo-tundra.css" type="text/css"/>
 <?php }?>

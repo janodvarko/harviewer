@@ -130,12 +130,36 @@
 .netStatusLabel,
 .netDomainLabel,
 .netSizeLabel,
-.netBar {
+.netTimelineBar {
     padding: 1px 0 2px 0 !important;
 }
 
 .responseError {
     color: red;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Net Request Options */
+
+.netOptionsCol {
+    width: 11px;
+    padding-left: 2px;
+    padding-top: 3px;
+}
+
+.netOptionsLabel {
+    width: 11px;
+    height: 10px;
+    background: url(contextMenuTarget.png) no-repeat;
+    display: none;
+}
+
+.netRow:hover > .netOptionsCol > .netOptionsLabel {
+    display: block;
+}
+
+.netOptionsLabel:hover {
+    background-image: url(contextMenuTargetHover.png);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -148,7 +172,7 @@
 
 /************************************************************************************************/
 
-.netBar {
+.netTimelineBar {
     position: relative;
     border-right: 50px solid transparent;
 }
@@ -328,10 +352,6 @@
     padding: 1px 0 2px 0 !important;
 }
 
-.netSummaryRow .netBar {
-    border-right-color: #BBBBBB;
-}
-
 .netSummaryRow > .netCol {
     border-top: 1px solid #999999;
     border-bottom: 1px solid;
@@ -341,6 +361,10 @@
 
 .netSummaryRow > .netCol:first-child {
     border-left: 1px solid #999999;
+}
+
+.netSummaryRow > .netCol:last-child {
+    border-right: 1px solid #999999;
 }
 
 .netCountLabel {

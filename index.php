@@ -15,7 +15,7 @@ require_once("lib/global.php");
 
     <?php include("lib/har-files.php") ?>
 </head>
-<body>
+<body class="tundra">
 <div id="content" version="@VERSION@"
     ondragenter="HAR.Lib.cancelEvent(event);"
     ondragover="HAR.Lib.cancelEvent(event);"
