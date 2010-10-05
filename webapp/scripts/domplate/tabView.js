@@ -1,0 +1,250 @@
+/* See license.txt for terms of usage */
+
+require.def("domplate/tabView", [
+    "domplate/domplate",
+    "core/lib",
+    "core/trace"
+],
+
+function(Domplate, Lib, Trace) { with (Domplate) {
+
+//*************************************************************************************************
+
+/**
+ * @domplate TabViewTempl is a template used by {@link TabView} widget.
+ */
+var TabViewTempl = domplate(
+/** @lends TabViewTempl */
+{
+    tag:
+        TABLE({"class": "tabView", cellpadding: 0, cellspacing: 0,
+            _repObject: "$tabView"},
+            TBODY(
+                TR({"class": "tabViewRow"},
+                    TD({"class": "tabViewCol", valign: "top"},
+                        TAG("$tabList", {tabView: "$tabView"})
+                    )
+                )
+            )
+        ),
+
+    tabList:
+        DIV({"class": "tabViewBody", onclick: "$onClickTab"},
+            DIV({"class": "$tabView.id\\Bar tabBar"}),
+            DIV({"class": "$tabView.id\\Bodies tabBodies"})
+        ),
+
+    tabHeaderTag:
+        A({"class": "$tab.id\\Tab tab",
+            view: "$tab.id", _repObject: "$tab"},
+            "$tab.label"
+        ),
+
+    tabBodyTag:
+        DIV({"class": "tab$tab.id\\Body tabBody", _repObject: "$tab"}),
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // Event Handlers
+
+    hideTab: function(context)
+    {
+        return false;
+    },
+
+    onClickTab: function(event)
+    {
+        var e = $.event.fix(event || window.event);
+        var tabView = this.getTabView(e.target);
+        tabView.onClickTab(e);
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // Coupling with TabView instance.
+
+    getTabView: function(node)
+    {
+        var tabView = Lib.getAncestorByClass(node, "tabView");
+        return tabView.repObject;
+    }
+});
+
+//*************************************************************************************************
+
+function TabView(id)
+{
+    this.id = id;
+    this.tabs = [];
+    this.listeners = [];
+}
+
+/**
+ * @widget TabView represents a widget for tabbed UI interface.
+ */
+TabView.prototype =
+/** @lends TabView */
+{
+    appendTab: function(tab)
+    {
+        this.tabs.push(tab);
+        tab.tabView = this;
+        return tab;
+    },
+
+    getTab: function(name)
+    {
+        var tab = Lib.getElementByClass(this.element, name + "Tab");
+        return tab ? tab.repObject : null;
+    },
+
+    selectTabByName: function(name)
+    {
+        var tab = Lib.getElementByClass(this.element, name + "Tab");
+        if (tab)
+            this.selectTab(tab);
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // Listeners
+
+    addListener: function(listener)
+    {
+        this.listeners.push(listener);
+    },
+
+    removeListener: function(listener)
+    {
+        Lib.remove(this.listeners, listener);
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    onClickTab: function(e)
+    {
+        var tab = Lib.getAncestorByClass(e.target, "tab");
+        if (tab)
+            this.selectTab(tab);
+    },
+
+    selectTab: function(tab)
+    {
+        if (!Lib.hasClass(tab, "tab"))
+            return;
+
+        if (Lib.hasClass(tab, "selected"))
+            return;
+
+        var view = tab.getAttribute("view");
+
+        // xxxHonza: this is null if the user clicks on an example on the home page.
+        if (!view)
+            return;
+
+        var viewBody = Lib.getAncestorByClass(tab, "tabViewBody");
+
+        // Deactivate current tab.
+        if (viewBody.selectedTab)
+        {
+            viewBody.selectedTab.removeAttribute("selected");
+            viewBody.selectedBody.removeAttribute("selected");
+
+            // IE workaround. Removing the "selected" attribute
+            // doesn't update the style (associated using attribute selector).
+            // So use a class name instead.
+            Lib.removeClass(viewBody.selectedTab, "selected");
+            Lib.removeClass(viewBody.selectedBody, "selected");
+        }
+
+        // Store info about new active tab. Each tab has to have a body, 
+        // which is identified by class.
+        var tabBody = Lib.getElementByClass(viewBody, "tab" + view + "Body");
+        if (!tabBody)
+            Trace.error("TabView.selectTab; Missing tab body", tab);
+
+        viewBody.selectedTab = tab;
+        viewBody.selectedBody = tabBody;
+
+        // Activate new tab.
+        viewBody.selectedTab.setAttribute("selected", "true");
+        viewBody.selectedBody.setAttribute("selected", "true");
+
+        // IE workaround. Adding the "selected" attribute doesn't
+        // update the style. Use class name instead.
+        Lib.setClass(viewBody.selectedBody, "selected");
+        Lib.setClass(viewBody.selectedTab, "selected");
+
+        this.updateTabBody(viewBody, view);
+    },
+
+    updateTabBody: function(viewBody, view)
+    {
+        var tab = viewBody.selectedTab.repObject;
+        if (tab._body._updated)
+            return;
+
+        tab._body._updated = true;
+
+        // Render default content if available.
+        if (tab.bodyTag)
+            tab.bodyTag.replace({tab: tab}, tab._body);
+
+        // Call also onUpdateBody for dynamic body update.
+        if (tab && tab.onUpdateBody)
+            tab.onUpdateBody(this, tab._body);
+
+        // Dispatch to all listeners.
+        for (var i=0; i<this.listeners.length; i++)
+        {
+            var listener = this.listeners[i];
+            if (listener.onUpdateBody)
+                listener.onUpdateBody(this, tab._body);
+        }
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    render: function(parentNode)
+    {
+        this.element = TabViewTempl.tag.replace({tabView: this}, parentNode, TabViewTempl);
+        Lib.setClass(this.element, this.id);
+
+        for (var i in this.tabs)
+        {
+            var tab = this.tabs[i];
+            var tabHeaderTag = tab.tabHeaderTag ? tab.tabHeaderTag : TabViewTempl.tabHeaderTag;
+            var tabBodyTag = tab.tabBodyTag ? tab.tabBodyTag : TabViewTempl.tabBodyTag;
+
+            try
+            {
+                tab._header = tabHeaderTag.append({tab:tab}, Lib.$(parentNode, "tabBar"));
+                tab._body = tabBodyTag.append({tab:tab}, Lib.$(parentNode, "tabBodies"));
+            }
+            catch (e)
+            {
+                Trace.exception("TabView.appendTab; Exception ", e);
+            }
+        }
+
+        return this.element;
+    }
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+TabView.Tab = function() {}
+TabView.Tab.prototype =
+{
+    invalidate: function()
+    {
+        this._updated = false;
+    },
+
+    select: function()
+    {
+        this.tabView.selectTabByName(this.id);
+    }
+}
+
+return TabView;
+
+// ************************************************************************************************
+}});

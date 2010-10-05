@@ -1,0 +1,15 @@
+/* See license.txt for terms of usage */
+
+.tabDOMBody {
+    font-family: Lucida Grande,Tahoma,sans-serif;
+    font-size: 11px;
+}
+
+.tabDOMBody .separator {
+    border-bottom: 1px solid #D7D7D7;
+}
+
+.tabDOMBody .domTable {
+    padding: 5px;
+}
+

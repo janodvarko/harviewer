@@ -1,0 +1,46 @@
+﻿/* See license.txt for terms of usage */
+
+.domTable {
+}
+
+.memberLabelCell {
+    padding: 2px 50px 2px 0;
+    vertical-align: top;
+}
+
+.memberValueCell {
+    padding: 1px 0 1px 5px;
+    display: block;
+    overflow: hidden;
+}
+
+.memberLabel {
+    cursor: default;
+    -moz-user-select:  none;
+    overflow: hidden;
+    /*position: absolute;*/
+    padding-left: 18px;
+    /*max-width: 30%;*/    
+    white-space: nowrap;
+    background-color: #FFFFFF;
+}
+
+.memberRow.hasChildren.opened > .memberLabelCell > .memberLabel {
+    background-image: url(images/twistyOpen.png);
+}
+
+.memberRow.hasChildren > .memberLabelCell > .memberLabel:hover {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.memberRow.hasChildren > .memberLabelCell > .memberLabel {
+    background-image: url(images/twistyClosed.png);
+    background-repeat: no-repeat;
+    background-position: 2px 3px;
+}
+
+.memberRow.hasChildren > .memberLabelCell > .memberLabel {
+    background-position: 2px 2px;
+}

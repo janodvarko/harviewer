@@ -1,0 +1,110 @@
+<?xml version="1.0" ?>
+
+<!-- Build instruction for HAR Viewer application. In order to build final
+    distribution, run: $ant build within the root directory and
+    deploy files located within 'webapp-build' directory -->
+<project name="HARViewer" basedir="." default="build">
+
+    <!-- Directories -->
+    <property name="app.dir" value="webapp"/>
+    <property name="build.dir" value="${app.dir}-build"/>
+    <property name="examples.dir" value="${app.dir}/examples"/>
+    <property file="ant.properties"/>
+    <property name="build.tools.dir" value="build-tools"/>
+
+    <!-- Tools for building release package of HAR Viewer.
+        js-build-tools: http://code.google.com/p/js-build-tools/
+        js-min (ant task): http://code.google.com/p/jsmin-ant-task/
+        shrink-safe: http://shrinksafe.dojotoolkit.org/ -->
+    <property name="jsmin.jar" value="${build.tools.dir}/jsmin/jsmin.0.2.3.jar"/>
+    <property name="js_build_tools.jar" value="${build.tools.dir}/js-build-tools/lib/js_build_tools.jar"/>
+
+    <path id="js-build-tasks.classpath">
+        <pathelement location="."/>
+        <fileset dir="${build.tools.dir}/js-build-tools/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- Task definitions -->
+    <taskdef name="jsmin"
+        classname="net.matthaynes.jsmin.JSMin_Task"
+        classpath="${jsmin.jar}"/>
+    <taskdef name="preprocess"
+        classname="com.moxiecode.ant.tasks.PreProcessTask"
+        classpathref="js-build-tasks.classpath"/>
+
+    <!-- Remove the previous HAR Viewer build. -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <!-- Run RequireJS build tools -->
+    <target name="requirejs">
+        <property name="rjs-build.bat" value="../../requirejs/build/build.bat"/>
+        <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
+            <arg value="app.build.js"/>
+        </exec>
+    </target>
+
+    <!-- Build HAR Viewer package (the result is within build.dir) -->
+    <target name="build" depends="clean, requirejs">
+        <!-- Copy fresh harSchema.js we don't want it to be compressed
+            its content is displayed in the Schema tab -->
+        <copy file="${app.dir}/scripts/preview/harSchema.js"
+            todir="${build.dir}/scripts/preview" overwrite="true"/>
+
+        <!-- Copy fresh domplate to the build.dir and compile using jsmin.
+            The Google's Closure Compliler breaks the domplate code
+            (by replacing local var names like e.g.: __path__) -->
+        <copy file="${app.dir}/scripts/domplate/domplate.js"
+            todir="${build.dir}/scripts/domplate" overwrite="true"/>
+        <jsmin srcfile="${build.dir}/scripts/domplate/domplate.js" force="true"/>
+
+        <!-- Preprocess script/core/trace file to avoid using the console object --> 
+        <preprocess infile="${app.dir}/scripts/core/trace.js"
+            outfile="${build.dir}/scripts/core/trace.js" defines="_RELEASE" />
+
+        <!-- Generate version number. The version info is loaded from 'ant.properties' file. -->
+        <replace dir="${build.dir}" propertyFile="ant.properties">
+            <include name="*.php" />
+            <replacefilter token="@VERSION@" property="VERSION"/>
+            <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
+        </replace>
+
+        <!-- Final version message -->
+        <echo message="HAR Viewer version: ${VERSION} build OK"/>
+    </target>
+
+    <!-- Support for generating docs from Firebug source code using js-doc-toolkit
+        See the output in $svn/jsdoc/out directory -->
+    <target name="jsdoc" depends="build" description="Generate documentation">
+        <!-- Directories -->
+        <property name="jsdoc.dir" value="${build.tools.dir}/jsdoc/"/>
+        <property name="jsdoc-toolkit.dir" value="${jsdoc.dir}/jsdoc-toolkit-2.3.0/"/>
+        <property name="jsdoc-output.dir" value="${app.dir}-jsdoc"/>
+
+        <delete dir="${jsdoc-output.dir}"/>
+
+        <path id="jsdoctoolkit">
+            <!-- Rhino js.jar 1.7.R2 must be used with jsdoctoolkit-ant-task-1.0.1.jar -->
+            <fileset dir="${jsdoc.dir}" includes="*.jar"/>
+        </path>
+
+        <taskdef name="jsdoctoolkit"
+            classpathref="jsdoctoolkit"
+            classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit"/>
+
+        <echo message="Generate doc from Firebug source."/>
+
+        <!-- Clean the output direcotory -->
+        <delete dir="${jsdoc-output.dir}"/>
+
+        <!-- Parse all source files -->
+        <jsdoctoolkit jsdochome="${jsdoc-toolkit.dir}"
+            template="firebug"
+            outputdir="${jsdoc-output.dir}"
+            inputdir="." />
+    </target>
+
+</project>

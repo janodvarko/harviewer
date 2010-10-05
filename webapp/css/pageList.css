@@ -1,0 +1,59 @@
+/* See license.txt for terms of usage */
+
+.pageList {
+    width: 100%;
+}
+
+.pageTable {
+    width: 100%;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 11px;
+}
+
+.pageCol {
+    white-space: nowrap;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.pageRow {
+    font-weight: bold;
+    height: 17px;
+    background-color: white;
+}
+
+.pageRow:hover {
+    background: #EFEFEF;
+}
+
+.opened > .pageCol > .pageName {
+    background-image: url(images/twistyOpen.png);
+}
+
+.pageName {
+    background-image: url(images/twistyClosed.png);
+    background-repeat: no-repeat;
+    background-position: 2px 1px;
+    padding-left: 18px;
+    font-weight: bold;
+    cursor:pointer;
+}
+
+.pageID {
+    color: gray;
+}
+
+.pageInfoCol {
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
+    padding: 0px 0px 4px 17px;
+}
+
+/*************************************************************************************************/
+/* Print support */
+
+@media print {
+
+.pageInfoCol {
+    background: none;
+}
+
+}

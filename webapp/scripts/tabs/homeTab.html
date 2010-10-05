@@ -1,0 +1,34 @@
+<div>
+<ul style="padding-left: 20px; line-height: 20px; margin-top: 0px">
+<li>Paste <a href="@HAR_SPEC_URL@">HAR</a>
+log into the text box below and
+press the <b>Preview</b> button.</li>
+<li>Or drop <span class="red">*.har</span> file(s) anywhere on the page (if your browser supports that).</li>
+</ul>
+<table cellpadding="0" cellspacing="4">
+    <tr>
+        <td><input type="checkbox" id="validate" checked="true"></input></td>
+        <td style="vertical-align:middle;padding-bottom: 1px;">Validate data before processing?</td>
+    </tr>
+</table>
+<textarea id="sourceEditor" class="sourceEditor" cols="80" rows="5"></textarea>
+<p><table cellpadding="0" cellspacing="0">
+    <tr>
+        <td><button id="appendPreview">Preview</button></td>
+    </tr>
+</table></p>
+<br/>
+<h3>HAR Log Examples</h3>
+<ul style="line-height:20px;">
+<li><span id="example1" class="link example" path="examples/inline-scripts-block.har">
+Inline scripts block</span> - Inline scripts block the page load.</li>
+<li><span id="example2" class="link example" path="examples/browser-blocking-time.har">
+Blocking time</span> - Impact of a limit of max number of parallel connections.</li>
+<li><span id="example3" class="link example" path="examples/softwareishard.com.har">
+Browser cache</span> - Impact of the browser cache on page load (the same page loaded three times).</li>
+<li><span id="example4" class="link example" path="examples/google.com.har">
+Single page</span> - Single page load (empty cache).</li>
+</ul>
+<br/>
+<p><i>This viewer supports HAR 1.2 (see the <span class="linkAbout link">About</span> tab).<br/></i></p>
+</div>

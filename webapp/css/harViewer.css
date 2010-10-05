@@ -1,0 +1,27 @@
+/* See license.txt for terms of usage */
+
+@import url("harView.css");
+
+/* Domplate Widgets */
+@import url("tabView.css");
+@import url("toolbar.css");
+@import url("domTree.css");
+@import url("infoTip.css");
+
+/* HAR Preview */
+@import url("pageList.css");
+@import url("requestList.css");
+@import url("requestBody.css");
+
+@import url("pageStats.css");
+@import url("pageTimeline.css");
+
+/* Application Tabs */
+@import url("aboutTab.css");
+@import url("homeTab.css");
+@import url("domTab.css");
+@import url("schemaTab.css");
+@import url("previewTab.css");
+
+/* Syntax Highlighter */
+@import url("SyntaxHighlighter.css");
