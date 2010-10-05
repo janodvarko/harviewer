@@ -1,1 +1,0 @@
-java -jar server/selenium-server.jar -debug
