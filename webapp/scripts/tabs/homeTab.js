@@ -7,7 +7,7 @@ require.def("tabs/homeTab", [
     "core/cookies",
     "core/trace",
     "i18n!nls/homeTab",
-    "text!tabs/HomeTab.html",
+    "text!tabs/homeTab.html",
     "preview/harModel"
 ],
 
