@@ -2,7 +2,7 @@
 
 require.def("tabs/aboutTab", [
     "domplate/domplate",
-    "domplate/tabview",
+    "domplate/tabView",
     "core/lib",
     "i18n!nls/harViewer"
 ],
