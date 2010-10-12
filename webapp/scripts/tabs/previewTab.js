@@ -56,8 +56,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
                 FOR("error", "$errors",
                     TR({"class": "errorRow", _repObject: "$error"},
                         TD({"class": "errorProperty"},
-                            SPAN("$error.property"
-                            )
+                            SPAN("$error.property")
                         ),
                         TD("&nbsp;"),
                         TD({"class": "errorMessage"},

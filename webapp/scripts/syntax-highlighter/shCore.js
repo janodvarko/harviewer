@@ -628,9 +628,16 @@ dp.sh.HighlightAll = function(name, showGutter /* optional */, showControls /* o
 	var registered = {};
 	var propertyName = 'innerHTML';
 
-	// for some reason IE doesn't find <pre/> by name, however it does see them just fine by tag name... 
-	FindTagsByName(elements, name, 'pre');
-	FindTagsByName(elements, name, 'textarea');
+	// for some reason IE doesn't find <pre/> by name, however it does see them just fine by tag name...
+    if (typeof(name) == "string")
+    {
+        FindTagsByName(elements, name, 'pre');
+        FindTagsByName(elements, name, 'textarea');
+    }
+    else
+    {
+        elements.push(name);
+    }
 
 	if(elements.length == 0)
 		return;

@@ -7,10 +7,11 @@ require.def("preview/requestList", [
     "preview/harModel",
     "core/cookies",
     "preview/requestBody",
-    "domplate/infoTip"
+    "domplate/infoTip",
+    "domplate/popupMenu"
 ],
 
-function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip) { with (Domplate) {
+function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip, Menu) { with (Domplate) {
 
 //*************************************************************************************************
 // Request List
@@ -84,8 +85,7 @@ RequestList.prototype = domplate(
                     )
                 ),
                 TD({"class": "netOptionsCol netCol"},
-                    DIV({"class": "netOptionsLabel netLabel", onclick: "$onOpenOptions",
-                        title: Strings.requestOptions})
+                    DIV({"class": "netOptionsLabel netLabel", onclick: "$onOpenOptions"})
                 )
             )
         ),
@@ -240,20 +240,56 @@ RequestList.prototype = domplate(
         if (!Lib.isLeftClick(event))
             return;
 
-        var row = Lib.getAncestorByClass(e.target, "netRow");
-        var file = row.repObject;
-        var phase = row.phase;
+        var target = e.target;
 
+        // Collect all menu items.
+        var row = Lib.getAncestorByClass(target, "netRow");
+        var items = this.getOptionsMenuItems(row);
+
+        // Finall, display the the popup menu.
+        // xxxHonza: the old <DIV> can be still visible.
+        var menu = new Menu({id: "requestContextMenu", items: items});
+        menu.showPopup(target);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Menu Definition
 
-    openRequestInNewWindow: function(event, file)
+    getOptionsMenuItems: function(row)
+    {
+        var file = row.repObject;
+        var phase = row.phase;
+
+        return [
+            {
+                label: Strings.menuBreakTimeline,
+                type: "checkbox",
+                disabled: false, // xxxHonza: the first phase, the first file.
+                checked: phase.files[0] == file,
+                command: Lib.bind(this.breakLayout, this, row)
+            },
+            "-",
+            {
+                label: Strings.menuOpenRequest,
+                command: Lib.bind(this.openRequest, this, file)
+            },
+            {
+                label: Strings.menuOpenResponse,
+                disabled: !file.response.content.text,
+                command: Lib.bind(this.openResponse, this, file)
+            }
+        ];
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Command Handlers
+
+    openRequest: function(event, file)
     {
         window.open(file.request.url);
     },
 
-    openResponseInNewWindow: function(event, file)
+    openResponse: function(event, file)
     {
         var response = file.response.content.text;
         var mimeType = file.response.content.mimeType;
@@ -272,7 +308,7 @@ RequestList.prototype = domplate(
         row.breakLayout = !layoutBroken;
 
         var netTable = Lib.getAncestorByClass(row, "netTable");
-        var page = HarModel.getParentPage(file);
+        var page = HarModel.getParentPage(this.input, file);
         this.updateLayout(netTable, page);
     },
 
@@ -630,7 +666,6 @@ RequestList.prototype = domplate(
                 this.infoTipURL = infoTipURL;
                 return this.populateSizeInfoTip(infoTip, row);
             }
-            return;
         }
     },
 
@@ -661,7 +696,7 @@ RequestList.prototype = domplate(
         var tbody = this.table.firstChild;
         var lastRow = tbody.lastChild.previousSibling;
 
-        this.fileTag.insertRows({files: requests}, lastRow);
+        this.fileTag.insertRows({files: requests}, lastRow, this);
 
         this.updateLayout(this.table, page);
     }

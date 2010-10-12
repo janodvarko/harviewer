@@ -1,7 +1,12 @@
 /* See license.txt for terms of usage */
 
 @import url("tabView.css");
+@import url("infoTip.css");
+@import url("popupMenu.css");
+
 @import url("pageList.css");
 @import url("requestList.css");
 @import url("requestBody.css");
-@import url("infoTip.css");
+
+/* Syntax Highlighter */
+@import url("SyntaxHighlighter.css");

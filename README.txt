@@ -8,7 +8,7 @@ Application Components:
 RequireJS: http://requirejs.org/
 jQuery: http://jquery.com/
 jQuery JSON plugin: Jim Dalton (jim.dalton@furrybrains.com), based on http://www.JSON.org/json2.js
-Domplate: http:/getfirebug.com
+Domplate + Domplate based templates: http://getfirebug.com
 Excanvas: http://code.google.com/p/explorercanvas/
 Downloadify: http://github.com/dcneiner/Downloadify/
 SWFObject 2.0: http://code.google.com/p/swfobject/

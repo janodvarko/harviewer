@@ -33,7 +33,7 @@ SchemaTab.prototype =
             {
                 var code = body.firstChild;
                 code.innerHTML = response;
-                dp.SyntaxHighlighter.HighlightAll("code");
+                dp.SyntaxHighlighter.HighlightAll(code);
             },
 
             error: function(response, ioArgs)

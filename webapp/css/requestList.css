@@ -124,7 +124,7 @@
 }
 
 .netRow:hover > .netOptionsCol > .netOptionsLabel {
-    /* xxxHonza: context menu needed yet display: block; */
+    display: block;
 }
 
 .netOptionsLabel:hover {

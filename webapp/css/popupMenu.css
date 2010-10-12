@@ -1,0 +1,111 @@
+/* See license.txt for terms of usage */
+
+.popupMenu {
+    display: none;
+    position: absolute;
+    font-size: 11px;
+    z-index: 2147483647;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+}
+
+.popupMenuContent {
+    padding: 2px;
+}
+
+.popupMenuSeparator {
+    display: block;
+    position: relative;
+    padding: 1px 18px 0;
+    text-decoration: none;
+    color: #000;
+    cursor: default;
+    background: #ACA899;
+    margin: 2px 0;
+}
+
+.popupMenuOption
+{
+    display: block;
+    position: relative;
+    padding: 2px 18px;
+    text-decoration: none;
+    color: #000;
+    cursor: default;
+}
+
+.popupMenuOption:hover
+{
+    color: #fff;
+    background: #316AC5;
+}
+
+.popupMenuGroup {
+    background: transparent url(images/menu/tabMenuPin.png) no-repeat right 0;
+}
+
+.popupMenuGroup:hover {
+    background: #316AC5 url(images/menu/tabMenuPin.png) no-repeat right -17px;
+}
+
+.popupMenuGroupSelected {
+    color: #fff;
+    background: #316AC5 url(images/menu/tabMenuPin.png) no-repeat right -17px;
+}
+
+.popupMenuChecked  {
+    background: transparent url(images/menu/tabMenuCheckbox.png) no-repeat 4px 0;
+}
+
+.popupMenuChecked:hover {
+    background: #316AC5 url(images/menu/tabMenuCheckbox.png) no-repeat 4px -17px;
+}
+
+.popupMenuRadioSelected {
+    background: transparent url(images/menu/tabMenuRadio.png) no-repeat 4px 0;
+}
+
+.popupMenuRadioSelected:hover {
+    background: #316AC5 url(images/menu/tabMenuRadio.png) no-repeat 4px -17px;
+}
+
+.popupMenuShortcut {
+    padding-right: 85px; 
+}
+
+.popupMenuShortcutKey {
+    position: absolute;
+    right: 0;
+    top: 2px;
+    width: 77px;
+}
+
+.popupMenuDisabled {
+    color: #ACA899 !important;
+}
+
+/*************************************************************************************************/
+/* Shadow */
+
+.popupMenuShadow {
+    float: left;
+    background: url(images/menu/shadowAlpha.png) no-repeat bottom right !important;
+    margin: 10px 0 0 10px !important;
+    margin: 10px 0 0 5px;
+}
+
+.popupMenuShadowContent {
+    display: block;
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #a9a9a9;
+    top: -6px;
+    left: -6px;
+}
+
+/*************************************************************************************************/
+
+#optionsMenu { /*xxxHonza*/
+    top: 22px;
+    left: 0;
+}
+

@@ -4,10 +4,11 @@ require.def("preview/requestBody", [
     "domplate/domplate",
     "i18n!nls/requestBody",
     "core/lib",
-    "domplate/tabView"
+    "domplate/tabView",
+    "syntax-highlighter/shCore"
 ],
 
-function(Domplate, Strings, Lib, TabView) { with (Domplate) {
+function(Domplate, Strings, Lib, TabView, dp) { with (Domplate) {
 
 //*************************************************************************************************
 // Request Body
@@ -147,12 +148,11 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
     insertHeaderRows: function(parentNode, headers, tableName, rowName)
     {
         var headersTable = Lib.getElementByClass(parentNode, "netInfo"+tableName+"Table");
-        var tbody = headersTable.firstChild;
-        var titleRow = Lib.getChildByClass(tbody, "netInfo" + rowName + "Title");
+        var titleRow = Lib.getElementByClass(headersTable, "netInfo" + rowName + "Title");
 
         if (headers.length)
         {
-            this.headerDataTag.insertRows({headers: headers}, titleRow ? titleRow : tbody);
+            this.headerDataTag.insertRows({headers: headers}, titleRow ? titleRow : parentNode);
             Lib.removeClass(titleRow, "collapsed");
         }
         else
@@ -176,25 +176,40 @@ ResponseTab.prototype = domplate(TabView.Tab.prototype,
 
     bodyTag:
         DIV({"class": "netInfoResponseText netInfoText"},
-            DIV({"class": "loadResponseMessage"})
+            PRE({"class": "javascript:nocontrols:nogutter:", name: "code"})
         ),
 
     onUpdateBody: function(tabView, body)
     {
         var responseTextBox = Lib.getElementByClass(body, "netInfoResponseText");
-        Lib.clearNode(responseTextBox);
 
         if (this.file.category == "image")
         {
+            Lib.clearNode(responseTextBox);
+
             var responseImage = body.ownerDocument.createElement("img");
             responseImage.src = this.file.href;
-
             responseTextBox.appendChild(responseImage, responseTextBox);
         }
         else
         {
+            Lib.clearNode(responseTextBox.firstChild);
+
             var text = this.file.response.content.text;
-            Lib.insertWrappedText(text, responseTextBox);
+            var mimeType = this.file.response.content.mimeType;
+
+            // Highlight the syntax if the response is Javascript.
+            if (mimeType == "application/javascript" || mimeType == "text/javascript" ||
+                mimeType == "application/x-javascript" || mimeType == "text/ecmascript" ||
+                mimeType == "application/ecmascript")
+            {
+                responseTextBox.firstChild.innerHTML = text;
+                dp.SyntaxHighlighter.HighlightAll(responseTextBox.firstChild);
+            }
+            else
+            {
+                Lib.insertWrappedText(text, responseTextBox.firstChild);
+            }
         }
     }
 });

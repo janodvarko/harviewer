@@ -3,7 +3,6 @@
 require.def("i18n!nls/requestList",
 {
     "root": {
-        "requestOptions": "Options",
         "fromCache": "From Cache",
         "menuBreakLayout": "Break Timeline Layout",
         "menuOpenRequestInWindow": "Open Request in New Window",
@@ -24,6 +23,10 @@ require.def("i18n!nls/requestList",
         "request.phase.Receiving": "Receiving",
         "ContentLoad": "DOM Loaded",
         "WindowLoad": "Page Loaded",
-        "page.event.Load": "Page Loaded"
+        "page.event.Load": "Page Loaded",
+
+        "menuBreakTimeline": "Break Timeline Layout",
+        "menuOpenRequest": "Open Request in New Window",
+        "menuOpenResponse": "Open Response in New Window"
     }
 });
