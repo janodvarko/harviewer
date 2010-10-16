@@ -7,6 +7,8 @@ require_once("testRemoteLoad.php");
 require_once("testLoadMultipleFiles.php");
 require_once("testNoPageLog.php");
 require_once("testPageTimings.php");
+require_once("testSchemaTab.php");
+require_once("testRequestBody.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
@@ -23,6 +25,8 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestLoadMultipleFiles");
         $suite->addTestSuite("HAR_TestNoPageLog");
         $suite->addTestSuite("HAR_TestPageTimings");
+        $suite->addTestSuite("HAR_TestSchemaTab");
+        $suite->addTestSuite("HAR_TestRequestBody");
 
         return $suite;
     }
