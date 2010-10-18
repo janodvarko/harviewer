@@ -27,6 +27,10 @@
     white-space: nowrap;
 }
 
+.netInfoParamValue > PRE {
+    margin: 0
+}
+
 .netInfoHeadersText,
 .netInfoCookiesText {
     padding-top: 0;
