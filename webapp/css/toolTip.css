@@ -1,0 +1,19 @@
+/* See license.txt for terms of usage */
+
+.toolTip {
+    z-index: 2147483647;
+    position: absolute;
+    padding: 2px 4px 3px 4px;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    color: #000000;
+    display: none;
+    font-size: 11px;
+    border: 1px solid #a9a9a9;
+    background: white;
+    overflow: auto;
+}
+
+.toolTip {
+    height: 150px;
+    width: 500px;
+}
