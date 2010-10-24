@@ -611,6 +611,11 @@ Lib.getBody = function(doc)
     return null;
 };
 
+Lib.getHead = function(doc)
+{
+    return doc.getElementsByTagName("head")[0];
+};
+
 Lib.getAncestorByClass = function(node, className)
 {
     for (var parent = node; parent; parent = parent.parentNode)
@@ -1016,6 +1021,30 @@ Lib.getWindowScrollPosition = function()
 
     return {top:top, left:left};
 };
+
+//***********************************************************************************************//
+// Stylesheets
+
+/**
+ * Load stylesheet into the specified document. The method doesn't wait till the stylesheet
+ * is loaded and so, not suitable for cases when you do not care when the file is loaded.
+ * @param {Object} doc The document to load the stylesheet into.
+ * @param {Object} url URL of the target stylesheet.
+ */
+Lib.addStyleSheet = function(doc, url)
+{
+    if (doc.getElementById(url))
+        return;
+
+    var link = doc.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    link.setAttribute("id", url);
+
+    var head = Lib.getHead(doc);
+    head.appendChild(link);
+}
 
 //***********************************************************************************************//
 
