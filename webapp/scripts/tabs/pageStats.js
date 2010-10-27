@@ -7,10 +7,11 @@ require.def("tabs/pageStats", [
     "preview/harSchema",
     "preview/harModel",
     "core/cookies",
-    "domplate/infoTip"
+    "domplate/infoTip",
+    "core/trace"
 ],
 
-function(Domplate, Lib, Strings, HarSchema, HarModel, Cookies, InfoTip) { with (Domplate) {
+function(Domplate, Lib, Strings, HarSchema, HarModel, Cookies, InfoTip, Trace) { with (Domplate) {
 
 //*************************************************************************************************
 // Page Load Statistics
@@ -249,7 +250,8 @@ Stats.prototype = domplate(
 
                 // Get Content type info. Make sure we read the right content type
                 // even if there is also a charset specified.
-                var contentType = response.content.mimeType.match(/^([^;]+)/)[1];
+                var mimeType = response.content.mimeType;
+                var contentType = mimeType ? mimeType.match(/^([^;]+)/)[1] : null;
                 var mimeType = contentType ? contentType : response.content.mimeType;
 
                 // Collect response sizes according to the mimeType.

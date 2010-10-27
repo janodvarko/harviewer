@@ -343,6 +343,12 @@ Lib.formatString = function(string)
 
 Lib.parseISO8601 = function(text)
 {
+    var date = Lib.fromISOString(text);
+    return date ? date.getTime() : null;
+};
+
+Lib.fromISOString = function(text)
+{
     if (!text)
         return null;
 
@@ -377,7 +383,7 @@ Lib.parseISO8601 = function(text)
         date.setTime(date.getTime() - offset * 60 * 1000);
     }
 
-    return date.getTime();
+    return date;
 },
 
 //*************************************************************************************************

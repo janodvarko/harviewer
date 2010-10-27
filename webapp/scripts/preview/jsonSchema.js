@@ -18,7 +18,7 @@ empty list will be returned. A validation error will have two properties:
 "message" which indicates what the error was
  */
 
-JSONSchema = {
+var JSONSchema = {
 	validate : function(/*Any*/instance,/*Object*/schema) {
 		// Summary:
 		//  	To use the validator call JSONSchema.validate with an instance object and an optional schema object.

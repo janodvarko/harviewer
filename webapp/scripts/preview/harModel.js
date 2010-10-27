@@ -3,13 +3,14 @@
 require.def("preview/harModel", [
     "core/lib",
     "preview/jsonSchema",
+    "preview/ref",
     "preview/harSchema",
     "core/cookies",
     "core/trace",
     "jquery-plugins/jquery.json"
 ],
 
-function(Lib, JSONSchema, HarSchema, Cookies, Trace) {
+function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace) {
 
 //*************************************************************************************************
 // Statistics
@@ -188,7 +189,9 @@ HarModel.parse = function(jsonString, validate)
     if (!validate)
         return input;
 
-    var result = JSONSchema.validate(input, HarSchema.logType);
+    //xxxHonza: doesn't have to be resolved repeatedly.
+    var resolvedSchema = Ref.resolveJson(HarSchema);
+    var result = JSONSchema.validate(input, resolvedSchema.logType);
     if (result.valid)
         return input;
 
