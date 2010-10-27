@@ -67,7 +67,7 @@ var pageType = {
         "properties": {
             "startedDateTime": {"type": "string", "format": "date-time", "pattern": dateTimePattern},
             "id": {"type": "string", "unique": true},
-            "title": {"type": "string"},
+            "title": {"type": "string", "minLength": 1},
             "pageTimings": {"$ref": "pageTimingsType"},
             "comment": {"type": "string", "optional": true}
         }
@@ -204,7 +204,7 @@ var contentType = {
         "properties": {
             "size": {"type": "integer"},
             "compression": {"type": "integer", "optional": true},
-            "mimeType": {"type": "string"},
+            "mimeType": {"type": "string", "minLength": 1},
             "text": {"type": "string", "optional": true},
             "encoding": {"type": "string", "optional": true},
             "comment": {"type": "string", "optional": true}
