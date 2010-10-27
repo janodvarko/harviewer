@@ -46,6 +46,13 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         content.bind("dragover", Lib.bind(Lib.cancelEvent, Lib));
         content.bind("drop", Lib.bind(this.onDrop, this));
 
+        // Update validate checkbox and register event handler.
+        this.validateNode = $("#validate");
+        var validate = Cookies.getCookie("validate");
+        if (validate)
+            this.validateNode.attr("checked", (validate == "false") ? false : true);
+        this.validateNode.change(Lib.bind(this.onValidationChange, this))
+
         // Load examples
         $(".example").click(Lib.bind(this.onLoadExample, this));
     },
@@ -65,6 +72,12 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
     onAbout: function()
     {
         this.tabView.selectTabByName("About");
+    },
+
+    onValidationChange: function()
+    {
+        var validate = this.validateNode.attr("checked");
+        Cookies.setCookie("validate", validate);
     },
 
     onLoadExample: function(event)
