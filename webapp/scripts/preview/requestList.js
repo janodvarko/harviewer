@@ -592,7 +592,7 @@ RequestList.prototype = domplate(
 
     formatRequestCount: function(count)
     {
-        return count + " " + (count == 1 ? String.request : String.requests);
+        return count + " " + (count == 1 ? Strings.request : Strings.requests);
     },
 
     summarizePhase: function(phase)
