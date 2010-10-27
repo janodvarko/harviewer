@@ -51,7 +51,7 @@ PageList.prototype = domplate(
 
     getPageTitle: function(page)
     {
-        return page.title;
+        return Lib.cropString(page.title, 100);
     },
 
     getPageID: function(page)
