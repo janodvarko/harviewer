@@ -204,7 +204,7 @@ var contentType = {
         "properties": {
             "size": {"type": "integer"},
             "compression": {"type": "integer", "optional": true},
-            "mimeType": {"type": "string", "minLength": 1},
+            "mimeType": {"type": "string"},
             "text": {"type": "string", "optional": true},
             "encoding": {"type": "string", "optional": true},
             "comment": {"type": "string", "optional": true}
