@@ -67,7 +67,7 @@ var pageType = {
         "properties": {
             "startedDateTime": {"type": "string", "format": "date-time", "pattern": dateTimePattern},
             "id": {"type": "string", "unique": true},
-            "title": {"type": "string", "minLength": 1},
+            "title": {"type": "string"},
             "pageTimings": {"$ref": "pageTimingsType"},
             "comment": {"type": "string", "optional": true}
         }
@@ -180,7 +180,7 @@ var postDataType = {
         "optional": true,
         "properties": {
             "mimeType": {"type": "string"},
-            "text": {"type": "string", "optional": true},
+            "text": {"type": "string"},
             "params": {
                 "type": "array",
                 "optional": true,
