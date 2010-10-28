@@ -4,21 +4,6 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
-HAR Viewer 2.0.2
-----------------
-* Fix HAR input validation according to the HAR schema.
-* Remember the validation option (the Home tab) in a cookie.
-* Update HAR schema:
-  - page.title must not be empty.
-  - entry.response.content.mimeType must not be empty.
-
-HAR Viewer 2.0.1
-----------------
-* Context menu for individual requests
-  - Break timeline layout
-  - Open Request in New Window
-  - Open Response in New Window.
-
 HAR Viewer 2.0
 ==============
 * Significant refactoring of the source code (all modularized now).
@@ -27,6 +12,12 @@ HAR Viewer 2.0
 * Support for localization.
 * Support for print (from the browser)
 * Generating JSDoc from source code comments.
+* Fix HAR input validation according to the HAR schema.
+* Remember the validation option (the Home tab) in a cookie.
+* Context menu for individual requests
+  - Break timeline layout
+  - Open Request in New Window
+  - Open Response in New Window.
 
 
 HAR Viewer 1.1-13
