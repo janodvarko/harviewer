@@ -319,7 +319,7 @@ Timeline.Desc = domplate(
 
         var requests = HarModel.getPageEntries(object.input, object.page);
         var count = requests.length;
-        summary += count + " " + (count == 1 ? String.request : String.requests);
+        summary += count + " " + (count == 1 ? Strings.request : Strings.requests);
 
         return summary;
     },
