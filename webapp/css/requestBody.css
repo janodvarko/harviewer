@@ -5,6 +5,10 @@
     border-bottom: 1px solid #D7D7D7;
 }
 
+.netInfoRow .tabView {
+    width: 99%; /* avoid 1px horizontal scrollbar when a requst is expanded and tabView visible */
+}
+
 .netInfoText {
     padding: 8px;
     background-color: #FFFFFF;
