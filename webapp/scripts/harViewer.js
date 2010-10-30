@@ -69,7 +69,10 @@ HarView.prototype = Lib.extend(new TabView(),
         this.selectTabByName("Home");
 
         // Auto load all HAR files specified in the URL.
-        if (HarModel.Loader.run(Lib.bind(this.appendPreview, this)))
+        var okCallback = Lib.bind(this.appendPreview, this);
+        var errorCallback = Lib.bind(this.onLoadError, this);
+
+        if (HarModel.Loader.run(okCallback, errorCallback))
             this.homeTab.loadInProgress(true);
     },
 
@@ -102,6 +105,12 @@ HarView.prototype = Lib.extend(new TabView(),
 
         // HAR loaded, parsed and appended into the UI, let's shut down the progress.
         this.homeTab.loadInProgress(false);
+    },
+
+    onLoadError: function(response, ioArgs)
+    {
+        this.homeTab.loadInProgress(true, response.statusText);
+        Trace.error("harModule.loadRemoteArchive; ERROR ", response, ioArgs);
     }
 })
 

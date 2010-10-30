@@ -243,7 +243,7 @@ HarModel.getParentPage = function(input, file)
 
 HarModel.Loader =
 {
-    run: function(callback)
+    run: function(callback, errorCallback)
     {
         var baseUrl = Lib.getURLParameter("baseUrl");
 
@@ -265,13 +265,13 @@ HarModel.Loader =
             urls.push(inputUrl);
 
         if ((baseUrl || inputUrl) && urls.length > 0)
-            return this.loadRemoteArchive(urls, callbackName, callback);
+            return this.loadRemoteArchive(urls, callbackName, callback, errorCallback);
 
         // The URL can specify also a locale file (with the same domain).
         // http://domain/har/viewer?path=<local-file-path>
         var filePath = Lib.getURLParameter("path");
         if (filePath)
-            return this.loadLocalArchive(filePath, callback);
+            return this.loadLocalArchive(filePath, callback, errorCallback);
     },
 
     loadExample: function(path, callback)
@@ -285,7 +285,7 @@ HarModel.Loader =
         Cookies.setCookie("stats", true);
     },
 
-    loadLocalArchive: function(filePath, callback)
+    loadLocalArchive: function(filePath, callback, errorCallback)
     {
         // Execute XHR to get a local file (the same domain).
         $.ajax({
@@ -299,14 +299,14 @@ HarModel.Loader =
 
             error: function(response, ioArgs)
             {
-                Trace.error("harModule.loadLocalArchive; ERROR ", response);
+                errorCallback(response, ioArgs);
             }
         });
 
         return true;
     },
 
-    loadRemoteArchive: function(urls, callbackName, callback)
+    loadRemoteArchive: function(urls, callbackName, callback, errorCallback)
     {
         if (!urls.length)
             return false;
@@ -334,14 +334,14 @@ HarModel.Loader =
                 {
                     var self = this;
                     setTimeout(function() {
-                        self.loadRemoteArchive(urls, callbackName, callback);
+                        self.loadRemoteArchive(urls, callbackName, callback, errorCallback);
                     }, 300);
                 }
             },
 
             error: function(response, ioArgs)
             {
-                Trace.error("harModule.loadRemoteArchive; ERROR ", response);
+                errorCallback(response, ioArgs);
             }
         });
 
