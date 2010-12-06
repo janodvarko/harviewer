@@ -13,14 +13,14 @@ Selenium Requirements:
 
 Run All Selenium Tests for HAR Viewer:
 --------------------------------------
-1) Set your HAR viewer server base path in config.php, e.g.:
+1) Set your HAR viewer server base path in selenium/tests/config.php, e.g.:
 $harviewer_base = "http://legoas/har/viewer/";
 
 HAR Viewer must be installed on your server in /har/viewer/ directory, e.g:
 http://<your-domain>/har/viewer/
 
-2) Run Selenium using:
-selenium/start-server.bat
+2) Go to the selenium directory and run Selenium using:
+start-server.bat
 
-3) Run PHP tests:
-selenium/tests/phpunit allTests.php
+3) Now go to the selenium/tests directory and run PHP tests:
+phpunit allTests.php
