@@ -180,7 +180,7 @@ var postDataType = {
         "optional": true,
         "properties": {
             "mimeType": {"type": "string"},
-            "text": {"type": "string"},
+            "text": {"type": "string", "optional": true},
             "params": {
                 "type": "array",
                 "optional": true,
