@@ -178,6 +178,8 @@ HarModel.parse = function(jsonString, validate)
     }
     catch (err)
     {
+        console.exception("HarModel.parse; EXCEPTION", err);
+
         throw {
             errors: [{
                 "message": "Failed to parse JSON",
