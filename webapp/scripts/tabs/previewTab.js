@@ -88,6 +88,11 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
         if (input && Cookies.getCookie("stats") == "true")
             this.onStats(false);
 
+        this.updateDownloadifyButton();
+    },
+
+    updateDownloadifyButton: function()
+    {
         // Create download button (using Downloadify)
         var model = this.model;
         $(".harDownloadButton").downloadify(
@@ -159,6 +164,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
 
         // Re-render toolbar to update label.
         this.toolbar.render();
+        this.updateDownloadifyButton();
 
         Cookies.setCookie("timeline", visible);
     },
@@ -174,6 +180,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
 
         // Re-render toolbar to update label.
         this.toolbar.render();
+        this.updateDownloadifyButton();
 
         Cookies.setCookie("stats", visible);
     },

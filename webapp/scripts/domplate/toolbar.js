@@ -20,7 +20,7 @@ var ToolbarTempl = domplate(
         DIV({"class": "toolbar", onclick: "$onClick"}),
 
     buttonTag:
-        SPAN({"class": "$button.className toolbarButton", title: "$button.tooltiptext",
+        SPAN({"class": "$button|getClassName toolbarButton", title: "$button.tooltiptext",
             $text: "$button|hasLabel", onclick: "$button|getCommand"},
             "$button|getLabel"
         ),
@@ -36,6 +36,11 @@ var ToolbarTempl = domplate(
     getLabel: function(button)
     {
         return button.label ? button.label : "";
+    },
+
+    getClassName: function(button)
+    {
+        return button.className ? button.className : "";
     },
 
     getCommand: function(button)
