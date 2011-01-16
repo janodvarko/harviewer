@@ -4,6 +4,14 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
+HAR Viewer 2.0.6
+----------------
+Bug Fixes:
+Issue 25: Printing prints one page only
+Issue 29: Downloadify icon disappears
+Issue 30: connect, dns, blocked should be optional
+Issue 32: unused placeholder
+
 HAR Viewer 2.0
 ==============
 * Significant refactoring of the source code (all modularized now).
@@ -18,7 +26,6 @@ HAR Viewer 2.0
   - Break timeline layout
   - Open Request in New Window
   - Open Response in New Window.
-
 
 HAR Viewer 1.1-13
 -----------------
