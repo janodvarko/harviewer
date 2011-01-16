@@ -934,22 +934,22 @@ var EntrySizeInfoTip = domplate(
     getSize: function(file)
     {
         var bodySize = file.response.bodySize;
-        return Lib.formatString(Strings.tooltipSize, [Lib.formatSize(bodySize),
-            ((bodySize.size < 0) ? "?" : Lib.formatNumber(bodySize))]);
+        return Lib.formatString(Strings.tooltipSize, Lib.formatSize(bodySize),
+            ((bodySize.size < 0) ? "?" : Lib.formatNumber(bodySize)));
     },
 
     getBodySize: function(file)
     {
         var bodySize = file.response.bodySize;
-        return Lib.formatString(Strings.tooltipZippedSize, [Lib.formatSize(bodySize),
-            ((bodySize.size < 0) ? "?" : Lib.formatNumber(bodySize))]);
+        return Lib.formatString(Strings.tooltipZippedSize, Lib.formatSize(bodySize),
+            ((bodySize.size < 0) ? "?" : Lib.formatNumber(bodySize)));
     },
 
     getContentSize: function(file)
     {
         var contentSize = file.response.content.size;
-        return Lib.formatString(Strings.tooltipUnzippedSize, [Lib.formatSize(contentSize),
-            ((contentSize.size < 0) ? "?" : Lib.formatNumber(contentSize))]);
+        return Lib.formatString(Strings.tooltipUnzippedSize, Lib.formatSize(contentSize),
+            ((contentSize.size < 0) ? "?" : Lib.formatNumber(contentSize)));
     },
 
     render: function(input, row, parentNode)
