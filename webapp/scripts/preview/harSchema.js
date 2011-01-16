@@ -244,9 +244,9 @@ var timingsType = {
         "id": "timingsType",
         "description": "Info about request-response timing.",
         "properties": {
-            "dns": {"type": "integer", "min": -1},
-            "connect": {"type": "integer", "min": -1},
-            "blocked": {"type": "integer", "min": -1},
+            "dns": {"type": "integer", "optional": true, "min": -1},
+            "connect": {"type": "integer", "optional": true, "min": -1},
+            "blocked": {"type": "integer", "optional": true, "min": -1},
             "send": {"type": "integer", "min": -1},
             "wait": {"type": "integer", "min": -1},
             "receive": {"type": "integer", "min": -1},
