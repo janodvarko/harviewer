@@ -4,6 +4,15 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
+HAR Viewer 2.0.7 (in progress)
+----------------
+Issue 34: Feature request: make tabs go away?
+Issue 36: API enhancement: make pies and timeline chart show onload
+Issue 38: Enhancment: add ability to hide/show downloaddify icon
+
+New API, doc updated:
+http://code.google.com/p/harviewer/wiki/Customization
+
 HAR Viewer 2.0.6
 ----------------
 Bug Fixes:
