@@ -195,6 +195,16 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
     // Public
 
+    showStats: function(show)
+    {
+        Cookies.setCookie("stats", show);
+    },
+
+    showTimeline: function(show)
+    {
+        Cookies.setCookie("timeline", show);
+    },
+
     append: function(input)
     {
         // The page list is responsible for rendering expandable list of pages and requests.
