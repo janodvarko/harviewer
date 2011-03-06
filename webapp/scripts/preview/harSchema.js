@@ -265,7 +265,7 @@ Schema.prototype =
     registerType: function()
     {
         var doIt = function(my, obj){
-            for (name in obj) {
+            for (var name in obj) {
                 if (obj.hasOwnProperty(name) && name != "prototype") {
                     my[name] = obj[name];
                 }
