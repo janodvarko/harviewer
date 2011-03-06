@@ -63,7 +63,7 @@ HarView.prototype = Lib.extend(new TabView(),
     {
         // Global application properties.
         this.version = content.getAttribute("version");
-        this.harSpecURL = "http://groups.google.com/group/http-archive-specification/web/har-1-2-spec";
+        this.harSpecURL = "http://www.softwareishard.com/blog/har-12-spec/";
 
         this.render(content);
         this.selectTabByName("Home");
