@@ -90,17 +90,49 @@ TabView.prototype =
         return tab;
     },
 
-    getTab: function(name)
+    removeTab: function(tabId)
     {
-        var tab = Lib.getElementByClass(this.element, name + "Tab");
-        return tab ? tab.repObject : null;
+        for (var i in this.tabs)
+        {
+            var tab = this.tabs[i];
+            if (tab.id == tabId)
+            {
+                this.tabs.splice(i, 1);
+                break;
+            }
+        }
     },
 
-    selectTabByName: function(name)
+    getTab: function(tabId)
     {
-        var tab = Lib.getElementByClass(this.element, name + "Tab");
+        for (var i in this.tabs)
+        {
+            var tab = this.tabs[i];
+            if (tab.id == tabId)
+                return tab;
+        }
+    },
+
+    selectTabByName: function(tabId)
+    {
+        var tab = Lib.getElementByClass(this.element, tabId + "Tab");
         if (tab)
             this.selectTab(tab);
+    },
+
+    showTabBar: function(show)
+    {
+        if (this.element)
+        {
+            if (show)
+                this.element.removeAttribute("hideTabBar");
+            else
+                this.element.setAttribute("hideTabBar", "true");
+        }
+        else
+        {
+            this.tabBarVisibility = show;
+        }
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -118,6 +150,7 @@ TabView.prototype =
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+    // xxxHonza: this should be private.
     onClickTab: function(e)
     {
         var tab = Lib.getAncestorByClass(e.target, "tab");
@@ -175,6 +208,7 @@ TabView.prototype =
         this.updateTabBody(viewBody, view);
     },
 
+    // xxxHonza: should be private
     updateTabBody: function(viewBody, view)
     {
         var tab = viewBody.selectedTab.repObject;
@@ -206,6 +240,8 @@ TabView.prototype =
     {
         this.element = TabViewTempl.tag.replace({tabView: this}, parentNode, TabViewTempl);
         Lib.setClass(this.element, this.id);
+
+        this.showTabBar(this.tabBarVisibility);
 
         for (var i in this.tabs)
         {

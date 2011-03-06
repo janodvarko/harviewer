@@ -59,3 +59,14 @@
     font-size: 17px;
     font-family: Lucida Grande, Tahoma, sans-serif;
 }
+
+/*************************************************************************************************/
+
+/* Support for hiding the tabBar */
+.harView[hideTabBar="true"] .harViewBar {
+    display: none;
+}
+
+.harView[hideTabBar="true"] .harViewBodies {
+    position: inherit;
+}

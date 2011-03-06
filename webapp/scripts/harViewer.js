@@ -18,7 +18,7 @@ function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel, St
 //*************************************************************************************************
 // The Application
 
-function HarView(content)
+function HarView()
 {
     this.id = "harView";
 
@@ -26,13 +26,11 @@ function HarView(content)
     this.model = new HarModel();
 
     // Append tabs
-    this.homeTab = this.appendTab(new HomeTab());
-    this.previewTab = this.appendTab(new PreviewTab(this.model));
-    this.domTab = this.appendTab(new DomTab());
-    this.aboutTab = this.appendTab(new AboutTab());
-    this.schemaTab = this.appendTab(new SchemaTab());
-
-    this.initialize(content);
+    this.appendTab(new HomeTab());
+    this.appendTab(new PreviewTab(this.model));
+    this.appendTab(new DomTab());
+    this.appendTab(new AboutTab());
+    this.appendTab(new SchemaTab());
 }
 
 /**
@@ -73,43 +71,57 @@ HarView.prototype = Lib.extend(new TabView(),
         var errorCallback = Lib.bind(this.onLoadError, this);
 
         if (HarModel.Loader.run(okCallback, errorCallback))
-            this.homeTab.loadInProgress(true);
+        {
+            var homeTab = this.getTab("Home");
+            if (homeTab)
+                homeTab.loadInProgress(true);
+        }
     },
 
     appendPreview: function(jsonString)
     {
+        var homeTab = this.getTab("Home");
+        var previewTab = this.getTab("Preview");
+        var domTab = this.getTab("DOM");
+
         try
         {
             var validate = $("#validate").attr("checked");
             var input = HarModel.parse(jsonString, validate);
             this.model.append(input);
 
-            // xxxHonza: this should be smarter.
-            // Make sure the tab is rendered.
-            this.previewTab.select();
+            if (previewTab)
+            {
+                // xxxHonza: this should be smarter.
+                // Make sure the tab is rendered now.
+                previewTab.select();
+                previewTab.append(input);
+            }
 
-            // Append loaded data into the Preview and DOM tab.
-            this.previewTab.append(input);
-            this.domTab.append(input);
+            if (domTab)
+                domTab.append(input);
         }
         catch (err)
         {
             Trace.exception("HarView.appendPreview; EXCEPTION ", err);
 
-            if (err.errors)
-                this.previewTab.appendError(err);
+            if (err.errors && previewTab)
+                previewTab.appendError(err);
         }
 
-        // The Preview is what the user wants to see now.
-        this.previewTab.select();
-
         // HAR loaded, parsed and appended into the UI, let's shut down the progress.
-        this.homeTab.loadInProgress(false);
+        if (homeTab)
+            homeTab.loadInProgress(false);
+
+        Lib.fireEvent(content, "onViewerAppendPreview");
     },
 
     onLoadError: function(response, ioArgs)
     {
-        this.homeTab.loadInProgress(true, response.statusText);
+        var homeTab = this.getTab("Home");
+        if (homeTab)
+            homeTab.loadInProgress(true, response.statusText);
+
         Trace.error("harModule.loadRemoteArchive; ERROR ", response, ioArgs);
     }
 })
@@ -117,15 +129,13 @@ HarView.prototype = Lib.extend(new TabView(),
 //*************************************************************************************************
 // Initialization
 
-/**
- * Render the entire application UI.
- */ 
 var content = document.getElementById("content");
-var harView = new HarView(content);
+var harView = content.repObject = new HarView();
 
-// Viewer is initialized so, notify all listeners. This is helpful
-// for extending the page using e.g. Firefox extensions.
-Lib.fireEvent(content, "onViewerInit", [harView]);
+// Fire some events for listeners. This is useful for extending/customizing the viewer.
+Lib.fireEvent(content, "onViewerPreInit");
+harView.initialize(content);
+Lib.fireEvent(content, "onViewerInit");
 
 Trace.log("HarViewer; initialized OK");
 
