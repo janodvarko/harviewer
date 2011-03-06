@@ -133,6 +133,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
                 command: Lib.bindFixed(this.onStats, this, true)
             },
             {
+                id: "clear",
                 label: Strings.clearButton,
                 tooltiptext: Strings.clearTooltip,
                 command: Lib.bindFixed(this.onClear, this)
@@ -142,6 +143,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
         if ($.browser.mozilla)
         {
             buttons.push({
+                id: "download",
                 tooltiptext: Strings.downloadTooltip,
                 className: "harDownloadButton"
             });
