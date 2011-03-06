@@ -113,7 +113,7 @@ HarView.prototype = Lib.extend(new TabView(),
         if (homeTab)
             homeTab.loadInProgress(false);
 
-        Lib.fireEvent(content, "onViewerAppendPreview");
+        Lib.fireEvent(content, "onViewerHARLoaded");
     },
 
     onLoadError: function(response, ioArgs)
