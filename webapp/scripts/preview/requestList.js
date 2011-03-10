@@ -211,6 +211,10 @@ RequestList.prototype = domplate(
                 Lib.cancelEvent(event);
             }
         }
+        else if (Lib.isControlClick(event))
+        {
+            window.open(event.target.innerText || event.target.textContent);
+        }
     },
 
     toggleHeadersRow: function(row)
