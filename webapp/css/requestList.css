@@ -219,22 +219,24 @@
     height: 16px;
 }
 
-.netWindowLoadBar,
-.netContentLoadBar {
+.netPageTimingBar {
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
     width: 1px;
-    background-color: red;
     z-index:90;
     opacity: 0.5;
     display: none;
     margin-bottom:-1px;
 }
 
+.netWindowLoadBar {
+    background-color: red;
+}
+
 .netContentLoadBar {
-    background-color: Blue;
+    background-color: blue;
 }
 
 .netTimeLabel {

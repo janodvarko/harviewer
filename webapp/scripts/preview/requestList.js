@@ -19,6 +19,15 @@ function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip, Menu) 
 function RequestList(input)
 {
     this.input = input;
+    this.pageTimings = [];
+
+    // List of pageTimings fields (see HAR 1.2 spec) that should be displayed
+    // in the waterfall graph as vertical lines. The HAR spec defines two timings:
+    // onContentLoad: DOMContentLoad event fired
+    // onLoad: load event fired
+    // New custom page timing fields can be appended using RequestList.addPageTiming method.
+    this.addPageTiming("onContentLoad", "netContentLoadBar");
+    this.addPageTiming("onLoad", "netWindowLoadBar");
 
     InfoTip.addListener(this);
 }
@@ -77,11 +86,10 @@ RequestList.prototype = domplate(
                         DIV({"class": "netBlockingBar netBar", style: "left: $file.offset"}),
                         DIV({"class": "netSendingBar netBar", style: "left: $file.offset"}),
                         DIV({"class": "netWaitingBar netBar", style: "left: $file.offset"}),
-                        DIV({"class": "netContentLoadBar netBar", style: "left: $file.offset"}),
-                        DIV({"class": "netWindowLoadBar netBar", style: "left: $file.offset"}),
                         DIV({"class": "netReceivingBar netBar", style: "left: $file.offset; width: $file.width"},
                             SPAN({"class": "netTimeLabel"}, "$file|getElapsedTime")
                         )
+                        // Page timings (vertical lines) are dynamically appended here.
                     )
                 ),
                 TD({"class": "netOptionsCol netCol"},
@@ -460,26 +468,37 @@ RequestList.prototype = domplate(
         this.barWaitingWidth = ((waiting/this.phaseElapsed) * 100).toFixed(3);
         this.barReceivingWidth = ((receiving/this.phaseElapsed) * 100).toFixed(3);
 
-        // Compute also offset for the contentLoadBar and windowLoadBar, which are
-        // displayed for the first phase. This is done only if the page exists.
-        if (page)
-        {
-            var pageStart = Lib.parseISO8601(page.startedDateTime);
-
-            // onContentLoad (e.g. DOMContentLoad for Firefox)
-            var onContentLoad = page.pageTimings.onContentLoad;
-            if (file.phase == this.phases[0] && onContentLoad > 0)
-                this.contentLoadBarOffset =
-                    (((pageStart+onContentLoad-phase.startTime)/this.phaseElapsed) * 100).toFixed(3);
-
-            // onLoad (e.g. onLoad for Firefox)
-            var onLoad = page.pageTimings.onLoad;
-            if (file.phase == this.phases[0] && onLoad > 0)
-                this.windowLoadBarOffset =
-                    (((pageStart+onLoad-phase.startTime)/this.phaseElapsed) * 100).toFixed(3);
-        }
+        // Compute also offset for page timings, e.g.: contentLoadBar and windowLoadBar,
+        // which are displayed for the first phase. This is done only if a page exists.
+        this.calculatePageTimings(page, file, phase);
 
         return phase;
+    },
+
+    calculatePageTimings: function(page, file, phase)
+    {
+        // Obviouly we need a page object for page timings.
+        if (!page)
+            return;
+
+        // Page timings (vertical lines) are displayed only for the first phase.
+        if (file.phase != this.phases[0])
+            return;
+
+        var pageStart = Lib.parseISO8601(page.startedDateTime);
+
+        // Iterate all registerd page timings fields and calculate offsets (from the
+        // beginning of the waterfall graphs) for all vertical lines.
+        for (var i=0; i<this.pageTimings.length; i++)
+        {
+            var fieldName = this.pageTimings[i].name;
+            var time = page.pageTimings[fieldName];
+            if (time > 0)
+            {
+                var offset = (((pageStart + time - phase.startTime)/this.phaseElapsed) * 100).toFixed(3);
+                this.pageTimings[i].offset = offset;
+            }
+        }
     },
 
     updateTimeline: function(page)
@@ -509,15 +528,16 @@ RequestList.prototype = domplate(
             // in the DOM tab.
             delete file.phase;
 
+            // Parent for all timing bars.
+            var timelineBar = Lib.getElementByClass(row, "netTimelineBar");
+
             // Get bar nodes. Every node represents one part of the graph-timeline.
-            var resolvingBar = Lib.getElementByClass(row, "netResolvingBar");
+            var resolvingBar = timelineBar.children[0];
             var connectingBar = resolvingBar.nextSibling;
             var blockingBar = connectingBar.nextSibling;
             var sendingBar = blockingBar.nextSibling;
             var waitingBar = sendingBar.nextSibling;
-            var contentLoadBar = waitingBar.nextSibling;
-            var windowLoadBar = contentLoadBar.nextSibling;
-            var receivingBar = windowLoadBar.nextSibling;
+            var receivingBar = waitingBar.nextSibling;
 
             // All bars starts at the beginning of the appropriate request graph. 
             resolvingBar.style.left = 
@@ -535,16 +555,25 @@ RequestList.prototype = domplate(
             waitingBar.style.width = this.barWaitingWidth + "%";
             receivingBar.style.width = this.barReceivingWidth + "%";
 
-            if (this.contentLoadBarOffset) {
-                contentLoadBar.style.left = this.contentLoadBarOffset + "%";
-                contentLoadBar.style.display = "block";
-                this.contentLoadBarOffset = null;
-            }
+            // Generate UI for page timings (vertical lines displayed for the first phase)
+            for (var i=0; i<this.pageTimings.length; i++)
+            {
+                var timing = this.pageTimings[i];
+                if (!timing.offset)
+                    continue;
 
-            if (this.windowLoadBarOffset) {
-                windowLoadBar.style.left = this.windowLoadBarOffset + "%";
-                windowLoadBar.style.display = "block";
-                this.windowLoadBarOffset = null;
+                var bar = timelineBar.ownerDocument.createElement("DIV");
+                timelineBar.appendChild(bar);
+
+                if (timing.classes)
+                    Lib.setClass(bar, timing.classes);
+
+                Lib.setClass(bar, "netPageTimingBar netBar");
+
+                bar.style.left = timing.offset + "%";
+                bar.style.display = "block";
+
+                timing.offset = null;
             }
         }
     },
@@ -633,7 +662,7 @@ RequestList.prototype = domplate(
 
         var totalTime = maxTime - minTime;
         return {cachedSize: cachedSize, totalSize: totalSize, totalTime: totalTime,
-                fileCount: fileCount}
+            fileCount: fileCount}
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -699,6 +728,17 @@ RequestList.prototype = domplate(
         this.fileTag.insertRows({files: requests}, lastRow, this);
 
         this.updateLayout(this.table, page);
+    },
+
+    addPageTiming: function(name, classes)
+    {
+        var pageTiming = {
+            name: name,
+            classes: classes
+        };
+
+        this.pageTimings.push(pageTiming);
+        return pageTiming;
     }
 });
 
