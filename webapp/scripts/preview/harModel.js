@@ -268,6 +268,12 @@ HarModel.Loader =
 
         if ((baseUrl || inputUrl) && urls.length > 0)
             return this.loadRemoteArchive(urls, callbackName, callback, errorCallback);
+
+        // The URL can specify also a locale file (with the same domain).
+        // http://domain/har/viewer?path=<local-file-path>
+        var filePath = Lib.getURLParameter("path");
+        if (filePath)
+            return this.loadLocalArchive(filePath, callback, errorCallback);
     },
 
     loadExample: function(path, callback)
