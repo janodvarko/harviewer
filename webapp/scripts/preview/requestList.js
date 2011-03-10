@@ -26,8 +26,15 @@ function RequestList(input)
     // onContentLoad: DOMContentLoad event fired
     // onLoad: load event fired
     // New custom page timing fields can be appended using RequestList.addPageTiming method.
-    this.addPageTiming("onContentLoad", "netContentLoadBar");
-    this.addPageTiming("onLoad", "netWindowLoadBar");
+    this.addPageTiming({
+        name: "onContentLoad",
+        classes: "netContentLoadBar"
+    });
+
+    this.addPageTiming({
+        name: "onLoad",
+        classes: "netWindowLoadBar"
+    });
 
     InfoTip.addListener(this);
 }
@@ -734,15 +741,9 @@ RequestList.prototype = domplate(
         this.updateLayout(this.table, page);
     },
 
-    addPageTiming: function(name, classes)
+    addPageTiming: function(timing)
     {
-        var pageTiming = {
-            name: name,
-            classes: classes
-        };
-
-        this.pageTimings.push(pageTiming);
-        return pageTiming;
+        this.pageTimings.push(timing);
     }
 });
 

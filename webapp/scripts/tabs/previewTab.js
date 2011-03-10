@@ -222,8 +222,15 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
     {
         if (err.errors)
             this.errorTable.append(err, Lib.$(this._body, "previewList"));
+    },
+
+    addPageTiming: function(timing)
+    {
+        PageList.prototype.pageTimings.push(timing);
     }
 });
+
+//*************************************************************************************************
 
 return PreviewTab;
 

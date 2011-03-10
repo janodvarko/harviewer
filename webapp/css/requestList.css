@@ -229,6 +229,7 @@
     opacity: 0.5;
     display: none;
     margin-bottom:-1px;
+    background-color: green;
 }
 
 .netWindowLoadBar {

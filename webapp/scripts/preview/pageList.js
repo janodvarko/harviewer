@@ -86,6 +86,12 @@ PageList.prototype = domplate(
 
             // Build request list for the expanded page.
             var requestList = new RequestList(this.input);
+
+            // Dynamically append custom registered page timings.
+            var pageTimings = PageList.prototype.pageTimings;
+            for (var i=0; i<pageTimings.length; i++)
+                requestList.addPageTiming(pageTimings[i]);
+
             requestList.render(infoBodyRow.firstChild, row.repObject);
         }
         else
@@ -169,6 +175,14 @@ PageList.prototype = domplate(
         this.append(parentNode);
     }
 });
+
+//*************************************************************************************************
+
+// Custom registered page timings, displayed as vertical lines over individual requests
+// in the first phase.
+PageList.prototype.pageTimings = [];
+
+//*************************************************************************************************
 
 return PageList;
 
