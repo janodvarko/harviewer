@@ -34,7 +34,7 @@ AboutTab.prototype =
     {
         var self = this;
         body = this.bodyTag.replace({}, body);
-        require(["text!tabs/AboutTab.html"], function(html)
+        require(["text!tabs/aboutTab.html"], function(html)
         {
             html = html.replace("@VERSION@", tabView.version, "g");
             html = html.replace("@HAR_SPEC_URL@", tabView.harSpecURL, "g");
