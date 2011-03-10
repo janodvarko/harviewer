@@ -5,6 +5,19 @@
     deploy files located within 'webapp-build' directory -->
 <project name="HARViewer" basedir="." default="build">
 
+    <!-- OS depeding tasks -->
+    <condition property="isMac">
+        <os family="mac" />
+    </condition>
+
+    <condition property="isWindows">
+        <os family="windows" />
+    </condition>
+
+    <condition property="isUnix">
+        <os family="unix" />
+    </condition>
+
     <!-- Directories -->
     <property name="app.dir" value="webapp"/>
     <property name="build.dir" value="${app.dir}-build"/>
@@ -39,16 +52,37 @@
         <delete dir="${build.dir}"/>
     </target>
 
-    <!-- Run RequireJS build tools -->
-    <target name="requirejs">
+    <!-- Run RequireJS build tools (depending on the current OS) -->
+    <target name="requirejs-mac" if="isMac">
+        <property name="rjs-build.bat" value="../../requirejs/build/build.sh"/>
+        <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
+            <arg value="app.build.js"/>
+        </exec>
+    </target>
+
+    <target name="requirejs-win" if="isWindows">
         <property name="rjs-build.bat" value="../../requirejs/build/build.bat"/>
         <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
             <arg value="app.build.js"/>
         </exec>
     </target>
 
+    <target name="requirejs-unix" if="isUnix">
+        <property name="rjs-build.bat" value="../../requirejs/build/build.sh"/>
+        <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
+            <arg value="app.build.js"/>
+        </exec>
+    </target>
+
     <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="build" depends="clean, requirejs">
+    <target name="build" depends="clean, requirejs-mac, requirejs-win, requirejs-unix">
+
+        <!-- Log info about the current OS -->
+        <echo message="Building HAR Viewer on:" />
+        <echo message="os.name = ${os.name}" />
+        <echo message="os.arch = ${os.arch}" />
+        <echo message="os.version = ${os.version}" />
+
         <!-- Copy fresh harSchema.js we don't want it to be compressed
             its content is displayed in the Schema tab -->
         <copy file="${app.dir}/scripts/preview/harSchema.js"
