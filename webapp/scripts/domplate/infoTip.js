@@ -42,7 +42,7 @@ var InfoTip = Lib.extend(
         var scrollParent = Lib.getOverflowParent(target);
         var scrollX = x + (scrollParent ? scrollParent.scrollLeft : 0);
 
-        // Distribute event to all registered listeners and show the info tip in
+        // Distribute event to all registered listeners and show the info tip if
         // any of them return true.
         var result = Lib.dispatch2(this.listeners, "showInfoTip",
             [infoTip, target, scrollX, y, rangeParent, rangeOffset])

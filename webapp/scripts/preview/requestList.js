@@ -28,12 +28,14 @@ function RequestList(input)
     // New custom page timing fields can be appended using RequestList.addPageTiming method.
     this.addPageTiming({
         name: "onContentLoad",
-        classes: "netContentLoadBar"
+        classes: "netContentLoadBar",
+        description: Strings["ContentLoad"]
     });
 
     this.addPageTiming({
         name: "onLoad",
-        classes: "netWindowLoadBar"
+        classes: "netWindowLoadBar",
+        description: Strings["WindowLoad"]
     });
 
     InfoTip.addListener(this);
@@ -47,7 +49,8 @@ RequestList.prototype = domplate(
 /** @lends RequestList */
 {
     tableTag:
-        TABLE({"class": "netTable", cellpadding: 0, cellspacing: 0, onclick: "$onClick"},
+        TABLE({"class": "netTable", cellpadding: 0, cellspacing: 0, onclick: "$onClick",
+            _repObject: "$requestList"},
             TBODY(
                 TR(
                     TD({width: "20%"}),
@@ -681,6 +684,12 @@ RequestList.prototype = domplate(
 
     showInfoTip: function(infoTip, target, x, y)
     {
+        // There is more instances of RequestList object registered as info-tips listener
+        // so make sure the one that is associated with the target is used.
+        var table = Lib.getAncestorByClass(target, "netTable");
+        if (table.repObject != this)
+            return;
+
         var row = Lib.getAncestorByClass(target, "netRow");
         if (row)
         {
@@ -711,13 +720,13 @@ RequestList.prototype = domplate(
 
     populateTimeInfoTip: function(infoTip, row)
     {
-        EntryTimeInfoTip.render(this.input, row, infoTip);
+        EntryTimeInfoTip.render(this, row, infoTip);
         return true;
     },
 
     populateSizeInfoTip: function(infoTip, row)
     {
-        EntrySizeInfoTip.render(this.input, row, infoTip);
+        EntrySizeInfoTip.render(this, row, infoTip);
         return true;
     },
 
@@ -730,7 +739,7 @@ RequestList.prototype = domplate(
         if (!requests.length)
             return;
 
-        this.table = this.tableTag.replace({}, parentNode, this);
+        this.table = this.tableTag.replace({requestList: this}, parentNode, this);
         this.summaryRow =  this.summaryTag.insertRows({}, this.table.firstChild)[0];
 
         var tbody = this.table.firstChild;
@@ -820,11 +829,11 @@ var EntryTimeInfoTip = domplate(
         FOR("event", "$events",
             TR({"class": "timeInfoTipEventRow"},
                 TD({"class": "timeInfoTipBar", align: "center"},
-                    DIV({"class": "$event|getBarClass timeInfoTipEventBar"})
+                    DIV({"class": "$event|getPageTimingClass timeInfoTipEventBar"})
                 ),
                 TD("$event.start|formatStartTime"),
                 TD({"colspan": 2},
-                    "$event|getLabel"
+                    "$event|getTimingLabel"
                 )
             )
         ),
@@ -838,6 +847,11 @@ var EntryTimeInfoTip = domplate(
     {
         var className = obj.bar.substr(obj.bar.lastIndexOf(".") + 1);
         return "net" + className + "Bar";
+    },
+
+    getPageTimingClass: function(timing)
+    {
+        return timing.classes ? timing.classes : "";
     },
 
     formatTime: function(time)
@@ -860,8 +874,14 @@ var EntryTimeInfoTip = domplate(
         return Strings[obj.bar];
     },
 
-    render: function(input, row, parentNode)
+    getTimingLabel: function(obj)
     {
+        return obj.bar;
+    },
+
+    render: function(requestList, row, parentNode)
+    {
+        var input = requestList.input;
         var file = row.repObject;
         var page = HarModel.getParentPage(input, file);
         var pageStart = page ? Lib.parseISO8601(page.startedDateTime) : null;
@@ -939,25 +959,28 @@ var EntryTimeInfoTip = domplate(
         // Insert request timing info.
         this.timingsTag.insertRows({timings: timings}, infoTip.firstChild);
 
+        if (!page)
+            return true;
+
         // Get page event timing info (if the page exists).
         var events = [];
+        for (var i=0; i<requestList.pageTimings.length; i++)
+        {
+            var timing = requestList.pageTimings[i];
+            var name = requestList.pageTimings[i].name;
+            events.push({
+                bar: timing.description,
+                start: pageStart + page.pageTimings[name] - requestStart,
+                classes: requestList.pageTimings[i].classes
+            });
+        }
 
-        if (page && page.pageTimings.onContentLoad > 0)
-            events.push({bar: "ContentLoad",
-                start: pageStart + page.pageTimings.onContentLoad - requestStart});
-
-        if (page && page.pageTimings.onLoad > 0)
-            events.push({bar: "WindowLoad",
-                start: pageStart + page.pageTimings.onLoad - requestStart});
-
-        if (!events.length)
-            return;
-
-        // Insert separator.
-        this.separatorTag.insertRows({}, infoTip.firstChild);
-
-        // Insert events timing info.
-        this.eventsTag.insertRows({events: events}, infoTip.firstChild);
+        if (events.length)
+        {
+            // Insert separator and timing info.
+            this.separatorTag.insertRows({}, infoTip.firstChild);
+            this.eventsTag.insertRows({events: events}, infoTip.firstChild);
+        }
 
         return true;
     }
@@ -997,8 +1020,9 @@ var EntrySizeInfoTip = domplate(
             ((contentSize.size < 0) ? "?" : Lib.formatNumber(contentSize)));
     },
 
-    render: function(input, row, parentNode)
+    render: function(requestList, row, parentNode)
     {
+        var input = requestList.input;
         var file = row.repObject;
         if (file.response.bodySize == file.response.content.size)
             return this.tag.replace({file: file}, parentNode);
