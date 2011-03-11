@@ -355,16 +355,26 @@ RequestList.prototype = domplate(
         var phase = null;
 
         var pageStartedDateTime = page ? Lib.parseISO8601(page.startedDateTime) : null;
-        var onLoadTime = 0;
-        var onContentLoadTime = 0;
 
-        if (page && page.pageTimings)
+        // If the page is available get all registered page timings (events)
+        // and get the time of the last one. This can affect phase end time.
+        var onLoadTime = -1;
+        var lastEventTime = -1;
+        for (var i=0; page && page.pageTimings && i<this.pageTimings.length; i++)
         {
-            var timings = page.pageTimings;
-            onLoadTime = (timings.onLoad > 0) ? timings.onLoad : 0;
-            onContentLoadTime = (timings.onContentLoad > 0) ? timings.onContentLoad : 0;
+            var timing = this.pageTimings[i];
+            var eventTime = page.pageTimings[timing.name];
+            if (eventTime > 0)
+            {
+                if (lastEventTime < eventTime + pageStartedDateTime)
+                    lastEventTime = eventTime + pageStartedDateTime;
+
+                if (timing.name == "onLoad")
+                    onLoadTime = eventTime + pageStartedDateTime;
+            }
         }
 
+        // Iterate over all requests and create phases.
         for (var i=0; i<requests.length; i++)
         {
             var file = requests[i];
@@ -386,9 +396,8 @@ RequestList.prototype = domplate(
             // 1) There is no phase yet.
             // 2) There is a gap between this request and the last one.
             // 3) The new request is not started during the page load.
-            var newPhase =
-                ((startedDateTime - phaseLastStartTime) >= phaseInterval) &&
-                (startedDateTime > (pageStartedDateTime + onLoadTime));
+            var newPhase = ((startedDateTime - phaseLastStartTime) >= phaseInterval) &&
+                (startedDateTime > onLoadTime);
 
             // 4) The file can be also marked with breakLayout
             if (typeof(row.breakLayout) == "boolean")
@@ -413,11 +422,10 @@ RequestList.prototype = domplate(
             if (phase.endTime == undefined || phase.endTime < startedDateTime + file.time)
                 phase.endTime = startedDateTime + file.time;
 
-            if (file.phase == this.phases[0] && phase.endTime < pageStartedDateTime + onLoadTime)
-                phase.endTime = pageStartedDateTime + onLoadTime;
-
-            if (file.phase == this.phases[0] && phase.endTime < pageStartedDateTime + onContentLoadTime)
-                phase.endTime = pageStartedDateTime + onContentLoadTime;
+            // Phase end time has to reflects page event timings. For example onLoad event
+            // can be generatted after all requests are received.
+            if (file.phase == this.phases[0] && phase.endTime < lastEventTime)
+                phase.endTime = lastEventTime;
 
             row = row.nextSibling;
         }
@@ -687,7 +695,7 @@ RequestList.prototype = domplate(
         // There is more instances of RequestList object registered as info-tips listener
         // so make sure the one that is associated with the target is used.
         var table = Lib.getAncestorByClass(target, "netTable");
-        if (table.repObject != this)
+        if (!table || table.repObject != this)
             return;
 
         var row = Lib.getAncestorByClass(target, "netRow");
