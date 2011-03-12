@@ -27,6 +27,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestPageTimings");
         $suite->addTestSuite("HAR_TestSchemaTab");
         $suite->addTestSuite("HAR_TestRequestBody");
+        $suite->addTestSuite("HAR_TestRemoveTab");
 
         return $suite;
     }
