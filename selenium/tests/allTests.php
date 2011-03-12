@@ -9,6 +9,11 @@ require_once("testNoPageLog.php");
 require_once("testPageTimings.php");
 require_once("testSchemaTab.php");
 require_once("testRequestBody.php");
+require_once("testRemoveTab.php");
+require_once("testHideTabBar.php");
+require_once("testShowStatsAndTimeline.php");
+require_once("testCustomPageTiming.php");
+
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
