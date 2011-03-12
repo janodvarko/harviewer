@@ -29,6 +29,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestRequestBody");
         $suite->addTestSuite("HAR_TestRemoveTab");
         $suite->addTestSuite("HAR_TestHideTabBar");
+        $suite->addTestSuite("HAR_TestShowStatsAndTimeline");
 
         return $suite;
     }
