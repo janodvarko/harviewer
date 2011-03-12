@@ -26,5 +26,15 @@ class HAR_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->assertTrue($this->isElementPresent($locator), $message);
     }
+
+    /**
+     * Asserts that an element does not exists on the page.
+     * @param object $locator
+     * @param object $message [optional]
+     */
+    public function assertElementNotExists($locator, $message = '')
+    {
+        $this->assertFalse($this->isElementPresent($locator), $message);
+    }
 }
 ?>
