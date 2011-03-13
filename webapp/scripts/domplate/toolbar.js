@@ -96,7 +96,8 @@ Toolbar.prototype =
 
     render: function(parentNode)
     {
-        // Don't render if there are not buttons.
+        // Don't render if there are no buttons. Note that buttons can be removed
+        // as part of viewer customization.
         if (!this.buttons.length)
             return;
 
