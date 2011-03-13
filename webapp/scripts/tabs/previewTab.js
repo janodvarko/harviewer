@@ -157,10 +157,13 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
 
     onTimeline: function(animation)
     {
-        this.timeline.toggle(animation);
-
         // Update showTimeline button label.
         var button = this.toolbar.getButton("showTimeline");
+        if (!button)
+            return;
+
+        this.timeline.toggle(animation);
+
         var visible = this.timeline.isVisible();
         button.label = Strings[visible ? "hideTimelineButton" : "showTimelineButton"];
 
@@ -173,10 +176,13 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
 
     onStats: function(animation)
     {
-        this.stats.toggle(animation);
-
         // Update showStats button label.
         var button = this.toolbar.getButton("showStats");
+        if (!button)
+            return;
+
+        this.stats.toggle(animation);
+
         var visible = this.stats.isVisible();
         button.label = Strings[visible ? "hideStatsButton" : "showStatsButton"];
 
