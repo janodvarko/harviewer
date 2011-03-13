@@ -96,6 +96,10 @@ Toolbar.prototype =
 
     render: function(parentNode)
     {
+        // Don't render if there are not buttons.
+        if (!this.buttons.length)
+            return;
+
         // Use the same parent as before if just re-rendering.
         if (this.element)
             parentNode = this.element.parentNode;
