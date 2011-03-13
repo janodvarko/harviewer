@@ -13,7 +13,7 @@ require_once("testRemoveTab.php");
 require_once("testHideTabBar.php");
 require_once("testShowStatsAndTimeline.php");
 require_once("testCustomPageTiming.php");
-
+require_once("testRemoveToolbarButton.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
@@ -36,6 +36,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestHideTabBar");
         $suite->addTestSuite("HAR_TestShowStatsAndTimeline");
         $suite->addTestSuite("HAR_TestCustomPageTiming");
+        $suite->addTestSuite("HAR_TestRemoveToolbarButton");
 
         return $suite;
     }
