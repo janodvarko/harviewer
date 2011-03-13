@@ -4,14 +4,18 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
-HAR Viewer 2.0.7 (in progress)
+HAR Viewer 2.0.8
 ----------------
 Issue 34: Feature request: make tabs go away?
+Issue 35: Feature request: arbirtary vertical lines
 Issue 36: API enhancement: make pies and timeline chart show onload
 Issue 38: Enhancment: add ability to hide/show downloaddify icon
+Issue 40: Patch: Build failure on linux system (aboutTab.html)
+Issue 41: Build system feature request: use build.sh automatically on *nix systems?
+Issue 42: Patch: Control click to view resource in new window
 
 New API, doc updated:
-http://code.google.com/p/harviewer/wiki/Customization
+http://code.google.com/p/harviewer/wiki/API
 
 HAR Viewer 2.0.6
 ----------------
