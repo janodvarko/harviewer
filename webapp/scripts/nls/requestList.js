@@ -13,6 +13,7 @@ require.def("i18n!nls/requestList",
         "tooltipSize": "%S (%S bytes)",
         "tooltipZippedSize": "%S (%S bytes) - compressed",
         "tooltipUnzippedSize": "%S (%S bytes) - uncompressed",
+        "unknownSize": "Unknown size",
 
         "request.Started": "Started",
         "request.phase.Resolving": "DNS Lookup",
