@@ -396,8 +396,12 @@ RequestList.prototype = domplate(
             // 1) There is no phase yet.
             // 2) There is a gap between this request and the last one.
             // 3) The new request is not started during the page load.
-            var newPhase = ((startedDateTime - phaseLastStartTime) >= phaseInterval) &&
-                (startedDateTime > onLoadTime);
+            var newPhase = false;
+            if (phaseInterval >= 0)
+            {
+                newPhase = ((startedDateTime - phaseLastStartTime) >= phaseInterval) &&
+                    (startedDateTime > onLoadTime);
+            }
 
             // 4) The file can be also marked with breakLayout
             if (typeof(row.breakLayout) == "boolean")
@@ -743,19 +747,28 @@ RequestList.prototype = domplate(
 
     render: function(parentNode, page)
     {
-        var requests = HarModel.getPageEntries(this.input, page);
-        if (!requests.length)
-            return;
+        var entries = HarModel.getPageEntries(this.input, page);
+        if (!entries.length)
+            return null;
 
-        this.table = this.tableTag.replace({requestList: this}, parentNode, this);
-        this.summaryRow =  this.summaryTag.insertRows({}, this.table.firstChild)[0];
+        return this.append(parentNode, page, entries);
+    },
+
+    append: function(parentNode, page, entries)
+    {
+        if (!this.table)
+            this.table = this.tableTag.replace({requestList: this}, parentNode, this);
+
+        if (!this.summaryRow)
+            this.summaryRow = this.summaryTag.insertRows({}, this.table.firstChild)[0];
 
         var tbody = this.table.firstChild;
         var lastRow = tbody.lastChild.previousSibling;
 
-        this.fileTag.insertRows({files: requests}, lastRow, this);
-
+        var result = this.fileTag.insertRows({files: entries}, lastRow, this);
         this.updateLayout(this.table, page);
+
+        return result[0];
     },
 
     addPageTiming: function(timing)
