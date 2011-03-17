@@ -85,6 +85,12 @@ Toolbar.prototype =
         }
     },
 
+    addButtons: function(buttons)
+    {
+        for (var i=0; i<buttons.length; i++)
+            this.addButton(buttons[i]);
+    },
+
     getButton: function(buttonId)
     {
         for (var i=0; i<this.buttons.length; i++)
