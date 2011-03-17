@@ -14,6 +14,7 @@ require.def("i18n!nls/requestBody",
         "Cookies": "Cookies",
         "Response": "Response",
         "Cache": "Cache",
-        "HTML": "HTML"
+        "HTML": "HTML",
+        "DataURL": "Data URL"
     }
 });

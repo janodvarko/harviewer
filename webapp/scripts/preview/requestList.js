@@ -66,7 +66,7 @@ RequestList.prototype = domplate(
     fileTag:
         FOR("file", "$files",
             TR({"class": "netRow loaded",
-                $hasHeaders: "$file|hasResponseHeaders",
+                $isExpandable: "$file|isExpandable",
                 $responseError: "$file|isError",
                 $fromCache: "$file|isFromCache"},
                 TD({"class": "netHrefCol netCol"},
@@ -191,9 +191,11 @@ RequestList.prototype = domplate(
         return this.formatSize(size);
     },
 
-    hasResponseHeaders: function(file)
+    isExpandable: function(file)
     {
-        return file.response.headers.length > 0;
+        var hasHeaders = file.response.headers.length > 0;
+        var hasDataURL = file.request.url.indexOf("data:") == 0;
+        return hasHeaders || hasDataURL;
     },
 
     formatSize: function(bytes)
@@ -230,7 +232,7 @@ RequestList.prototype = domplate(
 
     toggleHeadersRow: function(row)
     {
-        if (!Lib.hasClass(row, "hasHeaders"))
+        if (!Lib.hasClass(row, "isExpandable"))
             return;
 
         var file = row.repObject;

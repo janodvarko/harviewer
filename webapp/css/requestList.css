@@ -137,7 +137,7 @@
     cursor: pointer;
 }
 
-.hasHeaders .netHrefLabel:hover {
+.isExpandable .netHrefLabel:hover {
     cursor: pointer;
     color: blue;
     text-decoration: underline;
@@ -376,7 +376,7 @@
 
 /*************************************************************************************************/
 
-.hasHeaders .netHrefLabel {
+.isExpandable .netHrefLabel {
     background-image: url(images/twistyClosed.png);
     background-repeat: no-repeat;
     background-position: 2px 2px;

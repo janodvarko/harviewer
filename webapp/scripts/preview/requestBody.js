@@ -28,6 +28,7 @@ function(Domplate, Strings, Lib, TabView, dp) { with (Domplate) {
  * {@link ResponseTab}: request response body
  * {@link CacheTab}: browser cache entry meta-data
  * {@link HtmlTab}: Preview for HTML responses
+ * {@link DataURLTab}: Data URLs
  */
 function RequestBody() {}
 RequestBody.prototype = domplate(
@@ -37,7 +38,8 @@ RequestBody.prototype = domplate(
     {
         // Crete tabView and append all necessary tabs.
         var tabView = new TabView("requestBody");
-        tabView.appendTab(new HeadersTab(file));
+        if (file.response.headers.length > 0)
+            tabView.appendTab(new HeadersTab(file));
 
         if (file.request.queryString && file.request.queryString.length)
             tabView.appendTab(new ParamsTab(file));
@@ -58,10 +60,14 @@ RequestBody.prototype = domplate(
         if (this.showHtml(file))
             tabView.appendTab(new HtmlTab(file));
 
-        // Finally, render the tabView, select the Headers tab by default and return
-        // the root element (tabView).
+        if (this.showDataURL(file))
+            tabView.appendTab(new DataURLTab(file));
+
+        // Finally, render the tabView and select the first tab by default
         var element = tabView.render(parentNode);
-        tabView.selectTabByName("Headers");
+        if (tabView.tabs.length > 0)
+            tabView.selectTabByName(tabView.tabs[0].id);
+
         return element;
     },
 
@@ -85,6 +91,11 @@ RequestBody.prototype = domplate(
     {
         return (file.response.content.mimeType == "text/html") ||
             (file.mimeType == "application/xhtml+xml");
+    },
+
+    showDataURL: function(file)
+    {
+        return file.request.url.indexOf("data:") == 0;
     }
 });
 
@@ -382,6 +393,41 @@ HtmlTab.prototype = domplate(HeadersTab.prototype,
     {
         var iframe = Lib.getElementByClass(body, "netInfoHtmlPreview");
         iframe.contentWindow.document.body.innerHTML = this.file.response.content.text;
+    }
+});
+
+/**
+ * @domplate Represents a request body tab displaying unescaped data: URLs.
+ */
+function DataURLTab(file)
+/** @lends DataURLTab */
+{
+    this.file = file;
+}
+
+DataURLTab.prototype = domplate(HeadersTab.prototype,
+{
+    id: "DataURL",
+    label: Strings.DataURL,
+
+    bodyTag:
+        DIV({"class": "netInfoDataURLText netInfoText"}),
+
+    onUpdateBody: function(tabView, body)
+    {
+        var textBox = Lib.getElementByClass(body, "netInfoDataURLText");
+        var data = this.file.request.url;
+
+        if (data.indexOf("data:image") == 0)
+        {
+            var image = body.ownerDocument.createElement("img");
+            image.src = data;
+            textBox.appendChild(image);
+        }
+        else
+        {
+            Lib.insertWrappedText(unescape(data), textBox);
+        }
     }
 });
 
