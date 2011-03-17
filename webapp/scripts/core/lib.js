@@ -386,6 +386,32 @@ Lib.fromISOString = function(text)
     return date;
 },
 
+Lib.toISOString = function(date)
+{
+    function f(n, c) {
+        if (!c) c = 2;
+        var s = new String(n);
+        while (s.length < c) s = "0" + s;
+        return s;
+    }
+
+    var result = date.getUTCFullYear() + '-' +
+        f(date.getMonth() + 1) + '-' +
+        f(date.getDate()) + 'T' +
+        f(date.getHours()) + ':' +
+        f(date.getMinutes()) + ':' +
+        f(date.getSeconds()) + '.' +
+        f(date.getMilliseconds(), 3);
+
+    var offset = date.getTimezoneOffset();
+    var offsetHours = Math.floor(offset / 60);
+    var offsetMinutes = Math.floor(offset % 60);
+    var prettyOffset = (offset > 0 ? "-" : "+") +
+        f(Math.abs(offsetHours)) + ":" + f(Math.abs(offsetMinutes));
+
+    return result + prettyOffset;
+},
+
 //*************************************************************************************************
 // URL
 
