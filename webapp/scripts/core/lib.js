@@ -417,8 +417,17 @@ Lib.toISOString = function(date)
 
 Lib.getFileName = function(url)
 {
-    var split = Lib.splitURLBase(url);
-    return split.name;
+    try
+    {
+        var split = Lib.splitURLBase(url);
+        return split.name;
+    }
+    catch (e)
+    {
+        Trace.log(unescape(url));
+    }
+
+    return url;
 };
 
 Lib.getFileExtension = function(url)

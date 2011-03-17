@@ -162,12 +162,13 @@ RequestList.prototype = domplate(
 
     getHref: function(file)
     {
-        return file.request.method + " " + Lib.getFileName(this.getFullHref(file));
+        var fileName = Lib.getFileName(this.getFullHref(file));
+        return unescape(file.request.method + " " + fileName);
     },
 
     getFullHref: function(file)
     {
-        return file.request.url;
+        return unescape(file.request.url);
     },
 
     getStatus: function(file)
@@ -192,7 +193,7 @@ RequestList.prototype = domplate(
 
     hasResponseHeaders: function(file)
     {
-        return true;
+        return file.response.headers.length > 0;
     },
 
     formatSize: function(bytes)

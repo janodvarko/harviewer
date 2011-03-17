@@ -133,6 +133,10 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+.netHrefLabel:hover {
+    cursor: pointer;
+}
+
 .hasHeaders .netHrefLabel:hover {
     cursor: pointer;
     color: blue;
@@ -372,7 +376,7 @@
 
 /*************************************************************************************************/
 
-/*.hasHeaders */.netHrefLabel {
+.hasHeaders .netHrefLabel {
     background-image: url(images/twistyClosed.png);
     background-repeat: no-repeat;
     background-position: 2px 2px;
