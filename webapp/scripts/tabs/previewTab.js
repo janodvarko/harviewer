@@ -28,9 +28,7 @@ function PreviewTab(model)
     this.stats = new Stats(model, this.timeline);
 
     // Initialize toolbar.
-    var buttons = this.getToolbarButtons();
-    for (var i=0; i<buttons.length; i++)
-        this.toolbar.addButton(buttons[i]);
+    this.toolbar.addButtons(this.getToolbarButtons());
 }
 
 PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
