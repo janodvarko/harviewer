@@ -83,11 +83,13 @@ var XMLHttpRequestWrapper = function(xhrRequest)
 
             if (!success)
                 Lib.setClass(spy.logRow, "error");
-        },200);
+
+            logXHR();
+        }, 200);
 
         spy.loaded = true;
 
-        updateSelfProperties();
+        //updateSelfProperties();
     };
 
     function getHttpHeaders(request, spy)
@@ -120,16 +122,31 @@ var XMLHttpRequestWrapper = function(xhrRequest)
 
     function handleStateChange()
     {
-        self.readyState = xhrRequest.readyState;
+        var readyState = xhrRequest.readyState;
+        self.readyState = readyState;
 
-        if (xhrRequest.readyState == 4)
+        var now = new Date();
+
+        if (readyState == 1)
+            spy.startedDateTime = now;
+        else if (readyState == 2)
+            spy.timings.send = now;
+        else if (readyState == 3)
+            spy.timings.receive = now;
+        else if (readyState == 4)
         {
             finishXHR();
 
             xhrRequest.onreadystatechange = function(){};
+
+            spy.time = now - spy.startedDateTime;
+            spy.timings.receive = now - spy.timings.send;
+            spy.timings.send = spy.timings.send - spy.startedDateTime;
+
+            spy.startedDateTime = Lib.toISOString(spy.startedDateTime);
         }
 
-        self.onreadystatechange();
+        //self.onreadystatechange();
     };
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -144,7 +161,7 @@ var XMLHttpRequestWrapper = function(xhrRequest)
 
     this.open = function(method, url, async, user, password)
     {
-        updateSelfProperties();
+        //updateSelfProperties();
 
         spy.request.method = method;
         spy.request.url = url;
@@ -167,7 +184,6 @@ var XMLHttpRequestWrapper = function(xhrRequest)
     this.send = function(data)
     {
         spy.request.postData.text = data;
-        spy.timings.send = new Date().getTime();
         updateXHRProperties();
 
         try
@@ -180,7 +196,7 @@ var XMLHttpRequestWrapper = function(xhrRequest)
         }
         finally
         {
-            logXHR();
+            //logXHR();
 
             if (!spy.async)
             {
@@ -290,7 +306,7 @@ else
     };
 }
 
-//***********************************************************************************************//
+//********************************************************************************************** //
 // XHR Spy
 
 function XHRSpy()
@@ -309,6 +325,7 @@ XHRSpy.prototype =
     requestHeaders: null,
     responseHeaders: null,
     sourceLink: null, // {href:"file.html", line: 22}
+    startedDateTime: null,
 
     response: {
         headers: [],

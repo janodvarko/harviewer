@@ -6,6 +6,7 @@
 @import url("requestBody.css");
 @import url("infoTip.css");
 @import url("popupMenu.css");
+@import url("toolbar.css");
 
 .harBody {
     margin: 0;

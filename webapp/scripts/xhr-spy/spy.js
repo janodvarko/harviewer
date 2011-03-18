@@ -6,46 +6,95 @@ require.def("xhr-spy/spy", [
     "domplate/domplate",
     "core/lib",
     "xhr-spy/xhr",
-    "core/trace"
+    "core/trace",
+    "domplate/toolbar"
 ],
 
-function(RequestList, HarModel, Domplate, Lib, XhrSpy, Trace) { with (Domplate) {
+function(RequestList, HarModel, Domplate, Lib, XhrSpy, Trace, Toolbar) { with (Domplate) {
 
-//***********************************************************************************************//
+// ********************************************************************************************* //
 // Application Frame (UI)
 
-var XhrSpyFrame = domplate(
+var XHRSpyFrame = domplate(
 {
     tag:
         DIV({"class": "xhrSpyFrame"},
+            DIV({"class": "header"}),
             DIV({"class": "content"})
-        ),
-
-    xhr:
-        DIV({"class": "xhrSpyRow"},
-            SPAN("$spy.url")
         ),
 
     render: function(parentNode)
     {
         this.element = this.tag.append({}, parentNode, this);
 
+        // Helper references.
+        this.header = Lib.getElementByClass(this.element, "header")
+        this.content = Lib.getElementByClass(this.element, "content");
+
+        // Instantiate a toolbar and XHR request list
+        this.toolbar = new Toolbar();
         this.requestList = new RequestList(input);
-        this.requestList.render(this.element);
+
+        // Render the toolbar. The XHR list will be rendered as soon as a XHR is executed.
+        this.toolbar.addButtons(this.getToolbarButtons());
+        this.toolbar.render(this.header);
     },
 
     append: function(spy)
     {
-        //return this.xhr.append({spy: spy}, this.element, this);
-        input.log.entries.push(spy);
         spy.pageref = input.log.pages[0].id;
 
-        var content = Lib.getElementByClass(this.element, "content");
-        this.requestList.render(content, input.log.pages[0]);
+        input.log.entries.push(spy);
+
+        if (!spy.logRow)
+        {
+            var result = this.requestList.append(this.content, input.log.pages[0], [spy]);
+            spy.logRow = result[0];
+        }
+
+        this.requestList.updateLayout(this.requestList.table, input.log.pages[0]);
+        return spy.logRow;
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Toolbar and action handlers
+
+    getToolbarButtons: function()
+    {
+        //xxxHonza: localization
+        var buttons = [
+            {
+                id: "clear",
+                label: "Clear",
+                tooltiptext: "Remove all entries",
+                command: Lib.bindFixed(this.onClear, this)
+            },
+            {
+                id: "save",
+                label: "Save",
+                tooltiptext: "Save As HAR File",
+                command: Lib.bindFixed(this.onExport, this)
+            }
+        ];
+
+        return buttons;
+    },
+
+    onClear: function()
+    {
+        input.log.entries = [];
+
+        this.requestList = new RequestList(input);
+        Lib.clearNode(this.content);
+    },
+
+    onExport: function()
+    {
+        console.log("Export: TBD");
     }
 });
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// ********************************************************************************************* //
 
 var input =
 {
@@ -70,18 +119,18 @@ var input =
     }
 }
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// ********************************************************************************************* //
 
 // Initialization
-XhrSpyFrame.render(Lib.getBody(document));
+XHRSpyFrame.render(Lib.getBody(document));
 
-//***********************************************************************************************//
+// ********************************************************************************************* //
 
 // Overwrite the XHRSpy log method
 XhrSpy.prototype.log = function()
 {
-    return XhrSpyFrame.append(this);
+    return XHRSpyFrame.append(this);
 }
 
-//***********************************************************************************************//
+// ********************************************************************************************* //
 }});

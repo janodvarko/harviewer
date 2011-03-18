@@ -16,6 +16,7 @@
     cursor: pointer;
     color: #000000;
     -moz-user-select: none;
+    -moz-box-sizing: padding-box;
 }
 
 .toolbarButton.image {

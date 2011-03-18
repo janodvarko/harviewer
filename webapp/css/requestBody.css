@@ -38,6 +38,11 @@
 .netInfoHeadersText,
 .netInfoCookiesText {
     padding-top: 0;
+    width: 100%;
+}
+
+.netInfoParamValue {
+    width: 100%;
 }
 
 .netInfoHeadersGroup,
