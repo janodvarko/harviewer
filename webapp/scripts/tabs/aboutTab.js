@@ -39,8 +39,15 @@ AboutTab.prototype =
             html = html.replace("@VERSION@", tabView.version, "g");
             html = html.replace("@HAR_SPEC_URL@", tabView.harSpecURL, "g");
             body.innerHTML = html;
+
+            $(".linkSchema").click(Lib.bind(self.onSchema, self));
         });
-    }
+    },
+
+    onSchema: function()
+    {
+        this.tabView.selectTabByName("Schema");
+    },
 };
 
 return AboutTab;

@@ -39,12 +39,11 @@
 }
 
 .link {
-    color:blue;
+    color: blue;
 }
 
 .link:hover {
-    text-decoration: underline;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 /*************************************************************************************************/
