@@ -4,11 +4,13 @@ require.def("preview/requestBody", [
     "domplate/domplate",
     "i18n!nls/requestBody",
     "core/lib",
+    "core/cookies",
     "domplate/tabView",
+    "core/dragdrop",
     "syntax-highlighter/shCore"
 ],
 
-function(Domplate, Strings, Lib, TabView, dp) { with (Domplate) {
+function(Domplate, Strings, Lib, Cookies, TabView, DragDrop, dp) { with (Domplate) {
 
 //*************************************************************************************************
 // Request Body
@@ -47,7 +49,7 @@ RequestBody.prototype = domplate(
         if (file.request.postData)
             tabView.appendTab(new SentDataTab(file, file.request.method));
 
-        if (file.response.content.size > 0)
+        if (file.response.content.text && file.response.content.text.length > 0)
             tabView.appendTab(new ResponseTab(file));
 
         //xxxHonza
@@ -386,13 +388,51 @@ HtmlTab.prototype = domplate(HeadersTab.prototype,
 
     bodyTag:
         DIV({"class": "netInfoHtmlText netInfoText"},
-            IFRAME({"class": "netInfoHtmlPreview"})
+            IFRAME({"class": "netInfoHtmlPreview", onload: "$onLoad"}),
+            DIV({"class": "htmlPreviewResizer"})
         ),
 
     onUpdateBody: function(tabView, body)
     {
-        var iframe = Lib.getElementByClass(body, "netInfoHtmlPreview");
-        iframe.contentWindow.document.body.innerHTML = this.file.response.content.text;
+        this.preview = Lib.getElementByClass(body, "netInfoHtmlPreview");
+
+        var height = parseInt(Cookies.getCookie("htmlPreviewHeight"));
+        if (!isNaN(height))
+            this.preview.style.height = height + "px";
+
+        var handler = Lib.getElementByClass(body, "htmlPreviewResizer");
+        this.resizer = new DragDrop.Tracker(handler, {
+            onDragStart: Lib.bind(this.onDragStart, this),
+            onDragOver: Lib.bind(this.onDragOver, this),
+            onDrop: Lib.bind(this.onDrop, this)
+        });
+    },
+
+    onLoad: function(event)
+    {
+        var e = Lib.fixEvent(event);
+        var self = Lib.getAncestorByClass(e.target, "tabHTMLBody").repObject;
+        self.preview.contentWindow.document.body.innerHTML = self.file.response.content.text;
+    },
+
+    onDragStart: function(tracker)
+    {
+        var body = Lib.getBody(this.preview.ownerDocument);
+        body.setAttribute("resizingHtmlPreview", "true");
+        this.startHeight = this.preview.clientHeight;
+    },
+
+    onDragOver: function(newPos, tracker)
+    {
+        var newHeight = (this.startHeight + newPos.y);
+        this.preview.style.height = newHeight + "px";
+        Cookies.setCookie("htmlPreviewHeight", newHeight);
+    },
+
+    onDrop: function(tracker)
+    {
+        var body = Lib.getBody(this.preview.ownerDocument);
+        body.removeAttribute("resizingHtmlPreview");
     }
 });
 
