@@ -1,1 +1,0 @@
-log("four.js script");

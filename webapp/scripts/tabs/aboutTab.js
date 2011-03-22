@@ -47,7 +47,7 @@ AboutTab.prototype =
     onSchema: function()
     {
         this.tabView.selectTabByName("Schema");
-    },
+    }
 };
 
 return AboutTab;

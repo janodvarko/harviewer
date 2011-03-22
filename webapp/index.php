@@ -6,8 +6,8 @@
 <body class="harBody">
     <div id="content" version="@VERSION@"></div>
     <!--[if IE]><script type="text/javascript" src="scripts/excanvas/excanvas.js"></script><![endif]-->
-    <script src="scripts/requireplugins-jquery-1.4.2.js"></script>
-    <script>require(["harViewer"]);</script>
+    <script src="scripts/jquery.js"></script>
+    <script data-main="scripts/harViewer" src="scripts/require.js"></script>
     <link rel="stylesheet" href="css/harViewer.css" type="text/css"/>
     <?php include("ga.php") ?>
 </body>

@@ -54,21 +54,21 @@
 
     <!-- Run RequireJS build tools (depending on the current OS) -->
     <target name="requirejs-mac" if="isMac">
-        <property name="rjs-build.bat" value="../../requirejs/build/build.sh"/>
+        <property name="rjs-build.bat" value="../../requirejs/build/buildj.sh"/>
         <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
             <arg value="app.build.js"/>
         </exec>
     </target>
 
     <target name="requirejs-win" if="isWindows">
-        <property name="rjs-build.bat" value="../../requirejs/build/build.bat"/>
+        <property name="rjs-build.bat" value="../../requirejs/build/buildj.bat"/>
         <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
             <arg value="app.build.js"/>
         </exec>
     </target>
 
     <target name="requirejs-unix" if="isUnix">
-        <property name="rjs-build.bat" value="../../requirejs/build/build.sh"/>
+        <property name="rjs-build.bat" value="../../requirejs/build/buildj.sh"/>
         <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
             <arg value="app.build.js"/>
         </exec>

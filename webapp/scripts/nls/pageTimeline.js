@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("i18n!nls/pageTimeline",
+define(
 {
     "root": {
         "pageLoad": "Page Load",
