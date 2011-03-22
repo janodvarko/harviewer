@@ -4,6 +4,16 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
+HAR Viewer 2.0.9
+----------------
+* Update to RequireJS 0.24.0
+* Resizeable HTML preview
+* Better tooltips for unknown size
+* Disable phase-break in the UI by setting phaseInterval to zero or less
+
+Issue 45: Properly handle data:text URLs
+
+
 HAR Viewer 2.0.8
 ----------------
 Issue 34: Feature request: make tabs go away?
