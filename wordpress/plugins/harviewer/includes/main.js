@@ -1,7 +1,7 @@
 /* See license.txt for terms of usage */
 
 require({
-    baseUrl: "/har/viewer/scripts",
+    baseUrl: "/har/viewer/scripts", //xxxHonza: this must be derived from the 'url' option
 },
 [
     "core/lib",
