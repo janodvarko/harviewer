@@ -106,7 +106,7 @@ PageList.prototype = domplate(
         var row = pageList.firstChild.firstChild;
         while (row)
         {
-            if (hasClass(row, "pageRow"))
+            if (Lib.hasClass(row, "pageRow"))
                 this.toggleRow(row, true);
             row = row.nextSibling;
         }
@@ -163,10 +163,17 @@ PageList.prototype = domplate(
             // Build the page list.
             var table = this.tableTag.append({input: this.input}, parentNode, this);
 
-            // Expand appended page by default, but only if there is only one page.
+            // Expand appended page by default, only if there is only one page
             // Note that there can be more page-lists (pageTable elements)
-            if (table.firstChild.childNodes.length == 1 && table.parentNode.childNodes.length == 1)
+            var len1 = table.firstChild.childNodes;
+            var len2 = table.parentNode.childNodes.length;
+            if ((len1 == 1 && len2 == 1) || expand)
                 this.toggleRow(table.firstChild.firstChild);
+
+            // If 'expand' parameter is specified exapand all by default.
+            var expand = Lib.getURLParameter("expand");
+            if (expand)
+                this.expandAll(table);
         }
     },
 
