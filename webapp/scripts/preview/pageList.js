@@ -165,7 +165,7 @@ PageList.prototype = domplate(
 
             // Expand appended page by default, only if there is only one page
             // Note that there can be more page-lists (pageTable elements)
-            var len1 = table.firstChild.childNodes;
+            var len1 = table.firstChild.childNodes.length;
             var len2 = table.parentNode.childNodes.length;
             if ((len1 == 1 && len2 == 1) || expand)
                 this.toggleRow(table.firstChild.firstChild);
