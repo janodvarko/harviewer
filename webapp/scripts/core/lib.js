@@ -134,7 +134,7 @@ Lib.isAncestor = function(node, potentialAncestor)
 
 Lib.fixEvent = function(e)
 {
-    return $.event.fix(e || window.event);
+    return jQuery.event.fix(e || window.event);
 }
 
 Lib.fireEvent = function(element, event)
