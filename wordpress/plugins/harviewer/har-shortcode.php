@@ -20,7 +20,8 @@ function har_shortcode($params)
         'path' => '',
         'height' => $options['height'],
         'resizer' => $options['resizer'],
-        'expand' => $options['expand']
+        'expand' => $options['expand'],
+        'loader' => $options['loader']
     ), $params);
 
     // Body of the HAR tag is an IFRAME
@@ -36,22 +37,25 @@ function get_preview_body($values)
     $path = $values['path'];
     $height = $values['height'];
     $resizer = $values['resizer'];
-    $expand = $values ['expand'];
+    $expand = $values['expand'];
+    $loader = $values['loader'];
 
     $options = get_option('harviewer_options');
     $url = $options['url'];
-    $previewURL = $url."/preview.php";
+    $previewURL = $url."/preview.php?";
 
-    $body = "<div class='harPreviewBox'>";
-
-    $body .= "<iframe class='harPreviewFrame' frameborder='0' ".
-        "height='".$height."' border='0' ".
-        "src='".$previewURL."?path=".$path;
+    if ($loader)
+        $previewURL = $url."/loader.php?service=pagelist&amp;";
 
     if ($expand)
-       $body .= "&amp;expand=true";
+       $previewURL .= "expand=true&amp;";
 
-    $body .= "'></iframe>";
+    $previewURL .= "path=".$path;
+
+    $body = "<div class='harPreviewBox'>";
+    $body .= "<iframe class='harPreviewFrame' frameborder='0' ".
+        "height='".$height."' border='0' ".
+        "src='".$previewURL."'></iframe>";
 
     if ($resizer)
         $body .= "<div class='harPreviewResizer'></div>";

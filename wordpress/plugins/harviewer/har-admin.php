@@ -38,6 +38,10 @@ function har_admin_init()
     // Display Resizer
     add_settings_field('resizer', 'Display Vertical Resizer', 'preview_resizer_checkbox',
         'harviewer', 'harviewer_main');
+
+    // Use loader to load the HAR file
+    add_settings_field('loader', 'Manual Load', 'preview_loader_checkbox',
+        'harviewer', 'harviewer_main');
 }
 
 // ********************************************************************************************* //
@@ -104,6 +108,13 @@ function preview_resizer_checkbox()
         checked(1, $options['resizer'], false).' />';
 }
 
+function preview_loader_checkbox()
+{
+    $options = get_option('harviewer_options');
+    echo '<input id="loader" name="harviewer_options[loader]" type="checkbox" value="1"'.
+        checked(1, $options['loader'], false).' />';
+}
+
 // ********************************************************************************************* //
 // Defaults
 
@@ -124,6 +135,7 @@ function har_default_options()
         'height' => 220,
         'expand' => 1,
         'resizer' => 1,
+        'loader' => 0,
     );
 
     return $options;
