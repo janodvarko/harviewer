@@ -1,0 +1,34 @@
+/* See license.txt for terms of usage */
+
+.harPreviewBox {
+    width: 100%;
+}
+
+/* Preview resizer */
+.harPreviewResizer {
+    width: 100%;
+    height: 5px;
+    background-color: lightgrey;
+    cursor: s-resize;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    background-image: url('splitter.png');
+}
+
+.harPreviewFrame {
+    border: 1px solid #E1E1D3;
+    width: 100%;
+}
+
+/* When HTML preview resizing is in progress set the cursor for all elements
+   since the mouse doesn't have to be always just over the resizer and this
+   avoids cursor flashing. */
+body[resizingHtmlPreview="true"] * {
+    cursor: s-resize !important;
+}
+
+/* When HTML preview resizing is in progress mouse messages are not sent to
+   the iframe document. */
+body[resizingHtmlPreview="true"] .harPreviewFrame {
+    pointer-events: none !important;
+}
