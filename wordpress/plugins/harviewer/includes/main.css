@@ -9,6 +9,10 @@
     box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+.harPreviewBox {
+    margin-bottom: 20px;
+}
+
 /* Preview resizer */
 .harPreviewResizer {
     height: 5px;
