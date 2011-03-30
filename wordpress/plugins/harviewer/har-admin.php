@@ -85,6 +85,7 @@ function harviewer_url_input()
     $options = get_option('harviewer_options');
     echo "<input id='url' name='harviewer_options[url]' ";
     echo "size='40' type='text' value='".$options['url']."' />";
+    echo " (don't forget the trailing slash)";
 }
 
 function preview_height_input()
