@@ -93,6 +93,7 @@ function preview_height_input()
     $options = get_option('harviewer_options');
     echo "<input id='height' name='harviewer_options[height]' ";
     echo "size='5' type='text' value='".$options['height']."' />";
+    echo " px";
 }
 
 function preview_expand_checkbox()
