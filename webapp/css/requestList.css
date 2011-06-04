@@ -377,11 +377,12 @@
 /*************************************************************************************************/
 
 .isExpandable .netHrefLabel {
-    background-image: url(images/twistyClosed.png);
+    background-image: url(images/twisty-sprites.png);
     background-repeat: no-repeat;
-    background-position: 2px 2px;
+    background-position: 3px 3px;
 }
 
 .netRow.opened > .netCol > .netHrefLabel {
-    background-image: url(images/twistyOpen.png);
+    background-image: url(images/twisty-sprites.png);
+    background-position: 3px -16px;
 }

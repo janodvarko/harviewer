@@ -26,13 +26,14 @@
 }
 
 .opened > .pageCol > .pageName {
-    background-image: url(images/twistyOpen.png);
+    background-image: url(images/twisty-sprites.png);
+    background-position: 3px -17px;
 }
 
 .pageName {
-    background-image: url(images/twistyClosed.png);
+    background-image: url(images/twisty-sprites.png);
     background-repeat: no-repeat;
-    background-position: 2px 1px;
+    background-position: 3px 2px;
     padding-left: 18px;
     font-weight: bold;
     cursor:pointer;
