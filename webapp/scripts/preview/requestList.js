@@ -91,12 +91,12 @@ RequestList.prototype = domplate(
                 TD({"class": "netTimeCol netCol"},
                     DIV({"class": "netTimelineBar"},
                         "&nbsp;",
-                        DIV({"class": "netResolvingBar netBar", style: "left: $file.offset"}),
-                        DIV({"class": "netConnectingBar netBar", style: "left: $file.offset"}),
-                        DIV({"class": "netBlockingBar netBar", style: "left: $file.offset"}),
-                        DIV({"class": "netSendingBar netBar", style: "left: $file.offset"}),
-                        DIV({"class": "netWaitingBar netBar", style: "left: $file.offset"}),
-                        DIV({"class": "netReceivingBar netBar", style: "left: $file.offset; width: $file.width"},
+                        DIV({"class": "netResolvingBar netBar"}),
+                        DIV({"class": "netConnectingBar netBar"}),
+                        DIV({"class": "netBlockingBar netBar"}),
+                        DIV({"class": "netSendingBar netBar"}),
+                        DIV({"class": "netWaitingBar netBar"}),
+                        DIV({"class": "netReceivingBar netBar"},
                             SPAN({"class": "netTimeLabel"}, "$file|getElapsedTime")
                         )
                         // Page timings (vertical lines) are dynamically appended here.
