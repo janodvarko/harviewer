@@ -255,7 +255,7 @@ HarModel.Loader =
 
         var paths = Lib.getURLParameters("path");
         var callbackName = Lib.getURLParameter("callback");
-        var inputUrl = Lib.getURLParameter("inputUrl");
+        var inputUrls = Lib.getURLParameters("inputUrl");
 
         var urls = [];
         for (var p in paths)
@@ -263,10 +263,10 @@ HarModel.Loader =
 
         // Load input data (using JSONP) from remote location.
         // http://domain/har/viewer?inputUrl=<remote-file-url>&callback=<name-of-the-callback>
-        if (inputUrl)
-            urls.push(inputUrl);
+        for (var p in inputUrls)
+            urls.push(inputUrls[p]);
 
-        if ((baseUrl || inputUrl) && urls.length > 0)
+        if ((baseUrl || inputUrls.length > 0) && urls.length > 0)
             return this.loadRemoteArchive(urls, callbackName, callback, errorCallback);
 
         // The URL can specify also a locale file (with the same domain).
