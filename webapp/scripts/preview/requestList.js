@@ -285,12 +285,15 @@ RequestList.prototype = domplate(
         var file = row.repObject;
         var phase = row.phase;
 
+        // Disable the 'break layout' command for the first file in the first phase.
+        var disableBreakLayout = (phase.files[0] == file && this.phases[0] == phase);
+
         return [
             {
                 label: Strings.menuBreakTimeline,
                 type: "checkbox",
-                disabled: false, // xxxHonza: the first phase, the first file.
-                checked: phase.files[0] == file,
+                disabled: disableBreakLayout,
+                checked: phase.files[0] == file && !disableBreakLayout,
                 command: Lib.bind(this.breakLayout, this, row)
             },
             "-",
