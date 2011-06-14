@@ -359,23 +359,15 @@ RequestList.prototype = domplate(
 
         var pageStartedDateTime = page ? Lib.parseISO8601(page.startedDateTime) : null;
 
-        // If the page is available get all registered page timings (events)
-        // and get the time of the last one. This can affect phase end time.
-        var onLoadTime = -1;
-        var lastEventTime = -1;
-        for (var i=0; page && page.pageTimings && i<this.pageTimings.length; i++)
-        {
-            var timing = this.pageTimings[i];
-            var eventTime = page.pageTimings[timing.name];
-            if (eventTime > 0)
-            {
-                if (lastEventTime < eventTime + pageStartedDateTime)
-                    lastEventTime = eventTime + pageStartedDateTime;
+        // The onLoad time stamp is used for proper initialization of the first phase. The first
+        // phase contains all requests till onLoad is fired (even if there are time gaps).
+        // Don't worry if it
+        var onLoadTime = page.pageTimings ? page.pageTimings["onLoad"] : -1;
 
-                if (timing.name == "onLoad")
-                    onLoadTime = eventTime + pageStartedDateTime;
-            }
-        }
+        // The timing could be NaN or -1. In such case keep the value otherwise
+        // make the time absolute.
+        if (onLoadTime > 0)
+            onLoadTime += pageStartedDateTime;
 
         // Iterate over all requests and create phases.
         for (var i=0; i<requests.length; i++)
@@ -429,14 +421,10 @@ RequestList.prototype = domplate(
             if (phase.endTime == undefined || phase.endTime < startedDateTime + file.time)
                 phase.endTime = startedDateTime + file.time;
 
-            // Phase end time has to reflects page event timings. For example onLoad event
-            // can be generatted after all requests are received.
-            if (file.phase == this.phases[0] && phase.endTime < lastEventTime)
-                phase.endTime = lastEventTime;
-
             row = row.nextSibling;
         }
 
+        this.updateTimeStamps(page);
         this.updateTimeline(page);
         this.updateSummaries(page);
     },
@@ -510,22 +498,17 @@ RequestList.prototype = domplate(
         if (!page)
             return;
 
-        // Page timings (vertical lines) are displayed only for the first phase.
-        if (file.phase != this.phases[0])
-            return;
-
         var pageStart = Lib.parseISO8601(page.startedDateTime);
 
-        // Iterate all registerd page timings fields and calculate offsets (from the
-        // beginning of the waterfall graphs) for all vertical lines.
-        for (var i=0; i<this.pageTimings.length; i++)
+        // Iterate all timings in this phase and generate offsets (px position in the timeline).
+        for (var i=0; i<phase.pageTimings.length; i++)
         {
-            var fieldName = this.pageTimings[i].name;
-            var time = page.pageTimings[fieldName];
+            var time = phase.pageTimings[i].time;
             if (time > 0)
             {
-                var offset = (((pageStart + time - phase.startTime)/this.phaseElapsed) * 100).toFixed(3);
-                this.pageTimings[i].offset = offset;
+                var timeOffset = pageStart + time - phase.startTime;
+                var barOffset = ((timeOffset/this.phaseElapsed) * 100).toFixed(3);
+                phase.pageTimings[i].offset = barOffset;
             }
         }
     },
@@ -584,10 +567,16 @@ RequestList.prototype = domplate(
             waitingBar.style.width = this.barWaitingWidth + "%";
             receivingBar.style.width = this.barReceivingWidth + "%";
 
+            // Remove all existing timing bars first. The UI can be relayouting at this moment
+            // (can happen if break layout is executed).
+            var bars = timelineBar.querySelectorAll(".netPageTimingBar");
+            for (var i=0; i<bars.length; i++)
+                bars[i].parentNode.removeChild(bars[i]);
+
             // Generate UI for page timings (vertical lines displayed for the first phase)
-            for (var i=0; i<this.pageTimings.length; i++)
+            for (var i=0; i<phase.pageTimings.length; i++)
             {
-                var timing = this.pageTimings[i];
+                var timing = phase.pageTimings[i];
                 if (!timing.offset)
                     continue;
 
@@ -602,7 +591,90 @@ RequestList.prototype = domplate(
                 bar.style.left = timing.offset + "%";
                 bar.style.display = "block";
 
+                // The offset will be calculated for the next row (request entry) again
+                // within calculatePageTimings in the next row (outer) cycle.
                 timing.offset = null;
+            }
+        }
+    },
+
+    updateTimeStamps: function(page)
+    {
+        if (!page)
+            return;
+
+        // Convert registered page timings (e.g. onLoad, DOMContentLoaded) into structures
+        // with label information.
+        var pageTimings = [];
+        for (var i=0; page.pageTimings && i<this.pageTimings.length; i++)
+        {
+            var timing = this.pageTimings[i];
+            var eventTime = page.pageTimings[timing.name];
+            if (eventTime > 0)
+            {
+                pageTimings.push({
+                    label: timing.name,
+                    time: eventTime,
+                    classes: timing.classes,
+                    comment: timing.description
+                });
+            }
+        }
+
+        // Get time-stamps generated from console.timeStamp() method (this method has been
+        // introduced in Firebug 1.8b3).
+        // See Firebug documentation: http://getfirebug.com/wiki/index.php/Console_API
+        var timeStamps = page.pageTimings ? page.pageTimings._timeStamps : [];
+
+        // Put together all timing info.
+        pageTimings.push.apply(pageTimings, timeStamps);
+
+        // Iterate all existing phases.
+        var phases = this.phases;
+        for (var i=0; i<phases.length; i++)
+        {
+            var phase = phases[i];
+            var nextPhase = phases[i+1];
+
+            // Iterate all timings and divide them into phases. This process can extend
+            // the end of a phase.
+            for (var j=0; j<pageTimings.length; j++)
+            {
+                var stamp = pageTimings[j];
+                var time = stamp.time;
+                if (!time)
+                    continue;
+
+                // We need the absolute time.
+                var startedDateTime = Lib.parseISO8601(page.startedDateTime);
+                time += startedDateTime;
+
+                // The time stamp belongs to the current phase if:
+                // 1) It occurs before the next phase started or there is no next phase.
+                if (!nextPhase || time < nextPhase.startTime)
+                {
+                    // 2) It occurs after the current phase started, or this is the first phase.
+                    if (i == 0 || time >= phase.startTime)
+                    {
+                        // This is the case where the time stamp occurs before the first phase
+                        // started (shouldn't actually happen since there can't be a stamp made
+                        // before the first document request).
+                        if (phase.startTime > time)
+                            phase.startTime = time;
+
+                        // This is the case where the time stamp occurs after the phase end time,
+                        // but still before the next phase start time.
+                        if (phase.endTime < time)
+                            phase.endTime = time;
+
+                        phase.pageTimings.push({
+                            classes: stamp.classes ? stamp.classes : "netTimeStampBar",
+                            name: stamp.label,
+                            description: stamp.comment,
+                            time: stamp.time
+                        });
+                    }
+                }
             }
         }
     },
@@ -788,6 +860,8 @@ RequestList.prototype = domplate(
 function Phase(file)
 {
     this.files = [];
+    this.pageTimings = [];
+
     this.addFile(file);
 };
 
@@ -801,6 +875,7 @@ Phase.prototype =
 
     getLastStartTime: function()
     {
+        // The last request start time.
         return this.files[this.files.length - 1].startedDateTime;
     }
 };
@@ -988,19 +1063,23 @@ var EntryTimeInfoTip = domplate(
 
         // Get page event timing info (if the page exists).
         var events = [];
-        for (var i=0; i<requestList.pageTimings.length; i++)
+        for (var i=0; i<row.phase.pageTimings.length; i++)
         {
-            var timing = requestList.pageTimings[i];
-            var name = requestList.pageTimings[i].name;
+            var timing = row.phase.pageTimings[i];
             events.push({
-                bar: timing.description,
-                start: pageStart + page.pageTimings[name] - requestStart,
-                classes: requestList.pageTimings[i].classes
+                bar: timing.description ? timing.description : timing.name,
+                start: pageStart + timing.time - requestStart,
+                classes: timing.classes,
+                time: timing.time
             });
         }
 
         if (events.length)
         {
+            events.sort(function(a, b) {
+                return (a.time < b.time) ? -1 : 1;
+            });
+
             // Insert separator and timing info.
             this.separatorTag.insertRows({}, infoTip.firstChild);
             this.eventsTag.insertRows({events: events}, infoTip.firstChild);
