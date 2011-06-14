@@ -35,6 +35,11 @@
     overflow: hidden;
 }
 
+/* Visual separator between phases */
+.netRow[breakLayout="true"] .netCol {
+    border-top: 1px solid rgb(207,207,207);
+}
+
 .netStatusCol {
     padding-left: 10px;
     color: rgb(128, 128, 128);

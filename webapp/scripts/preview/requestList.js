@@ -335,6 +335,9 @@ RequestList.prototype = domplate(
         var layoutBroken = phase.files[0] == file;
         row.breakLayout = !layoutBroken;
 
+        // For CSS (visual separator between two phases).
+        row.setAttribute("breakLayout", row.breakLayout ? "true" : "false");
+
         var netTable = Lib.getAncestorByClass(row, "netTable");
         var page = HarModel.getParentPage(this.input, file);
         this.updateLayout(netTable, page);
@@ -416,6 +419,11 @@ RequestList.prototype = domplate(
                 else
                     phase.addFile(file);
             }
+
+            // For CSS (visual separator between two phases). Except of the first file
+            // in the first phase.
+            if (this.phases[0] != phase)
+                row.setAttribute("breakLayout", (phase.files[0] == file) ? "true" : "false");
 
             if (phase.startTime == undefined || phase.startTime > startedDateTime)
                 phase.startTime = startedDateTime;
