@@ -6,6 +6,7 @@ Project home: http://code.google.com/p/harviewer/
 
 HAR Viewer 2.0.11 (in progress)
 -----------------
+* Issue 31: Visual separator between two phases in the waterfal graph.
 * Issue 46: Patch: Fix CSS warnings
 * Issue 47: Patch: Sprite the expand/collapse icon
 * Issue 48: Patch: add events to the Preview application as well
