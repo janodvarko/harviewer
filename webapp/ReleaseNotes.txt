@@ -9,6 +9,7 @@ HAR Viewer 2.0.11 (in progress)
 * Issue 46: Patch: Fix CSS warnings
 * Issue 47: Patch: Sprite the expand/collapse icon
 * Issue 48: Patch: add events to the Preview application as well
+* Issue 49: Patch: allow multiple HAR files to be loaded via inputUrl
 
 HAR Viewer 2.0.10
 -----------------
