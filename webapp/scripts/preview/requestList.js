@@ -506,7 +506,7 @@ RequestList.prototype = domplate(
 
     calculatePageTimings: function(page, file, phase)
     {
-        // Obviouly we need a page object for page timings.
+        // Obviously we need a page object for page timings.
         if (!page)
             return;
 
