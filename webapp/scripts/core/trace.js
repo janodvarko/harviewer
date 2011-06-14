@@ -19,34 +19,34 @@ if (typeof(console) == "undefined")
     return Trace;
 
 // #ifdef _DEBUG
-Trace.log = function(message)
+Trace.log = function()
 {
     if (typeof(console.log) == "function")
-        console.log(message);
+        console.log.apply(console, arguments);
 };
 
-Trace.error = function(message)
+Trace.error = function()
 {
     if (typeof(console.error) == "function")
-        console.error(message);
+        console.error.apply(console, arguments);
 };
 
-Trace.exception = function(message)
+Trace.exception = function()
 {
     if (typeof(console.error) == "function")
-        console.error(message);
+        console.error.apply(console, arguments);
 };
 
-Trace.time = function(name, reset)
+Trace.time = function()
 {
     if (typeof(console.time) == "function")
-        console.time(name, reset);
+        console.time.apply(console, arguments);
 };
 
 Trace.timeEnd = function(name, message)
 {
     if (typeof(console.timeEnd) == "function")
-        console.timeEnd(name, message);
+        console.timeEnd.apply(console, arguments);
 };
 // #endif
 
