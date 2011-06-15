@@ -237,8 +237,14 @@
     z-index:90;
     opacity: 0.5;
     display: none;
-    margin-bottom:-1px;
     background-color: green;
+
+    /* The vertical line crosses bottom row border */
+    margin-bottom: -1px;
+
+    /* To make the width of the vertica line bigger so, it's easier to get the tooltip */
+    border-left: 1px solid white;
+    border-right: 1px solid white;
 }
 
 .netWindowLoadBar {
