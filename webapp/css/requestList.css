@@ -269,13 +269,13 @@
     min-width: 16px;
 }
 
-.timeInfoTip {
-    width: 150px; 
-    height: 40px;
+.sizeInfoTip {
     font-size: 11px;
 }
 
-.sizeInfoTip {
+.timeInfoTip {
+    width: 150px;
+    height: 40px;
     font-size: 11px;
 }
 
@@ -287,6 +287,19 @@
     opacity: 1;
     height: 15px;
     width: 4px;
+}
+
+.timeInfoTipStartLabel {
+    color: gray;
+}
+
+.timeInfoTipSeparator {
+    padding-top: 10px;
+    color: gray;
+}
+
+.timeInfoTipSeparator SPAN {
+    white-space:pre-wrap;
 }
 
 .timeInfoTipEventBar {

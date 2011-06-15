@@ -925,14 +925,16 @@ var EntryTimeInfoTip = domplate(
         TR(
             TD(),
             TD("$startTime.time|formatStartTime"),
-            TD({"colspan": 2},
+            TD({"class": "timeInfoTipStartLabel", "colspan": 2},
                 "$startTime|getLabel"
             )
         ),
 
     separatorTag:
-        TR(
-            TD({"colspan": 4, "height": "10px"})
+        TR({},
+            TD({"class": "timeInfoTipSeparator", "colspan": 4, "height": "10px"},
+                SPAN("$label")
+            )
         ),
 
     eventsTag:
@@ -1004,12 +1006,19 @@ var EntryTimeInfoTip = domplate(
         //xxxHonza: the request start-time should be since the page start-time
         // but what to do if there was no parent page and the parent phase
         // is not the first one?
-        startTimeObj.time = requestStart - row.phase.startTime;
+        //xxxHonza: the request start-time is since the page start-time
+        // but the other case isw not tested yet.
+        if (pageStart)
+            startTimeObj.time = requestStart - pageStart;
+        else
+            startTimeObj.time = requestStart - row.phase.startTime;
+
         startTimeObj.bar = "request.Started";
         this.startTimeTag.insertRows({startTime: startTimeObj}, infoTip.firstChild);
 
         // Insert separator.
-        this.separatorTag.insertRows({}, infoTip.firstChild);
+        this.separatorTag.insertRows({label: Strings["request.phases.label"]},
+            infoTip.firstChild);
 
         var startTime = 0;
         var timings = [];
@@ -1092,7 +1101,8 @@ var EntryTimeInfoTip = domplate(
             });
 
             // Insert separator and timing info.
-            this.separatorTag.insertRows({}, infoTip.firstChild);
+            this.separatorTag.insertRows({label: Strings["request.timings.label"]},
+                infoTip.firstChild);
             this.eventsTag.insertRows({events: events}, infoTip.firstChild);
         }
 

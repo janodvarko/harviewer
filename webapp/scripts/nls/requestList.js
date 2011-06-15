@@ -15,13 +15,16 @@ define(
         "tooltipUnzippedSize": "%S (%S bytes) - uncompressed",
         "unknownSize": "Unknown size",
 
-        "request.Started": "Started",
+        "request.Started": "Request start time since the begining",
+        "request.phases.label": "Request phases start and elapsed time relative to the request start:",
         "request.phase.Resolving": "DNS Lookup",
         "request.phase.Connecting": "Connecting",
         "request.phase.Blocking": "Blocking",
         "request.phase.Sending": "Sending",
         "request.phase.Waiting": "Waiting",
         "request.phase.Receiving": "Receiving",
+
+        "request.timings.label": "Events timing relative to the request start:",
         "ContentLoad": "DOM Loaded",
         "WindowLoad": "Page Loaded",
         "page.event.Load": "Page Loaded",
