@@ -11,6 +11,7 @@ HAR Viewer 2.0.11 (in progress)
 * Issue 47: Patch: Sprite the expand/collapse icon
 * Issue 48: Patch: add events to the Preview application as well
 * Issue 49: Patch: allow multiple HAR files to be loaded via inputUrl
+* Issue 51: Support for console.timeStamp() introduced in Firebug 1.8b3
 
 HAR Viewer 2.0.10
 -----------------
