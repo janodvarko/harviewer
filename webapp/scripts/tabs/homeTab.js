@@ -121,7 +121,37 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
             return;
 
         for (var i=0; i<files.length; i++)
-            this.onAppendPreview(files[i].getAsText(""));
+        {
+            var file = files[i];
+            var self = this;
+            var reader = this.getFileReader(file, function(text)
+            {
+                if (text)
+                    self.onAppendPreview(text);
+            });
+            reader();
+        }
+    },
+
+    getFileReader: function(file, callback)
+    {
+        return function fileReader()
+        {
+            if (typeof(file.getAsText) != "undefined")
+            {
+                callback(file.getAsText(""));
+                return;
+            }
+
+            if (typeof(FileReader) != "undefined")
+            {
+                var fileReader = new FileReader();
+                fileReader.onloadend = function() {
+                    callback(fileReader.result);
+                };
+                fileReader.readAsText(file);
+            }
+        }
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
