@@ -28,6 +28,7 @@
 .memberRow.hasChildren.opened > .memberLabelCell > .memberLabel {
     background-image: url(images/twisty-sprites.png);
     background-position: 3px -16px;
+    background-color: transparent;
 }
 
 .memberRow.hasChildren > .memberLabelCell > .memberLabel:hover {
@@ -40,4 +41,10 @@
     background-image: url(images/twisty-sprites.png);
     background-repeat: no-repeat;
     background-position: 3px 3px;
+}
+
+/*************************************************************************************************/
+
+.jumpHighlight {
+    background-color: #C4F4FF !important;
 }

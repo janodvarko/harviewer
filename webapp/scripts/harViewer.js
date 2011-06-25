@@ -15,7 +15,7 @@ require.def("harViewer", [
 
 function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel, Strings, Lib, Trace) {
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 // The Application
 
 function HarView()
@@ -124,9 +124,9 @@ HarView.prototype = Lib.extend(new TabView(),
 
         Trace.error("harModule.loadRemoteArchive; ERROR ", response, ioArgs);
     }
-})
+});
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 // Initialization
 
 var content = document.getElementById("content");
@@ -139,5 +139,5 @@ Lib.fireEvent(content, "onViewerInit");
 
 Trace.log("HarViewer; initialized OK");
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 });

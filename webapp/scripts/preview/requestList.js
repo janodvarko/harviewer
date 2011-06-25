@@ -269,7 +269,7 @@ RequestList.prototype = domplate(
 
         // Collect all menu items.
         var row = Lib.getAncestorByClass(target, "netRow");
-        var items = this.getOptionsMenuItems(row);
+        var items = this.getMenuItems(row);
 
         // Finall, display the the popup menu.
         // xxxHonza: the old <DIV> can be still visible.
@@ -280,7 +280,7 @@ RequestList.prototype = domplate(
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Menu Definition
 
-    getOptionsMenuItems: function(row)
+    getMenuItems: function(row)
     {
         var file = row.repObject;
         var phase = row.phase;
@@ -288,7 +288,7 @@ RequestList.prototype = domplate(
         // Disable the 'break layout' command for the first file in the first phase.
         var disableBreakLayout = (phase.files[0] == file && this.phases[0] == phase);
 
-        return [
+        var items = [
             {
                 label: Strings.menuBreakTimeline,
                 type: "checkbox",
@@ -307,6 +307,12 @@ RequestList.prototype = domplate(
                 command: Lib.bind(this.openResponse, this, file)
             }
         ];
+
+        // Distribute to all listeners to allow registering custom commands.
+        // Listeneres are set by the parent page-list.
+        Lib.dispatch(this.listeners, "getMenuItems", [this, items, phase, file]);
+
+        return items;
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

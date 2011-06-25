@@ -14,7 +14,8 @@ require.def("tabs/previewTab", [
     "downloadify/src/downloadify"
 ],
 
-function(Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies) { with (Domplate) {
+function(Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies) {
+    with (Domplate) {
 
 //*************************************************************************************************
 // Home Tab
@@ -198,7 +199,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
         document.location = href.substr(0, index);
     },
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Public
 
     showStats: function(show)
@@ -220,6 +221,9 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
 
         // Append new pages into the timeline.
         this.timeline.append(input);
+
+        // Register context menu listener (provids additional commands for the context menu).
+        pageList.addListener(this);
     },
 
     appendError: function(err)
@@ -231,6 +235,32 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
     addPageTiming: function(timing)
     {
         PageList.prototype.pageTimings.push(timing);
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Request List Commands
+
+    getMenuItems: function(requestList, items, phase, file)
+    {
+        if (!file)
+            return;
+
+        items.push("-");
+        items.push(
+        {
+            label: Strings.menuShowHARSource,
+            command: Lib.bind(this.showHARSource, this, file)
+        });
+    },
+
+    showHARSource: function(menu, file)
+    {
+        var domTab = this.tabView.getTab("DOM");
+        if (!domTab)
+            return;
+
+        domTab.select("DOM");
+        domTab.highlightFile(this.model.input, file);
     }
 });
 

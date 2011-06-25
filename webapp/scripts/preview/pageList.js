@@ -15,6 +15,7 @@ function(Domplate, Lib, Trace, RequestList) { with (Domplate) {
 function PageList(input)
 {
     this.input = input;
+    this.listeners = [];
 }
 
 /**
@@ -85,7 +86,7 @@ PageList.prototype = domplate(
             var infoBodyRow = this.bodyTag.insertRows({}, row)[0];
 
             // Build request list for the expanded page.
-            var requestList = new RequestList(this.input);
+            var requestList = this.createRequestList();
 
             // Dynamically append custom registered page timings.
             var pageTimings = PageList.prototype.pageTimings;
@@ -143,7 +144,17 @@ PageList.prototype = domplate(
             this.toggleRow(row);
     },
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Helpers 
+
+    createRequestList: function()
+    {
+        var requestList = new RequestList(this.input);
+        requestList.listeners = this.listeners;
+        return requestList;
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Public
 
     append: function(parentNode)
@@ -153,7 +164,7 @@ PageList.prototype = domplate(
         // tools that can't get this info.
         // Also if log files are merged there can be some requests not
         // associated with any page. Make sure these are displayed too. 
-        var requestList = new RequestList(this.input);
+        var requestList = this.createRequestList();
         requestList.render(parentNode, null);
 
         // If there are any pages, build regular page list.
@@ -180,10 +191,23 @@ PageList.prototype = domplate(
     render: function(parentNode)
     {
         this.append(parentNode);
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Listeners
+
+    addListener: function(listener)
+    {
+        this.listeners.push(listener);
+    },
+
+    removeListener: function(listener)
+    {
+        Lib.remove(this.listeners, listener);
     }
 });
 
-//*************************************************************************************************
+// ********************************************************************************************** //
 
 // Custom registered page timings, displayed as vertical lines over individual requests
 // in the first phase.

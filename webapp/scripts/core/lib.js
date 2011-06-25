@@ -803,6 +803,21 @@ Lib.toggleClass = function(elt, name)
     }
 };
 
+Lib.setClassTimed = function(elt, name, timeout)
+{
+    if (!timeout)
+        timeout = 1300;
+
+    if (elt.__setClassTimeout)  // then we are already waiting to remove the class mark
+        clearTimeout(elt.__setClassTimeout);  // reset the timer
+    else                        // then we are not waiting to remove the mark
+        Lib.setClass(elt, name);
+
+    elt.__setClassTimeout = setTimeout(function() {
+        Lib.removeClass(elt, name);
+    }, timeout);
+};
+
 //*************************************************************************************************
 // Text
 

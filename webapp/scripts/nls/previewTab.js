@@ -13,6 +13,7 @@ define(
         "clearButton": "Clear",
         "clearTooltip": "Remove all HAR logs from the viewer",
         "downloadTooltip": "Download all current data in one HAR file.",
-        "downloadError": "Failed to save HAR data"
+        "downloadError": "Failed to save HAR data",
+        "menuShowHARSource": "Show HAR Source"
     }
 });

@@ -89,9 +89,12 @@ DomTree.prototype = domplate(
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    toggleRow: function(row)
+    toggleRow: function(row, forceOpen)
     {
         var level = parseInt(row.getAttribute("level"));
+
+        if (forceOpen && Lib.hasClass(row, "opened"))
+            return;
 
         if (Lib.hasClass(row, "opened"))
         {
@@ -167,9 +170,34 @@ DomTree.prototype = domplate(
 
     append: function(parentNode)
     {
-        var table = this.tag.append({object: this.input}, parentNode);
-        if (table.firstChild.firstChild)
-            this.toggleRow(table.firstChild.firstChild);
+        this.element = this.tag.append({object: this.input}, parentNode);
+        this.element.repObject = this;
+
+        // Expand the first node (root) by default.
+        if (this.element.firstChild.firstChild)
+            this.toggleRow(this.element.firstChild.firstChild);
+    },
+
+    expandRow: function(object)
+    {
+        // If not rendered yet, bail out.
+        if (!this.element)
+            return;
+
+        // Iterate all existing rows and expand the one associated with specified object.
+        // The repObject is a "member" object created in createMember method.
+        var rows = this.element.querySelectorAll(".memberRow");
+        for (var i=0; i<rows.length; i++)
+        {
+            var row = rows[i];
+            if (row.repObject.value == object)
+            {
+                this.toggleRow(row, true);
+                return row;
+            }
+        }
+
+        return null;
     }
 });
 
