@@ -6,7 +6,7 @@ require_once("HARTestCase.php");
  */ 
 class HAR_TestTimeStamps extends HAR_TestCase
 {
-    public function testPageTimings()
+    public function testTimeStamps()
     {
         print "\nTest time stamps";
 
