@@ -36,5 +36,16 @@ class HAR_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->assertFalse($this->isElementPresent($locator), $message);
     }
+
+    /**
+     * Returns the number of nodes that match the specified css selector,
+     * eg. "table" would give the number of tables.
+     * @param string $locator CSS selector
+     */
+    public function getCssCount($locator)
+    {
+        $script = "window.document.querySelectorAll('".$locator."').length";
+        return $this->getEval($script);
+    }
 }
 ?>
