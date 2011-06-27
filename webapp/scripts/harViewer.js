@@ -94,17 +94,30 @@ HarView.prototype = Lib.extend(new TabView(),
             {
                 // xxxHonza: this should be smarter.
                 // Make sure the tab is rendered now.
-                previewTab.select();
-                previewTab.append(input);
+                try
+                {
+                    previewTab.select();
+                    previewTab.append(input);
+                }
+                catch (err)
+                {
+                    Trace.exception("HarView.appendPreview; EXCEPTION ", err);
+                    if (err.errors && previewTab)
+                        previewTab.appendError(err);
+                }
             }
 
+            // The input JSON is displayed in the DOM/HAR tab anyway, at least to
+            // allow easy inspection of the content.
+            // Btw. this makes HAR Viewer effective JSON Viewer, but only if validation
+            // is switched off, otherwise HarModel.parse() throws an exception.
+            // xxxHonza: display JSON tree even if validation throws an exception
             if (domTab)
                 domTab.append(input);
         }
         catch (err)
         {
             Trace.exception("HarView.appendPreview; EXCEPTION ", err);
-
             if (err.errors && previewTab)
                 previewTab.appendError(err);
         }
