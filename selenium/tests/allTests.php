@@ -16,6 +16,7 @@ require_once("testCustomPageTiming.php");
 require_once("testRemoveToolbarButton.php");
 require_once("testTimeStamps.php");
 require_once("testPhases.php");
+require_once("testLoadHarAPI.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
@@ -41,6 +42,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestRemoveToolbarButton");
         $suite->addTestSuite("HAR_TestTimeStamps");
         $suite->addTestSuite("HAR_TestPhases");
+        $suite->addTestSuite("HAR_TestLoadHarAPI");
 
         return $suite;
     }
