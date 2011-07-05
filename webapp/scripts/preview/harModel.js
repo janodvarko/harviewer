@@ -328,7 +328,8 @@ HarModel.Loader =
 
             success: function(response)
             {
-                callback(response);
+                if (callback)
+                    callback(response);
 
                 // Asynchronously load other HAR files (jQuery doesn't like is synchronously).
                 // The timeout specifies how much the browser UI cane be frozen.
@@ -343,11 +344,38 @@ HarModel.Loader =
 
             error: function(response, ioArgs)
             {
-                errorCallback(response, ioArgs);
+                if (errorCallback)
+                    errorCallback(response, ioArgs);
             }
         });
 
         return true;
+    },
+
+    load: function(scope, url, crossDomain, callbackName, callback, errorCallback)
+    {
+        function onLoaded(input)
+        {
+            if (scope.appendPreview)
+                scope.appendPreview(input);
+
+            if (callback)
+                callback.call(scope, input);
+        }
+
+        function onError(response, args)
+        {
+            if (scope.onLoadError)
+                scope.onLoadError(response, args);
+
+            if (errorCallback)
+                errorCallback.call(scope, response, args);
+        }
+
+        if (crossDomain)
+            return this.loadRemoteArchive([url], callbackName, onLoaded, onError);
+        else
+            return this.loadLocalArchive(url, onLoaded, onError);
     }
 };
 

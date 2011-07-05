@@ -30,14 +30,37 @@ HarPreview.prototype =
 
     appendPreview: function(jsonString)
     {
-        var input = HarModel.parse(jsonString, true);
-        this.model.append(input);
+        try
+        {
+            var input = HarModel.parse(jsonString, true);
+            this.model.append(input);
 
-        var pageList = new PageList(input);
-        pageList.render(content);
+            var pageList = new PageList(input);
+            pageList.render(content);
 
-        Lib.fireEvent(content, "onPreviewHARLoaded");
-    }
+            Lib.fireEvent(content, "onPreviewHARLoaded");
+        }
+        catch (err)
+        {
+            Trace.exception("HarPreview.appendPreview; EXCEPTION ", err);
+        }
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Loading HAR files
+
+    /**
+     * Load HAR file. See {@link HarView.loadHar} for documentation.
+     */ 
+    loadHar: function(url, settings)
+    {
+        settings = settings || {};
+        return HarModel.Loader.load(this, url,
+            settings.jsonp,
+            settings.jsonpCallback,
+            settings.success,
+            settings.ajaxError);
+    },
 }
 
 //*************************************************************************************************
