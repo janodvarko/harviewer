@@ -644,7 +644,8 @@ RequestList.prototype = domplate(
         var timeStamps = page.pageTimings ? page.pageTimings._timeStamps : [];
 
         // Put together all timing info.
-        pageTimings.push.apply(pageTimings, timeStamps);
+        if (timeStamps)
+            pageTimings.push.apply(pageTimings, timeStamps);
 
         // Iterate all existing phases.
         var phases = this.phases;
