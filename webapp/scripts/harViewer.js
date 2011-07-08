@@ -122,6 +122,9 @@ HarView.prototype = Lib.extend(new TabView(),
                 previewTab.appendError(err);
         }
 
+        // Select the preview tab in any case.
+        previewTab.select();
+
         // HAR loaded, parsed and appended into the UI, let's shut down the progress.
         if (homeTab)
             homeTab.loadInProgress(false);
