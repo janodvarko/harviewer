@@ -164,7 +164,7 @@ HarView.prototype = Lib.extend(new TabView(),
             settings.jsonpCallback,
             settings.success,
             settings.ajaxError);
-    },
+    }
 });
 
 // ********************************************************************************************* //

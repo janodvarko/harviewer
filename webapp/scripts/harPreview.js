@@ -60,7 +60,7 @@ HarPreview.prototype =
             settings.jsonpCallback,
             settings.success,
             settings.ajaxError);
-    },
+    }
 }
 
 //*************************************************************************************************
