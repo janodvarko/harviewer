@@ -586,7 +586,7 @@ RequestList.prototype = domplate(
 
             // Remove all existing timing bars first. The UI can be relayouting at this moment
             // (can happen if break layout is executed).
-            var bars = timelineBar.querySelectorAll(".netPageTimingBar");
+            var bars = Lib.getElementsByClass(timelineBar, "netPageTimingBar");
             for (var i=0; i<bars.length; i++)
                 bars[i].parentNode.removeChild(bars[i]);
 

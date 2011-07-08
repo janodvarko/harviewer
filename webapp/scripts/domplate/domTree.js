@@ -186,7 +186,7 @@ DomTree.prototype = domplate(
 
         // Iterate all existing rows and expand the one associated with specified object.
         // The repObject is a "member" object created in createMember method.
-        var rows = this.element.querySelectorAll(".memberRow");
+        var rows = Lib.getElementsByClass(this.element, "memberRow");
         for (var i=0; i<rows.length; i++)
         {
             var row = rows[i];

@@ -697,6 +697,13 @@ Lib.getElementByClass = function(node, className)  // className, className, ...
 
 Lib.getElementsByClass = function(node, className)  // className, className, ...
 {
+    if (node.querySelectorAll)
+    {
+        var args = Lib.cloneArray(arguments); args.shift();
+        var selector = "." + args.join(".");
+        return node.querySelectorAll(selector);
+    }
+
     function iteratorHelper(node, classNames, result)
     {
         for (var child = node.firstChild; child; child = child.nextSibling)
