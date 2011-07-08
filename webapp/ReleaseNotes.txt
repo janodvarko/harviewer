@@ -4,7 +4,12 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
-HAR Viewer 2.0.11 (in progress)
+HAR Viewer 2.0.12
+-----------------
+* Issue 53: Simple API for loading HAR files.
+* Issue 57: Online HAR viewer does no longer show the graph
+
+HAR Viewer 2.0.11
 -----------------
 * Issue 31: Visual separator between two phases in the waterfal graph.
 * Issue 46: Patch: Fix CSS warnings
