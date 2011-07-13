@@ -45,10 +45,10 @@ TimingPie.prototype = Lib.extend(Pie.prototype,
     title: "Summary of request times.",
 
     data: [
+        {value: 0, label: Strings.pieLabelBlocked, color: "rgb(228, 214, 193)"},
         {value: 0, label: Strings.pieLabelDNS,     color: "rgb(119, 192, 203)"},
         {value: 0, label: Strings.pieLabelSSL,     color: "rgb(168, 196, 173)"},
         {value: 0, label: Strings.pieLabelConnect, color: "rgb(179, 222, 93)"},
-        {value: 0, label: Strings.pieLabelBlocked, color: "rgb(228, 214, 193)"},
         {value: 0, label: Strings.pieLabelSend,    color: "rgb(224, 171, 157)"},
         {value: 0, label: Strings.pieLabelWait,    color: "rgb(163, 150, 190)"},
         {value: 0, label: Strings.pieLabelReceive, color: "rgb(194, 194, 194)"}
@@ -232,10 +232,10 @@ Stats.prototype = domplate(
                 var entry = entries[i];
 
                 // Get timing info (SSL is new in HAR 1.2)
-                timingPie.data[0].value += entry.timings.dns;
-                timingPie.data[1].value += entry.timings.ssl ? entry.timings.ssl : -1;
-                timingPie.data[2].value += entry.timings.connect;
-                timingPie.data[3].value += entry.timings.blocked;
+                timingPie.data[0].value += entry.timings.blocked;
+                timingPie.data[1].value += entry.timings.dns;
+                timingPie.data[2].value += entry.timings.ssl > 0 ? entry.timings.ssl : 0;
+                timingPie.data[3].value += entry.timings.connect;
                 timingPie.data[4].value += entry.timings.send;
                 timingPie.data[5].value += entry.timings.wait;
                 timingPie.data[6].value += entry.timings.receive;
@@ -243,7 +243,7 @@ Stats.prototype = domplate(
                 // The ssl time is also included in the connect field, see HAR 1.2 spec
                 // (to ensure backward compatibility with HAR 1.1).
                 if (entry.timings.ssl > 0)
-                    timingPie.data[2].value -= entry.timings.ssl;
+                    timingPie.data[3].value -= entry.timings.ssl;
 
                 var response = entry.response;
                 var resBodySize = response.bodySize > 0 ? response.bodySize : 0;

@@ -91,9 +91,9 @@ RequestList.prototype = domplate(
                 TD({"class": "netTimeCol netCol"},
                     DIV({"class": "netTimelineBar"},
                         "&nbsp;",
+                        DIV({"class": "netBlockingBar netBar"}),
                         DIV({"class": "netResolvingBar netBar"}),
                         DIV({"class": "netConnectingBar netBar"}),
-                        DIV({"class": "netBlockingBar netBar"}),
                         DIV({"class": "netSendingBar netBar"}),
                         DIV({"class": "netWaitingBar netBar"}),
                         DIV({"class": "netReceivingBar netBar"},
@@ -481,10 +481,10 @@ RequestList.prototype = domplate(
         // HTTP-ON-MODIFY-REQUEST -> HTTP-ON-EXAMINE-CACHED-RESPONSE
 
         // Compute end of each phase since the request start.
-        var resolving = ((file.timings.dns < 0) ? 0 : file.timings.dns);
+        var blocking = ((file.timings.blocked < 0) ? 0 : file.timings.blocked);
+        var resolving = blocking + ((file.timings.dns < 0) ? 0 : file.timings.dns);
         var connecting = resolving + ((file.timings.connect < 0) ? 0 : file.timings.connect);
-        var blocking = connecting + ((file.timings.blocked < 0) ? 0 : file.timings.blocked);
-        var sending = blocking + ((file.timings.send < 0) ? 0 : file.timings.send);
+        var sending = connecting + ((file.timings.send < 0) ? 0 : file.timings.send);
         var waiting = sending + ((file.timings.wait < 0) ? 0 : file.timings.wait);
         var receiving = waiting + ((file.timings.receive < 0) ? 0 : file.timings.receive);
 
@@ -495,9 +495,9 @@ RequestList.prototype = domplate(
         // Compute size of each bar. Left side of each bar starts at the 
         // beginning. The first bar is on top of all and the last one is
         // at the bottom (z-index). 
+        this.barBlockingWidth = ((blocking/this.phaseElapsed) * 100).toFixed(3);
         this.barResolvingWidth = ((resolving/this.phaseElapsed) * 100).toFixed(3);
         this.barConnectingWidth = ((connecting/this.phaseElapsed) * 100).toFixed(3);
-        this.barBlockingWidth = ((blocking/this.phaseElapsed) * 100).toFixed(3);
         this.barSendingWidth = ((sending/this.phaseElapsed) * 100).toFixed(3);
         this.barWaitingWidth = ((waiting/this.phaseElapsed) * 100).toFixed(3);
         this.barReceivingWidth = ((receiving/this.phaseElapsed) * 100).toFixed(3);
@@ -561,25 +561,25 @@ RequestList.prototype = domplate(
             var timelineBar = Lib.getElementByClass(row, "netTimelineBar");
 
             // Get bar nodes. Every node represents one part of the graph-timeline.
-            var resolvingBar = timelineBar.children[0];
+            var blockingBar = timelineBar.children[0];
+            var resolvingBar = blockingBar.nextSibling;
             var connectingBar = resolvingBar.nextSibling;
-            var blockingBar = connectingBar.nextSibling;
-            var sendingBar = blockingBar.nextSibling;
+            var sendingBar = connectingBar.nextSibling;
             var waitingBar = sendingBar.nextSibling;
             var receivingBar = waitingBar.nextSibling;
 
             // All bars starts at the beginning of the appropriate request graph. 
-            resolvingBar.style.left = 
+            blockingBar.style.left = 
                 connectingBar.style.left =
-                blockingBar.style.left =
+                resolvingBar.style.left =
                 sendingBar.style.left = 
                 waitingBar.style.left =
                 receivingBar.style.left = this.barOffset + "%";
 
             // Sets width of all bars (using style). The width is computed according to measured timing.
+            blockingBar.style.width = this.barBlockingWidth + "%";
             resolvingBar.style.width = this.barResolvingWidth + "%";
             connectingBar.style.width = this.barConnectingWidth + "%";
-            blockingBar.style.width = this.barBlockingWidth + "%";
             sendingBar.style.width = this.barSendingWidth + "%";
             waitingBar.style.width = this.barWaitingWidth + "%";
             receivingBar.style.width = this.barReceivingWidth + "%";
@@ -1031,19 +1031,26 @@ var EntryTimeInfoTip = domplate(
         var timings = [];
 
         // Helper shortcuts
+        var blocked = file.timings.blocked;
         var dns = file.timings.dns;
         var ssl = file.timings.ssl; // new in HAR 1.2 xxxHonza: TODO
         var connect = file.timings.connect;
-        var blocked = file.timings.blocked;
         var send = file.timings.send;
         var wait = file.timings.wait;
         var receive = file.timings.receive;
+
+        if (blocked >= 0)
+        {
+            timings.push({bar: "request.phase.Blocking",
+                elapsed: blocked,
+                start: startTime});
+        }
 
         if (dns >= 0)
         {
             timings.push({bar: "request.phase.Resolving",
                 elapsed: dns,
-                start: startTime});
+                start: startTime += (blocked < 0) ? 0 : blocked});
         }
 
         if (connect >= 0)
@@ -1053,18 +1060,11 @@ var EntryTimeInfoTip = domplate(
                 start: startTime += (dns < 0) ? 0 : dns});
         }
 
-        if (blocked >= 0)
-        {
-            timings.push({bar: "request.phase.Blocking",
-                elapsed: blocked,
-                start: startTime += (connect < 0) ? 0 : connect});
-        }
-
         if (send >= 0)
         {
             timings.push({bar: "request.phase.Sending",
                 elapsed: send,
-                start: startTime += (blocked < 0) ? 0 : blocked});
+                start: startTime += (connect < 0) ? 0 : connect});
         }
 
         if (wait >= 0)

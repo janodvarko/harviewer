@@ -155,6 +155,17 @@
     border-right: 50px solid transparent;
 }
 
+.netBlockingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/timeline-sprites.png) repeat-x;
+    min-width: 0px;
+    z-index: 70;
+    height: 16px;
+}
+
 .netResolvingBar {
     position: absolute;
     left: 0;
@@ -162,7 +173,7 @@
     bottom: 0;
     background: url(images/timeline-sprites.png) repeat-x scroll 0 -16px #FFFFFF;
     min-width: 0px;
-    z-index: 70;
+    z-index: 60;
     height: 16px;
 }
 
@@ -172,17 +183,6 @@
     top: 0;
     bottom: 0;
     background: url(images/timeline-sprites.png) repeat-x scroll 0 -32px #FFFFFF;
-    min-width: 0px;
-    z-index: 60;
-    height: 16px;
-}
-
-.netBlockingBar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    background: #FFFFFF url(images/timeline-sprites.png) repeat-x;
     min-width: 0px;
     z-index: 50;
     height: 16px;
