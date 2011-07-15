@@ -4,6 +4,11 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
+HAR Viewer 2.0.13
+-----------------
+* Issue 24: blocked in between connect and wait
+* Embedding HAR previews on a page.
+
 HAR Viewer 2.0.12
 -----------------
 * Issue 53: Simple API for loading HAR files.
