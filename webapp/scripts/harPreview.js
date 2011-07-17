@@ -4,10 +4,11 @@ require.def("harPreview", [
     "preview/pageList",
     "preview/harModel",
     "core/lib",
-    "core/trace"
+    "core/trace",
+    "preview/menu"
 ],
 
-function(PageList, HarModel, Lib, Trace) {
+function(PageList, HarModel, Lib, Trace, Menu) {
 
 //*************************************************************************************************
 // The Preview Application
@@ -23,6 +24,9 @@ HarPreview.prototype =
 {
     initialize: function(content)
     {
+        this.topMenu = new Menu()
+        this.topMenu.render(content);
+
         // Auto load all HAR files specified in the URL.
         var okCallback = Lib.bind(this.appendPreview, this);
         HarModel.Loader.run(okCallback);
