@@ -43,6 +43,9 @@ Menu.prototype =
 
         var menuContent = Lib.getElementByClass(this.element, "menuContent");
         this.toolbar.render(menuContent);
+
+        if (Lib.isSafari)
+            menuContent.style.paddingTop = "1px";
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -66,17 +69,19 @@ var MenuPlate = domplate(
     tag:
         DIV({"class": "menu", _repObject: "$object"},
             DIV({"class": "menuHandle", onmousemove: "$onMouseMove", onclick: "$onMouseClick"}),
-            SPAN({"class": "menuContent", "style": "display: none"})
+            DIV({"class": "menuContent", "style": "display: none"})
         ),
 
     onMouseMove: function(event)
     {
-        this.open(event.target);
+        var e = Lib.fixEvent(event);
+        this.open(e.target);
     },
 
     onMouseClick: function(event)
     {
-        this.toggle(event.target);
+        var e = Lib.fixEvent(event);
+        this.toggle(e.target);
     },
 
     open: function(element)

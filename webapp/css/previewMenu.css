@@ -13,7 +13,8 @@
 .menu .menuContent {
     display: inline-block;
     overflow: hidden;
-    padding-bottom: 1px;
+    vertical-align: top;
+    line-height: 13px;
 }
 
 .menu .menuHandle {
