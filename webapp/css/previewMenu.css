@@ -35,6 +35,7 @@
     border: 0;
     vertical-align: top;
     display: inline;
+    padding-left: 0;
 }
 
 .menu .toolbarSeparator {
