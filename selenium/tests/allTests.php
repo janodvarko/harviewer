@@ -18,6 +18,7 @@ require_once("testTimeStamps.php");
 require_once("testPhases.php");
 require_once("testLoadHarAPI.php");
 require_once("testNoPageGraph.php");
+require_once("testEmbeddedPreview.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
@@ -45,6 +46,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestPhases");
         $suite->addTestSuite("HAR_TestLoadHarAPI");
         $suite->addTestSuite("HAR_TestNoPageGraph");
+        $suite->addTestSuite("HAR_TestEmbeddedPreview");
 
         return $suite;
     }
