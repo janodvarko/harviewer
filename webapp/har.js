@@ -115,7 +115,19 @@ function findHarElements()
     return result;
 }
 
+function addEventListener(object, name, handler, direction)
+{
+    direction = direction || false;
+
+    if (object.addEventListener)
+        object.addEventListener(name, handler, direction);
+    else
+        object.attachEvent("on"+name, handler);
+};
+
 harInitialize();
+
+addEventListener(window, "load", harInitialize, false);
 
 // ********************************************************************************************* //
 })();
