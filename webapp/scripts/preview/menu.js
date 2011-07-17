@@ -29,8 +29,8 @@ Menu.prototype =
 
         this.toolbar.addButton({
             id: "credentials",
-            label: "Powered by: Jan Odvarko",
-            tooltiptext: "www.softwareishard.com/about",
+            label: "Powered by Jan Odvarko",
+            tooltiptext: "http://www.softwareishard.com/blog/har-viewer/",
             command: Lib.bindFixed(this.onCredentials, this, true)
         });
 
@@ -51,7 +51,7 @@ Menu.prototype =
     onCredentials: function()
     {
         // Do not remove: credentials for HAR Viewer author.
-        window.open("http://www.softwareishard.com/about");
+        window.open("http://www.softwareishard.com/blog/har-viewer/");
     },
 
     onFullPreview: function()

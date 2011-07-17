@@ -13,6 +13,7 @@
 .menu .menuContent {
     display: inline-block;
     overflow: hidden;
+    padding-bottom: 1px;
 }
 
 .menu .menuHandle {
