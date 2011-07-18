@@ -32,13 +32,13 @@
  * </script>
  * 
  * Examples of HAR elements:
- * <div class="har" data-har="http://example.como/my.harp"></div>
+ * <div class="har" data-har="http://example.com/my.harp"></div>
  * - load HARP file from an external domain using JSONP.
  * 
- * <div class="har" data-har="/example.como/my.harp"></div>
+ * <div class="har" data-har="/my.har"></div>
  * - load HAR file from the same domain.
 
- * <div class="har" data-har="http://example.como/my.harp"></div>
+ * <div class="har" data-har="http://example.com/my.harp" expand="true"></div>
  * - load HAR file from an external domain and expads all pages.
  */
 window.harInitialize = function()
