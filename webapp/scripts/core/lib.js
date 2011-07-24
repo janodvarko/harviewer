@@ -820,7 +820,9 @@ Lib.setClassTimed = function(elt, name, timeout)
     else                        // then we are not waiting to remove the mark
         Lib.setClass(elt, name);
 
-    elt.__setClassTimeout = setTimeout(function() {
+    elt.__setClassTimeout = setTimeout(function()
+    {
+        delete elt.__setClassTimeout;
         Lib.removeClass(elt, name);
     }, timeout);
 };
