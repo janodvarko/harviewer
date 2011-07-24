@@ -365,7 +365,7 @@ RequestList.prototype = domplate(
         // The phase interval is customizable through a cookie.
         var phaseInterval = Cookies.getCookie("phaseInterval");
         if (!phaseInterval)
-            phaseInterval = 1000;
+            phaseInterval = 4000;
 
         var phase = null;
 
@@ -398,6 +398,7 @@ RequestList.prototype = domplate(
 
             var startedDateTime = Lib.parseISO8601(file.startedDateTime);
             var phaseLastStartTime = phase ? Lib.parseISO8601(phase.getLastStartTime()) : 0;
+            var phaseEndTime = phase ? phase.endTime : 0;
 
             // New phase is started if:
             // 1) There is no phase yet.
@@ -406,8 +407,9 @@ RequestList.prototype = domplate(
             var newPhase = false;
             if (phaseInterval >= 0)
             {
-                newPhase = ((startedDateTime - phaseLastStartTime) >= phaseInterval) &&
-                    (startedDateTime > onLoadTime);
+                newPhase = (startedDateTime > onLoadTime) &&
+                    ((startedDateTime - phaseLastStartTime) >= phaseInterval) &&
+                    (startedDateTime + file.time >= phaseEndTime + phaseInterval);
             }
 
             // 4) The file can be also marked with breakLayout
