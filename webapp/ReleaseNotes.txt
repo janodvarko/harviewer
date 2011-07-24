@@ -7,8 +7,9 @@ Project home: http://code.google.com/p/harviewer/
 HAR Viewer 2.0.13
 -----------------
 * Issue 24: blocked in between connect and wait
+* Issue 55: harViewer in IE8 shows timing bars squeezed 
 * Issue 58: Embedding HAR previews on pages
- 
+
 HAR Viewer 2.0.12
 -----------------
 * Issue 53: Simple API for loading HAR files.
