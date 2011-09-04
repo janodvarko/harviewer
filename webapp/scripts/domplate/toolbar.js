@@ -3,10 +3,11 @@
 require.def("domplate/toolbar", [
     "domplate/domplate",
     "core/lib",
-    "core/trace"
+    "core/trace",
+    "domplate/popupMenu"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function(Domplate, Lib, Trace, Menu) { with (Domplate) {
 
 //*************************************************************************************************
 
@@ -23,6 +24,15 @@ var ToolbarTempl = domplate(
         SPAN({"class": "$button|getClassName toolbarButton", title: "$button.tooltiptext",
             $text: "$button|hasLabel", onclick: "$button|getCommand"},
             "$button|getLabel"
+        ),
+
+    dropDownTag:
+        SPAN({"class": "$button|getClassName toolbarButton dropDown",
+            _repObject: "$button",
+            title: "$button.tooltiptext",
+            $text: "$button|hasLabel", onclick: "$onDropDown"},
+            "$button|getLabel",
+            SPAN({"class": "arrow"})
         ),
 
     separatorTag:
@@ -54,6 +64,18 @@ var ToolbarTempl = domplate(
 
         // Cancel button clicks so they are not propagated further.
         Lib.cancelEvent(e);
+    },
+
+    onDropDown: function(event)
+    {
+        var e = $.event.fix(event || window.event);
+
+        var target = e.target;
+        var button = Lib.getAncestorByClass(target, "toolbarButton");
+        var items = button.repObject.items;
+
+        var menu = new Menu({id: "requestContextMenu", items: items});
+        menu.showPopup(button);
     }
 });
 
@@ -115,7 +137,9 @@ Toolbar.prototype =
         for (var i=0; i<this.buttons.length; i++)
         {
             var button = this.buttons[i];
-            var tag = button.tag ? button.tag : ToolbarTempl.buttonTag;
+            var defaultTag = button.items ? ToolbarTempl.dropDownTag : ToolbarTempl.buttonTag;
+            var tag = button.tag ? button.tag : defaultTag;
+
             tag.append({button: button}, this.element);
 
             if (i<this.buttons.length-1)
