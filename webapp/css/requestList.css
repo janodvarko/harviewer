@@ -8,7 +8,7 @@
     table-layout: fixed;
 }
 
-/************************************************************************************************/
+/*************************************************************************************************/
 
 .netRow {
     background: white;
@@ -19,7 +19,7 @@
 }
 
 .netHrefCol:hover {
-    background: white;
+    /*background: white; the summary bar shouldn't have this */
 }
 
 .netRow.loaded:hover {
@@ -40,8 +40,8 @@
     border-top: 1px solid rgb(207,207,207);
 }
 
+.netTypeCol,
 .netStatusCol {
-    padding-left: 10px;
     color: rgb(128, 128, 128);
 }
 
@@ -49,7 +49,12 @@
     color: red;
 }
 
+.responseRedirect > td {
+    color: #f93;
+}
+
 .netStatusCol,
+.netTypeCol,
 .netDomainCol,
 .netSizeCol,
 .netTimeCol {
@@ -97,11 +102,12 @@
     background-color: #EFEFEF;
 }
 
-.netSizeLabel {
+/*.netSizeLabel {
     padding-left: 6px;
-}
+}*/
 
 .netStatusLabel,
+.netTypeLabel,
 .netDomainLabel,
 .netSizeLabel,
 .netTimelineBar {
@@ -148,7 +154,7 @@
     text-decoration: underline;
 }
 
-/************************************************************************************************/
+/*************************************************************************************************/
 
 .netTimelineBar {
     position: relative;
@@ -413,4 +419,16 @@
 .netRow.opened > .netCol > .netHrefLabel {
     background-image: url(images/twisty-sprites.png);
     background-position: 3px -16px;
+}
+
+/*************************************************************************************************/
+/* Column Customization */
+
+#content[hiddenCols~=url] TD.netHrefCol,
+#content[hiddenCols~=status] TD.netStatusCol,
+#content[hiddenCols~=domain] TD.netDomainCol,
+#content[hiddenCols~=size] TD.netSizeCol,
+#content[hiddenCols~=timeline] TD.netTimeCol,
+#content[hiddenCols~=type] TD.netTypeCol {
+    display: none;
 }

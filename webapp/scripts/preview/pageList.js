@@ -4,12 +4,16 @@ require.def("preview/pageList", [
     "domplate/domplate",
     "core/lib",
     "core/trace",
-    "preview/requestList"
+    "core/cookies",
+    "preview/requestList",
+    "i18n!nls/pageList",
+    "domplate/popupMenu"
 ],
 
-function(Domplate, Lib, Trace, RequestList) { with (Domplate) {
+function(Domplate, Lib, Trace, Cookies, RequestList, Strings, Menu) {
+with (Domplate) {
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 // Page List
 
 function PageList(input)
@@ -36,18 +40,21 @@ PageList.prototype = domplate(
     rowTag:
         FOR("group", "$groups",
             TR({"class": "pageRow", _repObject: "$group"},
-                TD({"class": "groupName pageCol"},
+                TD({"class": "groupName pageCol", width: "1%"},
                     SPAN({"class": "pageName"}, "$group|getPageTitle")
+                ),
+                TD({"class": "netOptionsCol netCol", width: "15px"},
+                    DIV({"class": "netOptionsLabel netLabel", onclick: "$onOpenOptions"})
                 )
             )
         ),
 
     bodyTag:
         TR({"class": "pageInfoRow", style: "height:auto;"},
-            TD({"class": "pageInfoCol"})
+            TD({"class": "pageInfoCol", colspan: 2})
         ),
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Events & Callbacks
 
     getPageTitle: function(page)
@@ -62,7 +69,7 @@ PageList.prototype = domplate(
 
     onClick: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
         if (Lib.isLeftClick(event)) 
         {
             var row = Lib.getAncestorByClass(e.target, "pageRow");
@@ -145,6 +152,89 @@ PageList.prototype = domplate(
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Customize Columns
+
+    onOpenOptions: function(event)
+    {
+        var e = Lib.fixEvent(event);
+        Lib.cancelEvent(event);
+
+        if (!Lib.isLeftClick(event))
+            return;
+
+        var target = e.target;
+
+        // Collect all menu items.
+        var row = Lib.getAncestorByClass(target, "pageRow");
+        var items = this.getMenuItems(row.repObject);
+
+        // Finall, display the the popup menu.
+        // xxxHonza: the old <DIV> can be still visible.
+        var menu = new Menu({id: "requestContextMenu", items: items});
+        menu.showPopup(target);
+    },
+
+    getMenuItems: function(row)
+    {
+        // Get list of columns as string for quick search.
+        var hiddenCols = RequestList.getHiddenColumns().join();
+
+        // You can't hide the last visible column.
+        var lastVisibleIndex;
+        var visibleColCount = 0;
+
+        var items = []
+        for (var i=0; i<RequestList.columns.length; i++)
+        {
+            var colName = RequestList.columns[i];
+            var visible = (hiddenCols.indexOf(colName) == -1);
+
+            items.push({
+                label: Strings["column.label." + colName],
+                type: "checkbox",
+                checked: visible,
+                command: Lib.bindFixed(this.onToggleColumn, this, colName)
+            });
+
+            if (visible)
+            {
+                lastVisibleIndex = i;
+                visibleColCount++;
+            }
+        }
+
+        // If the last column is visible, disable its menu item.
+        if (visibleColCount == 1)
+            items[lastVisibleIndex].disabled = true;
+
+        items.push("-");
+        items.push({
+            label: Strings["action.label.Reset"],
+            command: Lib.bindFixed(this.updateColumns, this)
+        });
+
+        return items;
+    },
+
+    onToggleColumn: function(name)
+    {
+        // Try to remove the column from the array, if not presented append it.
+        var cols = RequestList.getHiddenColumns();
+        if (!Lib.remove(cols, name))
+            cols.push(name);
+
+        // Update Cookies and UI
+        this.updateColumns(cols);
+    },
+
+    updateColumns: function(cols)
+    {
+        var hiddenCols = cols || RequestList.columnsHiddenByDefault;
+        Cookies.setCookie("hiddenCols", hiddenCols.join(" "));
+        document.getElementById("content").setAttribute("hiddenCols", hiddenCols.join(" "));
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Helpers 
 
     createRequestList: function()
@@ -178,10 +268,10 @@ PageList.prototype = domplate(
             // Note that there can be more page-lists (pageTable elements)
             var len1 = table.firstChild.childNodes.length;
             var len2 = table.parentNode.childNodes.length;
-            if ((len1 == 1 && len2 == 1) || expand)
+            if (len1 == 1 && len2 == 1)
                 this.toggleRow(table.firstChild.firstChild);
 
-            // If 'expand' parameter is specified exapand all by default.
+            // If 'expand' parameter is specified expand all by default.
             var expand = Lib.getURLParameter("expand");
             if (expand)
                 this.expandAll(table);
@@ -207,15 +297,15 @@ PageList.prototype = domplate(
     }
 });
 
-// ********************************************************************************************** //
+// ********************************************************************************************* //
 
 // Custom registered page timings, displayed as vertical lines over individual requests
 // in the first phase.
 PageList.prototype.pageTimings = [];
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 
 return PageList;
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 }});

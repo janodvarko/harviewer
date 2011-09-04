@@ -49,6 +49,17 @@
 }
 
 /*************************************************************************************************/
+/* Column Customization */
+
+.pageRow:hover > .netOptionsCol > .netOptionsLabel {
+    display: block;
+}
+
+.pageRow > .netOptionsCol {
+    padding-right: 2px;
+}
+
+/*************************************************************************************************/
 /* Print support */
 
 @media print {

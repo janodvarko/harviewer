@@ -11,9 +11,10 @@ require.def("preview/requestList", [
     "domplate/popupMenu"
 ],
 
-function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip, Menu) { with (Domplate) {
+function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip, Menu) {
+with (Domplate) {
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 // Request List
 
 function RequestList(input)
@@ -41,6 +42,47 @@ function RequestList(input)
     InfoTip.addListener(this);
 }
 
+// ********************************************************************************************* //
+// Columns 
+
+/**
+ * List of columns, see also RequestList.prototype.tableTag
+ */
+RequestList.columns = [
+    "url",
+    "status",
+    "type",
+    "domain",
+    "size",
+    "timeline"
+];
+
+/**
+ * List of columns that are hidden by default.
+ */
+RequestList.columnsHiddenByDefault = [
+    "type",
+    "domain"
+];
+
+/**
+ * Use this method to get a list of currently hidden columns.
+ */
+RequestList.getHiddenColumns = function()
+{
+    var hiddenCols = Cookies.getCookie("hiddenCols");
+    if (hiddenCols)
+        return hiddenCols.split(" ");
+
+    return Lib.cloneArray(RequestList.columnsHiddenByDefault);
+}
+
+// Initialize UI. List of hidden columns is specified on the content element (used by CSS).
+var cols = RequestList.getHiddenColumns();
+document.getElementById("content").setAttribute("hiddenCols", cols.join(" "));
+
+// ********************************************************************************************* //
+
 /**
  * @domplate This object represents a template for list of entries (requests).
  * This list is displayed when a page is expanded by the user. 
@@ -53,12 +95,13 @@ RequestList.prototype = domplate(
             _repObject: "$requestList"},
             TBODY(
                 TR(
-                    TD({width: "20%"}),
-                    TD({width: "10%"}),
-                    TD({width: "10%"}),
-                    TD({width: "10%"}),
-                    TD({width: "50%"}),
-                    TD({width: "15px"})
+                    TD({"class": "netHrefCol", width: "20%"}),
+                    TD({"class": "netStatusCol", width: "7%"}),
+                    TD({"class": "netTypeCol", width: "7%"}),
+                    TD({"class": "netDomainCol", width: "7%"}),
+                    TD({"class": "netSizeCol", width: "7%"}),
+                    TD({"class": "netTimeCol", width: "100%"}),
+                    TD({width: "15px"}) // Options
                 )
             )
         ),
@@ -68,6 +111,7 @@ RequestList.prototype = domplate(
             TR({"class": "netRow loaded",
                 $isExpandable: "$file|isExpandable",
                 $responseError: "$file|isError",
+                $responseRedirect: "$file|isRedirect",
                 $fromCache: "$file|isFromCache"},
                 TD({"class": "netHrefCol netCol"},
                     DIV({"class": "netHrefLabel netLabel",
@@ -81,6 +125,9 @@ RequestList.prototype = domplate(
                 ),
                 TD({"class": "netStatusCol netCol"},
                     DIV({"class": "netStatusLabel netLabel"}, "$file|getStatus")
+                ),
+                TD({"class": "netTypeCol netCol"},
+                    DIV({"class": "netTypeLabel netLabel"}, "$file|getType")
                 ),
                 TD({"class": "netDomainCol netCol"},
                     DIV({"class": "netDomainLabel netLabel"}, "$file|getDomain")
@@ -110,25 +157,28 @@ RequestList.prototype = domplate(
 
     headTag:
         TR({"class": "netHeadRow"},
-            TD({"class": "netHeadCol", colspan: 6},
+            TD({"class": "netHeadCol", colspan: 7},
                 DIV({"class": "netHeadLabel"}, "$doc.rootFile.href")
             )
         ),
 
     netInfoTag:
         TR({"class": "netInfoRow"},
-            TD({"class": "netInfoCol", colspan: 6})
+            TD({"class": "netInfoCol", colspan: 7})
         ),
 
     summaryTag:
         TR({"class": "netRow netSummaryRow"},
-            TD({"class": "netCol", colspan: 3},
+            TD({"class": "netHrefCol netCol"},
                 DIV({"class": "netCountLabel netSummaryLabel"}, "-")
             ),
-            TD({"class": "netTotalSizeCol netCol"},
+            TD({"class": "netStatusCol netCol"}),
+            TD({"class": "netTypeCol netCol"}),
+            TD({"class": "netDomainCol netCol"}),
+            TD({"class": "netTotalSizeCol netSizeCol netCol"},
                 DIV({"class": "netTotalSizeLabel netSummaryLabel"}, "0KB")
             ),
-            TD({"class": "netTotalTimeCol netCol"},
+            TD({"class": "netTotalTimeCol netTimeCol netCol"},
                 DIV({"class": "", style: "width: 100%"},
                     DIV({"class": "netCacheSizeLabel netSummaryLabel"},
                         "(",
@@ -155,6 +205,14 @@ RequestList.prototype = domplate(
         return errorRange == 4 || errorRange == 5;
     },
 
+    isRedirect: function(file)
+    {
+        // xxxHonza: 304?
+        //var errorRange = Math.floor(file.response.status/100);
+        //return errorRange == 3;
+        return false;
+    },
+
     isFromCache: function(file)
     {
         return file.cache && file.cache.afterRequest;
@@ -175,6 +233,11 @@ RequestList.prototype = domplate(
     {
         var status = file.response.status > 0 ? (file.response.status + " ") : "";
         return status + file.response.statusText;
+    },
+
+    getType: function(file)
+    {
+        return file.response.content.mimeType;
     },
 
     getDomain: function(file)
@@ -214,7 +277,7 @@ RequestList.prototype = domplate(
 
     onClick: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
         if (Lib.isLeftClick(event))
         {
             var row = Lib.getAncestorByClass(e.target, "netRow");
@@ -259,7 +322,7 @@ RequestList.prototype = domplate(
 
     onOpenOptions: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
         Lib.cancelEvent(event);
 
         if (!Lib.isLeftClick(event))
@@ -349,7 +412,7 @@ RequestList.prototype = domplate(
         this.updateLayout(netTable, page);
     },
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Layout
 
     updateLayout: function(table, page)
@@ -786,7 +849,7 @@ RequestList.prototype = domplate(
             fileCount: fileCount}
     },
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // InfoTip
 
     showInfoTip: function(infoTip, target, x, y)
@@ -837,7 +900,7 @@ RequestList.prototype = domplate(
         return true;
     },
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Public
 
     render: function(parentNode, page)
@@ -872,7 +935,7 @@ RequestList.prototype = domplate(
     }
 });
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 
 /**
  * @object This object represents a phase that joins related requests into groups (phases).
@@ -1119,7 +1182,7 @@ var EntryTimeInfoTip = domplate(
     }
 });
 
-//***********************************************************************************************//
+// ********************************************************************************************* //
 
 var EntrySizeInfoTip = domplate(
 {
@@ -1176,9 +1239,9 @@ var EntrySizeInfoTip = domplate(
     }
 });
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 
 return RequestList;
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 }});
