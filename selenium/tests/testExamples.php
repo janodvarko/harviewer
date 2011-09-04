@@ -8,9 +8,9 @@ class HAR_TestExamples extends HAR_TestCase
 {
     public function testExamples()
     {
-        $this->loadAndVerify("example1", "CuzillionCuzillion");
-        $this->loadAndVerify("example2", "CuzillionCuzillion");
-        $this->loadAndVerify("example3", "Software is hard | Firebug 1.6 beta 1 ReleasedSoftware is hard | Firebug 1.6 beta 1 Released");
+        $this->loadAndVerify("example1", "Cuzillion");
+        $this->loadAndVerify("example2", "Cuzillion");
+        $this->loadAndVerify("example3", "Software is hard | Firebug 1.6 beta 1 Released");
         $this->loadAndVerify("example4", "Google");
     }
 
