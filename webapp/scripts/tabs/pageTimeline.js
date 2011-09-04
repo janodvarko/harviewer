@@ -79,7 +79,7 @@ Timeline.prototype = domplate(
 
     onClick: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
 
         var bar = e.target;
         if (!Lib.hasClass(bar, "pageBar"))
@@ -102,7 +102,7 @@ Timeline.prototype = domplate(
 
     onMouseMove: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
 
         // If the mouse moves over a bar, update a description displayed below and
         // notify all registered listeners.

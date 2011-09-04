@@ -53,7 +53,7 @@ var TabViewTempl = domplate(
 
     onClickTab: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
         var tabView = this.getTabView(e.target);
         tabView.onClickTab(e);
     },

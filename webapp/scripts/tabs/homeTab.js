@@ -82,7 +82,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
 
     onLoadExample: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
         var path = e.target.getAttribute("path");
 
         var href = document.location.href;
@@ -98,7 +98,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
 
     onDrop: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
         Lib.cancelEvent(e);
 
         try

@@ -77,7 +77,7 @@ DomTree.prototype = domplate(
 
     onClick: function(event)
     {
-        var e = $.event.fix(event || window.event);
+        var e = Lib.fixEvent(event);
         if (!Lib.isLeftClick(e))
             return;
 
