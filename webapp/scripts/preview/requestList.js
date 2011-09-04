@@ -71,6 +71,12 @@ RequestList.columnsHiddenByDefault = [
 RequestList.getHiddenColumns = function()
 {
     var hiddenCols = Cookies.getCookie("hiddenCols");
+
+    // Columns names are separated by a space so, make sure to properly process
+    // spaces in the cookie value.
+    hiddenCols = hiddenCols.replace(/\+/g, " ");
+    hiddenCols = unescape(hiddenCols);
+
     if (hiddenCols)
         return hiddenCols.split(" ");
 
