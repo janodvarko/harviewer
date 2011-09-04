@@ -19,6 +19,7 @@ require_once("testPhases.php");
 require_once("testLoadHarAPI.php");
 require_once("testNoPageGraph.php");
 require_once("testEmbeddedPreview.php");
+//require_once("testCustomizeColumns.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
@@ -47,6 +48,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestLoadHarAPI");
         $suite->addTestSuite("HAR_TestNoPageGraph");
         $suite->addTestSuite("HAR_TestEmbeddedPreview");
+        //$suite->addTestSuite("HAR_TestCustomizeColumns");
 
         return $suite;
     }
