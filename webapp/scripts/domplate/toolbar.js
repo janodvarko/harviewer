@@ -15,7 +15,7 @@ function(Domplate, Lib, Trace, Menu) { with (Domplate) {
  * @domplate Represents a toolbar widget.
  */
 var ToolbarTempl = domplate(
-/** @lends Toolbar */
+/** @lends ToolbarTempl */
 {
     tag:
         DIV({"class": "toolbar", onclick: "$onClick"}),
@@ -74,19 +74,23 @@ var ToolbarTempl = domplate(
         var button = Lib.getAncestorByClass(target, "toolbarButton");
         var items = button.repObject.items;
 
-        var menu = new Menu({id: "requestContextMenu", items: items});
+        var menu = new Menu({id: "toolbarContextMenu", items: items});
         menu.showPopup(button);
     }
 });
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+// ********************************************************************************************* //
 
+/**
+ * Toolbat widget.
+ */
 function Toolbar()
 {
     this.buttons = [];
 }
 
 Toolbar.prototype =
+/** @lends Toolbar */
 {
     addButton: function(button)
     {

@@ -44,7 +44,7 @@ Menu.prototype =
         var menuContent = Lib.getElementByClass(this.element, "menuContent");
         this.toolbar.render(menuContent);
 
-        if (Lib.isSafari)
+        if (Lib.isWebkit)
             menuContent.style.paddingTop = "1px";
     },
 

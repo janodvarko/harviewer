@@ -5,6 +5,14 @@
     font-size: 11px;
 }
 
+.tabDOMBody .domContent {
+    position: absolute;
+    top: 28px; /* tab view bar + toolbar */
+    bottom: 0px;
+    overflow: auto;
+    width: 100%;
+}
+
 .tabDOMBody .separator {
     border-bottom: 1px solid #D7D7D7;
 }
@@ -13,3 +21,9 @@
     padding: 5px;
 }
 
+/*************************************************************************************************/
+/* Toolbar */
+
+.domToolbar > .toolbar {
+    text-align: right;
+}

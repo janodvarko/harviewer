@@ -16,6 +16,7 @@ var Lib = {};
 var userAgent = navigator.userAgent.toLowerCase();
 Lib.isFirefox = /firefox/.test(userAgent);
 Lib.isOpera   = /opera/.test(userAgent);
+Lib.isWebkit  = /webkit/.test(userAgent);
 Lib.isSafari  = /webkit/.test(userAgent);
 Lib.isIE      = /msie/.test(userAgent) && !/opera/.test(userAgent);
 Lib.isIE6     = /msie 6/i.test(navigator.appVersion);
@@ -965,7 +966,8 @@ Lib.cloneJSON = function(obj)
 
 Lib.getOverflowParent = function(element)
 {
-    for (var scrollParent = element.parentNode; scrollParent; scrollParent = scrollParent.offsetParent)
+    for (var scrollParent = element.parentNode; scrollParent;
+        scrollParent = scrollParent.offsetParent)
     {
         if (scrollParent.scrollHeight > scrollParent.offsetHeight)
             return scrollParent;
@@ -1088,7 +1090,85 @@ Lib.getWindowScrollPosition = function()
     return {top:top, left:left};
 };
 
-//***********************************************************************************************//
+// ********************************************************************************************* //
+// Scrolling
+
+Lib.scrollIntoCenterView = function(element, scrollBox, notX, notY)
+{
+    if (!element)
+        return;
+
+    if (!scrollBox)
+        scrollBox = Lib.getOverflowParent(element);
+
+    if (!scrollBox)
+        return;
+
+    var offset = Lib.getClientOffset(element);
+
+    if (!notY)
+    {
+        var topSpace = offset.y - scrollBox.scrollTop;
+        var bottomSpace = (scrollBox.scrollTop + scrollBox.clientHeight)
+            - (offset.y + element.offsetHeight);
+
+        if (topSpace < 0 || bottomSpace < 0)
+        {
+            var centerY = offset.y - (scrollBox.clientHeight/2);
+            scrollBox.scrollTop = centerY;
+        }
+    }
+
+    if (!notX)
+    {
+        var leftSpace = offset.x - scrollBox.scrollLeft;
+        var rightSpace = (scrollBox.scrollLeft + scrollBox.clientWidth)
+            - (offset.x + element.clientWidth);
+
+        if (leftSpace < 0 || rightSpace < 0)
+        {
+            var centerX = offset.x - (scrollBox.clientWidth/2);
+            scrollBox.scrollLeft = centerX;
+        }
+    }
+};
+
+Lib.getClientOffset = function(elt)
+{
+    function addOffset(elt, coords, view)
+    {
+        var p = elt.offsetParent;
+
+        var style = view.getComputedStyle(elt, "");
+
+        if (elt.offsetLeft)
+            coords.x += elt.offsetLeft + parseInt(style.borderLeftWidth);
+        if (elt.offsetTop)
+            coords.y += elt.offsetTop + parseInt(style.borderTopWidth);
+
+        if (p)
+        {
+            if (p.nodeType == 1)
+                addOffset(p, coords, view);
+        }
+        else if (elt.ownerDocument.defaultView.frameElement)
+        {
+            addOffset(elt.ownerDocument.defaultView.frameElement,
+                coords, elt.ownerDocument.defaultView);
+        }
+    }
+
+    var coords = {x: 0, y: 0};
+    if (elt)
+    {
+        var view = elt.ownerDocument.defaultView;
+        addOffset(elt, coords, view);
+    }
+
+    return coords;
+};
+
+// ********************************************************************************************* //
 // Stylesheets
 
 /**
@@ -1112,9 +1192,35 @@ Lib.addStyleSheet = function(doc, url)
     head.appendChild(link);
 }
 
-//***********************************************************************************************//
+// ********************************************************************************************* //
+// Selection
+
+Lib.selectElementText = function(textNode, startOffset, endOffset)
+{
+    var win = window;
+    var doc = win.document;
+    if (win.getSelection && doc.createRange)
+    {
+        var sel = win.getSelection();
+        var range = doc.createRange();
+        //range.selectNodeContents(el);
+
+        range.setStart(textNode, startOffset);
+        range.setEnd(textNode, endOffset);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+    else if (doc.body.createTextRange)
+    {
+        range = doc.body.createTextRange();
+        range.moveToElementText(textNode);
+        range.select();
+    }
+}
+
+// ********************************************************************************************* //
 
 return Lib;
 
-//***********************************************************************************************//
+// ********************************************************************************************* //
 });

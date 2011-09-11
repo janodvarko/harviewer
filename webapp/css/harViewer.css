@@ -23,6 +23,7 @@
 @import url("domTab.css");
 @import url("schemaTab.css");
 @import url("previewTab.css");
+@import url("search.css");
 
 /* Syntax Highlighter */
 @import url("SyntaxHighlighter.css");

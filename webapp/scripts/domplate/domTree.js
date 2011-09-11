@@ -91,8 +91,10 @@ DomTree.prototype = domplate(
 
     toggleRow: function(row, forceOpen)
     {
-        var level = parseInt(row.getAttribute("level"));
+        if (!row)
+            return;
 
+        var level = parseInt(row.getAttribute("level"));
         if (forceOpen && Lib.hasClass(row, "opened"))
             return;
 
@@ -180,6 +182,13 @@ DomTree.prototype = domplate(
 
     expandRow: function(object)
     {
+        var row = this.getRow(object);
+        this.toggleRow(row, true);
+        return row;
+    },
+
+    getRow: function(object)
+    {
         // If not rendered yet, bail out.
         if (!this.element)
             return;
@@ -191,10 +200,7 @@ DomTree.prototype = domplate(
         {
             var row = rows[i];
             if (row.repObject.value == object)
-            {
-                this.toggleRow(row, true);
                 return row;
-            }
         }
 
         return null;

@@ -340,7 +340,7 @@ RequestList.prototype = domplate(
         var row = Lib.getAncestorByClass(target, "netRow");
         var items = this.getMenuItems(row);
 
-        // Finall, display the the popup menu.
+        // Finally, display the the popup menu.
         // xxxHonza: the old <DIV> can be still visible.
         var menu = new Menu({id: "requestContextMenu", items: items});
         menu.showPopup(target);

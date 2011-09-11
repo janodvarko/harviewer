@@ -46,6 +46,18 @@ var Cookies =
                 (domain ? ";domain=" + domain : "") +
                 ";expires=Thu, 01-Jan-1970 00:00:01 GMT";
         }
+    },
+
+    toggleCookie: function(name)
+    {
+        var value = this.getBooleanCookie(name);
+        this.setCookie(name, !value);
+    },
+
+    getBooleanCookie: function(name)
+    {
+        var value = this.getCookie(name);
+        return (!value || value == "false") ? false : true;
     }
 };
 

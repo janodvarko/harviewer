@@ -22,7 +22,7 @@
     padding-left: 18px;
     /*max-width: 30%;*/    
     white-space: nowrap;
-    background-color: #FFFFFF;
+    /* background-color: #FFFFFF; breaks row highlighting */ 
 }
 
 .memberRow.hasChildren.opened > .memberLabelCell > .memberLabel {
