@@ -45,6 +45,7 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
     {
         this.toolbar.render(Lib.$(body, "domToolbar"));
 
+        // Lib.selectElementText doesn't support IE.
         if (Lib.isIE)
         {
             var searchInput = body.querySelector(".searchInput");

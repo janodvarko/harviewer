@@ -52,7 +52,7 @@ Search.Box = domplate(
         var tab = Lib.getAncestorByClass(e.target, "tabBody");
 
         var searchInput = tab.querySelector(".searchInput");
-        setTimeout(this.search.bind(this, tab, e.keyCode, searchInput.value));
+        setTimeout(Lib.bindFixed(this.search, this, tab, e.keyCode, searchInput.value));
     },
 
     search: function(tab, keyCode, prevText)
