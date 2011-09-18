@@ -46,7 +46,7 @@ function RequestList(input)
 // Columns 
 
 /**
- * List of columns, see also RequestList.prototype.tableTag
+ * List of all available columns for the request table, see also RequestList.prototype.tableTag
  */
 RequestList.columns = [
     "url",
@@ -58,34 +58,63 @@ RequestList.columns = [
 ];
 
 /**
- * List of columns that are hidden by default.
+ * List of columns that are visible by default.
  */
-RequestList.columnsHiddenByDefault = [
-    "type",
-    "domain"
+RequestList.defaultColumns = [
+    "url",
+    "status",
+    "size",
+    "timeline"
 ];
 
 /**
- * Use this method to get a list of currently hidden columns.
+ * Use this method to get a list of currently visible columns.
  */
-RequestList.getHiddenColumns = function()
+RequestList.getVisibleColumns = function()
 {
-    var hiddenCols = Cookies.getCookie("hiddenCols");
-    if (hiddenCols)
+    var cols = Cookies.getCookie("previewCols");
+    if (cols)
     {
         // Columns names are separated by a space so, make sure to properly process
         // spaces in the cookie value.
-        hiddenCols = hiddenCols.replace(/\+/g, " ");
-        hiddenCols = unescape(hiddenCols);
-        return hiddenCols.split(" ");
+        cols = cols.replace(/\+/g, " ");
+        cols = unescape(cols);
+        return cols.split(" ");
     }
 
-    return Lib.cloneArray(RequestList.columnsHiddenByDefault);
+    if (!cols)
+    {
+        var content = document.getElementById("content");
+        if (content)
+        {
+            cols = content.getAttribute("previewCols");
+            return cols.split(" ");
+        }
+    }
+
+    return Lib.cloneArray(RequestList.defaultColumns);
 }
 
-// Initialize UI. List of hidden columns is specified on the content element (used by CSS).
-var cols = RequestList.getHiddenColumns();
-document.getElementById("content").setAttribute("hiddenCols", cols.join(" "));
+RequestList.setVisibleColumns = function(cols, avoidCookies)
+{
+    if (!cols)
+        cols = RequestList.getVisibleColumns();
+
+    // If the parameter is an array, convert it to string.
+    if (cols.join)
+        cols = cols.join(" ");
+
+    var content = document.getElementById("content");
+    if (content)
+        content.setAttribute("previewCols", cols);
+
+    // Update cookie
+    if (!avoidCookies)
+        Cookies.setCookie("previewCols", cols);
+}
+
+// Initialize UI. List of columns is specified on the content element (used by CSS).
+RequestList.setVisibleColumns();
 
 // ********************************************************************************************* //
 
@@ -100,14 +129,14 @@ RequestList.prototype = domplate(
         TABLE({"class": "netTable", cellpadding: 0, cellspacing: 0, onclick: "$onClick",
             _repObject: "$requestList"},
             TBODY(
-                TR(
-                    TD({"class": "netHrefCol", width: "20%"}),
-                    TD({"class": "netStatusCol", width: "7%"}),
-                    TD({"class": "netTypeCol", width: "7%"}),
-                    TD({"class": "netDomainCol", width: "7%"}),
-                    TD({"class": "netSizeCol", width: "7%"}),
-                    TD({"class": "netTimeCol", width: "100%"}),
-                    TD({width: "15px"}) // Options
+                TR({"class" : "netSizerRow"},
+                    TD({"class": "netHrefCol netCol", width: "20%"}),
+                    TD({"class": "netStatusCol netCol", width: "7%"}),
+                    TD({"class": "netTypeCol netCol", width: "7%"}),
+                    TD({"class": "netDomainCol netCol", width: "7%"}),
+                    TD({"class": "netSizeCol netCol", width: "7%"}),
+                    TD({"class": "netTimeCol netCol", width: "100%"}),
+                    TD({"class": "netOptionsCol netCol", width: "15px"}) // Options
                 )
             )
         ),
@@ -197,7 +226,7 @@ RequestList.prototype = domplate(
                     )
                 )
             ),
-            TD({"class": "netCol"})
+            TD({"class": "netOptionsCol netCol"})
         ),
 
     getIndent: function(file)

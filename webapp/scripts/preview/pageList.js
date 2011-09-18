@@ -168,7 +168,7 @@ PageList.prototype = domplate(
         var row = Lib.getAncestorByClass(target, "pageRow");
         var items = this.getMenuItems(row.repObject);
 
-        // Finall, display the the popup menu.
+        // Finally, display the the popup menu.
         // xxxHonza: the old <DIV> can be still visible.
         var menu = new Menu({id: "requestContextMenu", items: items});
         menu.showPopup(target);
@@ -177,7 +177,7 @@ PageList.prototype = domplate(
     getMenuItems: function(row)
     {
         // Get list of columns as string for quick search.
-        var hiddenCols = RequestList.getHiddenColumns().join();
+        var cols = RequestList.getVisibleColumns().join();
 
         // You can't hide the last visible column.
         var lastVisibleIndex;
@@ -187,7 +187,7 @@ PageList.prototype = domplate(
         for (var i=0; i<RequestList.columns.length; i++)
         {
             var colName = RequestList.columns[i];
-            var visible = (hiddenCols.indexOf(colName) == -1);
+            var visible = (cols.indexOf(colName) > -1);
 
             items.push({
                 label: Strings["column.label." + colName],
@@ -219,7 +219,7 @@ PageList.prototype = domplate(
     onToggleColumn: function(name)
     {
         // Try to remove the column from the array, if not presented append it.
-        var cols = RequestList.getHiddenColumns();
+        var cols = RequestList.getVisibleColumns();
         if (!Lib.remove(cols, name))
             cols.push(name);
 
@@ -229,9 +229,10 @@ PageList.prototype = domplate(
 
     updateColumns: function(cols)
     {
-        var hiddenCols = cols || RequestList.columnsHiddenByDefault;
-        Cookies.setCookie("hiddenCols", hiddenCols.join(" "));
-        document.getElementById("content").setAttribute("hiddenCols", hiddenCols.join(" "));
+        if (!cols)
+            cols = RequestList.defaultColumns;
+
+        RequestList.setVisibleColumns(cols);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

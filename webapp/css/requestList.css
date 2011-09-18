@@ -122,7 +122,6 @@
 /* Net Request Options */
 
 .netOptionsCol {
-    width: 11px;
     padding-left: 2px;
     padding-top: 3px;
 }
@@ -422,13 +421,30 @@
 }
 
 /*************************************************************************************************/
+
+.netSizerRow,
+.netSizerRow > .netCol {
+    border: 0;
+    padding: 0;
+}
+
+/*************************************************************************************************/
 /* Column Customization */
 
-#content[hiddenCols~=url] TD.netHrefCol,
-#content[hiddenCols~=status] TD.netStatusCol,
-#content[hiddenCols~=domain] TD.netDomainCol,
-#content[hiddenCols~=size] TD.netSizeCol,
-#content[hiddenCols~=timeline] TD.netTimeCol,
-#content[hiddenCols~=type] TD.netTypeCol {
+.netCol {
     display: none;
+}
+
+/* The options column is always visible */
+.netCol.netOptionsCol {
+    display: table-cell;
+}
+
+#content[previewCols~=url] TD.netHrefCol,
+#content[previewCols~=status] TD.netStatusCol,
+#content[previewCols~=domain] TD.netDomainCol,
+#content[previewCols~=size] TD.netSizeCol,
+#content[previewCols~=timeline] TD.netTimeCol,
+#content[previewCols~=type] TD.netTypeCol {
+    display: table-cell;
 }
