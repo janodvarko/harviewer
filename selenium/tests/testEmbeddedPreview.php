@@ -26,7 +26,7 @@ class HAR_TestEmbeddedPreview extends HAR_TestCase
         $this->assertEquals("2", $this->getEval($script1));
 
         $script2 = $document."querySelector('#preview2').firstChild.contentDocument.querySelectorAll('.netRow').length";
-        $this->assertEquals("0", $this->getEval($script2));
+        $this->assertEquals("2", $this->getEval($script2));
 
         $script3 = $document."querySelector('#preview3').firstChild.contentDocument.querySelectorAll('.netRow').length";
         $this->assertEquals("11", $this->getEval($script3));
