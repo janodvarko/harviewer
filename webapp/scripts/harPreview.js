@@ -1,6 +1,7 @@
 /* See license.txt for terms of usage */
 
 require.def("harPreview", [
+    "preview/requestList",
     "preview/pageList",
     "preview/harModel",
     "core/lib",
@@ -8,7 +9,7 @@ require.def("harPreview", [
     "preview/menu"
 ],
 
-function(PageList, HarModel, Lib, Trace, Menu) {
+function(RequestList, PageList, HarModel, Lib, Trace, Menu) {
 
 //*************************************************************************************************
 // The Preview Application
@@ -64,6 +65,11 @@ HarPreview.prototype =
             settings.jsonpCallback,
             settings.success,
             settings.ajaxError);
+    },
+
+    setPreviewColumns: function(cols, avoidCookies)
+    {
+        RequestList.setVisibleColumns(cols, avoidCookies);
     }
 }
 

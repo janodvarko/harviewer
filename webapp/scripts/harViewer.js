@@ -9,11 +9,13 @@ require.def("harViewer", [
     "tabs/domTab",
     "preview/harModel",
     "i18n!nls/harViewer",
+    "preview/requestList",
     "core/lib",
     "core/trace"
 ],
 
-function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel, Strings, Lib, Trace) {
+function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,
+    Strings, RequestList, Lib, Trace) {
 
 // ********************************************************************************************* //
 // The Application
@@ -167,6 +169,17 @@ HarView.prototype = Lib.extend(new TabView(),
             settings.jsonpCallback,
             settings.success,
             settings.ajaxError);
+    },
+
+    /**
+     * Use to customize list of request columns displayed by default.
+     * 
+     * @param {String} cols Column names separated by a space.
+     * @param {Boolean} avoidCookies Set to true if you don't want to touch cookies.
+     */
+    setPreviewColumns: function(cols, avoidCookies)
+    {
+        RequestList.setVisibleColumns(cols, avoidCookies);
     }
 });
 
