@@ -15,38 +15,82 @@ class HAR_TestCustomizeColumns extends HAR_TestCase
         $harFileURL = $GLOBALS["test_base"]."tests/hars/simple.har";
         $this->open($viewerURL."?path=".$harFileURL);
 
-        $this->waitForCondition(
-            "selenium.browserbot.getCurrentWindow().document.querySelector('.PreviewTab.selected')",
-            10000);
+        $this->waitForElement(".PreviewTab.selected");
 
         // Make sure we are in the Preview tab.
         $this->assertElementContainsText("css=.PreviewTab.selected", "Preview");
 
+        // Check columns visibility
+        $this->assertColumnIsVisible(".netTable .netHrefCol");
+        $this->assertColumnIsVisible(".netTable .netTypeCol");
+        $this->assertColumnIsVisible(".netTable .netTimeCol");
+
+        $this->assertColumnIsNotVisible(".netTable .netSizeCol");
+        $this->assertColumnIsNotVisible(".netTable .netStatusCol");
+        $this->assertColumnIsNotVisible(".netTable .netDomainCol");
+    }
+
+    public function testCustomizeColumns2()
+    {
+        print "\nTest customize columns 2";
+
+        // HAR file is specified inside the test page.
+        $viewerURL = $GLOBALS["test_base"]."tests/testCustomizeColumnsPage2.php";
+        $harFileURL = $GLOBALS["test_base"]."tests/hars/simple.har";
+        $this->open($viewerURL."?path=".$harFileURL);
+
+        $this->waitForElement(".PreviewTab.selected");
+
+        // Make sure we are in the Preview tab.
+        $this->assertElementContainsText("css=.PreviewTab.selected", "Preview");
+
+        // Check columns visibility
+        $this->assertColumnIsVisible(".netTable .netHrefCol");
+        $this->assertColumnIsVisible(".netTable .netStatusCol");
+        $this->assertColumnIsVisible(".netTable .netSizeCol");
+        $this->assertColumnIsVisible(".netTable .netTimeCol");
+
+        $this->assertColumnIsNotVisible(".netTable .netTypeCol");
+        $this->assertColumnIsNotVisible(".netTable .netDomainCol");
+    }
+
+    public function testCustomizeColumns3()
+    {
+        print "\nTest customize columns 3";
+
+        // HAR file is specified inside the test page.
+        $viewerURL = $GLOBALS["test_base"]."tests/testCustomizeColumnsPage3.php";
+        $harFileURL = $GLOBALS["test_base"]."tests/hars/simple.har";
+        $this->open($viewerURL."?path=".$harFileURL."&expand=true");
+
+        $this->waitForElement(".pageTable .pageRow.opened");
+
+        // Check columns visibility
+        $this->assertColumnIsVisible(".netTable .netHrefCol");
+        $this->assertColumnIsVisible(".netTable .netTimeCol");
+
+        $this->assertColumnIsNotVisible(".netTable .netStatusCol");
+        $this->assertColumnIsNotVisible(".netTable .netSizeCol");
+        $this->assertColumnIsNotVisible(".netTable .netTypeCol");
+        $this->assertColumnIsNotVisible(".netTable .netDomainCol");
+    }
+
+    public function assertColumnIsVisible($locator)
+    {
+        $this->assertColumnVisibility(true, $locator);
+    }
+
+    public function assertColumnIsNotVisible($locator)
+    {
+        $this->assertColumnVisibility(false, $locator);
+    }
+
+    public function assertColumnVisibility($visible, $locator)
+    {
+        $op = $visible ? ">" : "==";
         $document = "selenium.browserbot.getCurrentWindow().document.";
-
-        // Test URL column (should be visible)
-        $script1 = $document."querySelector('.netTable .netHrefCol').clientWidth > 0";
-        $this->assertEquals("true", $this->getEval($script1));
-
-        // Test Status column (should be hidden)
-        $script2 = $document."querySelector('.netTable .netStatusCol').clientWidth == 0";
-        $this->assertEquals("true", $this->getEval($script2));
-
-        // Test Type column (should be visible)
-        $script3 = $document."querySelector('.netTable .netTypeCol').clientWidth > 0";
-        $this->assertEquals("true", $this->getEval($script3));
-
-        // Test Domain column (should be visible)
-        $script4 = $document."querySelector('.netTable .netDomainCol').clientWidth > 0";
-        $this->assertEquals("true", $this->getEval($script4));
-
-        // Test Size column (should be hidden)
-        $script5 = $document."querySelector('.netTable .netSizeCol').clientWidth == 0";
-        $this->assertEquals("true", $this->getEval($script5));
-
-        // Test Size column (should be hidden)
-        $script6 = $document."querySelector('.netTable .netTimeCol').clientWidth == 0";
-        $this->assertEquals("true", $this->getEval($script6));
+        $script = $document."querySelector('".$locator."').clientWidth ".$op." 0";
+        $this->assertEquals("true", $this->getEval($script), "Column ".$locator." is wrong");
     }
 }
 ?>

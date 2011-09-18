@@ -47,5 +47,15 @@ class HAR_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $script = "window.document.querySelectorAll('".$locator."').length";
         return $this->getEval($script);
     }
+
+    /**
+     * Waits till the element exists on the page.
+     */
+    public function waitForElement($locator, $timeout = 10000, $message = '')
+    {
+        $this->waitForCondition(
+            "selenium.browserbot.getCurrentWindow().document.querySelector('".$locator."')",
+            $timeout);
+    }
 }
 ?>
