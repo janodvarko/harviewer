@@ -265,12 +265,16 @@ PageList.prototype = domplate(
             // Build the page list.
             var table = this.tableTag.append({input: this.input}, parentNode, this);
 
-            // Expand appended page by default, only if there is only one page
+            // List of pages within one HAR log
+            var pageRows = table.querySelectorAll(".pageRow");
+
+            // List of HAR logs
+            var pageTables = parentNode.querySelectorAll(".pageTable");
+
+            // Expand appended page by default only if there is only one page.
             // Note that there can be more page-lists (pageTable elements)
-            var len1 = table.firstChild.childNodes.length;
-            var len2 = table.parentNode.childNodes.length;
-            if (len1 == 1 && len2 == 1)
-                this.toggleRow(table.firstChild.firstChild);
+            if (pageRows.length == 1 && pageTables.length == 1)
+                this.toggleRow(pageRows[0]);
 
             // If 'expand' parameter is specified expand all by default.
             var expand = Lib.getURLParameter("expand");

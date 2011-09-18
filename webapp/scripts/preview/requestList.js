@@ -88,7 +88,8 @@ RequestList.getVisibleColumns = function()
         if (content)
         {
             cols = content.getAttribute("previewCols");
-            return cols.split(" ");
+            if (cols)
+                return cols.split(" ");
         }
     }
 
