@@ -22,6 +22,7 @@ require_once("testEmbeddedPreview.php");
 //require_once("testCustomizeColumns.php");
 require_once("testSearchHAR.php");
 require_once("testPreviewExpand.php");
+require_once("HAR_TestEmbeddedInvalidPreview.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
@@ -53,6 +54,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         //$suite->addTestSuite("HAR_TestCustomizeColumns");
         $suite->addTestSuite("HAR_TestSearchHAR");
         $suite->addTestSuite("HAR_TestPreviewExpand");
+        $suite->addTestSuite("HAR_TestEmbeddedInvalidPreview");
 
         return $suite;
     }
