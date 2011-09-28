@@ -144,7 +144,8 @@ var cssTypes = {
 
 var imageTypes = {
     "image/png": 1,
-    "image/jpeg": 1
+    "image/jpeg": 1,
+    "image/gif": 1
 }
 
 var flashTypes = {
@@ -230,6 +231,8 @@ Stats.prototype = domplate(
             for (var i=0; i<entries.length; i++)
             {
                 var entry = entries[i];
+                if (!entry.timings)
+                    continue;
 
                 // Get timing info (SSL is new in HAR 1.2)
                 timingPie.data[0].value += entry.timings.blocked;
