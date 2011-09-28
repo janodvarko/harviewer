@@ -1,0 +1,18 @@
+/* See license.txt for terms of usage */
+
+/*************************************************************************************************/
+/* Errors */
+
+.errorTable {
+    margin: 8px;
+    font-size: 13px;
+}
+
+.errorProperty {
+    color: gray;
+    font-style:italic;
+}
+
+.errorMessage {
+    color: red;
+}

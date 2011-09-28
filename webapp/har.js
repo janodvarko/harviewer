@@ -18,6 +18,7 @@
  * width: (optional, default: '100%') width of the preview.
  * height: (optional, default: '150px') height of the preview.
  * expand: (optional, default: 'true') true if individual pages should be expanded.
+ * validate: (optional, default: 'true') false if HAR validation (according to the schema) should be skipped.
  * 
  * Embed this script on a page:
  * <script>
@@ -40,7 +41,10 @@
 
  * <div class="har" data-har="http://example.com/my.harp" expand="true"></div>
  * - load HAR file from an external domain and expads all pages.
- */
+ *
+ * <div class="har" data-har="/my.har" validate="false"></div>
+ * - Do not validate the loaded HAR file.
+*/
 window.harInitialize = function()
 {
     var script = document.getElementById("har");
@@ -58,10 +62,14 @@ window.harInitialize = function()
         var width = element.getAttribute("width");
         var height = element.getAttribute("height");
         var expand = element.getAttribute("expand");
+        var validate = element.getAttribute("validate");
 
         var args = "?" + (path.indexOf("http:") == 0 ? "inputUrl" : "path") + "=" + path;
         if (expand != "false")
             args += "&expand=" + (expand ? expand : "true");
+
+        if (validate == "false")
+            args += "&validate=false";
 
         var iframe = document.createElement("iframe");
         iframe.setAttribute("style", "border: 1px solid lightgray;");

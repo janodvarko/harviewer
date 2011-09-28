@@ -6,10 +6,11 @@ require.def("harPreview", [
     "preview/harModel",
     "core/lib",
     "core/trace",
-    "preview/menu"
+    "preview/menu",
+    "preview/validationError"
 ],
 
-function(RequestList, PageList, HarModel, Lib, Trace, Menu) {
+function(RequestList, PageList, HarModel, Lib, Trace, Menu, ValidationError) {
 
 //*************************************************************************************************
 // The Preview Application
@@ -30,14 +31,20 @@ HarPreview.prototype =
 
         // Auto load all HAR files specified in the URL.
         var okCallback = Lib.bind(this.appendPreview, this);
-        HarModel.Loader.run(okCallback);
+        var errorCallback = Lib.bind(this.onError, this);
+        HarModel.Loader.run(okCallback, errorCallback);
     },
 
     appendPreview: function(jsonString)
     {
         try
         {
-            var input = HarModel.parse(jsonString, true);
+            var validate = true;
+            var param = Lib.getURLParameter("validate");
+            if (param == "false")
+                validate = false;
+
+            var input = HarModel.parse(jsonString, validate);
             this.model.append(input);
 
             var pageList = new PageList(input);
@@ -48,7 +55,14 @@ HarPreview.prototype =
         catch (err)
         {
             Trace.exception("HarPreview.appendPreview; EXCEPTION ", err);
+
+            ValidationError.appendError(err, content);
         }
+    },
+
+    onError: function(response, ioArgs)
+    {
+        Trace.log("HarPreview; Load error ", response, ioArgs);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

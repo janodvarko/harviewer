@@ -4,23 +4,6 @@
 /* Preview */
 
 /*************************************************************************************************/
-/* Errors */
-
-.errorTable {
-    margin: 8px;
-    font-size: 13px;
-}
-
-.errorProperty {
-    color: gray;
-    font-style:italic;
-}
-
-.errorMessage {
-    color: red;
-}
-
-/*************************************************************************************************/
 /* Toolbar */
 
 /* Remove the dotted outline when focused */

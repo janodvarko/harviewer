@@ -16,6 +16,7 @@
 
 @import url("pageStats.css");
 @import url("pageTimeline.css");
+@import url("validationError.css");
 
 /* Application Tabs */
 @import url("aboutTab.css");

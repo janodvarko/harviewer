@@ -10,12 +10,15 @@ require.def("tabs/previewTab", [
     "tabs/pageStats",
     "preview/pageList",
     "core/cookies",
+    "preview/validationError",
     "downloadify/js/swfobject",
     "downloadify/src/downloadify"
 ],
 
-function(Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies) {
-    with (Domplate) {
+function(Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies,
+    ValidationError) {
+
+with (Domplate) {
 
 //*************************************************************************************************
 // Home Tab
@@ -46,25 +49,6 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
             DIV({"class": "previewTimeline"}),
             DIV({"class": "previewStats"}),
             DIV({"class": "previewList"})
-        ),
-
-    // Used in case of parsing or validation errors.
-    errorTable:
-        TABLE({"class": "errorTable", cellpadding: 0, cellspacing: 5},
-            TBODY(
-                FOR("error", "$errors",
-                    TR({"class": "errorRow", _repObject: "$error"},
-                        TD({"class": "errorProperty"},
-                            SPAN("$error.property")
-                        ),
-                        TD("&nbsp;"),
-                        TD({"class": "errorMessage"},
-                            SPAN("$error.message"
-                            )
-                        )
-                    )
-                )
-            )
         ),
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -228,8 +212,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
 
     appendError: function(err)
     {
-        if (err.errors)
-            this.errorTable.append(err, Lib.$(this._body, "previewList"));
+        ValidationError.appendError(err, Lib.$(this._body, "previewList"));
     },
 
     addPageTiming: function(timing)
