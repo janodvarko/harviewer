@@ -18,6 +18,8 @@ class HAR_TestTimeStamps extends HAR_TestCase
         $url = $viewer_base."?path=".$test_base."tests/hars/time-stamps.har";
         $this->open($url);
 
+        $this->waitForElement(".PreviewTab.selected");
+
         // Make sure we are in the Preview tab.
         $this->assertElementContainsText("css=.PreviewTab.selected", "Preview");
 

@@ -12,13 +12,12 @@ class HAR_TestLoadHarAPI extends HAR_TestCase
         print "\nTest loadHAR API in the Viewer";
 
         // Open customized viewer.
-        $test_base = $GLOBALS["test_base"];
         $this->open($GLOBALS["test_base"]."tests/testLoadHarAPIViewer.html");
 
         // Wait for 10 sec to load HAR files.
         $this->waitForCondition(
             "selenium.browserbot.getCurrentWindow().document.querySelectorAll('.pageTable').length == 3",
-            10000);
+            30000);
 
         $this->assertElementContainsText("css=.PreviewTab.selected", "Preview");
         $this->assertEquals(3, $this->getCssCount(".pageTable"));
@@ -29,13 +28,12 @@ class HAR_TestLoadHarAPI extends HAR_TestCase
         print "\nTest loadHAR API in the Preview";
 
         // Open customized preview.
-        $test_base = $GLOBALS["test_base"];
         $this->open($GLOBALS["test_base"]."tests/testLoadHarAPIPreview.html");
 
         // Wait for 10 sec to load HAR files.
         $this->waitForCondition(
             "selenium.browserbot.getCurrentWindow().document.querySelectorAll('.pageTable').length == 3",
-            10000);
+            30000);
 
         $this->assertEquals(3, $this->getCssCount(".pageTable"));
     }
