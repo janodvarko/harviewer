@@ -564,6 +564,9 @@ RequestList.prototype = domplate(
             this.phaseElapsed = this.phaseEndTime - phase.startTime;
         }
 
+        if (!file.timings)
+            return phase;
+
         // Individual phases of a request:
         //
         // 1) Blocking          HTTP-ON-MODIFY-REQUEST -> (STATUS_RESOLVING || STATUS_CONNECTING_TO)

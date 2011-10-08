@@ -7,10 +7,11 @@ require.def("preview/harModel", [
     "preview/harSchema",
     "core/cookies",
     "core/trace",
+    "i18n!nls/harModel",
     "jquery-plugins/jquery.json"
 ],
 
-function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace) {
+function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
 
 //*************************************************************************************************
 // Statistics
@@ -29,6 +30,14 @@ HarModel.prototype =
             Trace.error("HarModel.append; Trying to append null input!");
             return;
         }
+
+        // Sort all requests according to the start time.
+        input.log.entries.sort(function(a, b)
+        {
+            var timeA = Lib.parseISO8601(a.startedDateTime);
+            var timeB = Lib.parseISO8601(b.startedDateTime);
+            return timeA > timeB;
+        })
 
         if (this.input)
         {
@@ -191,11 +200,15 @@ HarModel.parse = function(jsonString, validate)
     if (!validate)
         return input;
 
-    //xxxHonza: doesn't have to be resolved repeatedly.
+    //xxxHonza: the schema doesn't have to be resolved repeatedly.
     var resolvedSchema = Ref.resolveJson(HarSchema);
     var result = JSONSchema.validate(input, resolvedSchema.logType);
     if (result.valid)
+    {
+        this.validateRequestTimings(input);
         return input;
+    }
+
 
     throw result;
 };
@@ -241,7 +254,63 @@ HarModel.getParentPage = function(input, file)
     return null;
 };
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// Validation
+
+HarModel.validateRequestTimings = function(input)
+{
+    var errors = [];
+
+    // Iterate all request timings and check the total time.
+    var entries = input.log.entries;
+    for (var i=0; i<entries.length; i++)
+    {
+        var entry = entries[i];
+        var timings = entry.timings;
+
+        var total = 0;
+        for (var p in timings)
+        {
+            var time = parseInt(timings[p], 10);
+
+            // According to the spec, the ssl time is alrady included in "connect".
+            if (p != "ssl" && time > 0)
+                total += time;
+        }
+
+        if (total != entry.time)
+        {
+            var message = Lib.formatString(Strings.validationSumTimeError,
+                entry.request.url, entry.time, total, i, entry.pageref);
+
+            errors.push({
+                "message": message,
+                "property": Strings.validationType
+            });
+        }
+
+        if (timings.blocked < -1 ||
+            timings.connect < -1 ||
+            timings.dns < -1 ||
+            timings.receive < -1 ||
+            timings.send < -1 ||
+            timings.wait < -1)
+        {
+            var message = Lib.formatString(Strings.validationNegativeTimeError,
+                entry.request.url, i, entry.pageref);
+
+            errors.push({
+                "message": message,
+                "property": Strings.validationType
+            });
+        }
+    }
+
+    if (errors.length)
+        throw {errors: errors, input: input};
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 HarModel.Loader =
 {
