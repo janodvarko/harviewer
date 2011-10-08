@@ -123,6 +123,10 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         for (var i=0; i<files.length; i++)
         {
             var file = files[i];
+            var ext = Lib.getFileExtension(file.name);
+            if (ext.toLowerCase() != "har")
+                continue;
+
             var self = this;
             var reader = this.getFileReader(file, function(text)
             {
