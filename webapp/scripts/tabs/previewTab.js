@@ -232,18 +232,18 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
         items.push(
         {
             label: Strings.menuShowHARSource,
-            command: Lib.bind(this.showHARSource, this, file)
+            command: Lib.bind(this.showHARSource, this, requestList.input, file)
         });
     },
 
-    showHARSource: function(menu, file)
+    showHARSource: function(menu, input, file)
     {
         var domTab = this.tabView.getTab("DOM");
         if (!domTab)
             return;
 
         domTab.select("DOM");
-        domTab.highlightFile(this.model.input, file);
+        domTab.highlightFile(input, file);
     }
 });
 

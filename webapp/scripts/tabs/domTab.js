@@ -39,8 +39,18 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
         ),
 
     domBox:
-        DIV({"class": "domBox"},
-            DIV({"class": "title"}, "$title")
+        TABLE({"class": "domBox", cellpadding: 0, cellspacing: 0},
+            TBODY(
+                TR(
+                    TD({"colspan": 2},
+                        DIV({"class": "title"}, "$title")
+                    )
+                ),
+                TR(
+                    TD({"class": "content", width: "100%"}),
+                    TD({"class": "results", width: "0%"})
+                )
+            )
         ),
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -122,7 +132,7 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
             var row = tree.getRow(match.value);
             if (row)
             {
-                var valueText = row.querySelector(".memberValueCell .objectTitle");
+                var valueText = row.querySelector(".memberValueCell .objectBox");
                 this.currSearch.selectText(valueText.firstChild);
                 Lib.scrollIntoCenterView(valueText);
             }
@@ -157,10 +167,11 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
 
         // Create box for DOM tree + render list of titles for this log.
         var box = this.domBox.append({title: titles.join(", ")}, content);
+        var domContent = Lib.getElementByClass(box, "content");
 
         // Render log structure as an expandable tree.
         var domTree = new DomTree(input);
-        domTree.append(box);
+        domTree.append(domContent);
 
         // Separate the next HAR log (e.g. dropped as a local file).
         this.separator.append({}, content);

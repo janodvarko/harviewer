@@ -48,3 +48,28 @@
 .jumpHighlight {
     background-color: #C4F4FF !important;
 }
+
+/*************************************************************************************************/
+
+.objectBox-object {
+    color: DarkGreen;
+}
+
+.objectBox-number {
+    color: #000088;
+}
+
+.objectBox-string {
+    color: #FF0000;
+    white-space: pre-wrap;
+}
+
+.objectBox-null,
+.objectBox-undefined {
+    font-style: italic;
+    color: #787878;
+}
+
+.objectBox-array {
+    color: gray;
+}

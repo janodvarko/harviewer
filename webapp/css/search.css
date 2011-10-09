@@ -12,6 +12,7 @@
     outline: none; /* Remove webkit focus border */
     border: 1px solid #EEEEEE;
     padding: 1px 17px 1px 3px;
+    width: 200px;
 }
 
 .searchInput[status=notfound] {

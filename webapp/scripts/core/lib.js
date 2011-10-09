@@ -103,7 +103,8 @@ var reFunction = /^\s*function(\s+[\w_$][\w\d_$]*)?\s*\(/;
 
 Lib.isArray = function(object)
 {
-    return toString.call(object) === "[object Array]";
+    //return toString.call(object) === "[object Array]";
+    return jQuery.isArray(object);
 };
 
 Lib.isFunction = function(object)
@@ -950,12 +951,12 @@ Lib.cloneJSON = function(obj)
     {
         var temp = obj.constructor();
         for (var key in obj)
-            temp[key] = cloneJSON(obj[key]);
+            temp[key] = this.cloneJSON(obj[key]);
         return temp;
     }
     catch (err)
     {
-        Trace.exception(obj);
+        Trace.exception(err);
     }
 
     return null;

@@ -2,12 +2,13 @@
 
 require.def("domplate/domTree", [
     "domplate/domplate",
-    "core/lib"
+    "core/lib",
+    "core/trace"
 ],
 
-function(Domplate, Lib) { with (Domplate) {
+function(Domplate, Lib, Trace) { with (Domplate) {
 
-//*************************************************************************************************
+// ********************************************************************************************* //
 
 function DomTree(input)
 {
@@ -39,14 +40,11 @@ DomTree.prototype = domplate(
             )
         ),
 
-    valueTag:
-        SPAN({"class": "objectTitle"}, "$object|getTitle"),
-
     loop:
         FOR("member", "$members", 
             TAG("$member|getRowTag", {member: "$member"})),
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     hasChildren: function(object)
     {
@@ -63,18 +61,6 @@ DomTree.prototype = domplate(
         return this.rowTag;
     },
 
-    getTitle: function(object)
-    {
-        if (jQuery.isArray(object))
-            return "Array";
-
-        var label = safeToString(object);
-
-        var re = /\[object (.*?)\]/;
-        var m = re.exec(label);
-        return m ? m[1] : label;
-    },
-
     onClick: function(event)
     {
         var e = Lib.fixEvent(event);
@@ -87,7 +73,7 @@ DomTree.prototype = domplate(
             this.toggleRow(row);
     },
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     toggleRow: function(row, forceOpen)
     {
@@ -145,6 +131,8 @@ DomTree.prototype = domplate(
         var valueType = typeof(value);
         var hasChildren = this.hasProperties(value) && (valueType == "object");
 
+        var valueTag = DomTree.Reps.getRep(value);
+
         return {
             name: name,
             value: value,
@@ -154,7 +142,7 @@ DomTree.prototype = domplate(
             level: level,
             indent: level*16,
             hasChildren: hasChildren,
-            tag: this.valueTag
+            tag: valueTag.tag
         };
     },
 
@@ -167,7 +155,7 @@ DomTree.prototype = domplate(
         return false;
     },
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Public
 
     append: function(parentNode)
@@ -219,9 +207,154 @@ function safeToString(ob)
     }
 }
 
-// ************************************************************************************************
+// ********************************************************************************************* //
+// Value Templates
+
+var OBJECTBOX =
+    SPAN({"class": "objectBox objectBox-$className"});
+
+// ********************************************************************************************* //
+
+DomTree.Reps =
+{
+    reps: [],
+
+    registerRep: function()
+    {
+        this.reps.push.apply(this.reps, arguments);
+    },
+
+    getRep: function(object)
+    {
+        var type = typeof(object);
+        if (type == "object" && object instanceof String)
+            type = "string";
+    
+        for (var i=0; i<this.reps.length; ++i)
+        {
+            var rep = this.reps[i];
+            try
+            {
+                if (rep.supportsObject(object, type))
+                    return rep;
+            }
+            catch (exc)
+            {
+                Trace.exception("domTree.getRep; ", exc);
+            }
+        }
+
+        return DomTree.Rep;
+    }
+}
+
+// ********************************************************************************************* //
+
+DomTree.Rep = domplate(
+{
+    tag:
+        OBJECTBOX("$object|getTitle"),
+
+    className: "object",
+
+    getTitle: function(object)
+    {
+        var label = safeToString(object);
+        var re = /\[object (.*?)\]/;
+        var m = re.exec(label);
+        return m ? m[1] : label;
+    },
+
+    getTooltip: function(object)
+    {
+        return null;
+    },
+
+    supportsObject: function(object, type)
+    {
+        return false;
+    }
+});
+
+// ********************************************************************************************* //
+
+DomTree.Reps.Null = domplate(DomTree.Rep,
+{
+    tag:
+        OBJECTBOX("null"),
+
+    className: "null",
+
+    supportsObject: function(object, type)
+    {
+        return object == null;
+    }
+});
+
+// ********************************************************************************************* //
+
+DomTree.Reps.Number = domplate(DomTree.Rep,
+{
+    tag:
+        OBJECTBOX("$object"),
+
+    className: "number",
+
+    supportsObject: function(object, type)
+    {
+        return type == "boolean" || type == "number";
+    }
+});
+
+// ********************************************************************************************* //
+
+DomTree.Reps.String = domplate(DomTree.Rep,
+{
+    tag:
+        //OBJECTBOX("&quot;$object&quot;"),
+        OBJECTBOX("$object"),
+
+    className: "string",
+
+    supportsObject: function(object, type)
+    {
+        return type == "string";
+    }
+});
+
+// ********************************************************************************************* //
+
+DomTree.Reps.Arr = domplate(DomTree.Rep,
+{
+    tag:
+        OBJECTBOX("$object|getTitle"),
+
+    className: "array",
+
+    supportsObject: function(object, type)
+    {
+        return Lib.isArray(object);
+    },
+
+    getTitle: function(object)
+    {
+        return "Array [" + object.length + "]";
+    }
+});
+
+// ********************************************************************************************* //
+
+// Registration
+DomTree.Reps.registerRep(
+    DomTree.Reps.Null,
+    DomTree.Reps.Number,
+    DomTree.Reps.String,
+    DomTree.Reps.Arr
+)
+
+// ********************************************************************************************* //
 
 return DomTree;
 
-// ************************************************************************************************
+// ********************************************************************************************* //
 }});
