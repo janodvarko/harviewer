@@ -57,7 +57,7 @@ HarModel.prototype =
         }
         else
         {
-            this.input = input;
+            this.input = Lib.cloneJSON(input);
         }
 
         return this.input;

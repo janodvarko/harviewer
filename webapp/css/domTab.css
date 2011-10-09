@@ -13,6 +13,11 @@
     width: 100%;
 }
 
+.tabDOMBody .domContent .domBox .title {
+    color: gray;
+    padding: 8px 0 0 8px;
+}
+
 .tabDOMBody .separator {
     border-bottom: 1px solid #D7D7D7;
 }

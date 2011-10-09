@@ -38,6 +38,11 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
             DIV({"class": "domContent"})
         ),
 
+    domBox:
+        DIV({"class": "domBox"},
+            DIV({"class": "title"}, "$title")
+        ),
+
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Tab
 
@@ -142,8 +147,20 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
     {
         var content = Lib.$(this._body, "domContent");
 
+        // Iterate all pages and get titles.
+        var titles = [];
+        for (var i=0; i<input.log.pages.length; i++)
+        {
+            var page = input.log.pages[i];
+            titles.push(page.title);
+        }
+
+        // Create box for DOM tree + render list of titles for this log.
+        var box = this.domBox.append({title: titles.join(", ")}, content);
+
+        // Render log structure as an expandable tree.
         var domTree = new DomTree(input);
-        domTree.append(content);
+        domTree.append(box);
 
         // Separate the next HAR log (e.g. dropped as a local file).
         this.separator.append({}, content);
