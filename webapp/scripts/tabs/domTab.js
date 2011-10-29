@@ -206,6 +206,11 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
         var row = tree.expandRow(file);
         if (row)
             Lib.setClassTimed(row, "jumpHighlight");
+
+        // Scroll the tree so, the highlighted entry is visible.
+        //xxxHonza: a little hacky
+        var content = Lib.$(this._body, "domContent");
+        content.scrollTop = row.offsetTop;
     },
 });
 

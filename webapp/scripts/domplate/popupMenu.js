@@ -201,6 +201,12 @@ function Menu(options)
         if (options.getItems)
             options.items = options.getItems();
 
+        // Trim separators
+        if (options.items[0] == "-")
+            options.items.shift();
+        if (options.items[options.items.length - 1] == "-")
+            options.items.pop();
+
         var body = Lib.getBody(document);
         options.element = MenuPlate.tag.append({object: options}, body, MenuPlate);
     }

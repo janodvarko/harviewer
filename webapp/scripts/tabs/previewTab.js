@@ -33,6 +33,9 @@ function PreviewTab(model)
 
     // Initialize toolbar.
     this.toolbar.addButtons(this.getToolbarButtons());
+
+    // Context menu listener.
+    ValidationError.addListener(this);
 }
 
 PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
@@ -223,7 +226,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Request List Commands
 
-    getMenuItems: function(requestList, items, phase, file)
+    getMenuItems: function(items, input, file)
     {
         if (!file)
             return;
@@ -232,7 +235,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
         items.push(
         {
             label: Strings.menuShowHARSource,
-            command: Lib.bind(this.showHARSource, this, requestList.input, file)
+            command: Lib.bind(this.showHARSource, this, input, file)
         });
     },
 

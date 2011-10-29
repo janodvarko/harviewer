@@ -369,6 +369,8 @@ RequestList.prototype = domplate(
         // Collect all menu items.
         var row = Lib.getAncestorByClass(target, "netRow");
         var items = this.getMenuItems(row);
+        if (!items.length)
+            return;
 
         // Finally, display the the popup menu.
         // xxxHonza: the old <DIV> can be still visible.
@@ -409,7 +411,7 @@ RequestList.prototype = domplate(
 
         // Distribute to all listeners to allow registering custom commands.
         // Listeneres are set by the parent page-list.
-        Lib.dispatch(this.listeners, "getMenuItems", [this, items, phase, file]);
+        Lib.dispatch(this.listeners, "getMenuItems", [items, this.input, file]);
 
         return items;
     },

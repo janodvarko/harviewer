@@ -284,6 +284,8 @@ HarModel.validateRequestTimings = function(input)
                 entry.request.url, entry.time, total, i, entry.pageref);
 
             errors.push({
+                input: input,
+                file: entry,
                 "message": message,
                 "property": Strings.validationType
             });
@@ -300,6 +302,8 @@ HarModel.validateRequestTimings = function(input)
                 entry.request.url, i, entry.pageref);
 
             errors.push({
+                input: input,
+                file: entry,
                 "message": message,
                 "property": Strings.validationType
             });
