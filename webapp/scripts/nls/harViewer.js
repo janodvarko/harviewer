@@ -4,8 +4,6 @@ define(
 {
     "root": {
         "aboutTabLabel": "About",
-        "schemaTabLabel": "Schema",
-        "domTabLabel": "HAR",
-        "searchDisabledForIE": "You need Mozilla or WebKit based browser to search in HAR"
+        "schemaTabLabel": "Schema"
     }
 });

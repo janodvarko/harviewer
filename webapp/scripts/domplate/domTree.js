@@ -103,6 +103,9 @@ DomTree.prototype = domplate(
             var repObject = row.repObject;
             if (repObject)
             {
+                if (!repObject.hasChildren)
+                    return;
+
                 var members = this.getMembers(repObject.value, level+1);
                 if (members)
                     this.loop.insertRows({members: members}, row);
@@ -148,6 +151,9 @@ DomTree.prototype = domplate(
 
     hasProperties: function(ob)
     {
+        if (typeof(ob) == "string")
+            return false;
+
         try {
             for (var name in ob)
                 return true;
@@ -163,9 +169,12 @@ DomTree.prototype = domplate(
         this.element = this.tag.append({object: this.input}, parentNode);
         this.element.repObject = this;
 
-        // Expand the first node (root) by default.
-        if (this.element.firstChild.firstChild)
-            this.toggleRow(this.element.firstChild.firstChild);
+        // Expand the first node (root) by default
+        // Do not expand if the root is an array with more than one element.
+        var value = Lib.isArray(this.input) && this.input.length > 2;
+        var firstRow = this.element.firstChild.firstChild;
+        if (firstRow && !value)
+            this.toggleRow(firstRow);
     },
 
     expandRow: function(object)

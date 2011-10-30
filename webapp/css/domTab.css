@@ -13,6 +13,10 @@
     width: 100%;
 }
 
+.tabDOMBody .domContent .domBox {
+    width: 100%;
+}
+
 .tabDOMBody .domContent .domBox .title {
     color: gray;
     padding: 8px 0 0 8px;
@@ -31,4 +35,43 @@
 
 .domToolbar > .toolbar {
     text-align: right;
+}
+
+/*************************************************************************************************/
+/* Search Results */
+
+.tabDOMBody .domContent .domBox .content,
+.tabDOMBody .domContent .domBox .results {
+    vertical-align: top;
+}
+
+.resultsDefaultContent {
+    color: #D7D7D7;
+    font-size: 12px;
+    font-family: Lucida Grande,Tahoma,sans-serif;
+    margin: 60px;
+    text-align: center;
+}
+
+/*************************************************************************************************/
+/* Splitter */
+
+.domBox .splitter {
+    width: 4px;
+    cursor: e-resize;
+    background-color: #D7D7D7;
+}
+
+body[splitting="true"] * {
+    cursor: e-resize !important;
+}
+
+.domBox .splitter,
+.domBox .results {
+    visibility: collapse;
+}
+
+.domBox .splitter.visible,
+.domBox .results.visible {
+    visibility: visible;
 }

@@ -17,7 +17,7 @@ function(Domplate, Lib, Strings, Toolbar, Menu, Cookies) { with (Domplate) {
 // Module object
 var Search = {};
 
-// Options
+// Default options
 var caseSensitiveOption = "searchCaseSensitive";
 
 // ********************************************************************************************* //
@@ -59,11 +59,9 @@ Search.Box = domplate(
     {
         var searchBox = tab.querySelector(".searchBox");
         var searchInput = tab.querySelector(".searchInput");
+        searchInput.removeAttribute("status");
 
-        // Avoid searches for short texts.
         var text = searchInput.value;
-        if (text.length < 3)
-            return;
 
         // Support for incremental search, changing the text also causes search.
         if (text == prevText && keyCode != 13)
@@ -74,13 +72,11 @@ Search.Box = domplate(
         if (keyCode != 13 && Lib.isWebkit)
             return;
 
-        var result = tab.repObject.onSearch(text);
+        var result = tab.repObject.onSearch(text, keyCode);
 
         // Red background if there is no match.
         if (!result)
             searchInput.setAttribute("status", "notfound");
-        else
-            searchInput.removeAttribute("status");
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -95,7 +91,7 @@ Search.Box = domplate(
             return;
 
         var target = e.target;
-        var items = this.getMenuItems();
+        var items = this.getMenuItems(target);
 
         // Finally, display the the popup menu.
         // xxxHonza: the old <DIV> can be still visible.
@@ -106,22 +102,27 @@ Search.Box = domplate(
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Menu Definition
 
-    getMenuItems: function()
+    getMenuItems: function(target)
     {
-        var items = [
-            {
-                label: Strings.caseSensitive,
-                checked: Cookies.getBooleanCookie(caseSensitiveOption),
-                command: Lib.bind(this.onOption, this, caseSensitiveOption)
-            },
-        ];
+        var tab = Lib.getAncestorByClass(target, "tabBody");
+        var items = tab.repObject.getSearchOptions();
+
+        items.push("-");
+        items.push({
+            label: Strings.caseSensitive,
+            checked: Cookies.getBooleanCookie(caseSensitiveOption),
+            command: Lib.bindFixed(this.onOption, this, caseSensitiveOption)
+        });
 
         return items;
     },
 
-    onOption: function(menu, name)
+    onOption: function(name)
     {
         Cookies.toggleCookie(name);
+
+        var searchInput = document.querySelector(".searchInput");
+        searchInput.removeAttribute("status");
     }
 });
 

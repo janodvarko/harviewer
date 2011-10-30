@@ -47,7 +47,7 @@ Tracker.prototype =
             this.callbacks.onDragStart(this);
 
         this.dragging = true;
-        this.cursorStartPos = absoluteCursorPostion(e);
+        this.cursorStartPos = absoluteCursorPosition(e);
         this.cursorLastPos = this.cursorStartPos;
         //this.elementStartPos = new Position(
         //    parseInt(this.element.style.left),
@@ -67,20 +67,22 @@ Tracker.prototype =
         var e = Lib.fixEvent(event);
         Lib.cancelEvent(e);
 
-        var newPos = absoluteCursorPostion(e);
+        var newPos = absoluteCursorPosition(e);
         //newPos = newPos.Add(this.elementStartPos);
         var newPos = newPos.Subtract(this.cursorStartPos);
         //newPos = newPos.Bound(lowerBound, upperBound);
         //newPos.Apply(this.element);
 
-        // Only fire event if the position has beeb changed.
+        // Only fire event if the position has been changed.
         if (this.cursorLastPos.x == newPos.x && this.cursorLastPos.y == newPos.y)
             return;
 
-        this.cursorLastPos = newPos;
-
         if (this.callbacks.onDragOver != null)
-            this.callbacks.onDragOver(newPos, this);
+        {
+            var result = this.callbacks.onDragOver(newPos, this);
+            this.cursorLastPos = newPos;
+        }
+
     },
 
     onDrop: function(event)
@@ -191,7 +193,7 @@ function Position(x, y)
 
 // ********************************************************************************************* //
 
-function absoluteCursorPostion(e)
+function absoluteCursorPosition(e)
 {
     if (isNaN(window.scrollX))
     {

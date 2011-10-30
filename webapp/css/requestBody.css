@@ -73,8 +73,9 @@
 /* Preview resizer */
 .htmlPreviewResizer {
     width: 100%;
-    height: 5px;
-    background-color: lightgrey;
+    height: 4px;
+    background-image: url(images/splitterh.png);
+    background-repeat: repeat-x;
     cursor: s-resize;
 }
 

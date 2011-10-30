@@ -4,16 +4,23 @@ require.def("tabs/domTab", [
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
-    "i18n!nls/harViewer",
+    "i18n!nls/domTab",
     "domplate/toolbar",
     "tabs/search",
-    "domplate/domTree"
+    "core/dragdrop",
+    "domplate/domTree",
+    "core/cookies",
+    "json-path/jsonpath-0.8.0"
 ],
 
-function(Domplate, TabView, Lib, Strings, Toolbar, Search, DomTree) { with (Domplate) {
+function(Domplate, TabView, Lib, Strings, Toolbar, Search, DragDrop, DomTree, Cookies) {
+with (Domplate) {
 
 // ********************************************************************************************* //
 // Home Tab
+
+// Search options
+var jsonPathOption = "searchJsonPath";
 
 function DomTab()
 {
@@ -21,7 +28,7 @@ function DomTab()
     this.toolbar.addButtons(this.getToolbarButtons());
 }
 
-DomTab.prototype = Lib.extend(TabView.Tab.prototype,
+DomTab.prototype = domplate(TabView.Tab.prototype,
 {
     id: "DOM",
     label: Strings.domTabLabel,
@@ -42,13 +49,15 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
         TABLE({"class": "domBox", cellpadding: 0, cellspacing: 0},
             TBODY(
                 TR(
-                    TD({"colspan": 2},
+                    TD({"class": "content"},
                         DIV({"class": "title"}, "$title")
+                    ),
+                    TD({"class": "splitter"}),
+                    TD({"class": "results"},
+                        DIV({"class": "resultsDefaultContent"},
+                            Strings.searchResultsDefaultText
+                        )
                     )
-                ),
-                TR(
-                    TD({"class": "content", width: "100%"}),
-                    TD({"class": "results", width: "0%"})
                 )
             )
         ),
@@ -102,8 +111,57 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
         return new Search.ObjectSearch(text, inputs, false, false);
     },
 
-    onSearch: function(text)
+    getSearchOptions: function()
     {
+        return [{
+            label: Strings.searchOptionJsonPath,
+            checked: Cookies.getBooleanCookie(jsonPathOption),
+            command: Lib.bindFixed(this.onOption, this, jsonPathOption)
+        }];
+    },
+
+    onOption: function(name)
+    {
+        Search.Box.onOption(name);
+
+        this.updateSearchResultsUI();
+    },
+
+    updateSearchResultsUI: function()
+    {
+        var value = Cookies.getBooleanCookie(jsonPathOption);
+
+        // There can be more HAR files/logs displayed.
+        var boxes = this._body.querySelectorAll(".domBox");
+        for (var i = 0; i < boxes.length; i++)
+        {
+            var box = boxes[i];
+            var results = box.querySelector(".results");
+            var splitter = box.querySelector(".splitter");
+
+            if (value)
+            {
+                Lib.setClass(results, "visible");
+                Lib.setClass(splitter, "visible");
+            }
+            else
+            {
+                Lib.removeClass(results, "visible");
+                Lib.removeClass(splitter, "visible");
+            }
+        }
+    },
+
+    onSearch: function(text, keyCode)
+    {
+        var jsonPath = Cookies.getBooleanCookie(jsonPathOption);
+        if (jsonPath)
+            return this.evalJsonPath(text, keyCode);
+
+        // Avoid searches for short texts.
+        if (text.length < 3)
+            return true;
+
         // Clear previous search if the text has changed.
         if (this.currSearch && this.currSearch.text != text)
             this.currSearch = null;
@@ -150,6 +208,31 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
         }
     },
 
+    evalJsonPath: function(expr, keyCode)
+    {
+        // JSON Path is executed when enter key is pressed.
+        if (keyCode != 13)
+            return true;
+
+        // Eval the expression for all logs.
+        var boxes = this._body.querySelectorAll(".domBox");
+        for (var i=0; i<boxes.length; i++)
+        {
+            var box = boxes[i];
+            var table = box.querySelector(".domTable");
+            var input = table.repObject.input;
+
+            var parentNode = box.querySelector(".domBox .results");
+            Lib.clearNode(parentNode);
+
+            var result = jsonPath(input, expr);
+            var domTree = new DomTree(result);
+            domTree.append(parentNode);
+        }
+
+        return true;
+    },
+
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Public
 
@@ -168,6 +251,16 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
         // Create box for DOM tree + render list of titles for this log.
         var box = this.domBox.append({title: titles.join(", ")}, content);
         var domContent = Lib.getElementByClass(box, "content");
+
+        // Initialize splitter for JSON path query results area.
+        var element = Lib.getElementByClass(box, "splitter");
+        this.splitter = new DragDrop.Tracker(element, {
+            onDragStart: Lib.bind(this.onDragStart, this),
+            onDragOver: Lib.bind(this.onDragOver, this),
+            onDrop: Lib.bind(this.onDrop, this)
+        });
+
+        this.updateSearchResultsUI();
 
         // Render log structure as an expandable tree.
         var domTree = new DomTree(input);
@@ -212,6 +305,33 @@ DomTab.prototype = Lib.extend(TabView.Tab.prototype,
         var content = Lib.$(this._body, "domContent");
         content.scrollTop = row.offsetTop;
     },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Splitter
+
+    onDragStart: function(tracker)
+    {
+        var body = Lib.getBody(this._body.ownerDocument);
+        body.setAttribute("splitting", "true");
+
+        var box = Lib.getAncestorByClass(tracker.element, "domBox");
+        var element = Lib.getElementByClass(box, "content");
+        this.startWidth = element.clientWidth;
+    },
+
+    onDragOver: function(newPos, tracker)
+    {
+        var box = Lib.getAncestorByClass(tracker.element, "domBox");
+        var content = Lib.getElementByClass(box, "content");
+        var newWidth = (this.startWidth + newPos.x);
+        content.style.width = newWidth + "px";
+    },
+
+    onDrop: function(tracker)
+    {
+        var body = Lib.getBody(this._body.ownerDocument);
+        body.removeAttribute("splitting");
+    }
 });
 
 // ********************************************************************************************* //
