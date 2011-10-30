@@ -12,7 +12,8 @@ Domplate + Domplate based templates: http://getfirebug.com
 Excanvas: http://code.google.com/p/explorercanvas/
 Downloadify: http://github.com/dcneiner/Downloadify/
 SWFObject 2.0: http://code.google.com/p/swfobject/
-Code Syntax Highlighter: http://www.dreamprojections.com/syntaxhighlighter/ 
+Code Syntax Highlighter: http://www.dreamprojections.com/syntaxhighlighter/
+JSON Path: http://code.google.com/p/jsonpath/w/list
 
 Build Tools:
 js-build-tools: http://code.google.com/p/js-build-tools/
