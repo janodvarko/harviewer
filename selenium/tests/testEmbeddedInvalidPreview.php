@@ -8,7 +8,7 @@ class HAR_TestEmbeddedInvalidPreview extends HAR_TestCase
 {
     public function testEmbeddedInvalidPreview1()
     {
-        print "\nTest embedded invalid preview (validation on)";
+        print "\ntestEmbeddedInvalidPreview.php (1)";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];
@@ -32,7 +32,7 @@ class HAR_TestEmbeddedInvalidPreview extends HAR_TestCase
 
     public function testEmbeddedInvalidPreview2()
     {
-        print "\nTest embedded invalid preview (validation off)";
+        print "\ntestEmbeddedInvalidPreview.php (2)";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

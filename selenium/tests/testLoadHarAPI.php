@@ -9,7 +9,7 @@ class HAR_TestLoadHarAPI extends HAR_TestCase
 {
     public function testViewer()
     {
-        print "\nTest loadHAR API in the Viewer";
+        print "\ntestLoadHarAPI.php (1)";
 
         // Open customized viewer.
         $this->open($GLOBALS["test_base"]."tests/testLoadHarAPIViewer.html");
@@ -25,7 +25,7 @@ class HAR_TestLoadHarAPI extends HAR_TestCase
 
     public function testPreview()
     {
-        print "\nTest loadHAR API in the Preview";
+        print "\ntestLoadHarAPI.php (2)";
 
         // Open customized preview.
         $this->open($GLOBALS["test_base"]."tests/testLoadHarAPIPreview.html");

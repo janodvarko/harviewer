@@ -8,7 +8,7 @@ class HAR_TestTimeStamps extends HAR_TestCase
 {
     public function testTimeStamps()
     {
-        print "\nTest time stamps";
+        print "\ntestTimeStamps.php";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

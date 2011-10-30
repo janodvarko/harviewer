@@ -8,7 +8,7 @@ class HAR_TestSchemaTab extends HAR_TestCase
 {
     public function testTab()
     {
-        print "\nHAR TestSchemaTab";
+        print "\ntestSchemaTab.php";
 
         $this->open($GLOBALS["harviewer_base"]);
         $this->assertElementContainsText("css=.SchemaTab", "Schema");

@@ -8,7 +8,7 @@ class HAR_TestHideTabBar extends HAR_TestCase
 {
     public function testTab()
     {
-        print "\nHide tab bar";
+        print "\ntestHideTabBar.php";
 
         $this->open($GLOBALS["test_base"]."tests/testHideTabBarIndex.php");
         $this->assertElementExists("css=.harView[hidetabbar='true']");

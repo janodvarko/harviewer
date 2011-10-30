@@ -8,7 +8,7 @@ class HAR_TestCustomPageTiming extends HAR_TestCase
 {
     public function testCase()
     {
-        print "\nCustom Page Timing";
+        print "\ntestCustomPageTiming.php";
 
         $viewerURL = $GLOBALS["test_base"]."tests/testCustomPageTimingIndex.php";
         $harFileURL = $GLOBALS["test_base"]."tests/testCustomPageTiming.har";

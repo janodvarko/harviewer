@@ -8,7 +8,7 @@ class HAR_TestNoPageLog extends HAR_TestCase
 {
     public function testEntriesWithNoParentPage()
     {
-        print "\nTest HAR log without pages";
+        print "\ntestNoPageLog.php";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

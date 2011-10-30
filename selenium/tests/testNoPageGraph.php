@@ -8,7 +8,7 @@ class HAR_TestNoPageGraph extends HAR_TestCase
 {
     public function testCase()
     {
-        print "\nTest HAR log without pages also needs to display the waterfall";
+        print "\ntestNoPageGraph.php";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

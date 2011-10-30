@@ -9,7 +9,7 @@ class HAR_TestPageTimings extends HAR_TestCase
 {
     public function testPageTimings()
     {
-        print "\nTestPageTimings()";
+        print "\ntestPageTimings.php";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

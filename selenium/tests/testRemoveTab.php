@@ -8,7 +8,7 @@ class HAR_TestRemoveTab extends HAR_TestCase
 {
     public function testCase()
     {
-        print "\nHAR Remove a tab";
+        print "\ntestRemoveTab.php";
 
         $this->open($GLOBALS["test_base"]."tests/testRemoveTabIndex.php");
         $this->assertElementExists("css=.HomeTab.selected");

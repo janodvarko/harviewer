@@ -8,7 +8,7 @@ class HAR_TestPreviewSource extends HAR_TestCase
 {
     public function testPreview()
     {
-        print "\nTestPreview()";
+        print "\ntestPreviewSource.php";
 
         $this->open($GLOBALS["harviewer_base"]);
 

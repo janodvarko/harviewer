@@ -8,7 +8,7 @@ class HAR_TestLoadMultipleFiles extends HAR_TestCase
 {
     public function testLoadFiles1()
     {
-        print "\nTest Load Multiple HAR files";
+        print "\ntestLoadMulipleFiles.php";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

@@ -8,7 +8,7 @@ class HAR_TestSearchHAR extends HAR_TestCase
 {
     public function testPhases()
     {
-        print "\nTest search on the HAR tab";
+        print "\ntestSearchHAR.php";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

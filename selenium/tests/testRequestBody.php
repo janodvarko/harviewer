@@ -8,7 +8,7 @@ class HAR_TestRequestBody extends HAR_TestCase
 {
     public function testUrlParams()
     {
-        print "\nHAR Test URL Params";
+        print "\ntestRequestBody.php (1)";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];
@@ -39,7 +39,7 @@ class HAR_TestRequestBody extends HAR_TestCase
 
     public function testDataURL()
     {
-        print "\nHAR Test Data URL";
+        print "\ntestRequestBody.php (2)";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

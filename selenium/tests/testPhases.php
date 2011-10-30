@@ -8,7 +8,7 @@ class HAR_TestPhases extends HAR_TestCase
 {
     public function testPhases()
     {
-        print "\nTest phases";
+        print "\ntestPhases.php";
 
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];

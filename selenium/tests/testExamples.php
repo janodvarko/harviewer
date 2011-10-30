@@ -8,6 +8,8 @@ class HAR_TestExamples extends HAR_TestCase
 {
     public function testExamples()
     {
+        print "\ntestExamples.php";
+
         $this->loadAndVerify("example1", "Cuzillion");
         $this->loadAndVerify("example2", "Cuzillion");
         $this->loadAndVerify("example3", "Software is hard | Firebug 1.6 beta 1 Released");
@@ -16,8 +18,6 @@ class HAR_TestExamples extends HAR_TestCase
 
     protected function loadAndVerify($exampleId, $expected)
     {
-        print "\nTestExample1::".$exampleId;
-
         $this->open($GLOBALS["harviewer_base"]);
 
         $this->assertElementExists("id=".$exampleId);

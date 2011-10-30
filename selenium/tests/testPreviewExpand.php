@@ -8,7 +8,7 @@ class HAR_TestPreviewExpand extends HAR_TestCase
 {
     public function testExpandSinglePage()
     {
-        print "\nTest expand in preview (single page)";
+        print "\ntestPreviewExpand.php (1)";
 
         // HAR file is specified inside the test page.
         $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html";
@@ -20,7 +20,7 @@ class HAR_TestPreviewExpand extends HAR_TestCase
 
     public function testExpandMultiplePages()
     {
-        print "\nTest expand in preview (multiple pages)";
+        print "\ntestPreviewExpand.php (2)";
 
         // HAR file is specified inside the test page.
         $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html";
@@ -35,7 +35,7 @@ class HAR_TestPreviewExpand extends HAR_TestCase
 
     public function testExpandByDefault()
     {
-        print "\nTest default expand in preview (URL expand parameter)";
+        print "\ntestPreviewExpand.php (3)";
 
         // HAR file is specified inside the test page.
         $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html";

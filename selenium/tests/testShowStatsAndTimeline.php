@@ -8,7 +8,7 @@ class HAR_TestShowStatsAndTimeline extends HAR_TestCase
 {
     public function testCase()
     {
-        print "\nShow pagee timeline and statistics by default";
+        print "\ntestShowStatsAndTimeline.php";
 
         $viewerURL = $GLOBALS["test_base"]."tests/testShowStatsAndTimelineIndex.php";
         $harFileURL = $GLOBALS["test_base"]."tests/simple-page-load.har";

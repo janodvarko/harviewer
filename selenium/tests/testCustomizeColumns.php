@@ -8,7 +8,7 @@ class HAR_TestCustomizeColumns extends HAR_TestCase
 {
     public function testCustomizeColumns()
     {
-        print "\nTest customize columns";
+        print "\ntestCustomizeColumns.php (1)";
 
         // HAR file is specified inside the test page.
         $viewerURL = $GLOBALS["test_base"]."tests/testCustomizeColumnsPage.php";
@@ -32,7 +32,7 @@ class HAR_TestCustomizeColumns extends HAR_TestCase
 
     public function testCustomizeColumns2()
     {
-        print "\nTest customize columns 2";
+        print "\ntestCustomizeColumns.php (2)";
 
         // HAR file is specified inside the test page.
         $viewerURL = $GLOBALS["test_base"]."tests/testCustomizeColumnsPage2.php";
@@ -56,7 +56,7 @@ class HAR_TestCustomizeColumns extends HAR_TestCase
 
     public function testCustomizeColumns3()
     {
-        print "\nTest customize columns 3";
+        print "\ntestCustomizeColumns.php (3)";
 
         // HAR file is specified inside the test page.
         $viewerURL = $GLOBALS["test_base"]."tests/testCustomizeColumnsPage3.php";
