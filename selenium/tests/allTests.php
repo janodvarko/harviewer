@@ -23,6 +23,7 @@ require_once("testCustomizeColumns.php");
 require_once("testSearchHAR.php");
 require_once("testPreviewExpand.php");
 require_once("testEmbeddedInvalidPreview.php");
+require_once("testSearchJsonPath.php");
 
 class AllTests extends PHPUnit_Framework_TestSuite
 {
@@ -55,6 +56,7 @@ class AllTests extends PHPUnit_Framework_TestSuite
         $suite->addTestSuite("HAR_TestSearchHAR");
         $suite->addTestSuite("HAR_TestPreviewExpand");
         $suite->addTestSuite("HAR_TestEmbeddedInvalidPreview");
+        $suite->addTestSuite("HAR_TestSearchJsonPath");
 
         return $suite;
     }
