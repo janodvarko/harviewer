@@ -6,10 +6,11 @@ require.def("tabs/search", [
     "i18n!nls/search",
     "domplate/toolbar",
     "domplate/popupMenu",
-    "core/cookies"
+    "core/cookies",
+    "core/dragdrop"
 ],
 
-function(Domplate, Lib, Strings, Toolbar, Menu, Cookies) { with (Domplate) {
+function(Domplate, Lib, Strings, Toolbar, Menu, Cookies, DragDrop) { with (Domplate) {
 
 // ********************************************************************************************* //
 // Search
@@ -30,7 +31,7 @@ Search.Box = domplate(
 {
     tag:
         SPAN({"class": "searchBox"},
-            SPAN({"class": "toolbarSeparator"},
+            SPAN({"class": "toolbarSeparator resizer"},
                 "&nbsp;"
             ),
             SPAN({"class": "searchTextBox"},
@@ -44,21 +45,31 @@ Search.Box = domplate(
         ),
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-    // Implementation
+    // Events
 
     onKeyDown: function(event)
     {
         var e = $.event.fix(event || window.event);
         var tab = Lib.getAncestorByClass(e.target, "tabBody");
 
-        var searchInput = tab.querySelector(".searchInput");
+        var searchInput = Lib.getElementByClass(tab, "searchInput");
         setTimeout(Lib.bindFixed(this.search, this, tab, e.keyCode, searchInput.value));
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Implementation
+
+    initialize: function(element)
+    {
+        var searchInput = Lib.getElementByClass(element, "searchInput");
+        var resizer = Lib.getElementByClass(element, "resizer");
+        Search.Resizer.initialize(searchInput, resizer);
     },
 
     search: function(tab, keyCode, prevText)
     {
-        var searchBox = tab.querySelector(".searchBox");
-        var searchInput = tab.querySelector(".searchInput");
+        var searchBox = Lib.getElementByClass(tab, "searchBox");
+        var searchInput = Lib.getElementByClass(tab, "searchInput");
         searchInput.removeAttribute("status");
 
         var text = searchInput.value;
@@ -121,7 +132,7 @@ Search.Box = domplate(
     {
         Cookies.toggleCookie(name);
 
-        var searchInput = document.querySelector(".searchInput");
+        var searchInput = Lib.getElementByClass(document.documentElement, "searchInput");
         searchInput.removeAttribute("status");
     }
 });
@@ -270,6 +281,49 @@ Search.ObjectSearch.prototype =
         Lib.selectElementText(textNode, match.startOffset, match.startOffset + this.text.length);
     }
 }
+
+// ********************************************************************************************* //
+
+Search.Resizer = domplate(
+{
+    initialize: function(searchInput, resizer)
+    {
+        this.searchInput = searchInput;
+        this.tracker = new DragDrop.Tracker(resizer, {
+            onDragStart: Lib.bind(this.onDragStart, this),
+            onDragOver: Lib.bind(this.onDragOver, this),
+            onDrop: Lib.bind(this.onDrop, this)
+        });
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Splitter
+
+    onDragStart: function(tracker)
+    {
+        var body = Lib.getBody(this.searchInput.ownerDocument);
+        body.setAttribute("vResizing", "true");
+
+        //xxxHonza: the padding (20) should not be hardcoded.
+        this.startWidth = this.searchInput.clientWidth - 20;
+    },
+
+    onDragOver: function(newPos, tracker)
+    {
+        var newWidth = (this.startWidth - newPos.x);
+        var toolbar = Lib.getAncestorByClass(this.searchInput, "toolbar");
+        if (newWidth > toolbar.clientWidth - 40)
+            return;
+
+        this.searchInput.style.width = newWidth + "px";
+    },
+
+    onDrop: function(tracker)
+    {
+        var body = Lib.getBody(this.searchInput.ownerDocument);
+        body.removeAttribute("vResizing");
+    }
+});
 
 // ********************************************************************************************* //
 

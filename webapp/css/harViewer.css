@@ -8,6 +8,7 @@
 @import url("domTree.css");
 @import url("infoTip.css");
 @import url("popupMenu.css");
+@import url("tableView.css");
 
 /* HAR Preview */
 @import url("pageList.css");
@@ -28,3 +29,6 @@
 
 /* Syntax Highlighter */
 @import url("SyntaxHighlighter.css");
+
+@import url("dragdrop.css");
+

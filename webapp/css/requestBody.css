@@ -79,15 +79,8 @@
     cursor: s-resize;
 }
 
-/* When HTML preview resizing is in progress set the cursor for all elements
-   since the mouse doesn't have to be always just over the resizer and this
-   avoids cursor flashing. */
-body[resizingHtmlPreview="true"] * {
-    cursor: s-resize !important;
-}
-
 /* When HTML preview resizing is in progress mouse messages are not sent to
    the iframe document. */
-body[resizingHtmlPreview="true"] .netInfoHtmlPreview {
+body[hResizing="true"] .netInfoHtmlPreview {
     pointer-events: none !important;
 }

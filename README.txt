@@ -13,7 +13,7 @@ Excanvas: http://code.google.com/p/explorercanvas/
 Downloadify: http://github.com/dcneiner/Downloadify/
 SWFObject 2.0: http://code.google.com/p/swfobject/
 Code Syntax Highlighter: http://www.dreamprojections.com/syntaxhighlighter/
-JSON Path: http://code.google.com/p/jsonpath/w/list
+JSON Query: https://github.com/JasonSmith/jsonquery, http://www.sitepen.com/blog/2008/07/16/jsonquery-data-querying-beyond-jsonpath/
 
 Build Tools:
 js-build-tools: http://code.google.com/p/js-build-tools/

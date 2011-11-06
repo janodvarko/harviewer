@@ -10,22 +10,29 @@ require.def("tabs/domTab", [
     "core/dragdrop",
     "domplate/domTree",
     "core/cookies",
-    "json-path/jsonpath-0.8.0"
+    "domplate/tableView",
+    "core/trace",
+    "json-query/JSONQuery"
 ],
 
-function(Domplate, TabView, Lib, Strings, Toolbar, Search, DragDrop, DomTree, Cookies) {
+function(Domplate, TabView, Lib, Strings, Toolbar, Search, DragDrop, DomTree, Cookies,
+    TableView, Trace) {
+
 with (Domplate) {
 
 // ********************************************************************************************* //
 // Home Tab
 
 // Search options
-var jsonPathOption = "searchJsonPath";
+var jsonQueryOption = "searchJsonQuery";
 
 function DomTab()
 {
     this.toolbar = new Toolbar();
     this.toolbar.addButtons(this.getToolbarButtons());
+
+    // Display jsonQuery results as a tree by default.
+    this.tableView = false;
 }
 
 DomTab.prototype = domplate(TabView.Tab.prototype,
@@ -62,6 +69,14 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
             )
         ),
 
+    queryResultsViewType:
+        DIV({"class": "queryResultsViewType"},
+            INPUT({"class": "type", type: "checkbox", onclick: "$onTableView"}),
+                SPAN({"class": "label"},
+                Strings.queryResultsTableView
+            )
+        ),
+
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Tab
 
@@ -72,25 +87,35 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         // Lib.selectElementText doesn't support IE.
         if (Lib.isIE)
         {
-            var searchInput = body.querySelector(".searchInput");
+            var searchBox = Lib.getElementByClass(body, "searchBox");
+
+            var searchInput = Lib.getElementByClass(searchBox, "searchInput");
             searchInput.setAttribute("disabled", "true");
             searchInput.setAttribute("title", Strings.searchDisabledForIE);
 
-            var searchOptions = body.querySelector(".searchBox .arrow");
+            var searchOptions = Lib.getElementByClass(searchBox, "arrow");
             searchOptions.setAttribute("disabled", "true");
         }
+
+        this.updateSearchResultsUI();
 
         // TODO: Re-render the entire tab content here
     },
 
     getToolbarButtons: function()
     {
-        var buttons = [
-            {
-                id: "search",
-                tag: Search.Box.tag
-            }
-        ];
+        var buttons = [];
+
+        /*buttons.push({
+            id: "tableView",
+            tag: this.tableBtn
+        });*/
+
+        buttons.push({
+            id: "search",
+            tag: Search.Box.tag,
+            initialize: Search.Box.initialize
+        });
 
         return buttons;
     },
@@ -101,7 +126,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
     createSearchObject: function(text)
     {
         // There can be more HAR files/logs displayed.
-        var tables = this._body.querySelectorAll(".domTable");
+        var tables = Lib.getElementsByClass(this._body, "domTable");
         tables = Lib.cloneArray(tables);
 
         // Get all inputs (ie. HAR log files).
@@ -113,11 +138,16 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
 
     getSearchOptions: function()
     {
-        return [{
-            label: Strings.searchOptionJsonPath,
-            checked: Cookies.getBooleanCookie(jsonPathOption),
-            command: Lib.bindFixed(this.onOption, this, jsonPathOption)
-        }];
+        var options = [];
+
+        // JSON Query
+        options.push({
+            label: Strings.searchOptionJsonQuery,
+            checked: Cookies.getBooleanCookie(jsonQueryOption),
+            command: Lib.bindFixed(this.onOption, this, jsonQueryOption)
+        });
+
+        return options;
     },
 
     onOption: function(name)
@@ -129,15 +159,15 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
 
     updateSearchResultsUI: function()
     {
-        var value = Cookies.getBooleanCookie(jsonPathOption);
+        var value = Cookies.getBooleanCookie(jsonQueryOption);
 
         // There can be more HAR files/logs displayed.
-        var boxes = this._body.querySelectorAll(".domBox");
+        var boxes = Lib.getElementsByClass(this._body, "domBox");
         for (var i = 0; i < boxes.length; i++)
         {
             var box = boxes[i];
-            var results = box.querySelector(".results");
-            var splitter = box.querySelector(".splitter");
+            var results = Lib.getElementByClass(box, "results");
+            var splitter = Lib.getElementByClass(box, "splitter");
 
             if (value)
             {
@@ -149,14 +179,24 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
                 Lib.removeClass(results, "visible");
                 Lib.removeClass(splitter, "visible");
             }
+
         }
+
+        var searchInput = Lib.getElementByClass(this._body, "searchInput");
+        if (searchInput)
+        {
+            var placeholder = value ? Strings.jsonQueryPlaceholder : Strings.searchPlaceholder;
+            searchInput.setAttribute("placeholder", placeholder);
+        }
+
+        var searchInput = Lib.getElementByClass(this._body, "searchInput");
     },
 
     onSearch: function(text, keyCode)
     {
-        var jsonPath = Cookies.getBooleanCookie(jsonPathOption);
-        if (jsonPath)
-            return this.evalJsonPath(text, keyCode);
+        var jsonQuery = Cookies.getBooleanCookie(jsonQueryOption);
+        if (jsonQuery)
+            return this.evalJsonQuery(text, keyCode);
 
         // Avoid searches for short texts.
         if (text.length < 3)
@@ -208,29 +248,84 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         }
     },
 
-    evalJsonPath: function(expr, keyCode)
+    evalJsonQuery: function(expr, keyCode)
     {
         // JSON Path is executed when enter key is pressed.
         if (keyCode != 13)
             return true;
 
         // Eval the expression for all logs.
-        var boxes = this._body.querySelectorAll(".domBox");
+        var boxes = Lib.getElementsByClass(this._body, "domBox");
         for (var i=0; i<boxes.length; i++)
         {
             var box = boxes[i];
-            var table = box.querySelector(".domTable");
+            var table = Lib.getElementByClass(box, "domTable");
             var input = table.repObject.input;
 
             var parentNode = box.querySelector(".domBox .results");
             Lib.clearNode(parentNode);
 
-            var result = jsonPath(input, expr);
-            var domTree = new DomTree(result);
-            domTree.append(parentNode);
+            try
+            {
+                var viewType = this.queryResultsViewType.append({}, parentNode);
+                if (this.tableView)
+                {
+                    var type = Lib.getElementByClass(viewType, "type");
+                    type.setAttribute("checked", "true");
+                }
+
+                var result = JSONQuery(expr, input);
+                parentNode.repObject = result;
+
+                if (this.tableView)
+                {
+                    TableView.render(parentNode, result);
+                }
+                else
+                {
+                    var domTree = new DomTree(result);
+                    domTree.append(parentNode);
+                }
+            }
+            catch (err)
+            {
+                Trace.exception(err);
+            }
         }
 
         return true;
+    },
+
+    onTableView: function(event)
+    {
+        var e = Lib.fixEvent(event);
+        var target = e.target;
+
+        var tab = Lib.getAncestorByClass(target, "tabBody");
+        var tableView = $(target).attr("checked");
+        tab.repObject.tableView = tableView;
+
+        var resultBox = Lib.getAncestorByClass(target, "results");
+        var result = resultBox.repObject;
+
+        // Clean up
+        var tree = Lib.getElementByClass(resultBox, "domTable");
+        if (tree)
+            tree.parentNode.removeChild(tree);
+
+        var table = Lib.getElementByClass(resultBox, "dataTableSizer");
+        if (table)
+            table.parentNode.removeChild(table);
+
+        if (tableView)
+        {
+            TableView.render(resultBox, result);
+        }
+        else
+        {
+            var domTree = new DomTree(result);
+            domTree.append(resultBox);
+        }
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -312,7 +407,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
     onDragStart: function(tracker)
     {
         var body = Lib.getBody(this._body.ownerDocument);
-        body.setAttribute("splitting", "true");
+        body.setAttribute("vResizing", "true");
 
         var box = Lib.getAncestorByClass(tracker.element, "domBox");
         var element = Lib.getElementByClass(box, "content");
@@ -330,7 +425,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
     onDrop: function(tracker)
     {
         var body = Lib.getBody(this._body.ownerDocument);
-        body.removeAttribute("splitting");
+        body.removeAttribute("vResizing");
     }
 });
 

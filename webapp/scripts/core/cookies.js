@@ -58,6 +58,11 @@ var Cookies =
     {
         var value = this.getCookie(name);
         return (!value || value == "false") ? false : true;
+    },
+
+    setBooleanCookie: function(name, value)
+    {
+        this.setCookie(name, value ? "true" : "false");
     }
 };
 

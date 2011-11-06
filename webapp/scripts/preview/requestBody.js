@@ -418,7 +418,7 @@ HtmlTab.prototype = domplate(HeadersTab.prototype,
     onDragStart: function(tracker)
     {
         var body = Lib.getBody(this.preview.ownerDocument);
-        body.setAttribute("resizingHtmlPreview", "true");
+        body.setAttribute("hResizing", "true");
         this.startHeight = this.preview.clientHeight;
     },
 
@@ -432,7 +432,7 @@ HtmlTab.prototype = domplate(HeadersTab.prototype,
     onDrop: function(tracker)
     {
         var body = Lib.getBody(this.preview.ownerDocument);
-        body.removeAttribute("resizingHtmlPreview");
+        body.removeAttribute("hResizing");
     }
 });
 

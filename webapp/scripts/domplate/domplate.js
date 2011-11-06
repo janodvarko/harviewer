@@ -35,7 +35,14 @@ var domplate = function()
     {
         var val = lastSubject[name];
         if (isTag(val))
+        {
+            if (val.tag.subject)
+            {
+                lastSubject[name] = val = copyObject({}, val);
+                val.tag = copyObject({}, val.tag);
+            }
             val.tag.subject = lastSubject;
+        }
     }
 
     return lastSubject;

@@ -144,7 +144,10 @@ Toolbar.prototype =
             var defaultTag = button.items ? ToolbarTempl.dropDownTag : ToolbarTempl.buttonTag;
             var tag = button.tag ? button.tag : defaultTag;
 
-            tag.append({button: button}, this.element);
+            var element = tag.append({button: button}, this.element);
+
+            if (button.initialize)
+                button.initialize(element);
 
             if (i<this.buttons.length-1)
                 ToolbarTempl.separatorTag.append({}, this.element);

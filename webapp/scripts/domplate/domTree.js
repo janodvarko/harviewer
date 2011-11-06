@@ -36,7 +36,7 @@ DomTree.prototype = domplate(
                 SPAN({"class": "memberLabel $member.type\\Label"}, "$member.name")
             ),
             TD({"class": "memberValueCell"},
-                TAG("$member.tag", {object: "$member.value"})
+                TAG("$member.tag", {object: "$member|getValue"})
             )
         ),
 
@@ -54,6 +54,11 @@ DomTree.prototype = domplate(
     memberIterator: function(object)
     {
         return this.getMembers(object);
+    },
+
+    getValue: function(member)
+    {
+        return member.value;
     },
 
     getRowTag: function(member)
@@ -220,7 +225,7 @@ function safeToString(ob)
 // Value Templates
 
 var OBJECTBOX =
-    SPAN({"class": "objectBox objectBox-$className"});
+    DIV({"class": "objectBox objectBox-$className"});
 
 // ********************************************************************************************* //
 
@@ -238,7 +243,7 @@ DomTree.Reps =
         var type = typeof(object);
         if (type == "object" && object instanceof String)
             type = "string";
-    
+
         for (var i=0; i<this.reps.length; ++i)
         {
             var rep = this.reps[i];
@@ -348,6 +353,50 @@ DomTree.Reps.Arr = domplate(DomTree.Rep,
     getTitle: function(object)
     {
         return "Array [" + object.length + "]";
+    }
+});
+
+// ********************************************************************************************* //
+
+DomTree.Reps.Tree = domplate(DomTree.Rep,
+{
+    tag:
+        OBJECTBOX(
+            TAG("$object|getTag", {object: "$object|getRoot"})
+        ),
+
+    className: "tree",
+
+    getTag: function(object)
+    {
+        return Tree.tag;
+    },
+
+    getRoot: function(object)
+    {
+        // Create fake root for embedded object-tree.
+        return [object];
+    },
+
+    supportsObject: function(object, type)
+    {
+        return type == "object";
+    },
+});
+
+//xxxHonza: Domplate inheritance doesn't work. Modifications are propagated
+// into the base object (see: http://code.google.com/p/fbug/issues/detail?id=4425)
+var Tree = domplate(DomTree.prototype,
+{
+    createMember: function(type, name, value, level)
+    {
+        var member = DomTree.prototype.createMember(type, name, value, level);
+        if (level == 0)
+        {
+            member.name = "";
+            member.type = "tableCell";
+        }
+        return member;
     }
 });
 
