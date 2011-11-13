@@ -8,6 +8,14 @@ HAR Viewer 2.0.14
 -----------------
 * Issue 59: Reduce columns in waterfall chart
 * Issue 61: Search in HAR
+* Search in HAR based on JSON Query
+* Displaying search results using table layout
+* Issue 63: API to set the visible columns without using an HTTP cookie
+* Issue 64: Single-page waterfalls aren't expanded in the preview
+* Issue 65: Can use the web based preview to view this file, but not the embed
+* Issue 66: HAR viewer should recognize gif as an image.
+* Validation extended (negative timings not allowed and summary of timings must be correct)
+* Only *.har can be dropped onto the page.
 
 HAR Viewer 2.0.13
 -----------------
