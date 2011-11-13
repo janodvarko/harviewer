@@ -8,7 +8,7 @@ require.def("preview/harModel", [
     "core/cookies",
     "core/trace",
     "i18n!nls/harModel",
-    "jquery-plugins/jquery.json"
+    "jquery-plugins/jquery.json.js"
 ],
 
 function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
@@ -183,7 +183,7 @@ HarModel.parse = function(jsonString, validate)
     try
     {
         if (typeof(jsonString) === "string")
-            input = jQuery.toJSON(jsonString);
+            input = jQuery.parseJSON(jsonString);
     }
     catch (err)
     {

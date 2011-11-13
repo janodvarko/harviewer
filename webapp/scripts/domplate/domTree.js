@@ -381,7 +381,7 @@ DomTree.Reps.Tree = domplate(DomTree.Rep,
     supportsObject: function(object, type)
     {
         return type == "object";
-    },
+    }
 });
 
 //xxxHonza: Domplate inheritance doesn't work. Modifications are propagated
