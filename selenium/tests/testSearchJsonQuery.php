@@ -4,13 +4,13 @@ require_once("HARTestCase.php");
 /**
  * Test HAR Viewer Search using JSON Query
  */ 
-class HAR_TestSearchJsonPath extends HAR_TestCase
+class HAR_TestSearchJsonQuery extends HAR_TestCase
 {
     public function testCase()
     {
-        print "\ntestSearchJsonPath.php";
+        print "\ntestSearchJsonQuery.php";
 
-        $viewerURL = $GLOBALS["test_base"]."tests/testSearchJsonPath.html";
+        $viewerURL = $GLOBALS["test_base"]."tests/testSearchJsonQuery.html";
         $harFileURL = $GLOBALS["test_base"]."tests/hars/searchHAR.har";
         $this->open($viewerURL."?path=".$harFileURL);
 
@@ -20,7 +20,7 @@ class HAR_TestSearchJsonPath extends HAR_TestCase
         $this->click("css=.DOMTab");
         $this->assertElementExists("css=.DOMTab.selected");
 
-        // Type JSON Path expression into the search field and press enter.
+        // Type JSON Query expression into the search field and press enter.
         $this->focus("css=.tabDOMBody .searchInput");
         $this->type("css=.tabDOMBody .searchInput", "$..request");
         $this->keyDown("css=.tabDOMBody .searchInput", "\\13");
