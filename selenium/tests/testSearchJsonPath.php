@@ -2,7 +2,7 @@
 require_once("HARTestCase.php");
 
 /**
- * Test HAR Viewer Search using JSON Path
+ * Test HAR Viewer Search using JSON Query
  */ 
 class HAR_TestSearchJsonPath extends HAR_TestCase
 {
@@ -14,7 +14,7 @@ class HAR_TestSearchJsonPath extends HAR_TestCase
         $harFileURL = $GLOBALS["test_base"]."tests/hars/searchHAR.har";
         $this->open($viewerURL."?path=".$harFileURL);
 
-        $this->assertCookie("regexp:searchJsonPath");
+        $this->assertCookie("regexp:searchJsonQuery");
 
         // Select the DOM tab
         $this->click("css=.DOMTab");
