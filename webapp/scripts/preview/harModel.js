@@ -8,7 +8,7 @@ require.def("preview/harModel", [
     "core/cookies",
     "core/trace",
     "i18n!nls/harModel",
-    "jquery-plugins/jquery.json.js"
+    "jquery-plugins/jquery.json"
 ],
 
 function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
