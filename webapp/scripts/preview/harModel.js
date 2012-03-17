@@ -36,7 +36,13 @@ HarModel.prototype =
         {
             var timeA = Lib.parseISO8601(a.startedDateTime);
             var timeB = Lib.parseISO8601(b.startedDateTime);
-            return timeA > timeB;
+
+            if (timeA < timeB)
+                return -1;
+            else if (timeA > timeB)
+                return 1;
+
+            return 0;
         })
 
         if (this.input)
