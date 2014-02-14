@@ -893,7 +893,7 @@ Lib.splitLines = function(text)
 
 Lib.getPrettyDomain = function(url)
 {
-    var m = /[^:]+:\/{1,3}(www\.)?([^\/]+)/.exec(url);
+    var m = /^[^:]+:\/{1,3}(www\.)?([^\/]+)/.exec(url);
     return m ? m[2] : "";
 },
 
