@@ -4,6 +4,11 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
+HAR Viewer 2.0.16
+-----------------
+* Issue 90: errors with google chrome har file. It should show the latency.
+* Issue 73: Entries are not sorted in Chrome
+
 HAR Viewer 2.0.15
 -----------------
 
