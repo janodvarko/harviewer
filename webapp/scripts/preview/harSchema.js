@@ -94,7 +94,7 @@ var entryType = {
         "properties": {
             "pageref": {"type": "string", "optional": true},
             "startedDateTime": {"type": "string", "format": "date-time", "pattern": dateTimePattern},
-            "time": {"type": "integer", "min": 0},
+            "time": {"type": "number", "min": 0},
             "request" : {"$ref": "requestType"},
             "response" : {"$ref": "responseType"},
             "cache" : {"$ref": "cacheType"},
@@ -244,13 +244,13 @@ var timingsType = {
         "id": "timingsType",
         "description": "Info about request-response timing.",
         "properties": {
-            "dns": {"type": "integer", "optional": true, "min": -1},
-            "connect": {"type": "integer", "optional": true, "min": -1},
-            "blocked": {"type": "integer", "optional": true, "min": -1},
-            "send": {"type": "integer", "min": -1},
-            "wait": {"type": "integer", "min": -1},
-            "receive": {"type": "integer", "min": -1},
-            "ssl": {"type": "integer", "optional": true, "min": -1},
+            "dns": {"type": "number", "optional": true, "min": -1},
+            "connect": {"type": "number", "optional": true, "min": -1},
+            "blocked": {"type": "number", "optional": true, "min": -1},
+            "send": {"type": "number", "min": -1},
+            "wait": {"type": "number", "min": -1},
+            "receive": {"type": "number", "min": -1},
+            "ssl": {"type": "number", "optional": true, "min": -1},
             "comment": {"type": "string", "optional": true}
         }
     }
