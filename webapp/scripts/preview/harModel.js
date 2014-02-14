@@ -274,6 +274,7 @@ HarModel.validateRequestTimings = function(input)
         var entry = entries[i];
         var timings = entry.timings;
 
+        /* http://code.google.com/p/chromium/issues/detail?id=339551
         var total = 0;
         for (var p in timings)
         {
@@ -295,7 +296,7 @@ HarModel.validateRequestTimings = function(input)
                 "message": message,
                 "property": Strings.validationType
             });
-        }
+        }*/
 
         if (timings.blocked < -1 ||
             timings.connect < -1 ||
@@ -335,6 +336,9 @@ HarModel.Loader =
         var paths = Lib.getURLParameters("path");
         var callbackName = Lib.getURLParameter("callback");
         var inputUrls = Lib.getURLParameters("inputUrl");
+
+        //for (var p in inputUrls)
+        //    inputUrls[p] = inputUrls[p].replace(/%/g,'%25');
 
         var urls = [];
         for (var p in paths)
