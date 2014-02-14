@@ -164,7 +164,7 @@ TabView.prototype =
         if (!Lib.hasClass(tab, "tab"))
             return;
 
-        if (Lib.hasClass(tab, "selected"))
+        if (Lib.hasClass(tab, "selected") && tab._updated)
             return;
 
         var view = tab.getAttribute("view");
