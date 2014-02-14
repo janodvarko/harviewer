@@ -11,6 +11,9 @@ class HAR_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->setBrowser("*firefox");
         //$this->setBrowser("*firefox C:\\mozilla-dev\\firefox\\Firefox 6\\firefox.exe");
+        //$this->setBrowser("*firefox I:\\Program Files\\Mozilla Firefox\\firefox.exe");
+        //$this->setBrowser("*firefox C:\\mozilla-dev\\firefox\\Firefox 7\\firefox.exe");
+
         $this->setBrowserUrl($GLOBALS["harviewer_base"]);
     }
  

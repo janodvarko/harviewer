@@ -1,5 +1,5 @@
 <?php 
 # don't forget the trailing slash
-$harviewer_base = "http://legoas/har/viewer/webapp-build/";
-$test_base = "http://legoas/har/viewer/selenium/";
+$harviewer_base = "http://legoas/src/github.com/janodvarko/harviewer/webapp-build/";
+$test_base = "http://legoas/src/github.com/janodvarko/harviewer/selenium/";
 ?>
