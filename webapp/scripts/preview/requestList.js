@@ -306,7 +306,8 @@ RequestList.prototype = domplate(
     {
         // Total request time doesn't include the time spent in queue.
         //var elapsed = file.time - file.timings.blocked;
-        return Lib.formatTime(file.time);
+        var time = Math.round(file.time * 10) / 10;
+        return Lib.formatTime(time);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
