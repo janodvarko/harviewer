@@ -9,6 +9,6 @@
 	    "send": "^0.7.3"
 	},
 	"scripts": {
-	    "start": "rm -Rf client/.rt ; node server.js"
+	    "start": "rm -Rf client/.rt ../fireconsole/.rt ; node server.js"
 	}
 }

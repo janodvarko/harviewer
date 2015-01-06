@@ -11,12 +11,14 @@ require.def("harViewer", [
     "preview/harModel",
     "i18n!nls/harViewer",
     "preview/requestList",
+    "css/loader",
     "core/lib",
-    "core/trace"
+    "core/trace",
+    "require"
 ],
 
 function($, TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,
-    Strings, RequestList, Lib, Trace) {
+    Strings, RequestList, CssLoader, Lib, Trace, require) {
 
 // ********************************************************************************************* //
 // The Application
@@ -195,6 +197,8 @@ var api = {
 
         var content = domNode;
         var harView = content.repObject = new HarView();
+
+        CssLoader.initialize();
 
         // Fire some events for listeners. This is useful for extending/customizing the viewer.
         Lib.fireEvent(content, "onViewerPreInit");

@@ -1,0 +1,13 @@
+{
+	"mappings": {
+		"jquery": "../jquery"
+	},
+	"directories": {
+		"lib": "."
+	},
+	"exports": {
+		"styles": {
+			"*": "./*"
+		}
+	}
+}

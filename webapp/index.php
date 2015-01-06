@@ -11,7 +11,6 @@
     	window.harviewerInitOnLoad = true;
     </script>
     <script data-main="scripts/harViewer" src="scripts/require.js"></script>
-    <link rel="stylesheet" href="css/harViewer.css" type="text/css"/>
     <?php include("ga.php") ?>
 </body>
 </html>

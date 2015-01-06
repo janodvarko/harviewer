@@ -11,31 +11,32 @@ return PINF.main(function(options, callback) {
 
 	var app = EXPRESS();
 
-	app.get(/^\/css\/(.+)$/, function (req, res, next) {
-		return SEND(req, req.params[0], {
-			root: PATH.join(__dirname, "../webapp/css")
-		}).on("error", next).pipe(res);
-	});
-
+	// For RequireJS loader.
 	app.get(/^\/scripts\/(.+)$/, function (req, res, next) {
 		return SEND(req, req.params[0], {
 			root: PATH.join(__dirname, "../webapp/scripts")
 		}).on("error", next).pipe(res);
 	});
 
+	// For PINF loader.
 	app.get(/^\/lib\/pinf-loader-js\/(.+)$/, function (req, res, next) {
 		return SEND(req, req.params[0], {
 			root: PATH.join(__dirname, "node_modules/pinf-for-nodejs/node_modules/pinf-loader-js")
 		}).on("error", next).pipe(res);
 	});
-
-	app.get(/^\/(client.+)$/, PINF.hoist(PATH.join(__dirname, "client/program.json"), options.$pinf.makeOptions({
+	app.get(/^\/(plugin.+)$/, PINF.hoist(PATH.join(__dirname, "../fireconsole/program.json"), options.$pinf.makeOptions({
 		debug: true,
 		verbose: true,
 		PINF_RUNTIME: "",
         $pinf: options.$pinf
     })));
 
+	// For both loaders and dev helper files.
+	app.get(/^\/examples\/(.+)$/, function (req, res, next) {
+		return SEND(req, req.params[0], {
+			root: PATH.join(__dirname, "../webapp/examples")
+		}).on("error", next).pipe(res);
+	});
 	app.get(/^(\/.*)$/, function (req, res, next) {
 		var path = req.params[0];		
 		if (path === "/") path = "/index.html";

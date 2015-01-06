@@ -8,12 +8,11 @@
 <body class="harBody">
     <div id="content" version="@VERSION@"></div>
     <!--[if IE]><script type="text/javascript" src="scripts/excanvas/excanvas.js"></script><![endif]-->
-    <link rel="stylesheet" href="css/harViewer.css" type="text/css"/>
 	<script>
-		PINF.sandbox("/client.js", function (sandbox) {
+		PINF.sandbox("/plugin.js", function (sandbox) {
 			sandbox.main();
 		}, function (err) {
-			console.error("Error while loading bundle '/client.js':", err.stack);
+			console.error("Error while loading bundle '/plugin.js':", err.stack);
 		});
 	</script>
 </body>
