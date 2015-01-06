@@ -1,12 +1,13 @@
 /* See license.txt for terms of usage */
 
 require.def("domplate/infoTip", [
+    "jquery/jquery",
     "domplate/domplate",
     "core/lib",
     "core/trace"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function($, Domplate, Lib, Trace) { with (Domplate) {
 
 //***********************************************************************************************//
 

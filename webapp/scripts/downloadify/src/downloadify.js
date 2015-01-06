@@ -25,6 +25,10 @@
 	THE SOFTWARE.
 */
 
+define([
+	"jquery/jquery"
+], function (jQuery) {
+
 (function(){
 	Downloadify = window.Downloadify = {
 		queue: {},
@@ -188,3 +192,5 @@ if(typeof(jQuery) != "undefined"){
 		};
 	})(jQuery);
 };
+
+});

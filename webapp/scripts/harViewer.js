@@ -1,6 +1,7 @@
 /* See license.txt for terms of usage */
 
 require.def("harViewer", [
+    "jquery/jquery",
     "domplate/tabView",
     "tabs/homeTab",
     "tabs/aboutTab",
@@ -14,7 +15,7 @@ require.def("harViewer", [
     "core/trace"
 ],
 
-function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,
+function($, TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,
     Strings, RequestList, Lib, Trace) {
 
 // ********************************************************************************************* //
@@ -62,7 +63,7 @@ HarView.prototype = Lib.extend(new TabView(),
     initialize: function(content)
     {
         // Global application properties.
-        this.version = content.getAttribute("version");
+        this.version = content.getAttribute("version") || "";
         this.harSpecURL = "http://www.softwareishard.com/blog/har-12-spec/";
 
         this.render(content);
@@ -189,15 +190,26 @@ HarView.prototype = Lib.extend(new TabView(),
 // ********************************************************************************************* //
 // Initialization
 
-var content = document.getElementById("content");
-var harView = content.repObject = new HarView();
+var api = {
+    init: function (domNode) {
 
-// Fire some events for listeners. This is useful for extending/customizing the viewer.
-Lib.fireEvent(content, "onViewerPreInit");
-harView.initialize(content);
-Lib.fireEvent(content, "onViewerInit");
+        var content = domNode;
+        var harView = content.repObject = new HarView();
 
-Trace.log("HarViewer; initialized OK");
+        // Fire some events for listeners. This is useful for extending/customizing the viewer.
+        Lib.fireEvent(content, "onViewerPreInit");
+        harView.initialize(content);
+        Lib.fireEvent(content, "onViewerInit");
+
+        Trace.log("HarViewer; initialized OK");
+    }
+};
+
+if (window.harviewerInitOnLoad) {
+    api.init(document.getElementById("content"));
+}
+
+return api;
 
 // ********************************************************************************************* //
 });

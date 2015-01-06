@@ -1,0 +1,9 @@
+{
+	"mappings": {
+		"core": ".",
+		"jquery": "../jquery"
+	},
+	"directories": {
+		"lib": "."
+	}
+}

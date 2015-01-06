@@ -1,6 +1,7 @@
 /* See license.txt for terms of usage */
 
 require.def("tabs/homeTab", [
+    "jquery/jquery",
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
@@ -11,7 +12,7 @@ require.def("tabs/homeTab", [
     "preview/harModel"
 ],
 
-function(Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel) { with (Domplate) {
+function($, Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel) { with (Domplate) {
 
 //*************************************************************************************************
 // Home Tab

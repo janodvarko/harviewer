@@ -1,6 +1,7 @@
 /* See license.txt for terms of usage */
 
 require.def("tabs/previewTab", [
+    "jquery/jquery",
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
@@ -15,7 +16,7 @@ require.def("tabs/previewTab", [
     "downloadify/src/downloadify"
 ],
 
-function(Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies,
+function($, Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies,
     ValidationError) {
 
 with (Domplate) {

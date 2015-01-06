@@ -1,14 +1,15 @@
 /* See license.txt for terms of usage */
 
 require.def("tabs/aboutTab", [
+    "jquery/jquery",
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
-    "i18n!nls/harViewer"
+    "i18n!nls/harViewer",
+    "require"
 ],
 
-function(Domplate, TabView, Lib, Strings) { with (Domplate) {
-
+function($, Domplate, TabView, Lib, Strings, require) { with (Domplate) {
 //*************************************************************************************************
 // Home Tab
 

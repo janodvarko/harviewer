@@ -1,13 +1,14 @@
 /* See license.txt for terms of usage */
 
 require.def("domplate/toolbar", [
+    "jquery/jquery",
     "domplate/domplate",
     "core/lib",
     "core/trace",
     "domplate/popupMenu"
 ],
 
-function(Domplate, Lib, Trace, Menu) { with (Domplate) {
+function($, Domplate, Lib, Trace, Menu) { with (Domplate) {
 
 //*************************************************************************************************
 

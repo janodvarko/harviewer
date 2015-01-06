@@ -1,0 +1,11 @@
+{
+	"mappings": {
+		"domplate": ".",
+		"core": "../core",
+		"nls": "../nls",
+		"jquery": "../jquery"
+	},
+	"directories": {
+		"lib": "."
+	}
+}

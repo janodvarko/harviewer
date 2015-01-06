@@ -1,0 +1,17 @@
+{
+	"mappings": {
+		"tabs": ".",
+		"domplate": "../domplate",
+		"core": "../core",
+		"nls": "../nls",
+		"jquery-plugins": "../jquery-plugins",
+		"json-query": "../json-query",
+		"syntax-highlighter": "../syntax-highlighter",
+		"downloadify": "../downloadify",
+		"preview": "../preview",
+		"jquery": "../jquery"
+	},
+	"directories": {
+		"lib": "."
+	}
+}

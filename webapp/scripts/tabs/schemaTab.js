@@ -1,15 +1,17 @@
 /* See license.txt for terms of usage */
 
 require.def("tabs/schemaTab", [
+    "jquery/jquery",
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
     "i18n!nls/harViewer",
     "syntax-highlighter/shCore",
-    "core/trace"
+    "core/trace",
+    "require"
 ],
 
-function(Domplate, TabView, Lib, Strings, dp, Trace) { with (Domplate) {
+function($, Domplate, TabView, Lib, Strings, dp, Trace, require) { with (Domplate) {
 
 //*************************************************************************************************
 // Home Tab
@@ -25,21 +27,11 @@ SchemaTab.prototype =
 
     onUpdateBody: function(tabView, body)
     {
-        $.ajax({
-            url: "scripts/preview/harSchema.js",
-            context: this,
-
-            success: function(response)
-            {
-                var code = body.firstChild;
-                code.innerHTML = response;
-                dp.SyntaxHighlighter.HighlightAll(code);
-            },
-
-            error: function(response, ioArgs)
-            {
-                Trace.error("SchemaTab.onUpdateBody; ERROR ", response);
-            }
+        require(["text!preview/harSchema.js"], function(source)
+        {
+            var code = body.firstChild;
+            code.innerHTML = (typeof source === "string") ? source : JSON.stringify(source, null, 4);
+            dp.SyntaxHighlighter.HighlightAll(code);
         });
     }
 };
