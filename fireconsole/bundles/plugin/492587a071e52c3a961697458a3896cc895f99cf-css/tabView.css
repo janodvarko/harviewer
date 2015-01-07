@@ -1,0 +1,91 @@
+/* See license.txt for terms of usage */
+
+.tabView {
+    width: 100%;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.tabViewCol {
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
+    vertical-align:top;
+}
+
+.tabViewBody {
+    margin: 2px 0px 0px 0px;
+}
+
+.tabBar {
+    padding-left: 14px;
+    border-bottom: 1px solid #D7D7D7;
+    white-space: nowrap;
+}
+
+.tab {
+    position: relative;
+    top: 1px;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    color: #565656;
+    font-weight: bold;
+    white-space: nowrap;
+    -moz-user-select: none;
+    display:inline-block;
+}
+
+.tab:hover {
+    cursor: pointer;
+    border-color: #D7D7D7;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-radius: 4px 4px 0 0;
+}
+
+.tab[selected="true"],
+.tab .selected {
+    cursor: default !important;
+    border-color: #D7D7D7;
+    background-color: #FFFFFF;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-radius: 4px 4px 0 0;
+}
+
+/*
+ * If fixed height is specified, the overflow works, otherwise the position must be 
+ * absolute with top: 33px (height of the tab-header and bottom: 0px to get available
+ * vertical space
+ */
+.tabBodies {
+    width: 100%;
+    overflow: auto;
+}
+
+.tabBody {
+    display: none;
+    margin: 0;
+}
+
+.tabBody[selected="true"],
+.tabBody.selected {
+    display: block;
+}
+
+/*************************************************************************************************/
+/* Print support */
+
+@media print {
+
+/* This is what prevents the browser's print featurs to print more pages. */
+.tabBodies {
+    overflow:visible;
+}
+
+.tabViewCol {
+    background: none;
+}
+
+}

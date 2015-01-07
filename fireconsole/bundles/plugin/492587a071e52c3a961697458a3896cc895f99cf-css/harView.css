@@ -1,0 +1,71 @@
+/* See license.txt for terms of usage */
+
+.harBody {
+    margin: 0;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 13px;
+}
+
+#content a {
+    text-decoration: none;
+}
+
+#content h1 {
+    font-size: 17px;
+    border-bottom: 1px solid threedlightshadow;
+}
+
+#content h2 {
+    color:  #DD467B;
+    font-size: 22.8px;
+    font-weight:lighter;
+}
+
+#content h3 {
+    color: #DD467B;
+    font-weight: bold;
+}
+
+#content pre {
+    margin: 0;
+    font: inherit;
+}
+
+/*************************************************************************************************/
+
+.collapsed,
+[collapsed="true"] {
+    display: none !important;
+}
+
+.link {
+    color: blue;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+/*************************************************************************************************/
+
+.harViewBodies {
+    position: absolute;
+    top: 33px;
+    bottom: 0px;
+}
+
+.harViewBar > .tab {
+    font-size: 17px;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+}
+
+/*************************************************************************************************/
+
+/* Support for hiding the tabBar */
+.harView[hideTabBar="true"] .harViewBar {
+    display: none;
+}
+
+.harView[hideTabBar="true"] .harViewBodies {
+    position: inherit;
+}

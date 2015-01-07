@@ -1,0 +1,23 @@
+/* See license.txt for terms of usage */
+
+@import url("tabView.css");
+@import url("pageList.css");
+@import url("requestList.css");
+@import url("requestBody.css");
+@import url("infoTip.css");
+@import url("popupMenu.css");
+@import url("toolbar.css");
+
+.harBody {
+    margin: 0;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 11px;
+}
+
+.xhrSpyFrame {
+}
+
+.tabView.requestBody,
+.netInfoHeadersGroup {
+/*    font-size: 11px;*/
+}

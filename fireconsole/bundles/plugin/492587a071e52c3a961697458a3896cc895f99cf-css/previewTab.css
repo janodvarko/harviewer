@@ -1,0 +1,17 @@
+/* See license.txt for terms of usage */
+
+/*************************************************************************************************/
+/* Preview */
+
+/*************************************************************************************************/
+/* Toolbar */
+
+/* Remove the dotted outline when focused */
+.harDownloadButton OBJECT {
+    outline: none;
+    -moz-user-focus: ignore;
+}
+
+.harSaveButton {
+    background: url(images/save.png) no-repeat;
+}

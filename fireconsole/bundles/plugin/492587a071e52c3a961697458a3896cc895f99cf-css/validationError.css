@@ -1,0 +1,46 @@
+/* See license.txt for terms of usage */
+
+/*************************************************************************************************/
+/* Errors */
+
+.errorTable {
+    margin: 8px;
+    font-size: 13px;
+}
+
+.errorProperty {
+    color: gray;
+    font-style:italic;
+}
+
+.errorMessage {
+    color: red;
+}
+
+.errorRow:hover {
+    background: #EFEFEF;
+    cursor: pointer;
+}
+
+/*************************************************************************************************/
+/* Context Menu */
+
+.errorOptionsTarget {
+    width: 11px;
+    height: 10px;
+    background: url(images/contextMenuTarget.png) no-repeat;
+    visibility: collapse;
+}
+
+.errorOptionsTarget:hover {
+    background-image: url(images/contextMenuTargetHover.png);
+}
+
+/**
+ * The context menu target is visible only if the user is hovering mouse over
+ * the error entry and if the error is associated with a target HAR object
+ */
+.errorRow:hover > .errorOptions.hasTarget > .errorOptionsTarget {
+    visibility: visible;
+}
+

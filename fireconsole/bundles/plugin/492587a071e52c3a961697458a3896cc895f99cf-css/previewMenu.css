@@ -1,0 +1,57 @@
+/* See license.txt for terms of usage */
+
+.menu {
+    position: absolute;
+    right: 2px;
+    font-size: 10px;
+    font-family: Lucida Grande,Tahoma,sans-serif;
+    text-decoration: none;
+    outline: none;
+    white-space: nowrap;
+}
+
+.menu .menuContent {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    line-height: 13px;
+}
+
+.menu .menuHandle {
+    display: inline-block;
+    width: 9px;
+    height: 16px;
+    background-image: url('images/menu/previewMenuHandle.png');
+}
+
+.menu .menuHandle.opened {
+    background-image: url('images/menu/previewMenuHandle.png');
+    background-position: 9px 0; 
+}
+
+/*************************************************************************************************/
+/* Toolbar inside the menu */
+
+.menu .toolbar {
+    border: 0;
+    vertical-align: top;
+    display: inline;
+    padding-left: 0;
+}
+
+.menu .toolbarSeparator {
+}
+
+.menu .toolbarSeparator,
+.menu .toolbarButton {
+    padding: 0;
+    margin: 0 3px 1px 3px;
+    border: none;
+    color: gray;
+}
+
+.toolbarButton.text:hover {
+    border: none;
+    background: none;
+    color: blue;
+}

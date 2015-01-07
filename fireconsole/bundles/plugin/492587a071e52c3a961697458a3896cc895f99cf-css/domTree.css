@@ -1,0 +1,77 @@
+﻿/* See license.txt for terms of usage */
+
+.domTable {
+}
+
+.memberLabelCell {
+    padding: 2px 50px 2px 0;
+    vertical-align: top;
+}
+
+.memberValueCell {
+    padding: 1px 0 1px 5px;
+    display: block;
+    overflow: hidden;
+}
+
+.memberLabel {
+    cursor: default;
+    -moz-user-select:  none;
+    overflow: hidden;
+    /*position: absolute;*/
+    padding-left: 18px;
+    /*max-width: 30%;*/    
+    white-space: nowrap;
+    /* background-color: #FFFFFF; breaks row highlighting */ 
+}
+
+.memberRow.hasChildren.opened > .memberLabelCell > .memberLabel {
+    background-image: url(images/twisty-sprites.png);
+    background-position: 3px -16px;
+    background-color: transparent;
+}
+
+.memberRow.hasChildren > .memberLabelCell > .memberLabel:hover {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.memberRow.hasChildren > .memberLabelCell > .memberLabel {
+    background-image: url(images/twisty-sprites.png);
+    background-repeat: no-repeat;
+    background-position: 3px 3px;
+}
+
+/*************************************************************************************************/
+
+.jumpHighlight {
+    background-color: #C4F4FF !important;
+}
+
+/*************************************************************************************************/
+
+.objectBox-object {
+    color: gray;
+}
+
+.objectBox-number {
+    color: #000088;
+}
+
+.objectBox-string {
+    color: #FF0000;
+    white-space: pre-wrap;
+}
+
+.objectBox-null,
+.objectBox-undefined {
+    font-style: italic;
+    color: #787878;
+}
+
+.objectBox-array {
+    color: gray;
+}
+
+/*************************************************************************************************/

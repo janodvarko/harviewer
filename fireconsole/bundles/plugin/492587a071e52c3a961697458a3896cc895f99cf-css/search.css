@@ -1,0 +1,46 @@
+/* See license.txt for terms of usage */
+
+/*************************************************************************************************/
+/* Search */
+
+.searchTextBox {
+    vertical-align: sub;
+    margin-right: 3px;
+}
+
+.searchInput {
+    outline: none; /* Remove webkit focus border */
+    border: 1px solid #EEEEEE;
+    padding: 1px 17px 1px 3px;
+    width: 300px;
+}
+
+.searchInput[status=notfound] {
+    background: rgb(255, 102, 102);
+    color: white;
+}
+
+.searchBox .arrow {
+    width: 11px;
+    height: 10px;
+    background: url(images/contextMenuTarget.png) no-repeat;
+    display: inline-block;
+    position: relative;
+    margin-left: -15px;
+    top: 1px;
+    cursor: pointer;
+
+}
+
+.searchBox .arrow:hover {
+    background-image: url(images/contextMenuTargetHover.png);
+}
+
+/* Disabled for IE */
+.searchBox .arrow[disabled=true] {
+    display: none;
+}
+
+.searchBox .resizer {
+    cursor: e-resize;
+}

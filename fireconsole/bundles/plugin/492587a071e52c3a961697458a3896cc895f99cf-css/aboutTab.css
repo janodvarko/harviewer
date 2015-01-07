@@ -1,0 +1,25 @@
+/* See license.txt for terms of usage */
+
+.AboutTab {
+    margin-left: 100px;
+}
+
+.AboutTab .version {
+    font-size: 11px;
+    color: #DD467B;
+}
+
+.tabAboutBody {
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 11.7px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.aboutBody {
+    padding: 8px;
+}
+
+.tabAboutBody code {
+    color:  green;
+}

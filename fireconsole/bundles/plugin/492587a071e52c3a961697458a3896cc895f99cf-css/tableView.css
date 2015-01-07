@@ -1,0 +1,116 @@
+/* See license.txt for terms of usage */
+
+/*************************************************************************************************/
+/* Console Panel */
+
+.dataTableSizer {
+    margin: 7px;
+    border: 1px solid #EEEEEE;
+}
+
+.dataTableSizer:focus {
+    outline: none;
+}
+
+.dataTable {
+}
+
+/* If the table is displayed within a group the border is provided by that group. */
+.logGroup .dataTable {
+    border: none;
+}
+
+.dataTable TBODY {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.dataTable > .dataTableTbody > tr:nth-child(even) {
+    background-color: #EFEFEF;
+}
+
+.dataTable a {
+    vertical-align:middle;
+}
+
+.dataTableTbody > tr > td {
+    padding: 1px 4px 0 4px;
+}
+
+/* The last column needs more horizontal space since part of it is overlapped by
+   the vertical scroll bar */
+.dataTableTbody > tr > td:last-child {
+    padding-right: 20px;
+}
+
+.useA11y .dataTable *:focus {
+    outline-offset: -2px;
+}
+
+/*************************************************************************************************/
+/* Console panel filter */
+
+.panelNode.hideType-table .logRow-table {
+    display: none !important;
+}
+
+/*************************************************************************************************/
+/* Header for Net panel table */
+
+.headerCell {
+    cursor: pointer;
+    -moz-user-select: none;
+    border-bottom: 1px solid #9C9C9C;
+    padding: 0 !important;
+    font-weight: bold;
+    background: #C8C8C8 -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.2));
+    background: #C8C8C8 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.3)), to(rgba(0, 0, 0, 0.2)));
+}
+
+.headerCellBox {
+    padding: 2px 13px 2px 4px;
+    border-left: 1px solid #D9D9D9;
+    border-right: 1px solid #9C9C9C;
+    white-space: nowrap;
+}
+
+.headerCell:hover:active {
+    background-color: #B4B4B4;
+}
+
+.headerSorted {
+    background-color: #8CA0BE;
+}
+
+.headerSorted > .headerCellBox {
+    border-right-color: #6B7C93;
+    background: url(chrome://firebug/skin/arrowDown.png) no-repeat right;
+}
+
+.headerSorted.sortedAscending > .headerCellBox {
+    background-image: url(chrome://firebug/skin/arrowUp.png);
+}
+
+.headerSorted:hover:active {
+    background-color: #6E87AA;
+}
+
+/*************************************************************************************************/
+/* Tree within a table cell */
+
+/* Rules for the (fake) root object that represents an expandable tree within a table-cell */
+.memberRow.tableCellRow .memberLabelCell,
+.memberRow.tableCellRow .memberValueCell {
+    padding: 0;
+    color: Gray;
+}
+
+/* So the height of the row is the same as if there would be an embedded tree object */
+.dataTableCell > .objectBox-number,
+.dataTableCell > .objectBox-string,
+.dataTableCell > .objectBox-null,
+.dataTableCell > .objectBox-undefined,
+.dataTableCell > .objectBox-array {
+    padding: 5px;
+}
+

@@ -1,0 +1,450 @@
+/* See license.txt for terms of usage */
+
+.netTable {
+    width: 100%;
+    border-left: 1px solid #EFEFEF;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    font-size: 11px;
+    table-layout: fixed;
+}
+
+/*************************************************************************************************/
+
+.netRow {
+    background: white;
+}
+
+.netRow.loaded {
+    background: #FFFFFF;
+}
+
+.netHrefCol:hover {
+    /*background: white; the summary bar shouldn't have this */
+}
+
+.netRow.loaded:hover {
+    background: #EFEFEF;
+}
+
+.netCol {
+    padding: 0;
+    vertical-align: top;
+    border-bottom: 1px solid #EFEFEF;
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: hidden;
+}
+
+/* Visual separator between phases */
+.netRow[breakLayout="true"] .netCol {
+    border-top: 1px solid rgb(207,207,207);
+}
+
+.netTypeCol,
+.netStatusCol {
+    color: rgb(128, 128, 128);
+}
+
+.responseError > .netStatusCol {
+    color: red;
+}
+
+.responseRedirect > td {
+    color: #f93;
+}
+
+.netStatusCol,
+.netTypeCol,
+.netDomainCol,
+.netSizeCol,
+.netTimeCol {
+    padding-left: 8px;
+}
+
+.netTimeCol {
+    overflow: visible;
+}
+
+.netSizeCol {
+    text-align: right;
+}
+
+.netHrefLabel {
+    -moz-box-sizing: padding-box;
+    overflow: hidden;
+    z-index: 100;
+    position: relative;
+    padding-left: 18px;
+    padding-top: 1px;
+    font-weight: bold;
+}
+
+.netFullHrefLabel {
+    position: absolute;
+    display: none;
+    -moz-user-select: none;
+    padding-right: 10px;
+    padding-bottom: 3px;
+    background: #FFFFFF;
+}
+
+.netHrefCol:hover > .netStatusLabel,
+.netHrefCol:hover > .netDomainLabel,
+.netHrefCol:hover > .netHrefLabel {
+    display: none;
+}
+
+.netHrefCol:hover > .netFullHrefLabel {
+    display: block;
+}
+
+.netRow.loaded:hover > .netCol > .netFullHrefLabel {
+    background-color: #EFEFEF;
+}
+
+/*.netSizeLabel {
+    padding-left: 6px;
+}*/
+
+.netStatusLabel,
+.netTypeLabel,
+.netDomainLabel,
+.netSizeLabel,
+.netTimelineBar {
+    padding: 1px 0 2px 0 !important;
+}
+
+.responseError {
+    color: red;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Net Request Options */
+
+.netOptionsCol {
+    padding-left: 2px;
+    padding-top: 3px;
+}
+
+.netOptionsLabel {
+    width: 11px;
+    height: 10px;
+    background: url(images/contextMenuTarget.png) no-repeat;
+    display: none;
+}
+
+.netRow:hover > .netOptionsCol > .netOptionsLabel {
+    display: block;
+}
+
+.netOptionsLabel:hover {
+    background-image: url(images/contextMenuTargetHover.png);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.netHrefLabel:hover {
+    cursor: pointer;
+}
+
+.isExpandable .netHrefLabel:hover {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+/*************************************************************************************************/
+
+.netTimelineBar {
+    position: relative;
+    border-right: 50px solid transparent;
+}
+
+.netBlockingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF url(images/timeline-sprites.png) repeat-x;
+    min-width: 0px;
+    z-index: 70;
+    height: 16px;
+}
+
+.netResolvingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -16px #FFFFFF;
+    min-width: 0px;
+    z-index: 60;
+    height: 16px;
+}
+
+.netConnectingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -32px #FFFFFF;
+    min-width: 0px;
+    z-index: 50;
+    height: 16px;
+}
+
+.netSendingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -48px #FFFFFF;
+    min-width: 0px;
+    z-index: 40;
+    height: 16px;
+}
+
+.netWaitingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -64px #FFFFFF;
+    min-width: 1px; /* So, at least something is always visible */
+    z-index: 30;
+    height: 16px;
+}
+
+.netReceivingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -80px #B6B6B6;
+    min-width: 0px;
+    z-index: 20;
+    height: 16px;
+}
+
+.fromCache .netReceivingBar,
+.fromCache.netReceivingBar {
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -96px #D6D6D6;
+    border-color: #D6D6D6;
+    height: 16px;
+}
+
+.netPageTimingBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    z-index:90;
+    opacity: 0.5;
+    display: none;
+    background-color: green;
+
+    /* The vertical line crosses bottom row border */
+    margin-bottom: -1px;
+
+    /* To make the width of the vertica line bigger so, it's easier to get the tooltip */
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
+
+.netWindowLoadBar {
+    background-color: red;
+}
+
+.netContentLoadBar {
+    background-color: blue;
+}
+
+.netTimeStampBar {
+    background-color: olive;
+}
+
+.netTimeLabel {
+    -moz-box-sizing: padding-box;
+    position: absolute;
+    top: 1px;
+    left: 100%;
+    padding-left: 6px;
+    color: #444444;
+    min-width: 16px;
+}
+
+.sizeInfoTip {
+    font-size: 11px;
+}
+
+.timeInfoTip {
+    width: 150px;
+    height: 40px;
+    font-size: 11px;
+}
+
+.timeInfoTipBar,
+.timeInfoTipEventBar {
+    position: relative;
+    display: block;
+    margin: 0;
+    opacity: 1;
+    height: 15px;
+    width: 4px;
+}
+
+.timeInfoTipStartLabel {
+    color: gray;
+}
+
+.timeInfoTipSeparator {
+    padding-top: 10px;
+    color: gray;
+}
+
+.timeInfoTipSeparator SPAN {
+    white-space:pre-wrap;
+}
+
+.timeInfoTipEventBar {
+    width: 1px !important;
+}
+
+.netWindowLoadBar.timeInfoTipBar,
+.netContentLoadBar.timeInfoTipBar {
+    width: 1px;
+}
+
+.netSummaryRow .netTimeLabel,
+.loaded .netTimeLabel {
+    background: transparent;
+}
+
+.loaded .netTimeBar {
+    background: #B6B6B6 url(images/netBarLoaded.gif) repeat-x;
+    border-color: #B6B6B6;
+}
+
+.fromCache .netTimeBar {
+    background: #D6D6D6 url(images/netBarCached.gif) repeat-x;
+    border-color: #D6D6D6;
+}
+
+.netSummaryRow .netTimeBar {
+    background: #BBBBBB;
+    border: none;
+    display: inline-block;
+}
+
+.timeInfoTipCell.startTime {
+    padding-right: 25px;
+}
+
+.timeInfoTipCell.elapsedTime {
+    text-align: right;
+    padding-right: 8px;
+}
+
+/*************************************************************************************************/
+
+.netSummaryLabel {
+    color: #222222;
+}
+
+.netSummaryRow {
+    background: #BBBBBB !important;
+    font-weight: bold;
+}
+
+.netSummaryRow TD {
+    padding: 1px 0 2px 0 !important;
+}
+
+.netSummaryRow > .netCol {
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid;
+    border-bottom-color: #999999;
+    padding-top: 1px;
+}
+
+.netSummaryRow > .netCol:first-child {
+    border-left: 1px solid #999999;
+}
+
+.netSummaryRow > .netCol:last-child {
+    border-right: 1px solid #999999;
+}
+
+.netCountLabel {
+    padding-left: 18px;
+}
+
+.netTotalSizeCol {
+    text-align: right;
+}
+
+.netTotalTimeCol {
+    text-align: right;
+}
+
+.netCacheSizeLabel {
+    display: inline-block;
+    float:left;
+    padding-left: 6px;
+}
+
+.netTotalTimeLabel {
+    padding-right: 6px;
+}
+
+/*************************************************************************************************/
+
+.netInfoCol {
+    border-top: 1px solid #EEEEEE;
+    background: url(images/timeline-sprites.png) repeat-x scroll 0 -112px #FFFFFF;
+    padding-left: 10px;
+    padding-bottom: 4px;
+}
+
+/*************************************************************************************************/
+
+.isExpandable .netHrefLabel {
+    background-image: url(images/twisty-sprites.png);
+    background-repeat: no-repeat;
+    background-position: 3px 3px;
+}
+
+.netRow.opened > .netCol > .netHrefLabel {
+    background-image: url(images/twisty-sprites.png);
+    background-position: 3px -16px;
+}
+
+/*************************************************************************************************/
+
+.netSizerRow,
+.netSizerRow > .netCol {
+    border: 0;
+    padding: 0;
+}
+
+/*************************************************************************************************/
+/* Column Customization */
+
+.netCol {
+    display: none;
+}
+
+/* The options column is always visible */
+.netCol.netOptionsCol {
+    display: table-cell;
+}
+
+#content[previewCols~=url] TD.netHrefCol,
+#content[previewCols~=status] TD.netStatusCol,
+#content[previewCols~=domain] TD.netDomainCol,
+#content[previewCols~=size] TD.netSizeCol,
+#content[previewCols~=timeline] TD.netTimeCol,
+#content[previewCols~=type] TD.netTypeCol {
+    display: table-cell;
+}

@@ -1,0 +1,39 @@
+/* See license.txt for terms of usage */
+
+.infoTip {
+    z-index: 2147483647;
+    position: fixed;
+    padding: 2px 4px 3px 4px;
+    background: LightYellow;
+    font-family: Lucida Grande, Tahoma, sans-serif;
+    color: #000000;
+    display: none;
+    white-space: nowrap;
+    font-size: 11px;
+    border: 1px solid rgb(126, 171, 205);
+    background: url(images/tabEnabled.png) repeat-x scroll 0px 0px rgb(249, 249, 249);
+    background-position-x: 0;
+    background-position-y: 100%;
+    background-repeat: repeat-x;
+
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+
+    -moz-box-shadow: gray 2px 2px 3px;
+    -webkit-box-shadow: gray 2px 2px 3px;
+    box-shadow: gray 2px 2px 3px;
+
+    /* IE */
+    filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray');
+    /* slightly different syntax for IE8 */
+    -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray')";
+}
+
+.infoTip[active="true"] {
+    display: block;
+}
+
+.infoTip[multiline="true"] {
+    background-image: none;
+}

@@ -1,0 +1,85 @@
+/* See license.txt for terms of usage */
+
+.pageTimeline {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.pageTimelineBody {
+    width: 100%;
+}
+
+/* If the page timeline is displayed there is a bottom line to separate
+ * the list of pages/requests. */
+.pageTimelineBody[class~=opened] {
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.pageTimelineTable {
+    height: 100px;
+    padding-left: 5px;
+}
+
+.pageTimelineCol {
+    vertical-align: bottom;
+    padding-left: 4px;
+    outline: none;
+    -moz-outline-style: none;
+    -moz-user-focus: ignore;
+}
+
+.pageBar {
+    width: 9px;
+    background: url(images/page-timeline.png) repeat-y scroll 0px 0px #FFFFFF;
+    cursor: pointer;
+}
+
+.pageBar.selected {
+    opacity: 0.5; /* Safari, Opera */
+    -moz-opacity: 0.50: /* FireFox */
+    filter: alpha(opacity=50); /* IE */
+}
+
+.pageTimelineCol:hover .pageBar {
+    background: url(images/page-timeline.png) repeat-y scroll -8px 0px #FFFFFF;
+}
+
+.pageTimelineBody .connector {
+    margin-left: 16px;
+    display: block;
+    background: url(images/tooltipConnectorUp.png) no-repeat;
+    width: 16px;
+    height: 11px;
+    position: relative;
+    margin-bottom: -1px;
+}
+
+/************************************************************************************************/
+
+.pageDescBox .desc {
+    font-size: 11px;
+    border: 1px solid rgb(126, 171, 205);
+    background: url(images/tabEnabled.png) repeat-x scroll 0px 0px rgb(234, 234, 234);
+    padding: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.pageDescBox .desc .summary {
+    font-weight: bold;
+}
+
+.pageDescBox .desc .time {
+    padding-left: 10px;
+}
+
+.pageDescBox .desc .title {
+    color: black;
+    padding-left: 10px;
+}
+
+.pageDescBox .desc .comment {
+    color: gray;
+    padding-top: 1px;
+}

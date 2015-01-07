@@ -1,0 +1,41 @@
+/* See license.txt for terms of usage */
+
+.pageStatsBody[class~=opened] {
+    border-bottom: 1px solid #EEEEEE;
+}
+
+/************************************************************************************************/
+
+.pagePieTable {
+    margin: 7px;
+    border-right: 1px solid #EEEEEE;
+    padding-right: 7px;
+    display: inline-table;
+}
+
+.pieGraph {
+    width: 100px;
+    height: 100px;
+    display: block;
+}
+
+.pieLabel {
+    font-size: 11px;
+    padding-left: 10px;
+    cursor: default;
+}
+
+.pieLabel SPAN {
+    vertical-align: middle;
+}
+
+.pieLabel .box {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-top: 1px;
+}
+
+.pieLabel .label {
+    padding-left: 5px;
+}

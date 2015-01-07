@@ -1,0 +1,91 @@
+/* See license.txt for terms of usage */
+
+.tabDOMBody {
+    font-family: Lucida Grande,Tahoma,sans-serif;
+    font-size: 11px;
+}
+
+.tabDOMBody .domContent {
+    position: absolute;
+    top: 28px; /* tab view bar + toolbar */
+    bottom: 0px;
+    overflow: auto;
+    width: 100%;
+}
+
+.tabDOMBody .domContent .domBox {
+    width: 100%;
+}
+
+.tabDOMBody .domContent .domBox .title {
+    color: gray;
+    padding: 8px 0 0 8px;
+}
+
+.tabDOMBody .separator {
+    border-bottom: 1px solid #D7D7D7;
+}
+
+.tabDOMBody .domTable {
+    padding: 5px;
+}
+
+/*************************************************************************************************/
+/* Toolbar */
+
+.domToolbar > .toolbar {
+    text-align: right;
+}
+
+/*************************************************************************************************/
+/* Search Results */
+
+.tabDOMBody .domContent .domBox .content,
+.tabDOMBody .domContent .domBox .results {
+    vertical-align: top;
+}
+
+.resultsDefaultContent {
+    color: #D7D7D7;
+    font-size: 12px;
+    font-family: Lucida Grande,Tahoma,sans-serif;
+    margin: 60px;
+    text-align: center;
+}
+
+.queryResultsViewType {
+    border-bottom: 1px solid #EEEEEE;
+    display: block;
+    padding: 5px;
+}
+
+.queryResultsViewType .type {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+.queryResultsViewType .label {
+    padding-left: 5px;
+}
+
+/*************************************************************************************************/
+/* Splitter */
+
+.domBox .splitter {
+    width: 4px;
+    cursor: e-resize;
+    background-color: #D7D7D7;
+}
+
+.domBox .splitter,
+.domBox .results {
+    visibility: collapse;
+}
+
+.domBox .splitter.visible,
+.domBox .results.visible {
+    visibility: visible;
+}
