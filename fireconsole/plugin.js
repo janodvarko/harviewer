@@ -2,8 +2,8 @@
 var JQUERY = require("jquery/jquery");
 var HARVIEWER = require("harviewer");
 
-exports.main = function () {
+exports.main = function (domNode) {
 
-	HARVIEWER.init(JQUERY("#content")[0]);
+	HARVIEWER.init(domNode || JQUERY("#content")[0]);
 
 }
