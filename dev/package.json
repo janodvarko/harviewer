@@ -6,7 +6,8 @@
   	"devDependencies": {
 	    "express": "^4.7.2",
 	    "pinf-for-nodejs": "git://github.com/pinf/pinf-for-nodejs.git#3c0946265dee0876d0d7ed2a221db18419f789ae",
-	    "send": "^0.7.3"
+	    "send": "^0.7.3",
+	    "pinf-for-github-pages": "~0.0.1"
 	},
 	"scripts": {
 	    "start": "rm -Rf client/.rt ../fireconsole/.rt ; node server.js"

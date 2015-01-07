@@ -44,6 +44,6 @@ Development
     open http://localhost:8080
 ````
 * Run from source (PHP) using RequireJS module loader:
-  * Build client to `./webapp-build`: `cd ./webapp/scripts ; ../../requirejs/build/build.sh app.build.js`
+  * Build client to `./webapp-build`: `cd ./webapp/scripts ; sh ../../requirejs/build/build.sh app.build.js`
   * Mount document root: `./webapp`
   * Open in web browser

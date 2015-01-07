@@ -74,8 +74,15 @@
         </exec>
     </target>
 
+    <!-- Run PINF build tools -->
+    <target name="pinf">
+        <property name="pinf-publish" value="./dev/node_modules/.bin/pinf-publish"/>
+        <exec dir="${app.dir}/../" executable="${pinf-publish}" resolveexecutable="true">
+        </exec>
+    </target>
+
     <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="build" depends="clean, requirejs-mac, requirejs-win, requirejs-unix">
+    <target name="build" depends="clean, requirejs-mac, requirejs-win, requirejs-unix, pinf">
 
         <!-- Log info about the current OS -->
         <echo message="Building HAR Viewer on:" />
