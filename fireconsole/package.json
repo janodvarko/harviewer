@@ -7,9 +7,9 @@
   "exports": {
     "bundles": {
       "plugin.js": "./plugin.js"
-    },
-    "styles_OLD": {
-      "css/*": "../webapp/css/*"
     }
+  },
+  "scripts": {
+    "build": "../dev/node_modules/.bin/pinf bundle"
   }
 }

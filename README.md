@@ -44,6 +44,9 @@ Development
     open http://localhost:8080
 ````
 * Run from source (PHP) using RequireJS module loader:
-  * Build client to `./webapp-build`: `cd ./webapp/scripts ; sh ../../requirejs/build/build.sh app.build.js`
+  * Build client to `./webapp-build`: `ant`
   * Mount document root: `./webapp`
   * Open in web browser
+* Build and publish to github pages:
+  * Run: `./webapp-build`: `ant publish-to-github`
+  * Open: 
