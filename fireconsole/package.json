@@ -10,6 +10,6 @@
     }
   },
   "scripts": {
-    "build": "../dev/node_modules/.bin/pinf bundle"
+    "build": "rm -Rf .rt ; ../dev/node_modules/.bin/pinf bundle"
   }
 }
