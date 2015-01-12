@@ -1,0 +1,10 @@
+{
+	"directories": {
+		"lib": "."
+	},
+	"exports": {
+		"styles": {
+			"*": "./*"
+		}
+	}
+}
