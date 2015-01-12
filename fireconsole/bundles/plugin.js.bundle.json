@@ -4021,7 +4021,7 @@
                     }
                   },
                   "scripts": {
-                    "build": "../dev/node_modules/.bin/pinf bundle"
+                    "build": "rm -Rf .rt ; ../dev/node_modules/.bin/pinf bundle"
                   }
                 }
               },
@@ -4039,7 +4039,7 @@
                       "plugin.js": "./plugin.js"
                     },
                     "scripts": {
-                      "build": "../dev/node_modules/.bin/pinf bundle"
+                      "build": "rm -Rf .rt ; ../dev/node_modules/.bin/pinf bundle"
                     },
                     "main": "./plugin.js"
                   }
@@ -4057,7 +4057,7 @@
                     "plugin.js": "./plugin.js"
                   },
                   "scripts": {
-                    "build": "../dev/node_modules/.bin/pinf bundle"
+                    "build": "rm -Rf .rt ; ../dev/node_modules/.bin/pinf bundle"
                   },
                   "main": "./plugin.js"
                 }
@@ -4929,7 +4929,7 @@
     }
   },
   "#pinf": {
-    "status": 304,
+    "status": 200,
     "data": {
       "rootBundlePath": "/playground/2014-12-26-promise-actor/harviewer/fireconsole/bundles/plugin.js"
     }
