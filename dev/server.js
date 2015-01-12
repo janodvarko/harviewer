@@ -42,6 +42,11 @@ return PINF.main(function(options, callback) {
 			root: PATH.join(__dirname, "../webapp/scripts")
 		}).on("error", next).pipe(res);
 	});
+	app.get(/^\/examples\/(.+)$/, function (req, res, next) {
+		return SEND(req, req.params[0], {
+			root: PATH.join(__dirname, "../webapp/scripts/examples")
+		}).on("error", next).pipe(res);
+	});
 
 	// For PINF loader.
 	app.get(/^\/lib\/pinf-loader-js\/(.+)$/, function (req, res, next) {
@@ -57,11 +62,6 @@ return PINF.main(function(options, callback) {
     })));
 
 	// For both loaders and dev helper files.
-	app.get(/^\/examples\/(.+)$/, function (req, res, next) {
-		return SEND(req, req.params[0], {
-			root: PATH.join(__dirname, "../webapp/examples")
-		}).on("error", next).pipe(res);
-	});
 	app.get(/^(\/.*)$/, function (req, res, next) {
 		var path = req.params[0];		
 		if (path === "/") path = "/index.html";

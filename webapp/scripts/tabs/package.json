@@ -9,7 +9,8 @@
 		"syntax-highlighter": "../syntax-highlighter",
 		"downloadify": "../downloadify",
 		"preview": "../preview",
-		"jquery": "../jquery"
+		"jquery": "../jquery",
+		"examples": "../examples"
 	},
 	"directories": {
 		"lib": "."
