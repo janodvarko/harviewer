@@ -2,12 +2,15 @@
 
 define([
     "jquery/jquery",
+    "text!./harViewer.css",
     "require"
 ],
 
-function($, require) {
+function($, HarviewerCss, require) {
     return {
         initialize: function () {
+
+/*
 			var url = null;
 			if (typeof require.sandbox !== "undefined") {
 				url = require.sandbox.id + require.id("./harViewer.css");
@@ -15,6 +18,10 @@ function($, require) {
 				url = require.toUrl("./harViewer.css");
 			}
             $('<link rel="stylesheet" href="' + url + '"/>').appendTo("HEAD");
+*/
+
+            $('<style></style>').appendTo("HEAD").html(HarviewerCss);
+
         }
     };
 });

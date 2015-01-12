@@ -1,15 +1,40 @@
 
 const PATH = require("path");
+const FS = require("fs");
 const PINF = require("pinf-for-nodejs");
 const EXPRESS = require("express");
 const SEND = require("send");
 const HTTP = require("http");
+const REWORK = require("rework");
+const REWORK_IMPORT = require("rework-import");
+const REWORK_INLINE = require("rework-plugin-inline");
+
 
 const PORT = process.env.PORT || 8080;
 
 return PINF.main(function(options, callback) {
 
 	var app = EXPRESS();
+
+	app.get(/^\/scripts\/css\/(.+\.css)$/, function (req, res, next) {
+		var basePath = PATH.join(__dirname, "../webapp/scripts/css");
+
+		var source = FS.readFileSync(PATH.join(basePath, req.params[0]), "utf8");
+
+		source = REWORK(source)
+		    .use(REWORK_IMPORT({
+		    	path: basePath
+		   	}))
+		    .toString();
+
+		source = source.replace(/(background[\s\w-]*:[\s#\w]*]*)url(\('?"?images\/)/g, "$1inline$2");
+
+		source = res.end(REWORK(source)
+		   	.use(REWORK_INLINE(basePath))
+		    .toString());
+
+		return res.end(source);
+	});
 
 	// For RequireJS loader.
 	app.get(/^\/scripts\/(.+)$/, function (req, res, next) {
