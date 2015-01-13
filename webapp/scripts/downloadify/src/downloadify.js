@@ -126,7 +126,7 @@ define([
 			
 			if(base.options.downloadImage) flashVars.downloadImage = base.options.downloadImage;
 			
-			swfobject.embedSWF(base.options.swf, base.flashContainer.id, base.options.width, base.options.height, "10", null, flashVars, params, attributes );
+			window.swfobject.embedSWF(base.options.swf, base.flashContainer.id, base.options.width, base.options.height, "10", null, flashVars, params, attributes );
 
 			Downloadify.addToQueue( base );
  		};
