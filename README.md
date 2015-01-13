@@ -49,4 +49,4 @@ Development
   * Open in web browser
 * Build and publish to github pages:
   * Run: `./webapp-build`: `ant publish-to-github`
-  * Open: 
+  * Open: http://fireconsole.github.io/harviewer/
