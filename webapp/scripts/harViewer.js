@@ -7,6 +7,7 @@ require.def("harViewer", [
     "tabs/aboutTab",
     "tabs/previewTab",
     "tabs/schemaTab",
+    "tabs/embedTab",
     "tabs/domTab",
     "preview/harModel",
     "i18n!nls/harViewer",
@@ -17,7 +18,7 @@ require.def("harViewer", [
     "require"
 ],
 
-function($, TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,
+function($, TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, EmbedTab, DomTab, HarModel,
     Strings, RequestList, CssLoader, Lib, Trace, require) {
 
 // ********************************************************************************************* //
@@ -36,6 +37,7 @@ function HarView()
     this.appendTab(new DomTab());
     this.appendTab(new AboutTab());
     this.appendTab(new SchemaTab());
+    this.appendTab(new EmbedTab());
 }
 
 /**
