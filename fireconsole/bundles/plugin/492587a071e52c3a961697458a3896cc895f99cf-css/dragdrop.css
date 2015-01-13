@@ -1,9 +1,0 @@
-/* See license.txt for terms of usage */
-
-body[vResizing="true"] * {
-    cursor: e-resize !important;
-}
-
-body[hResizing="true"] * {
-    cursor: s-resize !important;
-}
