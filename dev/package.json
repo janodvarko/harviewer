@@ -1,9 +1,9 @@
 {
-  "name": "harviewer",
-  "version": "2.0.16",
+  "name": "dev",
+  "version": "0.0.0",
   "private": true,
   "main": "./server.js",
-  "dev": {
+  "dependencies": {
     "express": "^4.7.2",
     "pinf-for-nodejs": "0.1.x",
     "send": "^0.7.3",
