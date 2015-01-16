@@ -48,5 +48,5 @@ Development
   * Mount document root: `./webapp`
   * Open in web browser
 * Build and publish to github pages:
-  * Run: `./webapp-build`: `ant publish-to-github`
+  * Run: `ant publish-to-github`
   * Open: http://fireconsole.github.io/harviewer/
