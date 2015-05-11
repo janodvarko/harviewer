@@ -7,6 +7,10 @@ HAR Viewer
 * Issue list: http://code.google.com/p/harviewer/issues/list
 * Project home: http://code.google.com/p/harviewer/
 
+License
+-------
+HAR Viewer is free and open source software distributed under the [BSD License](https://github.com/janodvarko/harviewer/blob/master/webapp/license.txt).
+
 Components
 ----------
 * Application Components:
