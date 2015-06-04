@@ -3,7 +3,7 @@ require_once("HARTestCase.php");
 
 /**
  * Test content of the Schema tab.
- */ 
+ */
 class HAR_TestRequestBody extends HAR_TestCase
 {
     public function testUrlParams()
@@ -25,10 +25,6 @@ class HAR_TestRequestBody extends HAR_TestCase
 
         // Expand the only request entry.
         $this->click("css=.netFullHrefLabel.netHrefLabel.netLabel");
-
-        // There must be one page (expanded).
-        $this->assertElementContainsText("css=.pageRow.opened",
-            "Test Case for encoded ampersand in URL");
 
         $this->assertElementExists("css=.netInfoRow");
         $this->click("css=.ParamsTab.tab");
