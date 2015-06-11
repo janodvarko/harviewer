@@ -12,7 +12,7 @@ class HAR_TestLoadHarAPI extends HAR_TestCase
         print "\ntestLoadHarAPI.php (1)";
 
         // Open customized viewer.
-        $this->open($GLOBALS["test_base"]."tests/testLoadHarAPIViewer.html");
+        $this->open($GLOBALS["test_base"]."tests/testLoadHarAPIViewer.html.php");
 
         // Wait for 10 sec to load HAR files.
         $this->waitForCondition(
@@ -28,7 +28,7 @@ class HAR_TestLoadHarAPI extends HAR_TestCase
         print "\ntestLoadHarAPI.php (2)";
 
         // Open customized preview.
-        $this->open($GLOBALS["test_base"]."tests/testLoadHarAPIPreview.html");
+        $this->open($GLOBALS["test_base"]."tests/testLoadHarAPIPreview.html.php");
 
         // Wait for 10 sec to load HAR files.
         $this->waitForCondition(

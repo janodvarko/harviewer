@@ -13,7 +13,7 @@ class HAR_TestEmbeddedPreview extends HAR_TestCase
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];
 
-        $this->open($GLOBALS["test_base"]."tests/testEmbeddedPreview.html");
+        $this->open($GLOBALS["test_base"]."tests/testEmbeddedPreview.html.php");
 
         $document = "selenium.browserbot.getCurrentWindow().document.";
 

@@ -11,7 +11,7 @@ class HAR_TestPreviewExpand extends HAR_TestCase
         print "\ntestPreviewExpand.php (1)";
 
         // HAR file is specified inside the test page.
-        $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html";
+        $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html.php";
         $harFileURL = $GLOBALS["test_base"]."tests/hars/preview-expand.har";
         $this->open($viewerURL."?path=".$harFileURL);
 
@@ -23,7 +23,7 @@ class HAR_TestPreviewExpand extends HAR_TestCase
         print "\ntestPreviewExpand.php (2)";
 
         // HAR file is specified inside the test page.
-        $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html";
+        $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html.php";
         $harFileURL = $GLOBALS["test_base"]."tests/hars/multiple-pages.har";
         $this->open($viewerURL."?path=".$harFileURL);
 
@@ -38,7 +38,7 @@ class HAR_TestPreviewExpand extends HAR_TestCase
         print "\ntestPreviewExpand.php (3)";
 
         // HAR file is specified inside the test page.
-        $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html";
+        $viewerURL = $GLOBALS["test_base"]."tests/testPreviewExpand.html.php";
         $harFileURL = $GLOBALS["test_base"]."tests/hars/multiple-pages.har";
         $this->open($viewerURL."?path=".$harFileURL."&expand=true");
 
