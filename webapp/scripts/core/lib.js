@@ -22,6 +22,7 @@ Lib.isIE      = /msie/.test(userAgent) && !/opera/.test(userAgent);
 Lib.isIE6     = /msie 6/i.test(navigator.appVersion);
 Lib.browserVersion = (userAgent.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [0,'0'])[1];
 Lib.isIElt8   = Lib.isIE && (Lib.browserVersion-0 < 8); 
+Lib.supportsSelectElementText = (window.getSelection && window.document.createRange) || (window.document.body.createTextRange);
 
 //***********************************************************************************************//
 // Core concepts (extension, dispatch, bind)
