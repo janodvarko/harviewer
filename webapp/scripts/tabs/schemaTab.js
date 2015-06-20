@@ -36,9 +36,9 @@ SchemaTab.prototype =
                 dp.SyntaxHighlighter.HighlightAll(code);
             },
 
-            error: function(response, ioArgs)
+            error: function(jqXHR, textStatus, errorThrown)
             {
-                Trace.error("SchemaTab.onUpdateBody; ERROR ", response);
+                Trace.error("SchemaTab.onUpdateBody; ERROR ", jqXHR, textStatus, errorThrown);
             }
         });
     }
