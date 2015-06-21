@@ -376,6 +376,7 @@ HarModel.Loader =
         $.ajax({
             url: filePath,
             context: this,
+            dataType: "json",
 
             success: function(response)
             {
