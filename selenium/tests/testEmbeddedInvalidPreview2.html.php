@@ -3,7 +3,7 @@ require_once("config.php");
 $url = $harviewer_base;
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!doctype html>
 <html>
 <head>
   <title>Test Case for HAR Viewer</title>

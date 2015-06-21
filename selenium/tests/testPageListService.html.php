@@ -6,7 +6,7 @@ $url = $harviewer_base."loader.php?service=pagelist&amp;path=".
     $test_base."tests/simple-page-load.har&amp;expand=false";
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!doctype html>
 <html>
 <head>
   <title>Test Case for HAR Viewer</title>

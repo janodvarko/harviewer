@@ -2,8 +2,8 @@
 require_once("config.php");
 ?>
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
     <title>HAR Viewer Test Case</title>
     <base href="<?php echo $harviewer_base ?>" />
