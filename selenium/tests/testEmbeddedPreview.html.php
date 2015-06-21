@@ -19,7 +19,8 @@ $url = $harviewer_base;
 
 <br/>
 
-<div id="preview3" class="har" data-har="<?php echo $test_base.'tests/hars/testLoad1.harp' ?>"></div>
+<div id="preview3" class="har" data-har="<?php echo $test_base.'tests/hars/testLoad1.harp' ?>"
+                               data-callback="callback_testLoad1"></div>
 
 <script>
 (function() {

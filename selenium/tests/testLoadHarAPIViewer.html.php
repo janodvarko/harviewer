@@ -19,9 +19,8 @@ require_once("config.php");
     {
         // Get application object
         var viewer = event.target.repObject;
-        var settings = {jsonp: true};
-        viewer.loadHar("<?php echo $test_base.'tests/hars/testLoad1.harp' ?>", settings);
-        viewer.loadHar("<?php echo $test_base.'tests/hars/testLoad2.harp' ?>", settings);
+        viewer.loadHar("<?php echo $test_base.'tests/hars/testLoad1.harp' ?>", { jsonp: true, jsonpCallback: 'callback_testLoad1' });
+        viewer.loadHar("<?php echo $test_base.'tests/hars/testLoad2.harp' ?>", { jsonp: true, jsonpCallback: 'callback_testLoad2' });
         viewer.loadHar("<?php echo $test_base.'tests/hars/testLoad3.har' ?>");
     });
     </script>

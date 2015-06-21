@@ -22,8 +22,8 @@ $url = $harviewer_base;
 
 <div id="preview" class="har"
     data-har="<?php echo $test_base.'tests/hars/invalid.harp' ?>"
+    data-callback="callback_invalid"
     validate="true"></div>
 
 </body>
 </html>
-

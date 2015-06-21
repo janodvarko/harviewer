@@ -59,6 +59,8 @@ window.harInitialize = function()
         if (!path)
             continue;
 
+        var callback = element.getAttribute("data-callback");
+
         var width = element.getAttribute("width");
         var height = element.getAttribute("height");
         var expand = element.getAttribute("expand");
@@ -70,6 +72,9 @@ window.harInitialize = function()
 
         if (validate == "false")
             args += "&validate=false";
+
+        if (callback)
+            args += "&callback=" + callback;
 
         var iframe = document.createElement("iframe");
         iframe.setAttribute("style", "border: 1px solid lightgray;");

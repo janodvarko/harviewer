@@ -1,4 +1,4 @@
-onInputData({
+callback_testLoad2({
   "log": {
     "version": "1.1",
     "creator": {
