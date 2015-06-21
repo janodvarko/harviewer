@@ -11,6 +11,7 @@ $cssURL = $harviewer_base."css/";
 <html>
 <head>
     <title>HTTP Archive Viewer Test</title>
+    <link rel="stylesheet" href="<?php echo $cssURL; ?>harViewer.css" type="text/css">
 </head>
 <body class="harBody">
     <div id="content" version="Test"></div>
@@ -28,6 +29,5 @@ $cssURL = $harviewer_base."css/";
         preview.toolbar.removeButton("showStats");
     });
     </script>
-    <link rel="stylesheet" href="<?php echo $cssURL; ?>harViewer.css" type="text/css"/>
 </body>
 </html>
