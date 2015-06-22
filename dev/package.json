@@ -1,0 +1,18 @@
+{
+  "name": "dev",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./server.js",
+  "dependencies": {
+    "express": "^4.7.2",
+    "pinf-for-nodejs": "0.1.x",
+    "send": "^0.7.3",
+    "pinf-to-github-pages": "0.1.x",
+    "rework": "^1.0.1",
+    "rework-import": "^2.0.0",
+    "rework-plugin-inline": "^1.0.1"
+  },
+  "scripts": {
+    "start": "rm -Rf client/.rt ../fireconsole/.rt ; node server.js"
+  }
+}

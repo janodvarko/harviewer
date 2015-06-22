@@ -1,6 +1,7 @@
 /* See license.txt for terms of usage */
 
 require.def("tabs/pageTimeline", [
+    "jquery/jquery",
     "domplate/domplate",
     "core/lib",
     "core/trace",
@@ -8,7 +9,7 @@ require.def("tabs/pageTimeline", [
     "preview/harModel"
 ],
 
-function(Domplate, Lib, Trace, Strings, HarModel) { with (Domplate) {
+function($, Domplate, Lib, Trace, Strings, HarModel) { with (Domplate) {
 
 //*************************************************************************************************
 // Timeline

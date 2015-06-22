@@ -1,6 +1,7 @@
 /* See license.txt for terms of usage */
 
 require.def("tabs/pageStats", [
+    "jquery/jquery",
     "domplate/domplate",
     "core/lib",
     "i18n!nls/pageStats",
@@ -11,7 +12,7 @@ require.def("tabs/pageStats", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Strings, HarSchema, HarModel, Cookies, InfoTip, Trace) { with (Domplate) {
+function($, Domplate, Lib, Strings, HarSchema, HarModel, Cookies, InfoTip, Trace) { with (Domplate) {
 
 //*************************************************************************************************
 // Page Load Statistics

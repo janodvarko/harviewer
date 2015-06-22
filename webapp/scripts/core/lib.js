@@ -1,10 +1,11 @@
 /* See license.txt for terms of usage */
 
 require.def("core/lib", [
+    "jquery/jquery",
     "core/trace"
 ],
 
-function(Trace) {
+function(jQuery, Trace) {
 
 //***********************************************************************************************//
 

@@ -1,6 +1,7 @@
 /* See license.txt for terms of usage */
 
 require.def("preview/harModel", [
+    "jquery/jquery",
     "core/lib",
     "preview/jsonSchema",
     "preview/ref",
@@ -11,7 +12,7 @@ require.def("preview/harModel", [
     "jquery-plugins/jquery.json"
 ],
 
-function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
+function($, Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
 
 //*************************************************************************************************
 // Statistics
@@ -189,7 +190,7 @@ HarModel.parse = function(jsonString, validate)
     try
     {
         if (typeof(jsonString) === "string")
-            input = jQuery.parseJSON(jsonString);
+            input = $.parseJSON(jsonString);
     }
     catch (err)
     {

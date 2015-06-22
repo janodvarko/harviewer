@@ -1,0 +1,15 @@
+{
+	"boot": {
+		"package": "./package.json"
+	},
+	"config": {
+		"github.com/pinf-it/pinf-it-bundler/0": {
+			"target": "browser"
+		},
+		"github.com/pinf-to/pinf-to-github-pages/0": {
+			"templates": {
+				"index.html": "./publish/index.html"
+			}
+		}
+	}
+}

@@ -152,6 +152,11 @@
     USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
     NOT CONTROL.
 */
+
+define([
+    "jquery/jquery"
+], function (jQuery) {
+
 ;(function($) {
     if (!JSON) {
         var JSON = {};
@@ -488,3 +493,5 @@
     };
     
 })(jQuery);
+
+});

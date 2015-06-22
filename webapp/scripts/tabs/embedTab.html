@@ -1,0 +1,49 @@
+<div>
+<h2>Embed the HTTP Archive Viewer in your own tooling</h2>
+
+<table style="width:600px;">
+
+
+<tr><td>
+
+<p>You can embed the HTTP Archive Viewer as a widget in your own tooling by loading it right from github pages or serving the static files from your own webserver.</p>
+
+</td></tr>
+
+
+<tr><td>
+
+<h3>Load from github pages</h3>
+
+<pre>
+	&lt;script src="http://fireconsole.github.io/harviewer/fireconsole/bundles/loader.js">&lt;/script>
+	 
+	&lt;div id="content" version="@VERSION@">&lt;/div>
+	 
+	&lt;script>
+	  PINF.sandbox("http://fireconsole.github.io/harviewer/fireconsole/bundles/plugin.js", function (sandbox) {
+	      sandbox.main();
+	  }, function (err) {
+	      console.error("Error while loading plugin.js bundle':", err.stack);
+	  });
+	&lt;/script>
+</pre>
+
+<p>See it in action on JSFiddle: <a target="_blank" href="http://jsfiddle.net/cadorn/z9py15jw/">http://jsfiddle.net/cadorn/z9py15jw/</a></p>
+
+<p>Paste <a target="_blank" href="https://raw.githubusercontent.com/fireconsole/harviewer/master/webapp/scripts/examples/softwareishard.com.har">this</a> sample HAR file into the widget.</p>
+
+</td></tr>
+
+
+<tr><td>
+
+<h3>Serve your own static files</h3>
+
+<p>The widget is composed of a few files that get loaded using the <a target="_blank" href="http://github.com/pinf/pinf-loader-js">PINF JavaScript Loader</a>. You can find the widget files <a target="_blank" href="https://github.com/fireconsole/harviewer/tree/master/fireconsole/bundles">here</a> and a sample bootstrap file in addition to the info above <a target="_blank" href="https://github.com/fireconsole/harviewer/blob/gh-pages/index.html">here</a>. It is recommended that you continuously deploy updates to these files as changes are comitted.</p>
+
+</td></tr>
+
+
+</table>
+</div>

@@ -13,7 +13,10 @@
  *
  * Date: Wed Feb 23 13:55:29 2011 -0500
  */
-(function( window, undefined ) {
+
+define(function () {
+
+return (function( window, undefined ) {
 
 // Use the correct document accordingly with window argument (sandbox)
 var document = window.document;
@@ -8312,5 +8315,8 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 });
 
 
-window.jQuery = window.$ = jQuery;
+//window.jQuery = window.$ = jQuery;
+return jQuery;
 })(window);
+
+});

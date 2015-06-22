@@ -1,21 +1,25 @@
 /* See license.txt for terms of usage */
 
 require.def("harViewer", [
+    "jquery/jquery",
     "domplate/tabView",
     "tabs/homeTab",
     "tabs/aboutTab",
     "tabs/previewTab",
     "tabs/schemaTab",
+    "tabs/embedTab",
     "tabs/domTab",
     "preview/harModel",
     "i18n!nls/harViewer",
     "preview/requestList",
+    "css/loader",
     "core/lib",
-    "core/trace"
+    "core/trace",
+    "require"
 ],
 
-function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,
-    Strings, RequestList, Lib, Trace) {
+function($, TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, EmbedTab, DomTab, HarModel,
+    Strings, RequestList, CssLoader, Lib, Trace, require) {
 
 // ********************************************************************************************* //
 // The Application
@@ -33,6 +37,7 @@ function HarView()
     this.appendTab(new DomTab());
     this.appendTab(new AboutTab());
     this.appendTab(new SchemaTab());
+    this.appendTab(new EmbedTab());
 }
 
 /**
@@ -62,7 +67,7 @@ HarView.prototype = Lib.extend(new TabView(),
     initialize: function(content)
     {
         // Global application properties.
-        this.version = content.getAttribute("version");
+        this.version = content.getAttribute("version") || "";
         this.harSpecURL = "http://www.softwareishard.com/blog/har-12-spec/";
 
         this.render(content);
@@ -189,15 +194,28 @@ HarView.prototype = Lib.extend(new TabView(),
 // ********************************************************************************************* //
 // Initialization
 
-var content = document.getElementById("content");
-var harView = content.repObject = new HarView();
+var api = {
+    init: function (domNode) {
 
-// Fire some events for listeners. This is useful for extending/customizing the viewer.
-Lib.fireEvent(content, "onViewerPreInit");
-harView.initialize(content);
-Lib.fireEvent(content, "onViewerInit");
+        var content = domNode;
+        var harView = content.repObject = new HarView();
 
-Trace.log("HarViewer; initialized OK");
+        CssLoader.initialize();
+
+        // Fire some events for listeners. This is useful for extending/customizing the viewer.
+        Lib.fireEvent(content, "onViewerPreInit");
+        harView.initialize(content);
+        Lib.fireEvent(content, "onViewerInit");
+
+        Trace.log("HarViewer; initialized OK");
+    }
+};
+
+if (window.harviewerInitOnLoad) {
+    api.init(document.getElementById("content"));
+}
+
+return api;
 
 // ********************************************************************************************* //
 });

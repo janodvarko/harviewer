@@ -1,0 +1,9 @@
+{
+	"config": {
+		"github.com/pinf-to/pinf-to-github-pages/0": {
+			"programs": {
+				"fireconsole": "./fireconsole/program.json"
+			}
+		}
+	}
+}

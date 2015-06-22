@@ -1,0 +1,17 @@
+{
+	"mappings": {
+		"preview": ".",
+		"domplate": "../domplate",
+		"core": "../core",
+		"nls": "../nls",
+		"jquery-plugins": "../jquery-plugins",
+		"syntax-highlighter": "../syntax-highlighter",
+		"jquery": "../jquery"
+	},
+	"directories": {
+		"lib": "."
+	},
+	"require.async": {
+		"harSchema.js": "./harSchema"
+	}
+}

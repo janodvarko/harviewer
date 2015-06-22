@@ -1,6 +1,7 @@
 /* See license.txt for terms of usage */
 
 require.def("tabs/homeTab", [
+    "jquery/jquery",
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
@@ -8,10 +9,11 @@ require.def("tabs/homeTab", [
     "core/trace",
     "i18n!nls/homeTab",
     "text!tabs/homeTab.html",
-    "preview/harModel"
+    "preview/harModel",
+    "examples/loader"
 ],
 
-function(Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel) { with (Domplate) {
+function($, Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel, ExamplesLoader) { with (Domplate) {
 
 //*************************************************************************************************
 // Home Tab
@@ -85,9 +87,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         var e = Lib.fixEvent(event);
         var path = e.target.getAttribute("path");
 
-        var href = document.location.href;
-        var index = href.indexOf("?");
-        document.location = href.substr(0, index) + "?path=" + path;
+        ExamplesLoader.load(path);
 
         // Show timeline and stats by default if an example is displayed.
         Cookies.setCookie("timeline", true);

@@ -74,8 +74,21 @@
         </exec>
     </target>
 
+    <!-- Run PINF build tools -->
+    <target name="pinf-bundle">
+        <exec dir="${app.dir}/../fireconsole" executable="npm" resolveexecutable="true">
+            <arg value="run-script"/>
+            <arg value="build"/>
+        </exec>
+    </target>
+
+    <target name="publish-to-github" depends="pinf-bundle">
+        <exec dir="${app.dir}/.." executable="./dev/node_modules/.bin/pinf-publish" resolveexecutable="true">
+        </exec>
+    </target>
+
     <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="build" depends="clean, requirejs-mac, requirejs-win, requirejs-unix">
+    <target name="build" depends="clean, requirejs-mac, requirejs-win, requirejs-unix, pinf-bundle">
 
         <!-- Log info about the current OS -->
         <echo message="Building HAR Viewer on:" />

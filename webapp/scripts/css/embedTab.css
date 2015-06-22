@@ -1,0 +1,20 @@
+/* See license.txt for terms of usage */
+
+.EmbedTab {
+    margin-left: 100px;
+}
+
+.tabEmbedBody {
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 11.7px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.embedBody {
+    padding: 8px;
+}
+
+.tabEmbedBody code {
+    color:  green;
+}

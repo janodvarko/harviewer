@@ -1,6 +1,8 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/domplate", [], function() {
+require.def("domplate/domplate", [
+    "jquery/jquery"
+], function($) {
 
 //*************************************************************************************************
 

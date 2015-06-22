@@ -1,0 +1,15 @@
+{
+  "main": "./plugin.js",
+  "mappings": {
+    "jquery": "../webapp/scripts/jquery",
+    "harviewer": "../webapp/scripts"
+  },
+  "exports": {
+    "bundles": {
+      "plugin.js": "./plugin.js"
+    }
+  },
+  "scripts": {
+    "build": "rm -Rf .rt ; ../dev/node_modules/.bin/pinf bundle"
+  }
+}

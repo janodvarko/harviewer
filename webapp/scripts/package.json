@@ -1,0 +1,12 @@
+{
+	"main": "./harViewer.js",
+	"mappings": {
+		"preview": "./preview",
+		"core": "./core",
+		"domplate": "./domplate",
+		"tabs": "./tabs",
+		"nls": "./nls",
+		"jquery": "./jquery",
+		"css": "./css"
+	}
+}

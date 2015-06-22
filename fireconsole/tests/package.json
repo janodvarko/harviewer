@@ -1,0 +1,6 @@
+{
+	"main": "./_all.js",
+	"mappings": {
+		"examples": "../../webapp/examples"
+	}
+}
