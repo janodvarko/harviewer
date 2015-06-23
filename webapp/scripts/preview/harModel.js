@@ -376,15 +376,16 @@ HarModel.Loader =
         $.ajax({
             url: filePath,
             context: this,
+            dataType: "json",
 
             success: function(response)
             {
                 callback(response);
             },
 
-            error: function(response, ioArgs)
+            error: function(jqXHR, textStatus, errorThrown)
             {
-                errorCallback(response, ioArgs);
+                errorCallback(jqXHR, textStatus, errorThrown);
             }
         });
 
@@ -425,10 +426,10 @@ HarModel.Loader =
                 }
             },
 
-            error: function(response, ioArgs)
+            error: function(jqXHR, textStatus, errorThrown)
             {
                 if (errorCallback)
-                    errorCallback(response, ioArgs);
+                    errorCallback(jqXHR, textStatus, errorThrown);
             }
         });
 
@@ -446,13 +447,13 @@ HarModel.Loader =
                 callback.call(scope, input);
         }
 
-        function onError(response, args)
+        function onError(jqXHR, textStatus, errorThrown)
         {
             if (scope.onLoadError)
-                scope.onLoadError(response, args);
+                scope.onLoadError(jqXHR, textStatus, errorThrown);
 
             if (errorCallback)
-                errorCallback.call(scope, response, args);
+                errorCallback.call(scope, jqXHR, textStatus, errorThrown);
         }
 
         if (crossDomain)

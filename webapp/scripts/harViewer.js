@@ -38,7 +38,7 @@ function HarView()
 /**
  * This is the Application UI configuration code. The Viewer UI is based on a Tabbed UI
  * interface and is composed from following tabs:
- * 
+ *
  * {@link HomeTab}: This is the starting application tab. This tab allows direct inserting of
  *      a HAR log source to preview. There are also some useful links to existing example logs.
  *      This page is displyed by default unless there is a HAR file specified in the URL.
@@ -137,13 +137,13 @@ HarView.prototype = Lib.extend(new TabView(),
         Lib.fireEvent(content, "onViewerHARLoaded");
     },
 
-    onLoadError: function(response, ioArgs)
+    onLoadError: function(jqXHR, textStatus, errorThrown)
     {
         var homeTab = this.getTab("Home");
         if (homeTab)
-            homeTab.loadInProgress(true, response.statusText);
+            homeTab.loadInProgress(true, jqXHR.statusText);
 
-        Trace.error("harModule.loadRemoteArchive; ERROR ", response, ioArgs);
+        Trace.error("harModule.loadRemoteArchive; ERROR ", jqXHR, textStatus, errorThrown);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -176,7 +176,7 @@ HarView.prototype = Lib.extend(new TabView(),
 
     /**
      * Use to customize list of request columns displayed by default.
-     * 
+     *
      * @param {String} cols Column names separated by a space.
      * @param {Boolean} avoidCookies Set to true if you don't want to touch cookies.
      */

@@ -3,7 +3,7 @@ require_once("config.php");
 $url = $harviewer_base;
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!doctype html>
 <html>
 <head>
   <title>Test Case for HAR Viewer</title>
@@ -22,8 +22,8 @@ $url = $harviewer_base;
 
 <div id="preview" class="har"
     data-har="<?php echo $test_base.'tests/hars/invalid.harp' ?>"
+    data-callback="callback_invalid"
     validate="true"></div>
 
 </body>
 </html>
-

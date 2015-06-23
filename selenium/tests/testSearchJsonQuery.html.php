@@ -7,8 +7,8 @@ $cssURL = $harviewer_base."css/";
 setcookie("searchJsonQuery", "true");
 ?>
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
     <title>HTTP Archive Viewer Test</title>
 </head>
