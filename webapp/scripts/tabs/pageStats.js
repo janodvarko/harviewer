@@ -344,7 +344,7 @@ Stats.prototype = domplate(
         InfoTip.addListener(this);
         Lib.setClass(this.element, "opened");
 
-        if (!animation || $.browser.msie)
+        if (!animation)
             this.element.style.display = "block";
         else
             $(this.element).slideDown();
@@ -361,7 +361,7 @@ Stats.prototype = domplate(
         InfoTip.removeListener(this);
         Lib.removeClass(this.element, "opened");
 
-        if (!animation || $.browser.msie)
+        if (!animation)
             this.element.style.display = "none";
         else
             $(this.element).slideUp();
