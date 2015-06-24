@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/requestBody", [
+define("preview/requestBody", [
     "domplate/domplate",
     "i18n!nls/requestBody",
     "core/lib",

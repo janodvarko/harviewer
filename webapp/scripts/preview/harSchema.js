@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/harSchema", [], function() {
+define("preview/harSchema", [], function() {
 
 // ************************************************************************************************
 // HAR Schema Definition

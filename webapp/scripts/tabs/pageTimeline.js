@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("tabs/pageTimeline", [
+define("tabs/pageTimeline", [
     "domplate/domplate",
     "core/lib",
     "core/trace",

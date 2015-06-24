@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/infoTip", [
+define("domplate/infoTip", [
     "domplate/domplate",
     "core/lib",
     "core/trace"

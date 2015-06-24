@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/harModel", [
+define("preview/harModel", [
     "core/lib",
     "preview/jsonSchema",
     "preview/ref",

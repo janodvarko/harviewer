@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/validationError", [
+define("preview/validationError", [
     "domplate/domplate",
     "core/lib",
     "core/trace",

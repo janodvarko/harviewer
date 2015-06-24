@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("tabs/pageStats", [
+define("tabs/pageStats", [
     "domplate/domplate",
     "core/lib",
     "i18n!nls/pageStats",

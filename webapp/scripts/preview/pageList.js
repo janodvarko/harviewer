@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/pageList", [
+define("preview/pageList", [
     "domplate/domplate",
     "core/lib",
     "core/trace",

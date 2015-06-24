@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("tabs/homeTab", [
+define("tabs/homeTab", [
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",

@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/menu", [
+define("preview/menu", [
     "domplate/domplate",
     "core/lib",
     "domplate/toolbar",

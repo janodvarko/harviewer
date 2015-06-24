@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("harPreview", [
+define("harPreview", [
     "preview/requestList",
     "preview/pageList",
     "preview/harModel",

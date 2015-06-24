@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/toolbar", [
+define("domplate/toolbar", [
     "domplate/domplate",
     "core/lib",
     "core/trace",
