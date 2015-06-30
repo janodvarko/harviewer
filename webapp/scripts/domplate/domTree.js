@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/domTree", [
+define("domplate/domTree", [
     "domplate/domplate",
     "core/lib",
     "core/trace"

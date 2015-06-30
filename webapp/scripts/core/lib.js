@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("core/lib", [
+define("core/lib", [
     "core/trace"
 ],
 

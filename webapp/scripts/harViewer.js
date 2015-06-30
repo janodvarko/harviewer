@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("harViewer", [
+define("harViewer", [
     "domplate/tabView",
     "tabs/homeTab",
     "tabs/aboutTab",

@@ -5,25 +5,15 @@
     deploy files located within 'webapp-build' directory -->
 <project name="HARViewer" basedir="." default="build">
 
-    <!-- OS depeding tasks -->
-    <condition property="isMac">
-        <os family="mac" />
-    </condition>
-
-    <condition property="isWindows">
-        <os family="windows" />
-    </condition>
-
-    <condition property="isUnix">
-        <os family="unix" />
-    </condition>
-
     <!-- Directories -->
     <property name="app.dir" value="webapp"/>
     <property name="build.dir" value="${app.dir}-build"/>
     <property name="examples.dir" value="${app.dir}/examples"/>
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
+    <property name="rjs.version" value="2.1.18"/>
+    <property name="rjs.cmd" value="${basedir}/r.js/dist/r.js"/>
+    <property name="rjs.runner" value="node"/>
 
     <!-- Tools for building release package of HAR Viewer.
         js-build-tools: http://code.google.com/p/js-build-tools/
@@ -52,30 +42,87 @@
         <delete dir="${build.dir}"/>
     </target>
 
-    <!-- Run RequireJS build tools (depending on the current OS) -->
-    <target name="requirejs-mac" if="isMac">
-        <property name="rjs-build.bat" value="../../requirejs/build/buildj.sh"/>
-        <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
+
+
+
+
+    <!--
+    Checks for a folder named "r.js".
+    If such a folder is found, sets the "rjs.present" property.
+    -->
+    <target name="check-rjs-folder">
+        <available file="r.js" property="rjs.folder.present"/>
+    </target>
+
+    <!--
+    Downloads and unpacks the r.js build tool, but only if the "r.js" folder was not found.
+    Therefore, if you want to do a fresh download and unpack of r.js, delete the "r.js" folder before running ant.
+    -->
+    <target name="get-rjs" depends="check-rjs-folder" unless="rjs.folder.present">
+        <get src="https://github.com/jrburke/r.js/archive/${rjs.version}.zip" dest="r.js.zip" verbose="true" />
+        <unzip src="r.js.zip" dest="r.js">
+            <!-- remove the first "r.js-x.y.x" part of the folder structure -->
+            <cutdirsmapper dirs="1"/>
+        </unzip>
+    </target>
+
+
+
+
+
+    <!-- Determine whether to use Node.JS or Java -->
+    <target name="rjs-determine-runner" depends="get-rjs">
+        <condition property="rjs.runner.isNode">
+            <matches pattern="^node$" string="${rjs.runner}"/>
+        </condition>
+
+        <condition property="rjs.runner.isJava">
+            <matches pattern="^java$" string="${rjs.runner}"/>
+        </condition>
+
+        <fail message="Ant property 'rjs.runner' must be set to either 'node' (the default) or 'java'. Value was '${rjs.runner}'.">
+            <condition>
+                <not>
+                    <or>
+                        <isset property="rjs.runner.isNode"/>
+                        <isset property="rjs.runner.isJava"/>
+                    </or>
+                </not>
+            </condition>
+        </fail>
+    </target>
+
+
+
+
+
+    <!-- Run r.js build tool (using the chosen runner) -->
+    <target name="rjs-node" depends="rjs-determine-runner" if="rjs.runner.isNode">
+        <exec dir="${app.dir}/scripts" executable="node" resolveexecutable="true">
+            <arg value="${rjs.cmd}"/>
+            <arg value="-o"/>
             <arg value="app.build.js"/>
         </exec>
     </target>
 
-    <target name="requirejs-win" if="isWindows">
-        <property name="rjs-build.bat" value="../../requirejs/build/buildj.bat"/>
-        <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
-            <arg value="app.build.js"/>
-        </exec>
+    <target name="rjs-java" depends="rjs-determine-runner" if="rjs.runner.isJava">
+       <java fork="true" dir="${app.dir}/scripts" classname="org.mozilla.javascript.tools.shell.Main">
+           <arg value="${rjs.cmd}"/>
+           <arg value="-o"/>
+           <arg value="app.build.js"/>
+           <classpath>
+               <pathelement location="${basedir}/r.js/lib/rhino/js.jar"/>
+               <pathelement location="${basedir}/r.js/lib/closure/compiler.jar"/>
+           </classpath>
+       </java>
     </target>
 
-    <target name="requirejs-unix" if="isUnix">
-        <property name="rjs-build.bat" value="../../requirejs/build/buildj.sh"/>
-        <exec dir="${app.dir}/scripts" executable="${rjs-build.bat}" resolveexecutable="true">
-            <arg value="app.build.js"/>
-        </exec>
-    </target>
+
+
+
 
     <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="build" depends="clean, requirejs-mac, requirejs-win, requirejs-unix">
+    <target name="build" depends="rjs-java, rjs-node">
 
         <!-- Log info about the current OS -->
         <echo message="Building HAR Viewer on:" />
@@ -108,6 +155,10 @@
 
         <!-- Final version message -->
         <echo message="HAR Viewer version: ${VERSION} build OK"/>
+    </target>
+
+    <!-- Build HAR Viewer package (the result is within build.dir) -->
+    <target name="clean-build" depends="clean, build">
     </target>
 
     <!-- Support for generating docs from Firebug source code using js-doc-toolkit

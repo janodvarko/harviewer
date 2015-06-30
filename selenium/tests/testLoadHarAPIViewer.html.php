@@ -11,7 +11,6 @@ require_once("config.php");
 </head>
 <body class="harBody">
     <div id="content" version="test"></div>
-    <!--[if IE]><script type="text/javascript" src="scripts/excanvas/excanvas.js"></script><![endif]-->
     <script src="scripts/jquery.js"></script>
     <script data-main="scripts/harViewer" src="scripts/require.js"></script>
     <script>

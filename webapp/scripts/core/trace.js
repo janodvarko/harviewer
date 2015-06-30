@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("core/trace", [
+define("core/trace", [
 ],
 
 function() {

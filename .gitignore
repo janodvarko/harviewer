@@ -21,6 +21,7 @@
 /extension/release/
 *.graphml
 /webapp-build/
+/r.js
 
 # Files from NPM
 /extension/node_modules/

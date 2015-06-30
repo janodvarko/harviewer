@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/requestList", [
+define("preview/requestList", [
     "domplate/domplate",
     "core/lib",
     "i18n!nls/requestList",

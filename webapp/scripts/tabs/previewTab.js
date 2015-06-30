@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("tabs/previewTab", [
+define("tabs/previewTab", [
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
@@ -126,14 +126,11 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
             }
         ];
 
-        if ($.browser.mozilla)
-        {
-            buttons.push({
-                id: "download",
-                tooltiptext: Strings.downloadTooltip,
-                className: "harDownloadButton"
-            });
-        }
+        buttons.push({
+            id: "download",
+            tooltiptext: Strings.downloadTooltip,
+            className: "harDownloadButton"
+        });
 
         return buttons;
     },

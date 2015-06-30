@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/domplate", [], function() {
+define("domplate/domplate", [], function() {
 
 //*************************************************************************************************
 
@@ -114,7 +114,7 @@ DomplateTag.prototype =
 
             if (name.indexOf("on") == 0)
             {
-                var eventName = $.browser.msie ? name : name.substr(2);
+                var eventName = name.substr(2);
                 if (!this.listeners)
                     this.listeners = [];
                 this.listeners.push(eventName, val);
@@ -244,7 +244,7 @@ DomplateTag.prototype =
             }
         }
 
-        var js = $.browser.msie ? 'var f = ' + fnBlock.join("") + ';f' : fnBlock.join("");
+        var js = fnBlock.join("");
         this.renderMarkup = eval(js);
     },
 
@@ -456,7 +456,7 @@ DomplateTag.prototype =
             return parent;
         }
 
-        var js = $.browser.msie ? 'var f = ' + fnBlock.join("") + ';f' : fnBlock.join("");
+        var js = fnBlock.join("");
         //ddd(js.replace(/(\;|\{)/g, "$1\n"));
         this.renderDOM = eval(js);
     },
@@ -472,10 +472,7 @@ DomplateTag.prototype =
             {
                 var val = this.listeners[i+1];
                 var arg = generateArg(val, path, args);
-                if ($.browser.msie)
-                    blocks.push('node.attachEvent("', this.listeners[i], '", __bind__(this, ', arg, '));\n');
-                else
-                    blocks.push('node.addEventListener("', this.listeners[i], '", __bind__(this, ', arg, '), false);\n');
+                blocks.push('node.addEventListener("', this.listeners[i], '", __bind__(this, ', arg, '), false);\n');
             }
         }
 
@@ -1105,4 +1102,3 @@ return Domplate;
 
 //*************************************************************************************************
 });
-

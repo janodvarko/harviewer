@@ -1,14 +1,13 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/harModel", [
+define("preview/harModel", [
     "core/lib",
     "preview/jsonSchema",
     "preview/ref",
     "preview/harSchema",
     "core/cookies",
     "core/trace",
-    "i18n!nls/harModel",
-    "jquery-plugins/jquery.json"
+    "i18n!nls/harModel"
 ],
 
 function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
@@ -158,7 +157,7 @@ HarModel.prototype =
                 entry.response.content.toJSON = contentToUnicode;
         }
 
-        var jsonString = $.jSONToString(this.input, null, "\t");
+        var jsonString = JSON.stringify(this.input, null, "\t");
         var result = jsonString.replace(/\\\\u/g, "\\u");
         return result;
     },
@@ -477,7 +476,7 @@ function contentToUnicode()
     if (!this.text)
         return newContent;
 
-    newContent.text = Array.map(this.text, function(x) {
+    newContent.text = Array.prototype.map.call(this.text, function(x) {
         var charCode = x.charCodeAt(0);
         if ((charCode >= 0x20 && charCode < 0x7F) ||
              charCode == 0xA || charCode == 0xD)

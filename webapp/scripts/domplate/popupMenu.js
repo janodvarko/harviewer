@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/popupMenu", [
+define("domplate/popupMenu", [
     "domplate/domplate",
     "core/lib",
     "core/trace"

@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("tabs/search", [
+define("tabs/search", [
     "domplate/domplate",
     "core/lib",
     "i18n!nls/search",

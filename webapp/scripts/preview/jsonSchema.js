@@ -1,4 +1,4 @@
-require.def("preview/jsonSchema", [], function() {
+define("preview/jsonSchema", [], function() {
 
 //*************************************************************************************************
 
