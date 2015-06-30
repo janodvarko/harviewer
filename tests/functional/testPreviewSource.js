@@ -26,10 +26,10 @@ define([
       return r
         .setFindTimeout(timeout)
         .get(harViewerBase)
-        // see gitgrimbo[1] for why the following three lines are commented and replaced by execute()
-        //.findById("sourceEditor")
-        //.type(har)
-        //.end()
+        // Wait for the #sourceEditor element
+        .findById("sourceEditor")
+        // End the element context
+        .end()
         .execute("document.getElementById('sourceEditor').value = '" + har + "'")
         // Click on the example link
         .findById("appendPreview")
