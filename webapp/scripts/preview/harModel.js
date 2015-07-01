@@ -334,7 +334,7 @@ HarModel.Loader =
 
         var paths = Lib.getURLParameters("path");
         var callbackName = Lib.getURLParameter("callback");
-        var inputUrls = Lib.getURLParameters("inputUrl");
+        var inputUrls = Lib.getURLParameters("inputUrl").concat(Lib.getHashParameters("inputUrl"));
 
         //for (var p in inputUrls)
         //    inputUrls[p] = inputUrls[p].replace(/%/g,'%25');

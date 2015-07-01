@@ -562,6 +562,26 @@ Lib.getURLParameters = function(name)
     return result;
 };
 
+/**
+ * Supports multiple hash parameters with the same name. Returns array
+ * of values.
+ * @param {String} name Name of the requested hash parameter.
+ * @return {Array} Array with values.
+ */
+Lib.getHashParameters = function(name)
+{
+    var result = [];
+    var query = window.location.hash.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++)
+    {
+        var pair = vars[i].split("=");
+        if (pair[0] == name)
+            result.push(unescape(pair[1]));
+    }
+    return result;
+};
+
 Lib.parseURLParams = function(url)
 {
     var q = url ? url.indexOf("?") : -1;
