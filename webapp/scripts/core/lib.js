@@ -21,7 +21,7 @@ Lib.isSafari  = /webkit/.test(userAgent);
 Lib.isIE      = /msie/.test(userAgent) && !/opera/.test(userAgent);
 Lib.isIE6     = /msie 6/i.test(navigator.appVersion);
 Lib.browserVersion = (userAgent.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [0,'0'])[1];
-Lib.isIElt8   = Lib.isIE && (Lib.browserVersion-0 < 8); 
+Lib.isIElt8   = Lib.isIE && (Lib.browserVersion-0 < 8);
 Lib.supportsSelectElementText = (window.getSelection && window.document.createRange) || (window.document.body.createTextRange);
 
 //***********************************************************************************************//
@@ -100,7 +100,7 @@ Lib.dispatch2 = function(listeners, name, args)
 // Type Checking
 
 var toString = Object.prototype.toString;
-var reFunction = /^\s*function(\s+[\w_$][\w\d_$]*)?\s*\(/; 
+var reFunction = /^\s*function(\s+[\w_$][\w\d_$]*)?\s*\(/;
 
 Lib.isArray = function(object)
 {
@@ -1024,7 +1024,7 @@ Lib.getElementPosition = function(el)
 Lib.getWindowSize = function()
 {
     var width=0, height=0, el;
-    
+
     if (typeof window.innerWidth == "number")
     {
         width = window.innerWidth;
@@ -1040,7 +1040,7 @@ Lib.getWindowSize = function()
         width = el.clientWidth;
         height = el.clientHeight;
     }
-    
+
     return {width: width, height: height};
 };
 
@@ -1049,7 +1049,7 @@ Lib.getWindowScrollSize = function()
     var width=0, height=0, el;
 
     // first try the document.documentElement scroll size
-    if (!Lib.isIEQuiksMode && (el=document.documentElement) && 
+    if (!Lib.isIEQuiksMode && (el=document.documentElement) &&
        (el.scrollHeight || el.scrollWidth))
     {
         width = el.scrollWidth;
