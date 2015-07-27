@@ -319,9 +319,9 @@ var Pie = domplate(
         var pieBox = Lib.$(root, "pieBox");
         var el = document.createElement("canvas");
 
-        //xxxHonza: the class name requires a space at the end in order to hasClass
-        // to work. This is terrible hack. Please fix me!
-        el.setAttribute("class", "pieGraph ");
+        // xxxgitgrimbo - using jQuery css class methods means we don't need
+        // trailing space anymore.
+        el.setAttribute("class", "pieGraph");
         el.setAttribute("height", "100");
         el.setAttribute("width", "100");
         pieBox.appendChild(el);

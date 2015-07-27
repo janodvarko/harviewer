@@ -34,8 +34,8 @@ define([
         // Return null or undefined to indicate poll not successful (yet).
         // http://theintern.github.io/leadfoot/pollUntil.html
         .then(pollUntil("return (document.querySelectorAll('.onMyEventBar.netPageTimingBar.netBar').length == 4) || null;", pollTimeout))
-        // xxxHonza: remove the trailing and begin space in the class attribute (domplate).
-        .findAllByXpath("//div[@class=' onMyEventBar  netPageTimingBar netBar ']")
+        // class attribute no longer has leading and trailing space since using jQuery css class methods.
+        .findAllByXpath("//div[@class='onMyEventBar netPageTimingBar netBar']")
         .then(function(els) {
           assert.strictEqual(els.length, 4);
         });

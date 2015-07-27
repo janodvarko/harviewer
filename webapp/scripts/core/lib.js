@@ -805,14 +805,11 @@ Lib.hasClass = function(node, name) // className, className, ...
         return false;
     else
     {
+        var $node = jQuery(node);
         for (var i=1; i<arguments.length; ++i)
         {
             var name = arguments[i];
-            //var re = new RegExp("(^|\\s)"+name+"($|\\s)");
-            //if (!re.exec(node.getAttribute("class")))
-            //    return false;
-            var className = node.className;//node.getAttribute("class");
-            if (!className || className.indexOf(name + " ") == -1)
+            if (!$node.hasClass(name))
                 return false;
         }
 
@@ -822,35 +819,20 @@ Lib.hasClass = function(node, name) // className, className, ...
 
 Lib.setClass = function(node, name)
 {
-    if (node && !Lib.hasClass(node, name))
-        node.className += " " + name + " ";
+    if (node)
+        jQuery(node).addClass(name);
 };
 
 Lib.removeClass = function(node, name)
 {
-    if (node && node.className)
-    {
-        var index = node.className.indexOf(name);
-        if (index >= 0)
-        {
-            var size = name.length;
-            node.className = node.className.substr(0,index-1) + node.className.substr(index+size);
-        }
-    }
+    if (node)
+        jQuery(node).removeClass(name);
 };
 
 Lib.toggleClass = function(elt, name)
 {
-    if (Lib.hasClass(elt, name))
-    {
-        Lib.removeClass(elt, name);
-        return false;
-    }
-    else
-    {
-        Lib.setClass(elt, name);
-        return true;
-    }
+    if (elt)
+        jQuery(elt).toggleClass(name);
 };
 
 Lib.setClassTimed = function(elt, name, timeout)
