@@ -1,18 +1,23 @@
 /* See license.txt for terms of usage */
 
-define("core/dragdrop", [
-    "core/lib"
+/**
+ * @module core/dragdrop
+ */
+define([
+    "./object",
+    "./events"
 ],
 
-function(Lib) {
+function(Obj, Events) {
 
 // ********************************************************************************************* //
 
 /**
- * 
+ * @class Tracker
  * @param {Object} element
  * @param {Object} handle
- * @param {Object} callbacks: onDragStart, onDragOver, onDragLeave, onDrop
+ * @param {Object} callbacks onDragStart, onDragOver, onDragLeave, onDrop
+ * @memberof module:core/dragdrop
  */
 function Tracker(handle, callbacks)
 {
@@ -26,19 +31,24 @@ function Tracker(handle, callbacks)
     this.dragging = false;
 
     // Start listening
-    this.onDragStart = Lib.bind(this.onDragStart, this);
-    this.onDragOver = Lib.bind(this.onDragOver, this);
-    this.onDrop = Lib.bind(this.onDrop, this);
+    this.onDragStart = Obj.bind(this.onDragStart, this);
+    this.onDragOver = Obj.bind(this.onDragOver, this);
+    this.onDrop = Obj.bind(this.onDrop, this);
 
-    Lib.addEventListener(this.element, "mousedown", this.onDragStart, false);
+    Events.addEventListener(this.element, "mousedown", this.onDragStart, false);
     this.active = true;
 }
 
-Tracker.prototype =
-{
+/**
+ * @lends module:core/dragdrop.Tracker.prototype
+ */
+var TrackerPrototype = {
+    /**
+     * @param {Event} event
+     */
     onDragStart: function(event)
     {
-        var e = Lib.fixEvent(event);
+        var e = Events.fixEvent(event);
 
         if (this.dragging)
             return;
@@ -53,19 +63,22 @@ Tracker.prototype =
         //    parseInt(this.element.style.left),
         //    parseInt(this.element.style.top));
 
-        Lib.addEventListener(this.element.ownerDocument, "mousemove", this.onDragOver, false);
-        Lib.addEventListener(this.element.ownerDocument, "mouseup", this.onDrop, false);
+        Events.addEventListener(this.element.ownerDocument, "mousemove", this.onDragOver, false);
+        Events.addEventListener(this.element.ownerDocument, "mouseup", this.onDrop, false);
 
-        Lib.cancelEvent(e);
+        Events.cancelEvent(e);
     },
 
+    /**
+     * @param {Event} event
+     */
     onDragOver: function(event)
     {
         if (!this.dragging)
             return;
 
-        var e = Lib.fixEvent(event);
-        Lib.cancelEvent(e);
+        var e = Events.fixEvent(event);
+        Events.cancelEvent(e);
 
         var newPos = absoluteCursorPosition(e);
         //newPos = newPos.Add(this.elementStartPos);
@@ -85,24 +98,30 @@ Tracker.prototype =
 
     },
 
+    /**
+     * @param {Event} event
+     */
     onDrop: function(event)
     {
         if (!this.dragging)
             return;
 
-        var e = Lib.fixEvent(event);
-        Lib.cancelEvent(e);
+        var e = Events.fixEvent(event);
+        Events.cancelEvent(e);
 
         this.dragStop();
     },
 
+    /**
+     *
+     */
     dragStop: function()
     {
         if (!this.dragging)
             return;
 
-        Lib.removeEventListener(this.element.ownerDocument, "mousemove", this.onDragOver, false);
-        Lib.removeEventListener(this.element.ownerDocument, "mouseup", this.onDrop, false);
+        Events.removeEventListener(this.element.ownerDocument, "mousemove", this.onDragOver, false);
+        Events.removeEventListener(this.element.ownerDocument, "mouseup", this.onDrop, false);
 
         this.cursorStartPos = null;
         this.cursorLastPos = null;
@@ -114,15 +133,20 @@ Tracker.prototype =
         this.dragging = false;
     },
 
+    /**
+     *
+     */
     destroy: function()
     {
-        Lib.removeEventListener(this.element, "mousedown", this.onDragStart, false);
+        Events.removeEventListener(this.element, "mousedown", this.onDragStart, false);
         this.active = false;
 
         if (this.dragging)
             this.dragStop();
     }
-}
+};
+
+Tracker.prototype = TrackerPrototype;
 
 // ********************************************************************************************* //
 
@@ -143,7 +167,7 @@ function Position(x, y)
         }
         return newPos;
     }
- 
+
     this.Subtract = function(val)
     {
         var newPos = new Position(this.x, this.y);
@@ -209,11 +233,14 @@ function absoluteCursorPosition(e)
 
 // ********************************************************************************************* //
 
+/**
+ * @alias module:core/dragdrop
+ */
 var DragDrop = {};
+
 DragDrop.Tracker = Tracker;
 
 return DragDrop;
 
 // ********************************************************************************************* //
 });
-

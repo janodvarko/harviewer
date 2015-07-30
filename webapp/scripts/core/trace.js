@@ -1,6 +1,9 @@
 /* See license.txt for terms of usage */
 
-define("core/trace", [
+/**
+ * @module core/trace
+ */
+define([
 ],
 
 function() {
@@ -54,4 +57,3 @@ return Trace;
 
 //*************************************************************************************************
 });
-

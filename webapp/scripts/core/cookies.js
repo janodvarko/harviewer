@@ -4,10 +4,10 @@
  * @module core/cookies
  */
 define([
-    "core/lib"
+    "./string"
 ],
 
-function(Lib) {
+function(Str) {
 
 //*************************************************************************************************
 
@@ -28,8 +28,8 @@ var Cookies =
         for (var i= 0; i<cookies.length; i++)
         {
             var cookie = cookies[i].split("=");
-            if (Lib.trim(cookie[0]) == name)
-                return cookie[1].length ? unescape(Lib.trim(cookie[1])) : null;
+            if (Str.trim(cookie[0]) == name)
+                return cookie[1].length ? unescape(Str.trim(cookie[1])) : null;
         }
     },
 
