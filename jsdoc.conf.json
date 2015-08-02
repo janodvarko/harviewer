@@ -1,0 +1,25 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "source": {
+        "exclude": [
+            "webapp/scripts/app.build.js",
+            "webapp/scripts/downloadify",
+            "webapp/scripts/excanvas",
+            "webapp/scripts/i18n.js",
+            "webapp/scripts/jquery.js",
+            "webapp/scripts/json-query",
+            "webapp/scripts/require.js",
+            "webapp/scripts/syntax-highlighter",
+            "webapp/scripts/text.js"
+        ],
+        "includePattern": ".+\\.js(doc)?$"
+    },
+    "plugins": ["plugins/markdown"],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    }
+}
