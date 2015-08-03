@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("tabs/schemaTab", [
+define("tabs/schemaTab", [
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
@@ -36,9 +36,9 @@ SchemaTab.prototype =
                 dp.SyntaxHighlighter.HighlightAll(code);
             },
 
-            error: function(response, ioArgs)
+            error: function(jqXHR, textStatus, errorThrown)
             {
-                Trace.error("SchemaTab.onUpdateBody; ERROR ", response);
+                Trace.error("SchemaTab.onUpdateBody; ERROR ", jqXHR, textStatus, errorThrown);
             }
         });
     }

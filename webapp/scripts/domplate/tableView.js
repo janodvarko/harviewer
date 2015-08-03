@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/tableView", [
+define("domplate/tableView", [
     "domplate/domplate",
     "core/lib",
     "i18n!nls/tableView",

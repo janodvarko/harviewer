@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("tabs/pageTimeline", [
+define("tabs/pageTimeline", [
     "domplate/domplate",
     "core/lib",
     "core/trace",
@@ -145,7 +145,7 @@ Timeline.prototype = domplate(
     recalcLayout: function()
     {
         this.maxElapsedTime = 0;
-        var prevMaxElapsedTime = this.maxElapsedTime; 
+        var prevMaxElapsedTime = this.maxElapsedTime;
 
         // Iterate over all pages and find the max load-time so, the vertical
         // graph extent can be set.
@@ -163,7 +163,7 @@ Timeline.prototype = domplate(
         {
             for (var i=0; i<bars.length; i++)
                 bars[i].style.height = this.getHeight(bars[i].page) + "px";
-        } 
+        }
     },
 
     updateDesc: function()
@@ -232,7 +232,7 @@ Timeline.prototype = domplate(
         if (this.isVisible())
             return;
 
-        if (!animation || $.browser.msie)
+        if (!animation)
             this.element.style.display = "block";
         else
             $(this.element).slideDown();
@@ -246,7 +246,7 @@ Timeline.prototype = domplate(
         if (!this.isVisible())
             return;
 
-        if (!animation || $.browser.msie)
+        if (!animation)
             this.element.style.display = "none";
         else
             $(this.element).slideUp();

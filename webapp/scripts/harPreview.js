@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("harPreview", [
+define("harPreview", [
     "preview/requestList",
     "preview/pageList",
     "preview/harModel",
@@ -60,9 +60,9 @@ HarPreview.prototype =
         }
     },
 
-    onError: function(response, ioArgs)
+    onError: function(jqXHR, textStatus, errorThrown)
     {
-        Trace.log("HarPreview; Load error ", response, ioArgs);
+        Trace.log("HarPreview; Load error ", jqXHR, textStatus, errorThrown);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -70,7 +70,7 @@ HarPreview.prototype =
 
     /**
      * Load HAR file. See {@link HarView.loadHar} for documentation.
-     */ 
+     */
     loadHar: function(url, settings)
     {
         settings = settings || {};

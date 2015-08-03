@@ -1,4 +1,4 @@
-onInputData({
+callback_invalid({
     "log":{
         "entries":[{
             "time":360,

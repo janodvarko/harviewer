@@ -13,7 +13,7 @@ class HAR_TestEmbeddedInvalidPreview extends HAR_TestCase
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];
 
-        $this->open($GLOBALS["test_base"]."tests/testEmbeddedInvalidPreview1.html");
+        $this->open($GLOBALS["test_base"]."tests/testEmbeddedInvalidPreview1.html.php");
 
         $document = "selenium.browserbot.getCurrentWindow().document.";
 
@@ -37,7 +37,7 @@ class HAR_TestEmbeddedInvalidPreview extends HAR_TestCase
         $viewer_base = $GLOBALS["harviewer_base"];
         $test_base = $GLOBALS["test_base"];
 
-        $this->open($GLOBALS["test_base"]."tests/testEmbeddedInvalidPreview2.html");
+        $this->open($GLOBALS["test_base"]."tests/testEmbeddedInvalidPreview2.html.php");
 
         $document = "selenium.browserbot.getCurrentWindow().document.";
 

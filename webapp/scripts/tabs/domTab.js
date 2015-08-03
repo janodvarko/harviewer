@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("tabs/domTab", [
+define("tabs/domTab", [
     "domplate/domplate",
     "domplate/tabView",
     "core/lib",
@@ -84,8 +84,8 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
     {
         this.toolbar.render(Lib.$(body, "domToolbar"));
 
-        // Lib.selectElementText doesn't support IE.
-        if (Lib.isIE)
+        // Lib.selectElementText doesn't support IE8 and below.
+        if (!Lib.supportsSelectElementText)
         {
             var searchBox = Lib.getElementByClass(body, "searchBox");
 

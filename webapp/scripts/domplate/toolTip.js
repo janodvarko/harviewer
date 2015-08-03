@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/toolTip", [
+define("domplate/toolTip", [
     "domplate/domplate",
     "core/lib",
     "core/trace"

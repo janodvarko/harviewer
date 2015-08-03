@@ -1,4 +1,4 @@
-require.def("syntax-highlighter/shCore", [], function() {
+define("syntax-highlighter/shCore", [], function() {
 
 //*************************************************************************************************
 

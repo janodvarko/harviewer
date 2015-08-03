@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-require.def("domplate/infoTip", [
+define("domplate/infoTip", [
     "domplate/domplate",
     "core/lib",
     "core/trace"
@@ -25,10 +25,6 @@ var InfoTip = Lib.extend(
 
     initialize: function()
     {
-        // xxxHonza: The info tip doesn't properly work in IE.
-        if ($.browser.msie)
-            return;
-
         var body = $("body");
         body.bind("mouseover", Lib.bind(this.onMouseMove, this));
         body.bind("mouseout", Lib.bind(this.onMouseOut, this));

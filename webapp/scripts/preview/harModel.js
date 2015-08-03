@@ -1,14 +1,13 @@
 /* See license.txt for terms of usage */
 
-require.def("preview/harModel", [
+define("preview/harModel", [
     "core/lib",
     "preview/jsonSchema",
     "preview/ref",
     "preview/harSchema",
     "core/cookies",
     "core/trace",
-    "i18n!nls/harModel",
-    "jquery-plugins/jquery.json"
+    "i18n!nls/harModel"
 ],
 
 function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
@@ -158,7 +157,7 @@ HarModel.prototype =
                 entry.response.content.toJSON = contentToUnicode;
         }
 
-        var jsonString = $.jSONToString(this.input, null, "\t");
+        var jsonString = JSON.stringify(this.input, null, "\t");
         var result = jsonString.replace(/\\\\u/g, "\\u");
         return result;
     },
@@ -335,7 +334,7 @@ HarModel.Loader =
 
         var paths = Lib.getURLParameters("path");
         var callbackName = Lib.getURLParameter("callback");
-        var inputUrls = Lib.getURLParameters("inputUrl");
+        var inputUrls = Lib.getURLParameters("inputUrl").concat(Lib.getHashParameters("inputUrl"));
 
         //for (var p in inputUrls)
         //    inputUrls[p] = inputUrls[p].replace(/%/g,'%25');
@@ -376,15 +375,16 @@ HarModel.Loader =
         $.ajax({
             url: filePath,
             context: this,
+            dataType: "json",
 
             success: function(response)
             {
                 callback(response);
             },
 
-            error: function(response, ioArgs)
+            error: function(jqXHR, textStatus, errorThrown)
             {
-                errorCallback(response, ioArgs);
+                errorCallback(jqXHR, textStatus, errorThrown);
             }
         });
 
@@ -425,10 +425,10 @@ HarModel.Loader =
                 }
             },
 
-            error: function(response, ioArgs)
+            error: function(jqXHR, textStatus, errorThrown)
             {
                 if (errorCallback)
-                    errorCallback(response, ioArgs);
+                    errorCallback(jqXHR, textStatus, errorThrown);
             }
         });
 
@@ -446,13 +446,13 @@ HarModel.Loader =
                 callback.call(scope, input);
         }
 
-        function onError(response, args)
+        function onError(jqXHR, textStatus, errorThrown)
         {
             if (scope.onLoadError)
-                scope.onLoadError(response, args);
+                scope.onLoadError(jqXHR, textStatus, errorThrown);
 
             if (errorCallback)
-                errorCallback.call(scope, response, args);
+                errorCallback.call(scope, jqXHR, textStatus, errorThrown);
         }
 
         if (crossDomain)
@@ -476,7 +476,7 @@ function contentToUnicode()
     if (!this.text)
         return newContent;
 
-    newContent.text = Array.map(this.text, function(x) {
+    newContent.text = Array.prototype.map.call(this.text, function(x) {
         var charCode = x.charCodeAt(0);
         if ((charCode >= 0x20 && charCode < 0x7F) ||
              charCode == 0xA || charCode == 0xD)
