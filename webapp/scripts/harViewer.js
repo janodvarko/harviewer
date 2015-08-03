@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module harViewer
+ */
 define("harViewer", [
     "domplate/tabView",
     "tabs/homeTab",

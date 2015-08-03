@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module domplate/toolbar
+ */
 define("domplate/toolbar", [
     "domplate/domplate",
     "core/lib",

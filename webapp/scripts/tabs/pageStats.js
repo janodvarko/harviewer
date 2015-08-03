@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module tabs/pageStats
+ */
 define("tabs/pageStats", [
     "domplate/domplate",
     "core/lib",

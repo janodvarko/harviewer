@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module tabs/aboutTab
+ */
 define("tabs/aboutTab", [
     "domplate/domplate",
     "domplate/tabView",
@@ -12,6 +15,9 @@ function(Domplate, TabView, Lib, Strings) { with (Domplate) {
 //*************************************************************************************************
 // Home Tab
 
+/**
+ * @constructor module:tabs/aboutTab
+ */
 function AboutTab() {}
 AboutTab.prototype =
 {

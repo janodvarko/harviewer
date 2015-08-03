@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module tabs/homeTab
+ */
 define("tabs/homeTab", [
     "domplate/domplate",
     "domplate/tabView",
@@ -16,9 +19,12 @@ function(Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel)
 //*************************************************************************************************
 // Home Tab
 
+/**
+ * @constructor module:tabs/homeTab
+ */
 function HomeTab() {}
 HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
-/** @lends HomeTab */
+/** @lends HomeTab.prototype */
 {
     id: "Home",
     label: Strings.homeTabLabel,
@@ -137,6 +143,20 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         }
     },
 
+    /**
+     * File reader callback.
+     *
+     * @callback fileReaderCallback
+     * @param {String} contents
+     *  file contents
+     */
+
+     /**
+     * @param {Object} file
+     *  The file to get the text for.
+     * @param {fileReaderCallback} callback
+     *  Callback to receive the file contents.
+     */
     getFileReader: function(file, callback)
     {
         return function fileReader()

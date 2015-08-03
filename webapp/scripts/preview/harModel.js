@@ -1,6 +1,9 @@
 /* See license.txt for terms of usage */
 
-define("preview/harModel", [
+/**
+ * @module preview/harModel
+ */
+define([
     "core/lib",
     "preview/jsonSchema",
     "preview/ref",
@@ -15,12 +18,17 @@ function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
 //*************************************************************************************************
 // Statistics
 
+/**
+ * @constructor
+ * @alias module:preview/harModel
+ */
 function HarModel()
 {
     this.input = null;
 }
 
 HarModel.prototype =
+/** @lends module:preview/harModel.prototype */
 {
     append: function(input)
     {
@@ -71,6 +79,9 @@ HarModel.prototype =
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Pages
 
+    /**
+     * @return {Array} An array of page objects.
+     */
     getPages: function()
     {
         if (!this.input)
@@ -79,12 +90,18 @@ HarModel.prototype =
         return this.input.log.pages ? this.input.log.pages : [];
     },
 
+    /**
+     * @return {Page} The first page if it exists, else null.
+     */
     getFirstPage: function()
     {
         var pages = this.getPages();
         return pages.length > 0 ? pages[0] : null;
     },
 
+    /**
+     * @see {@link module:preview/harModel.getPageEntries}
+     */
     getPageEntries: function(page)
     {
         return HarModel.getPageEntries(this.input, page);
@@ -219,6 +236,13 @@ HarModel.parse = function(jsonString, validate)
 };
 
 // xxxHonza: optimalization using a map?
+/**
+ * If `page` is not provided, then return all the HAR entries without a parent `Page`.
+ * If `page` is provided, then return all the HAR entries whose `pageref` matches `page.id`.
+ * @param {HAR} input The input HAR object.
+ * @param {Page} page The `Page` object to use to search for entries.
+ * @return {Array} The `Page` entries.
+ */
 HarModel.getPageEntries = function(input, page)
 {
     var result = [];
@@ -244,6 +268,12 @@ HarModel.getPageEntries = function(input, page)
 };
 
 // xxxHonza: optimize using a map?
+/**
+ * @param {HAR} input The input HAR object.
+ * @param {Entry} file The `Entry` object to use to find the parent `Page`.
+ * @return {Page} The parent `Page` of the file/`Entry`, or null if a parent `Page` could not be
+ *     found.
+ */
 HarModel.getParentPage = function(input, file)
 {
     var pages = input.log.pages;
@@ -322,6 +352,10 @@ HarModel.validateRequestTimings = function(input)
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+/**
+ * Helper for loading HAR resources.
+ * @namespace
+ */
 HarModel.Loader =
 {
     run: function(callback, errorCallback)
@@ -358,6 +392,11 @@ HarModel.Loader =
             return this.loadLocalArchive(filePath, callback, errorCallback);
     },
 
+    /**
+     * Loads the HAR from `path` by navigating to a new URL.
+     * @param {String} path The path to the example.
+     * @param {Function} callback Not used.
+     */
     loadExample: function(path, callback)
     {
         var href = document.location.href;
@@ -369,6 +408,12 @@ HarModel.Loader =
         Cookies.setCookie("stats", true);
     },
 
+    /**
+     * Loads the HAR from `filePath` as JSON using Ajax.
+     * @param {String} filePath The path to the HAR.
+     * @param {Function} callback Called when load is successful.
+     * @param {Function} errorCallback Called when load fails.
+     */
     loadLocalArchive: function(filePath, callback, errorCallback)
     {
         // Execute XHR to get a local file (the same domain).

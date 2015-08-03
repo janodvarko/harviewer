@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module domplate/popupMenu
+ */
 define("domplate/popupMenu", [
     "domplate/domplate",
     "core/lib",

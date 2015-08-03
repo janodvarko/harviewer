@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module domplate/domTree
+ */
 define("domplate/domTree", [
     "domplate/domplate",
     "core/lib",

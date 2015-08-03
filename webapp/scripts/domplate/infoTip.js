@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module domplate/infoTip
+ */
 define("domplate/infoTip", [
     "domplate/domplate",
     "core/lib",
