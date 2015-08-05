@@ -91,8 +91,12 @@ RequestBody.prototype = domplate(
 
     showHtml: function(file)
     {
-        return (file.response.content.mimeType == "text/html") ||
-            (file.mimeType == "application/xhtml+xml");
+        // The mime-type value doesn't have to match the content type exactly
+        // there can be a charset specified. So, check the prefix.
+        var mimeType = file.response.content.mimeType || "";
+        var fileMimeType = file.mimeType || "";
+        return (mimeType.startsWith("text/html")) ||
+            (fileMimeType.startsWith("application/xhtml+xml"));
     },
 
     showDataURL: function(file)
