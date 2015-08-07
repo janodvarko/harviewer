@@ -914,7 +914,9 @@ Lib.splitLines = function(text)
 
 Lib.getPrettyDomain = function(url)
 {
-    var m = /^[^:]+:\/{1,3}(www\.)?([^\/]+)/.exec(url);
+    // Large data URIs cause performance problems.
+    // 255 is the FQDN length limit per RFC 1035.
+    var m = /^(?!data:)[^:]+:\/{1,3}(www\.)?([^\/]{1,256})/.exec(url);
     return m ? m[2] : "";
 },
 
