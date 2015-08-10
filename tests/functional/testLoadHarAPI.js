@@ -36,18 +36,18 @@ define([
     'testViewer': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
       var url = testBase + "tests/testLoadHarAPIViewer.html.php";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         // Open customized viewer.
         .get(url)
         // Wait for 10 sec to load HAR files.
-        .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 3) || null", timeout))
+        .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 3) || null", findTimeout))
         .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"))
         .then(utils.cbAssertElementsLength(".pageTable", 3));
       },
@@ -55,18 +55,18 @@ define([
       'testPreview': function() {
         // Some of these tests need a larger timeout for finding DOM elements
         // because we need the HAR to parse/display fully before we query the DOM.
-        var timeout = 10 * 1000;
+        var findTimeout = intern.config.harviewer.findTimeout;
         var r = this.remote;
         var utils = new DriverUtils(r);
 
         var url = testBase + "tests/testLoadHarAPIPreview.html.php";
 
         return r
-          .setFindTimeout(timeout)
+          .setFindTimeout(findTimeout)
           // Open customized preview.
           .get(url)
           // Wait for 10 sec to load HAR files.
-          .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 3) || null", timeout))
+          .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 3) || null", findTimeout))
           .then(utils.cbAssertElementsLength(".pageTable", 3));
         }
   });

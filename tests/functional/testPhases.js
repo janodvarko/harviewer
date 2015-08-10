@@ -18,17 +18,17 @@ define([
     'testPhases': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
       var url = harViewerBase + "?path=" + testBase + "tests/hars/three-phases.har";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         // There must be 3 phases in the waterfall graph and so, the layout broken two times.
-        .then(DriverUtils.waitForElements(".netRow.loaded[breakLayout=\"true\"]", 2, timeout))
+        .then(DriverUtils.waitForElements(".netRow.loaded[breakLayout=\"true\"]", 2, findTimeout))
         .then(function(els) {
           assert.lengthOf(els, 2);
         });

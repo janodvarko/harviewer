@@ -17,7 +17,7 @@ define([
     'testExpandSinglePage': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -27,7 +27,7 @@ define([
       var url = viewerURL + "?path=" + harFileURL;
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector(".pageRow.opened");
     },
@@ -35,7 +35,7 @@ define([
     'testExpandMultiplePages': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -45,7 +45,7 @@ define([
       var url = viewerURL + "?path=" + harFileURL;
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector(".pageTable")
         .then(utils.cbAssertElementsLength(".pageRow", 3))
@@ -55,7 +55,7 @@ define([
     'testExpandByDefault': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -65,7 +65,7 @@ define([
       var url = viewerURL + "?path=" + harFileURL + "&expand=true";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector(".pageTable")
         .then(utils.cbAssertElementsLength(".pageRow.opened", 3));

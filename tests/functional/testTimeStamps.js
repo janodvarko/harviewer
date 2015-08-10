@@ -18,7 +18,7 @@ define([
     'testTimeStamps': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -27,13 +27,13 @@ define([
       var url = harViewerBase + "?path=" + testBase + "tests/hars/time-stamps.har";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector(".PreviewTab.selected")
         // Make sure we are in the Preview tab.
         .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"))
         // There must be 6 time stamps bars (3 per request * 2 requests)
-        .then(DriverUtils.waitForElements(".netTimeStampBar.netBar", 6, timeout))
+        .then(DriverUtils.waitForElements(".netTimeStampBar.netBar", 6, findTimeout))
         // Check position on the waterfall graph
         .execute(function() {
           var bars = window.document.querySelectorAll(".netTimeStampBar.netBar");

@@ -13,9 +13,9 @@ define([
     'testTabs': function() {
       var r = this.remote;
       var utils = new DriverUtils(r);
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(harViewerBase)
         .then(utils.cbAssertElementContainsText("css=.HomeTab", "Home"))
         .then(utils.cbAssertElementContainsText("css=.PreviewTab", "Preview"))

@@ -19,7 +19,7 @@ define([
     'testSearchJsonQuery': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -28,7 +28,7 @@ define([
       var url = viewerURL + "?path=" + harFileURL;
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         // Wait for the HAR to load by waiting for the Preview tab to be auto-selected
         .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"))
@@ -46,7 +46,7 @@ define([
         .end()
         .findByCssSelector(".tabDOMBody .domBox .results.visible")
         .end()
-        .then(utils.cbAssertElementsLength(".tabDOMBody .domBox .results .memberRow", 8, timeout));
+        .then(utils.cbAssertElementsLength(".tabDOMBody .domBox .results .memberRow", 8, findTimeout));
     }
   });
 });

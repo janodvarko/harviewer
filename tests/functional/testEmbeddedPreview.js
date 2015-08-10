@@ -18,37 +18,37 @@ define([
     'testEmbeddedPreview': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
       var url = testBase + "tests/testEmbeddedPreview.html.php";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
-        .then(DriverUtils.waitForElements("iframe", 3, timeout))
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview1', '.pageTable'], timeout))
+        .then(DriverUtils.waitForElements("iframe", 3, findTimeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview1', '.pageTable'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 1, "#preview1.pageTable");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview2', '.pageTable'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview2', '.pageTable'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 1, "#preview2.pageTable");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview3', '.pageTable'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview3', '.pageTable'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 1, "#preview3.pageTable");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview1', '.netRow'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview1', '.netRow'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 2, "#preview3.netRow");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview2', '.netRow'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview2', '.netRow'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 2, "#preview2.netRow");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview3', '.netRow'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview3', '.netRow'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 11, "#preview3.netRow");
         })

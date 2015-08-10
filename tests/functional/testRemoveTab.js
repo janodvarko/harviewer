@@ -18,14 +18,14 @@ define([
     'testRemoveTab': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
       var url = testBase + "tests/testRemoveTabIndex.php";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector(".HomeTab.selected")
         .end()

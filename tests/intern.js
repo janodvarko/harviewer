@@ -16,8 +16,11 @@ define([
     // testBase: The root URL to the harviewer test pages, HARs and HARPs.
     harviewer: {
       harViewerBase: 'http://192.168.59.103:8000/webapp/',
-      testBase: 'http://192.168.59.103:8000/selenium/'
+      testBase: 'http://192.168.59.103:8000/selenium/',
+      findTimeout: 30 * 1000
     },
+
+    defaultTimeout: 60 * 1000,
 
     // Default desired capabilities for all environments. Individual capabilities can be overridden by any of the
     // specified browser environments in the `environments` array below as well. See
