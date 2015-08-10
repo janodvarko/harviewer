@@ -6,8 +6,8 @@ define([
   "intern/chai!assert",
   'intern/dojo/node!leadfoot/helpers/pollUntil',
   'intern/dojo/node!leadfoot/Command',
-  'intern/dojo/Deferred'
-], function(assert, pollUntil, Command, Deferred) {
+  'intern/dojo/Promise'
+], function(assert, pollUntil, Command, Promise) {
 
   function logThen(msg, formatIt) {
     return function(it) {
@@ -28,9 +28,9 @@ define([
 
   function waitFor(ms) {
     return function() {
-      var d = new Deferred();
-      setTimeout(d.resolve.bind(d), ms);
-      return d.promise;
+      return new Promise(function(resolve, reject) {
+        setTimeout(resolve, ms);
+      });
     };
   }
 
