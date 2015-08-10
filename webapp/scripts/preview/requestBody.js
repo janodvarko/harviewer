@@ -95,8 +95,8 @@ RequestBody.prototype = domplate(
         // there can be a charset specified. So, check the prefix.
         var mimeType = file.response.content.mimeType || "";
         var fileMimeType = file.mimeType || "";
-        return (mimeType.startsWith("text/html")) ||
-            (fileMimeType.startsWith("application/xhtml+xml"));
+        return (Lib.startsWith(mimeType, "text/html")) ||
+            (Lib.startsWith(fileMimeType, "application/xhtml+xml"));
     },
 
     showDataURL: function(file)

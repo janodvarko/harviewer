@@ -854,6 +854,12 @@ Lib.setClassTimed = function(elt, name, timeout)
 //*************************************************************************************************
 // Text
 
+Lib.startsWith = function(str, searchString, position)
+{
+    position = position || 0;
+    return str.indexOf(searchString, position) === position;
+};
+
 Lib.trim = function(text)
 {
     return text.replace(/^\s*|\s*$/g, "");
