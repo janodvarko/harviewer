@@ -46,13 +46,16 @@ define([
     maxConcurrency: 4,
 
     //reporters: ['runner'],
-    reporters: ['pretty', 'junit'],
+    reporters: [
+      'Pretty',
+      { 'id': 'JUnit', 'filename': 'report.xml' }
+    ],
     //reporters: ['console', 'junit'],
     //reporters: ['html'],
 
     // Configuration options for the module loader; any AMD configuration options supported by the Dojo loader can be
     // used here
-    loader: {},
+    loaderOptions: {},
 
     // Non-functional test suite(s) to run in each browser
     suites: [
