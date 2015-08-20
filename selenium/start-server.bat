@@ -1,10 +1,16 @@
-set FIREFOX_PATH=c:\apps\Mozilla Firefox 37
-set IE_DRIVER_PATH=d:\dev\git_repos\harviewer2\selenium\iedriver\2.45.0
-set CHROME_DRIVER_EXE=d:\dev\git_repos\harviewer2\selenium\chromedriver\2.15\chromedriver.exe
+REM Assumes IEDriverServer.exe and chromedriver.exe are in the same folder as this batch file.
 
-set path=%FIREFOX_PATH%;%IE_DRIVER_PATH%;%PATH%
+set          FIREFOX_EXE=c:\apps\Mozilla Firefox 37\firefox.exe
+set        IE_DRIVER_EXE=%~dp0IEDriverServer.exe
+set    CHROME_DRIVER_EXE=%~dp0chromedriver.exe
+set        PHANTOMJS_EXE=c:\apps\phantomjs\2.0.0\bin\phantomjs.exe
 
-set CHROME_DRIVER_ARG=-Dwebdriver.chrome.driver="%CHROME_DRIVER_EXE%"
+set    CHROME_DRIVER_ARG=-Dwebdriver.chrome.driver="%CHROME_DRIVER_EXE%"
+set        IE_DRIVER_ARG=-Dwebdriver.ie.driver="%IE_DRIVER_EXE%"
+set   FIREFOX_DRIVER_ARG=-Dwebdriver.firefox.bin="%FIREFOX_EXE%"
+set PHANTOMJS_DRIVER_ARG=-Dphantomjs.binary.path="%PHANTOMJS_EXE%"
+
+set DRIVER_ARGS=%FIREFOX_DRIVER_ARG% %CHROME_DRIVER_ARG% %IE_DRIVER_ARG% %PHANTOMJS_DRIVER_ARG%
 
 REM java -jar server/selenium-server.jar -debug
-java -jar server/selenium-server.jar %CHROME_DRIVER_ARG% -debug
+java -jar %~dp0server\selenium-server.jar %DRIVER_ARGS% -debug

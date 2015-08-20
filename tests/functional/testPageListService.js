@@ -14,11 +14,11 @@ define([
     'testPageListService': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(testBase + "tests/testPageListService.html.php")
         .switchToFrame("pageList")
         .findById("loadButton")

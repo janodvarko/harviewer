@@ -18,7 +18,7 @@ define([
     'testLoadMulipleFiles': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -34,13 +34,15 @@ define([
       // path=1.har&path=2.har&path=3.har&path=4.har&path=5.har&
       // path=6.har&path=7.har&path=8.har&path=9.har
 
+      var waitForFilesToLoadMs = findTimeout;
+
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         // Wait for 10 sec to load all 9 HAR files.
         // Return null or undefined to indicate poll not successful (yet).
         // http://theintern.github.io/leadfoot/pollUntil.html
-        .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 9) || null;", 10 * 1000))
+        .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 9) || null;", waitForFilesToLoadMs))
         .then(null, function(err) {
           // ignore pollUntil timeout error
           return 0;

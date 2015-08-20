@@ -36,7 +36,7 @@ define([
     '1': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -46,7 +46,7 @@ define([
       var url = viewerURL + "?path=" + harFileURL;
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector(".PreviewTab.selected")
         // Make sure we are in the Preview tab.
@@ -66,7 +66,7 @@ define([
     '2': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -76,7 +76,7 @@ define([
       var url = viewerURL + "?path=" + harFileURL;
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector(".PreviewTab.selected")
         // Make sure we are in the Preview tab.
@@ -96,7 +96,7 @@ define([
     '3': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -106,9 +106,9 @@ define([
       var url = viewerURL + "?path=" + harFileURL + "&expand=true";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
-        .then(pollUntil("return document.querySelector('.pageTable .pageRow.opened');", timeout))
+        .then(pollUntil("return document.querySelector('.pageTable .pageRow.opened');", findTimeout))
         // Check columns visibility
         // gitgrimbo
         // Add .netRow class to ensure we get a table cell that should have a clientWidth when we want it to.

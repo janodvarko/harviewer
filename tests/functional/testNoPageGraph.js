@@ -18,7 +18,7 @@ define([
     'testNoPageGraph': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -26,9 +26,9 @@ define([
       var url = harViewerBase + "?path=" + testBase + "tests/hars/noPages.har";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
-        .then(DriverUtils.waitForElements(".PreviewTab.selected", 1, timeout))
+        .then(DriverUtils.waitForElements(".PreviewTab.selected", 1, findTimeout))
         // Make sure we are in the Preview tab.
         .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"))
         // There must be 87 requests entries.

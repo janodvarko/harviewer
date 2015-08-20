@@ -18,7 +18,7 @@ define([
     'testEmbeddedInvalidPreview1': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -26,22 +26,22 @@ define([
       var url = testBase + "tests/testEmbeddedInvalidPreview1.html.php";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector("iframe")
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.errorTable'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.errorTable'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 1, "#preview1.errorTable");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.errorRow'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.errorRow'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 1, "#preview1.errorRow");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.errorProperty'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.errorProperty'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 1, "#preview1.errorProperty");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.errorMessage'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.errorMessage'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 1, "#preview1.errorMessage");
         });
@@ -50,7 +50,7 @@ define([
     'testEmbeddedInvalidPreview2': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var timeout = 10 * 1000;
+      var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -58,14 +58,14 @@ define([
       var url = testBase + "tests/testEmbeddedInvalidPreview2.html.php";
 
       return r
-        .setFindTimeout(timeout)
+        .setFindTimeout(findTimeout)
         .get(url)
         .findByCssSelector("iframe")
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.pageTable'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.pageTable'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 1, "#preview1.pageTable");
         })
-        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.netRow'], timeout))
+        .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#preview', '.netRow'], findTimeout))
         .then(function(len) {
           assert.strictEqual(len, 49, "#preview1.errorRow");
         });
