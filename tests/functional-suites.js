@@ -28,6 +28,7 @@ define([
       'tests/functional/testSearchHAR',
       'tests/functional/testPreviewExpand',
       'tests/functional/testEmbeddedInvalidPreview',
-      'tests/functional/testSearchJsonQuery'
+      'tests/functional/testSearchJsonQuery',
+      'tests/functional/testIssue39'
     ];
 });
