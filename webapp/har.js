@@ -6,7 +6,7 @@
 /**
  * Finds all elements with class="har" on the page and creates HAR preview frame for each.
  * See list of attributes that can be specified on such elements:
- * 
+ *
  * class: (mandatory) elements with this class are considered as HAR preview elements.
  *      The class is removed as soon as the element is processed. Possible additional
  *      classes are not touched.
@@ -19,7 +19,7 @@
  * height: (optional, default: '150px') height of the preview.
  * expand: (optional, default: 'true') true if individual pages should be expanded.
  * validate: (optional, default: 'true') false if HAR validation (according to the schema) should be skipped.
- * 
+ *
  * Embed this script on a page:
  * <script>
  * (function() {
@@ -31,11 +31,11 @@
  * })();
  * if(typeof(harInitialize)!="undefined"){harInitialize()}
  * </script>
- * 
+ *
  * Examples of HAR elements:
  * <div class="har" data-har="http://example.com/my.harp"></div>
  * - load HARP file from an external domain using JSONP.
- * 
+ *
  * <div class="har" data-har="/my.har"></div>
  * - load HAR file from the same domain.
 
@@ -66,7 +66,7 @@ window.harInitialize = function()
         var expand = element.getAttribute("expand");
         var validate = element.getAttribute("validate");
 
-        var args = "?" + (path.indexOf("http:") == 0 ? "inputUrl" : "path") + "=" + path;
+        var args = "?" + (path.indexOf("http:") == 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
         if (expand != "false")
             args += "&expand=" + (expand ? expand : "true");
 
