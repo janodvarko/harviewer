@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module domplate/tableView
+ */
 define("domplate/tableView", [
     "domplate/domplate",
     "core/lib",

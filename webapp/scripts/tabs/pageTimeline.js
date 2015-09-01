@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module tabs/pageTimeline
+ */
 define("tabs/pageTimeline", [
     "domplate/domplate",
     "core/lib",

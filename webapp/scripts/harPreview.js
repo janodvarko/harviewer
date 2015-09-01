@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module harPreview
+ */
 define("harPreview", [
     "preview/requestList",
     "preview/pageList",

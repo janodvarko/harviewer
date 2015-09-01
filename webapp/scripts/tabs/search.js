@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module tabs/search
+ */
 define("tabs/search", [
     "domplate/domplate",
     "core/lib",

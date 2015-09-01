@@ -1,5 +1,8 @@
 /* See license.txt for terms of usage */
 
+/**
+ * @module tabs/schemaTab
+ */
 define("tabs/schemaTab", [
     "domplate/domplate",
     "domplate/tabView",

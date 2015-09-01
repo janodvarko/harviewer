@@ -30,7 +30,6 @@
         js-min (ant task): http://code.google.com/p/jsmin-ant-task/
         shrink-safe: http://shrinksafe.dojotoolkit.org/ -->
     <property name="jsmin.jar" value="${build.tools.dir}/jsmin/jsmin.0.2.3.jar"/>
-    <property name="js_build_tools.jar" value="${build.tools.dir}/js-build-tools/lib/js_build_tools.jar"/>
 
     <path id="js-build-tasks.classpath">
         <pathelement location="."/>
@@ -200,35 +199,35 @@
     <target name="clean-build" depends="clean, build">
     </target>
 
-    <!-- Support for generating docs from Firebug source code using js-doc-toolkit
-        See the output in $svn/jsdoc/out directory -->
-    <target name="jsdoc" depends="build" description="Generate documentation">
+    <!-- Support for generating docs from Firebug source code using npm jsdoc
+        See the output in webapp-jsdoc directory -->
+    <target name="jsdoc" description="Generate documentation">
         <!-- Directories -->
-        <property name="jsdoc.dir" value="${build.tools.dir}/jsdoc/"/>
-        <property name="jsdoc-toolkit.dir" value="${jsdoc.dir}/jsdoc-toolkit-2.3.0/"/>
         <property name="jsdoc-output.dir" value="${app.dir}-jsdoc"/>
 
-        <delete dir="${jsdoc-output.dir}"/>
-
-        <path id="jsdoctoolkit">
-            <!-- Rhino js.jar 1.7.R2 must be used with jsdoctoolkit-ant-task-1.0.1.jar -->
-            <fileset dir="${jsdoc.dir}" includes="*.jar"/>
-        </path>
-
-        <taskdef name="jsdoctoolkit"
-            classpathref="jsdoctoolkit"
-            classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit"/>
-
-        <echo message="Generate doc from Firebug source."/>
+        <echo message="Generate doc from HAR Viewer source."/>
 
         <!-- Clean the output direcotory -->
         <delete dir="${jsdoc-output.dir}"/>
 
         <!-- Parse all source files -->
-        <jsdoctoolkit jsdochome="${jsdoc-toolkit.dir}"
-            template="firebug"
-            outputdir="${jsdoc-output.dir}"
-            inputdir="." />
+        <exec dir="${basedir}" executable="node" resolveexecutable="true">
+            <arg value="${basedir}/node_modules/jsdoc/jsdoc.js"/>
+            <arg value="${app.dir}/scripts"/>
+            <arg value="--recurse"/>
+            <arg value="--configure"/>
+            <arg value="${basedir}/jsdoc.conf.json"/>
+            <arg value="--destination"/>
+            <arg value="${jsdoc-output.dir}"/>
+            <arg value="--package"/>
+            <arg value="${basedir}/package.json"/>
+            <arg value="--readme"/>
+            <arg value="${basedir}/README.md"/>
+            <arg value="--verbose"/>
+            <arg value="--access"/>
+            <arg value="all"/>
+            <arg value="--private"/>
+        </exec>
     </target>
 
 </project>
