@@ -56,7 +56,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         this.validateNode = $("#validate");
         var validate = Cookies.getCookie("validate");
         if (validate)
-            this.validateNode.attr("checked", (validate == "false") ? false : true);
+            this.validateNode.prop("checked", (validate == "false") ? false : true);
         this.validateNode.change(Lib.bind(this.onValidationChange, this))
 
         // Load examples
@@ -82,7 +82,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
 
     onValidationChange: function()
     {
-        var validate = this.validateNode.attr("checked");
+        var validate = this.validateNode.prop("checked");
         Cookies.setCookie("validate", validate);
     },
 

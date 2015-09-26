@@ -91,7 +91,7 @@ HarView.prototype = Lib.extend(new TabView(),
 
         try
         {
-            var validate = $("#validate").attr("checked");
+            var validate = $("#validate").prop("checked");
             var input = HarModel.parse(jsonString, validate);
             this.model.append(input);
 

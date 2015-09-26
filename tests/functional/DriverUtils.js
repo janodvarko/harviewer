@@ -34,6 +34,26 @@ define([
     };
   }
 
+  /**
+   * Returns a function that can be used as a parameter to a Command's then() method.
+   * E.g.
+   *     .then(getCookie("validate"))
+   *     .then(function(cookie) { ... })
+   */
+  function getCookie(name) {
+    return function() {
+      return this.session.getCookies().then(function(cookies) {
+        for (var i = 0; i < cookies.length; i++) {
+          var webDriverCookie = cookies[i];
+          if (name === webDriverCookie.name) {
+            return webDriverCookie;
+          }
+        }
+        return null;
+      });
+    };
+  };
+
   var syntaxBridge = {
     assertElementContainsText: function(driver, locator, text) {
       var elPromise = null;
@@ -113,6 +133,7 @@ define([
   DriverUtils.logThen = logThen;
   DriverUtils.pluck = pluck;
   DriverUtils.waitFor = waitFor;
+  DriverUtils.getCookie = getCookie;
 
   // For every function in syntaxBridge, we attach TWO functions to DriverUtils,
   // and TWO functions to DriverUtils.prototype.
