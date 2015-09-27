@@ -69,8 +69,13 @@
     overflow: visible;
 }
 
+.netIndexCol,
 .netSizeCol {
     text-align: right;
+}
+
+.netIndexCol {
+    width: 3em;
 }
 
 .netHrefLabel {
@@ -456,6 +461,7 @@
     display: table-cell;
 }
 
+#content[previewCols~=index] TD.netIndexCol,
 #content[previewCols~=url] TD.netHrefCol,
 #content[previewCols~=status] TD.netStatusCol,
 #content[previewCols~=domain] TD.netDomainCol,

@@ -51,7 +51,7 @@ HarModel.prototype =
                 return 1;
 
             return 0;
-        })
+        });
 
         if (this.input)
         {
@@ -85,10 +85,7 @@ HarModel.prototype =
      */
     getPages: function()
     {
-        if (!this.input)
-            return [];
-
-        return this.input.log.pages ? this.input.log.pages : [];
+        return HarModel.getPages(this.input);
     },
 
     /**
@@ -235,6 +232,31 @@ HarModel.parse = function(jsonString, validate)
     throw result;
 };
 
+HarModel.getPages = function(input)
+{
+    if (!input)
+        return [];
+
+    return input.log.pages ? input.log.pages : [];
+};
+
+HarModel.getPageIndex = function(input, page)
+{
+    if (!page || !page.id)
+    {
+        throw { errors: ["page must exist and have an id"], input: input };
+    }
+    var pages = HarModel.getPages(input);
+    for (var i = 0; i < pages.length; i++)
+    {
+        if (page.id === pages[i].id)
+        {
+            return i;
+        }
+    }
+    return -1;
+};
+
 // xxxHonza: optimalization using a map?
 /**
  * If `page` is not provided, then return all the HAR entries without a parent `Page`.
@@ -348,7 +370,7 @@ HarModel.validateRequestTimings = function(input)
 
     if (errors.length)
         throw {errors: errors, input: input};
-}
+};
 
 HarModel.isCachedEntry = function(entry) {
     var response = entry.response;

@@ -14,13 +14,36 @@ define("preview/requestList", [
 function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip, Menu) {
 with (Domplate) {
 
+function IteratorWithIndex(array)
+{
+    var index = -1;
+
+    this.next = function()
+    {
+        if (++index >= array.length)
+            throw Domplate.StopIteration;
+
+        return Lib.extend(array[index], { index: index });
+    };
+}
+
 // ********************************************************************************************* //
 // Request List
 
-function RequestList(input)
+function RequestList(input, opts)
 {
     this.input = input;
     this.pageTimings = [];
+
+    // config options for the RequestList
+    opts = opts || {};
+    this.opts = Lib.append({
+        // e.g. "1.1", "1.2", etc.
+        indexType: "page"
+
+        // e.g. "1", "2", etc.
+        // indexType: "entry"
+    }, opts);
 
     // List of pageTimings fields (see HAR 1.2 spec) that should be displayed
     // in the waterfall graph as vertical lines. The HAR spec defines two timings:
@@ -49,6 +72,7 @@ function RequestList(input)
  * List of all available columns for the request table, see also RequestList.prototype.tableTag
  */
 RequestList.columns = [
+    "index",
     "url",
     "status",
     "type",
@@ -117,6 +141,51 @@ RequestList.setVisibleColumns = function(cols, avoidCookies)
 // Initialize UI. List of columns is specified on the content element (used by CSS).
 RequestList.setVisibleColumns();
 
+/**
+ * Creates render opts for the RequestList.
+ * @param {object} page
+ *     The specific HAR page to create render opts for.
+ * @param {object} input
+ *     The HAR input.
+ * @param {string} indexType
+ *     The type of index to output.
+ *     indexType == "page" produces "1.1", "1.2", etc.
+ *     indexType == "entry" produces "1", "2", etc.
+ *     Any other value (or undefined) produces "0", "1", etc.
+ */
+RequestList.createRenderOpts = function(page, input, indexType) {
+    var renderOpts = {};
+    if (indexType === "page") {
+        // page may be null, in which case we can't use page indexes,
+        // and we'll simply use the null indexFormatter.
+        if (page) {
+            // Need the index of the page to display with the entry index.
+            var pageIndex = HarModel.getPageIndex(input, page);
+            renderOpts.indexFormatter = function(indexOfEntryWithinPage) {
+                return "" + (pageIndex + 1) + "." + (indexOfEntryWithinPage + 1);
+            };
+        }
+    } else if (indexType === "entry") {
+        // page may be null, in which case we can't use page offsets,
+        // and we'll simply use the null indexFormatter.
+        if (page) {
+            // The 'running total' for the entry index is an accumulation of all the
+            // entries seen so far (for all previous pages).
+            var entryOffset = 0;
+            var pages = HarModel.getPages(input);
+            var pageIndex = HarModel.getPageIndex(input, page);
+            for (var i = 0; i < pageIndex; i++) {
+                entryOffset += HarModel.getPageEntries(input, pages[i]).length;
+            }
+            renderOpts.indexFormatter = function(indexOfEntryWithinPage) {
+                return "" + (entryOffset + indexOfEntryWithinPage + 1);
+            };
+        }
+    }
+    return renderOpts;
+}
+
+
 // ********************************************************************************************* //
 
 /**
@@ -131,6 +200,7 @@ RequestList.prototype = domplate(
             _repObject: "$requestList"},
             TBODY(
                 TR({"class" : "netSizerRow"},
+                    TD({"class": "netIndexCol netCol"}),
                     TD({"class": "netHrefCol netCol", width: "20%"}),
                     TD({"class": "netStatusCol netCol", width: "7%"}),
                     TD({"class": "netTypeCol netCol", width: "7%"}),
@@ -143,12 +213,15 @@ RequestList.prototype = domplate(
         ),
 
     fileTag:
-        FOR("file", "$files",
+        FOR("file", "$files|filesWithIndex",
             TR({"class": "netRow loaded",
                 $isExpandable: "$file|isExpandable",
                 $responseError: "$file|isError",
                 $responseRedirect: "$file|isRedirect",
                 $fromCache: "$file|isFromCache"},
+                TD({"class": "netIndexCol netCol"},
+                    DIV({"class": "netIndexLabel netLabel"}, "$file,$renderOpts|getIndex")
+                ),
                 TD({"class": "netHrefCol netCol"},
                     DIV({"class": "netHrefLabel netLabel",
                          style: "margin-left: $file|getIndent\\px"},
@@ -205,6 +278,7 @@ RequestList.prototype = domplate(
 
     summaryTag:
         TR({"class": "netRow netSummaryRow"},
+            TD({"class": "netIndexCol netCol"}),
             TD({"class": "netHrefCol netCol"},
                 DIV({"class": "netCountLabel netSummaryLabel"}, "-")
             ),
@@ -235,6 +309,19 @@ RequestList.prototype = domplate(
             ),
             TD({"class": "netOptionsCol netCol"})
         ),
+
+    filesWithIndex: function(files)
+    {
+        return new IteratorWithIndex(files);
+    },
+
+    getIndex: function(file, renderOpts)
+    {
+        var indexOfEntryWithinPage = file.index;
+        return renderOpts.indexFormatter ?
+            renderOpts.indexFormatter(indexOfEntryWithinPage) :
+            indexOfEntryWithinPage;
+    },
 
     getIndent: function(file)
     {
@@ -971,10 +1058,11 @@ RequestList.prototype = domplate(
         if (!entries.length)
             return null;
 
-        return this.append(parentNode, page, entries);
+        var renderOpts = RequestList.createRenderOpts(page, this.input, this.opts.indexType);
+        return this.append(parentNode, page, entries, renderOpts);
     },
 
-    append: function(parentNode, page, entries)
+    append: function(parentNode, page, entries, renderOpts)
     {
         if (!this.table)
             this.table = this.tableTag.replace({requestList: this}, parentNode, this);
@@ -985,7 +1073,7 @@ RequestList.prototype = domplate(
         var tbody = this.table.firstChild;
         var lastRow = tbody.lastChild.previousSibling;
 
-        var result = this.fileTag.insertRows({files: entries}, lastRow, this);
+        var result = this.fileTag.insertRows({files: entries, renderOpts: renderOpts}, lastRow, this);
         this.updateLayout(this.table, page);
 
         return result[0];
