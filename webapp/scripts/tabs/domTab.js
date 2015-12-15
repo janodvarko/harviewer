@@ -305,7 +305,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         var target = e.target;
 
         var tab = Lib.getAncestorByClass(target, "tabBody");
-        var tableView = $(target).attr("checked");
+        var tableView = $(target).prop("checked");
         tab.repObject.tableView = tableView;
 
         var resultBox = Lib.getAncestorByClass(target, "results");
