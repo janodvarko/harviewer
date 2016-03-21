@@ -4,8 +4,39 @@ Issue list: http://code.google.com/p/harviewer/issues/list
 Project home: http://code.google.com/p/harviewer/
 ---------------------------------------------------------------------------------------------------
 
+HAR Viewer 2.0.17
+-----------------
+Contributors:
+* gitgrimbo (https://github.com/gitgrimbo)
+* David Bengoa (https://github.com/Youwotma)
+* Matt DeMoss (https://github.com/mdemoss)
+* Rodrigo López Dato (https://github.com/rolodato)
+
+Fixed issues:
+* Remove duplicate assertion #18
+* Port tests to Intern #20
+* Charset in MIME type causes content preview to fail #22
+* Use feature detection for text selection rather than IE userAgent test #25
+* Race condition when using the same callback name and jQuery JSONP #28
+* Test stability #29
+* Upgrade to Requirejs 2 and jQuery 2 #30
+* Support inputURL via hash fragment in addition to query string #32
+* Lib.getPrettyDomain now avoids data URIs. Also placed a limit in case… #34
+* String.prototype.startsWith absent in IE #36
+* Update Intern from 2.2.2 to 3.0.0 and some test tidyup #37
+* Upgrade jsdoc #38
+* GET params values get dropped from URL #39
+* GET params values get dropped from URL #40
+* Fix checkbox handling - replace jQ attr with prop #45
+* HAR Viewer redeclares functions; not ES6 compatible #50
+* Rename pageStats to harStats so uBlock doesn't block it #53
+
 HAR Viewer 2.0.16
 -----------------
+Contributors:
+* James Pickering (https://github.com/jamespic)
+
+Fixed issue:
 * Issue 90: errors with google chrome har file. It should show the latency.
 * Issue 73: Entries are not sorted in Chrome
 
@@ -29,7 +60,7 @@ HAR Viewer 2.0.14
 HAR Viewer 2.0.13
 -----------------
 * Issue 24: blocked in between connect and wait
-* Issue 55: harViewer in IE8 shows timing bars squeezed 
+* Issue 55: harViewer in IE8 shows timing bars squeezed
 * Issue 58: Embedding HAR previews on pages
 
 HAR Viewer 2.0.12
@@ -103,7 +134,7 @@ Issue 23: start time of subsequent entry not displayed correctly ?
 
 HAR Viewer 1.1-12
 -----------------
-Issue 22: Timing bars disproportional 
+Issue 22: Timing bars disproportional
 
 
 HAR Viewer 1.1-11
