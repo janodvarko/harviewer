@@ -1,15 +1,28 @@
-Versions tested for compatibility (11 Jun 2015):
+Versions tested for compatibility:
 
-Windows:
+Windows (11 Jun 2015):
 
-- Node v0.12.4.
+- Node 0.12.4.
 - Intern 3.0.0.
 - Firefox 27.0.2.
 - Chrome 44.0.2403.155 m using chromedriver.exe 2.16.
 - PhantomJS 2.0.0.
 - IE 11 (32bit) using IEDriverServer.exe 2.47.0 (32bit).
 - Java 1.8.0_45.
+- Ant 1.9.4.
 - Selenium 2.47.1.
+
+Windows (23 May 2016):
+
+- Node 6.0.0.
+- Intern 3.2.1.
+- Firefox 46.0.1.
+- Chrome 50.0.2661.102 m using chromedriver.exe 2.21.
+- PhantomJS 2.1.1.
+- IE 11 (32bit) using IEDriverServer.exe 2.53.1 (32bit).
+- Java 1.8.0_92.
+- Ant 1.9.7.
+- Selenium 2.53.0.
 
 
 
@@ -20,7 +33,7 @@ Run unit tests
 
 Start a web server from the project root, and browse to the "client.html" page. E.g.:
 
-http://localhost:9999/node_modules/intern/client.html?config=tests/intern
+http://localhost:9999/node_modules/intern/client.html?config=tests/intern-client
 
 
 

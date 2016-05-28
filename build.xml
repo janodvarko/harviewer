@@ -15,13 +15,13 @@
     <property name="rjs.cmd" value="${basedir}/r.js/dist/r.js"/>
     <property name="rjs.runner" value="node"/>
 
-    <property name="selenium.server.version" value="2.47.1"/>
-    <property name="selenium.server.version.major" value="2.47"/>
+    <property name="selenium.server.version" value="2.53.0"/>
+    <property name="selenium.server.version.major" value="2.53"/>
     <property name="selenium.server.url" value="https://selenium-release.storage.googleapis.com/${selenium.server.version.major}/selenium-server-standalone-${selenium.server.version}.jar"/>
-    <property name="iedriver.version" value="2.47.0"/>
+    <property name="iedriver.version" value="2.53.1"/>
     <property name="iedriver.filename" value="IEDriverServer_Win32_${iedriver.version}.zip"/>
     <property name="iedriver.url" value="https://selenium-release.storage.googleapis.com/${selenium.server.version.major}/${iedriver.filename}"/>
-    <property name="chromedriver.version" value="2.16"/>
+    <property name="chromedriver.version" value="2.21"/>
     <property name="chromedriver.filename" value="chromedriver_win32.zip"/>
     <property name="chromedriver.url" value="http://chromedriver.storage.googleapis.com/${chromedriver.version}/${chromedriver.filename}"/>
 
@@ -180,7 +180,7 @@
             todir="${build.dir}/scripts/domplate" overwrite="true"/>
         <jsmin srcfile="${build.dir}/scripts/domplate/domplate.js" force="true"/>
 
-        <!-- Preprocess script/core/trace file to avoid using the console object --> 
+        <!-- Preprocess script/core/trace file to avoid using the console object -->
         <preprocess infile="${app.dir}/scripts/core/trace.js"
             outfile="${build.dir}/scripts/core/trace.js" defines="_RELEASE" />
 
