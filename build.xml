@@ -11,7 +11,8 @@
     <property name="examples.dir" value="${app.dir}/examples"/>
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
-    <property name="rjs.version" value="2.1.18"/>
+    <property name="rjs.version" value="2.2.0"/>
+    <property name="rjs.url" value="https://github.com/requirejs/r.js/archive/${rjs.version}.zip"/>
     <property name="rjs.cmd" value="${basedir}/r.js/dist/r.js"/>
     <property name="rjs.runner" value="node"/>
 
@@ -97,7 +98,7 @@
     Therefore, if you want to do a fresh download and unpack of r.js, delete the "r.js" folder before running ant.
     -->
     <target name="get-rjs" depends="check-rjs-folder" unless="rjs.folder.present">
-        <get src="https://github.com/jrburke/r.js/archive/${rjs.version}.zip" dest="r.js.zip" verbose="true" />
+        <get src="${rjs.url}" dest="r.js.zip" verbose="true" />
         <unzip src="r.js.zip" dest="r.js">
             <!-- remove the first "r.js-x.y.x" part of the folder structure -->
             <cutdirsmapper dirs="1"/>
