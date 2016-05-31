@@ -4,8 +4,8 @@ HAR Viewer
 * Author: Jan Odvarko, odvarko@gmail.com,
 * http://www.softwareishard.com/
 * Home page: http://www.janodvarko.cz/har/viewer
-* Issue list: http://code.google.com/p/harviewer/issues/list
-* Project home: http://code.google.com/p/harviewer/
+* Issue list: https://github.com/janodvarko/harviewer/issues
+* Project home: https://github.com/janodvarko/harviewer
 
 License
 -------
@@ -35,11 +35,17 @@ Build Tools
 Testing
 -------
 * Selenium: http://seleniumhq.org/
-* PHPUnit: http://www.phpunit.de/
-* Intern: https://theintern.github.io/
+* Intern: https://theintern.github.io/ (preferred, see [tests](tests/))
+* PHPUnit: http://www.phpunit.de/ (deprecated, see [tests](selenium/tests))
 
 Development
 -----------
-* To start the build, go to the project directory and execute the following command:
+To start a build, go to the project directory and execute the following command:
 
 `ant build`
+
+This default build requires Node.js to be installed (the preferred option).
+
+For a Java-only build (not the preferred option), execute the following command:
+
+`ant -Drjs.runner=java build`
