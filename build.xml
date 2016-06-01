@@ -8,6 +8,7 @@
     <!-- Directories -->
     <property name="app.dir" value="webapp"/>
     <property name="build.dir" value="${app.dir}-build"/>
+    <property name="jsdoc.build.dir" value="${app.dir}-jsdoc"/>
     <property name="examples.dir" value="${app.dir}/examples"/>
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
@@ -50,6 +51,7 @@
     <!-- Remove the previous HAR Viewer build. -->
     <target name="clean">
         <delete dir="${build.dir}"/>
+        <delete dir="${jsdoc.build.dir}"/>
     </target>
 
 
@@ -203,13 +205,10 @@
     <!-- Support for generating docs from Firebug source code using npm jsdoc
         See the output in webapp-jsdoc directory -->
     <target name="jsdoc" description="Generate documentation">
-        <!-- Directories -->
-        <property name="jsdoc-output.dir" value="${app.dir}-jsdoc"/>
-
         <echo message="Generate doc from HAR Viewer source."/>
 
         <!-- Clean the output direcotory -->
-        <delete dir="${jsdoc-output.dir}"/>
+        <delete dir="${jsdoc.build.dir}"/>
 
         <!-- Parse all source files -->
         <exec dir="${basedir}" executable="node" resolveexecutable="true">
@@ -219,7 +218,7 @@
             <arg value="--configure"/>
             <arg value="${basedir}/jsdoc.conf.json"/>
             <arg value="--destination"/>
-            <arg value="${jsdoc-output.dir}"/>
+            <arg value="${jsdoc.build.dir}"/>
             <arg value="--package"/>
             <arg value="${basedir}/package.json"/>
             <arg value="--readme"/>
