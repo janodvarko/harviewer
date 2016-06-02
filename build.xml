@@ -117,15 +117,20 @@
             <matches pattern="^node$" string="${rjs.runner}"/>
         </condition>
 
+        <condition property="rjs.runner.isNashorn">
+            <matches pattern="^nashorn$" string="${rjs.runner}"/>
+        </condition>
+
         <condition property="rjs.runner.isJava">
             <matches pattern="^java$" string="${rjs.runner}"/>
         </condition>
 
-        <fail message="Ant property 'rjs.runner' must be set to either 'node' (the default) or 'java'. Value was '${rjs.runner}'.">
+        <fail message="Ant property 'rjs.runner' must be set to either 'node' (the default), 'nashorn' or 'java'. Value was '${rjs.runner}'.">
             <condition>
                 <not>
                     <or>
                         <isset property="rjs.runner.isNode"/>
+                        <isset property="rjs.runner.isNashorn"/>
                         <isset property="rjs.runner.isJava"/>
                     </or>
                 </not>
@@ -141,6 +146,16 @@
     <target name="rjs-node" depends="rjs-determine-runner" if="rjs.runner.isNode">
         <exec dir="${app.dir}/scripts" executable="node" resolveexecutable="true">
             <arg value="${rjs.cmd}"/>
+            <arg value="-o"/>
+            <arg value="app.build.js"/>
+        </exec>
+    </target>
+
+    <target name="rjs-nashorn" depends="rjs-determine-runner" if="rjs.runner.isNashorn">
+        <exec dir="${app.dir}/scripts" executable="jjs" resolveexecutable="true">
+            <arg value="-scripting"/>
+            <arg value="${rjs.cmd}"/>
+            <arg value="--"/>
             <arg value="-o"/>
             <arg value="app.build.js"/>
         </exec>
@@ -163,7 +178,7 @@
 
 
     <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="build" depends="rjs-java, rjs-node">
+    <target name="build" depends="rjs-java, rjs-node, rjs-nashorn">
 
         <!-- Log info about the current OS -->
         <echo message="Building HAR Viewer on:" />

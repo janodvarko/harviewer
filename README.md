@@ -25,6 +25,7 @@ Components
 
 Build Tools
 -----------
+* Java 8 (for [Nashorn/jjs](http://docs.oracle.com/javase/8/docs/technotes/tools/windows/jjs.html) build)
 * Ant: http://ant.apache.org/
 * js-build-tools: http://code.google.com/p/js-build-tools/
 * js-min (ant task): http://code.google.com/p/jsmin-ant-task/
@@ -40,12 +41,35 @@ Testing
 
 Development
 -----------
+
+A build can be performed in one of three ways.
+
+### 1) Node.js
+
+This is the default and preferred method.  Node.js must be installed.
 To start a build, go to the project directory and execute the following command:
 
 `ant build`
 
-This default build requires Node.js to be installed (the preferred option).
+(*Indicative build time - about 9 seconds.  Node.js v6.0.0*)
 
-For a Java-only build (not the preferred option), execute the following command:
+### 2) Java 8 / Nashorn
+
+To build using the [jjs](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/jjs.html) command, Java 8 must be installed.
+Execute the following command:
+
+`ant -Drjs.runner=nashorn build`
+
+(*Indicative build time - about 1 minute 37 seconds.  nashorn 1.8.0_92*)
+
+### 3) Pre-Java 8 / Rhino
+
+To build using Java 7 or earlier, execute the following command:
 
 `ant -Drjs.runner=java build`
+
+You will have to set the [optimize build configuration value](https://github.com/janodvarko/harviewer/blob/0997957b3ecb9fbdb27df4260d5bc85c653fac81/webapp/scripts/app.build.js#L11) to `"closure"`, for example:
+
+     optimize: "closure",
+
+(*Indicative build time - about 42 seconds*)
