@@ -21,8 +21,8 @@ define([
     // harViewerBase: The root URL to the harviewer app.
     // testBase: The root URL to the harviewer test pages, HARs and HARPs.
     harviewer: {
-      harViewerBase: 'http://localhost:49001/webapp/',
-      testBase: 'http://localhost:49001/selenium/',
+      harViewerBase: 'http://harviewer:49001/webapp/',
+      testBase: 'http://harviewer:49001/selenium/',
       findTimeout: 30 * 1000
     },
 
