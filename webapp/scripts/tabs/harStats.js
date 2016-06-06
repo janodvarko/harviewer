@@ -7,14 +7,11 @@ define("tabs/harStats", [
     "domplate/domplate",
     "core/lib",
     "i18n!nls/harStats",
-    "preview/harSchema",
     "preview/harModel",
-    "core/cookies",
-    "domplate/infoTip",
-    "core/trace"
+    "domplate/infoTip"
 ],
 
-function(Domplate, Lib, Strings, HarSchema, HarModel, Cookies, InfoTip, Trace) { with (Domplate) {
+function(Domplate, Lib, Strings, HarModel, InfoTip) { with (Domplate) {
 
 //*************************************************************************************************
 // Page Load Statistics
