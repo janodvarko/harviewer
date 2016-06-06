@@ -6,12 +6,13 @@
 define("tabs/harStats", [
     "domplate/domplate",
     "core/lib",
+    "core/StatsService",
     "i18n!nls/harStats",
     "preview/harModel",
     "domplate/infoTip"
 ],
 
-function(Domplate, Lib, Strings, HarModel, InfoTip) { with (Domplate) {
+function(Domplate, Lib, StatsService, Strings, HarModel, InfoTip) { with (Domplate) {
 
 //*************************************************************************************************
 // Page Load Statistics
@@ -125,68 +126,6 @@ var cachePie = new CachePie();
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-var jsTypes = {
-    "text/javascript": 1,
-    "text/jscript": 1,
-    "application/javascript": 1,
-    "application/x-javascript": 1,
-    "text/js": 1
-}
-
-var htmlTypes = {
-    "text/plain": 1,
-    "text/html": 1
-}
-
-var cssTypes = {
-    "text/css": 1
-}
-
-var imageTypes = {
-    "image/png": 1,
-    "image/jpeg": 1,
-    "image/gif": 1
-}
-
-var flashTypes = {
-    "application/x-shockwave-flash": 1
-}
-
-var jsonTypes = {
-    "text/x-json": 1,
-    "text/x-js": 1,
-    "application/json": 1,
-    "application/x-js": 1
-}
-
-var xmlTypes = {
-    "application/xml": 1,
-    "application/xhtml+xml": 1,
-    "application/vnd.mozilla.xul+xml": 1,
-    "text/xml": 1,
-    "text/xul": 1,
-    "application/rdf+xml": 1
-}
-
-var unknownTypes = {
-    "text/xsl": 1,
-    "text/sgml": 1,
-    "text/rtf": 1,
-    "text/x-setext": 1,
-    "text/richtext": 1,
-    "text/tab-separated-values": 1,
-    "text/rdf": 1,
-    "text/xif": 1,
-    "text/ecmascript": 1,
-    "text/vnd.curl": 1,
-    "text/vbscript": 1,
-    "view-source": 1,
-    "view-fragment": 1,
-    "application/x-httpd-php": 1,
-    "application/ecmascript": 1,
-    "application/http-index-format": 1
-};
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 function Stats(model, timeline)
@@ -214,96 +153,47 @@ Stats.prototype = domplate(
 
         this.cleanUp();
 
-        // Get schema type for timings.
-        var phases = HarSchema.timingsType.properties;
-
         // If there is no selection, display stats for all pages/files.
         if (!pages.length)
             pages.push(null);
 
-        // Iterate over all selected pages
-        for (var j=0; j<pages.length; j++)
-        {
-            var page = pages[j];
+        var ss = new StatsService(this.model);
+        var timingsTotals = ss.calcTimingsTotalsForPages(pages);
+        timingPie.data[0].value = timingsTotals.blocked;
+        timingPie.data[1].value = timingsTotals.dns;
+        timingPie.data[2].value = timingsTotals.ssl;
+        timingPie.data[3].value = timingsTotals.connect;
+        timingPie.data[4].value = timingsTotals.send;
+        timingPie.data[5].value = timingsTotals.wait;
+        timingPie.data[6].value = timingsTotals.receive;
 
-            // Iterate over all requests and compute stats.
-            var entries = page? this.model.getPageEntries(page) : this.model.getAllEntries();
-            for (var i=0; i<entries.length; i++)
-            {
-                var entry = entries[i];
-                if (!entry.timings)
-                    continue;
+        var contentTotals = ss.calcContentTotalsForPages(pages);
+        contentPie.data[0].value = contentTotals.html.resBodySize;
+        contentPie.data[0].count = contentTotals.html.count;
+        contentPie.data[1].value = contentTotals.js.resBodySize;
+        contentPie.data[1].count = contentTotals.js.count;
+        contentPie.data[2].value = contentTotals.css.resBodySize;
+        contentPie.data[2].count = contentTotals.css.count;
+        contentPie.data[3].value = contentTotals.image.resBodySize;
+        contentPie.data[3].count = contentTotals.image.count;
+        contentPie.data[4].value = contentTotals.flash.resBodySize;
+        contentPie.data[4].count = contentTotals.flash.count;
+        contentPie.data[5].value = contentTotals.other.resBodySize;
+        contentPie.data[5].count = contentTotals.other.count;
 
-                // Get timing info (SSL is new in HAR 1.2)
-                timingPie.data[0].value += entry.timings.blocked;
-                timingPie.data[1].value += entry.timings.dns;
-                timingPie.data[2].value += entry.timings.ssl > 0 ? entry.timings.ssl : 0;
-                timingPie.data[3].value += entry.timings.connect;
-                timingPie.data[4].value += entry.timings.send;
-                timingPie.data[5].value += entry.timings.wait;
-                timingPie.data[6].value += entry.timings.receive;
+        var trafficTotals = ss.calcTrafficTotalsForPages(pages);
+        trafficPie.data[0].value = trafficTotals.request.headersSize;
+        trafficPie.data[1].value = trafficTotals.request.bodySize;
+        trafficPie.data[2].value = trafficTotals.response.headersSize;
+        trafficPie.data[3].value = trafficTotals.response.bodySize;
 
-                // The ssl time is also included in the connect field, see HAR 1.2 spec
-                // (to ensure backward compatibility with HAR 1.1).
-                if (entry.timings.ssl > 0)
-                    timingPie.data[3].value -= entry.timings.ssl;
-
-                var response = entry.response;
-                var resBodySize = response.bodySize > 0 ? response.bodySize : 0;
-
-                // Get Content type info. Make sure we read the right content type
-                // even if there is also a charset specified.
-                var mimeType = response.content.mimeType;
-                var contentType = mimeType ? mimeType.match(/^([^;]+)/)[1] : null;
-                var mimeType = contentType ? contentType : response.content.mimeType;
-
-                // Collect response sizes according to the mimeType.
-                if (htmlTypes[mimeType]) {
-                    contentPie.data[0].value += resBodySize;
-                    contentPie.data[0].count++;
-                }
-                else if (jsTypes[mimeType]) {
-                    contentPie.data[1].value += resBodySize;
-                    contentPie.data[1].count++;
-                }
-                else if (cssTypes[mimeType]) {
-                    contentPie.data[2].value += resBodySize;
-                    contentPie.data[2].count++;
-                }
-                else if (imageTypes[mimeType]) {
-                    contentPie.data[3].value += resBodySize;
-                    contentPie.data[3].count++;
-                }
-                else if (flashTypes[mimeType]) {
-                    contentPie.data[4].value += resBodySize;
-                    contentPie.data[4].count++;
-                }
-                else {
-                    contentPie.data[5].value += resBodySize;
-                    contentPie.data[5].count++;
-                }
-
-                // Get traffic info
-                trafficPie.data[0].value += entry.request.headersSize > 0 ? entry.request.headersSize : 0;
-                trafficPie.data[1].value += entry.request.bodySize > 0 ? entry.request.bodySize : 0;
-                trafficPie.data[2].value += entry.response.headersSize > 0 ? entry.response.headersSize : 0;
-                trafficPie.data[3].value += resBodySize;
-
-                // Get Cache info
-                if (entry.response.status == 206) { // Partial content
-                    cachePie.data[1].value += resBodySize;
-                    cachePie.data[1].count++;
-                }
-                else if (entry.response.status == 304) { // From cache
-                    cachePie.data[2].value += resBodySize;
-                    cachePie.data[2].count++;
-                }
-                else if (resBodySize > 0){ // Downloaded
-                    cachePie.data[0].value += resBodySize;
-                    cachePie.data[0].count++;
-                }
-            }
-        }
+        var cacheTotals = ss.calcCacheTotalsForPages(pages);
+        cachePie.data[1].value = cacheTotals.partial.resBodySize;
+        cachePie.data[1].count = cacheTotals.partial.count;
+        cachePie.data[2].value = cacheTotals.cached.resBodySize;
+        cachePie.data[2].count = cacheTotals.cached.count;
+        cachePie.data[0].value = cacheTotals.downloaded.resBodySize;
+        cachePie.data[0].count = cacheTotals.downloaded.count;
 
         // Draw all graphs.
         Pie.draw(Lib.$(this.timingPie, "pieGraph"), timingPie);
