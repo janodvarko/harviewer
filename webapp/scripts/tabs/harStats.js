@@ -459,7 +459,7 @@ var Pie = domplate(
 
         var data = pie.data;
         var total = 0;
-        for (var i in data)
+        for (var i=0; i<data.length; i++)
             total += data[i].value;
 
         if (!total)
@@ -477,6 +477,9 @@ var Pie = domplate(
         for (var i=0; i<data.length; i++)
         {
             var thisvalue = data[i].value / total;
+            if (thisvalue <= 0) {
+                continue;
+            }
 
             ctx.beginPath();
             ctx.moveTo(center[0], center[1]);
