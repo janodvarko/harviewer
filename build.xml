@@ -26,6 +26,9 @@
     <property name="chromedriver.version" value="2.21"/>
     <property name="chromedriver.filename" value="chromedriver_win32.zip"/>
     <property name="chromedriver.url" value="http://chromedriver.storage.googleapis.com/${chromedriver.version}/${chromedriver.filename}"/>
+    <property name="geckodriver.version" value="0.8.0"/>
+    <property name="geckodriver.filename" value="geckodriver-v${geckodriver.version}-win32.zip"/>
+    <property name="geckodriver.url" value="https://github.com/mozilla/geckodriver/releases/download/v${geckodriver.version}/${geckodriver.filename}"/>
 
     <!-- Tools for building release package of HAR Viewer.
         js-build-tools: http://code.google.com/p/js-build-tools/
@@ -61,7 +64,7 @@
     <!--
     Downloads selenium server.  Selenium server is required for testing.
     -->
-    <target name="get-iedriver">
+    <target name="get-iedriver" description="Downloads IEDriver">
         <property name="iedriver.dir" value="${basedir}/selenium/iedriver"/>
         <mkdir dir="${iedriver.dir}"/>
         <get dest="${iedriver.dir}" verbose="true">
@@ -70,7 +73,7 @@
         <unzip src="${iedriver.dir}/${iedriver.filename}" dest="${basedir}/selenium"/>
     </target>
 
-    <target name="get-chromedriver">
+    <target name="get-chromedriver" description="Downloads ChromeDriver">
         <property name="chromedriver.dir" value="${basedir}/selenium/chromedriver"/>
         <mkdir dir="${chromedriver.dir}"/>
         <get dest="${chromedriver.dir}" verbose="true">
@@ -79,7 +82,16 @@
         <unzip src="${chromedriver.dir}/${chromedriver.filename}" dest="${basedir}/selenium"/>
     </target>
 
-    <target name="get-selenium" depends="get-iedriver, get-chromedriver">
+    <target name="get-geckodriver" description="Downloads GeckoDriver">
+        <property name="geckodriver.dir" value="${basedir}/selenium/geckodriver"/>
+        <mkdir dir="${geckodriver.dir}"/>
+        <get dest="${geckodriver.dir}" verbose="true">
+            <url url="${geckodriver.url}" />
+        </get>
+        <unzip src="${geckodriver.dir}/${geckodriver.filename}" dest="${basedir}/selenium"/>
+    </target>
+
+    <target name="get-selenium" depends="get-iedriver, get-chromedriver, get-geckodriver" description="Downloads Selenium and IE/Chrome/Gecko drivers">
         <get src="${selenium.server.url}" dest="${basedir}/selenium/server/selenium-server.jar" verbose="true"/>
     </target>
 
