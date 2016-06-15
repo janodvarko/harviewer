@@ -1,4 +1,5 @@
 /* See license.txt for terms of usage */
+/* See license.txt for terms of usage */
 
 /**
  * @module preview/harModel
@@ -209,7 +210,7 @@ HarModel.parse = function(jsonString, validate)
     }
     catch (err)
     {
-        console.exception("HarModel.parse; EXCEPTION", err);
+        Trace.exception("HarModel.parse; EXCEPTION", err);
 
         throw {
             errors: [{
@@ -230,7 +231,6 @@ HarModel.parse = function(jsonString, validate)
         this.validateRequestTimings(input);
         return input;
     }
-
 
     throw result;
 };
