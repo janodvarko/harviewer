@@ -21,7 +21,20 @@ define([
   // Configuration options for the module loader; any AMD configuration options supported by the Dojo loader can be
   // used here
   config.loaderOptions = {
-    packages: [{name: 'core', location: 'webapp/scripts/core'}]
+    paths: {
+        'text': 'webapp/scripts/text',
+        'i18n': 'webapp/scripts/i18n',
+        'jquery': 'webapp/scripts/jquery'
+    },
+    packages: [{
+        name: 'core', location: 'webapp/scripts/core'
+    },{
+        name: 'preview', location: 'webapp/scripts/preview'
+    },{
+        name: 'nls', location: 'webapp/scripts/nls'
+    },{
+        name: 'tabs', location: 'webapp/scripts/tabs'
+    }]
   };
 
   // Non-functional test suite(s) to run in each browser
@@ -31,7 +44,8 @@ define([
   }
   config.suites = config.suites.concat([
     'tests/unit/core/lib',
-    'tests/unit/core/cookies'
+    'tests/unit/core/cookies',
+    'tests/unit/core/StatsService'
   ]);
 
   // A regular expression matching URLs to files that should not be included
