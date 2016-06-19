@@ -54,12 +54,13 @@ define([
         })
         .execute("return document.querySelector('#preview2').firstChild.clientWidth")
         .then(function(width) {
-          assert.strictEqual(width, 400, "#preview2.firstChild.clientWidth");
+          // PhantomJS-2.1.1 gives 497.
+          assert.include([400, 497], width, "#preview2.firstChild.clientHeight");
         })
         .execute("return document.querySelector('#preview2').firstChild.clientHeight")
-        .then(function(width) {
+        .then(function(height) {
           // PhantomJS-2.0.0 gives 56.
-          assert.include([50, 56], width, "#preview2.firstChild.clientHeight");
+          assert.include([50, 56], height, "#preview2.firstChild.clientHeight");
         });
     }
   });

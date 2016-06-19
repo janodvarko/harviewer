@@ -350,6 +350,25 @@ HarModel.validateRequestTimings = function(input)
         throw {errors: errors, input: input};
 }
 
+HarModel.isCachedEntry = function(entry) {
+    var response = entry.response;
+    var resBodySize = Math.max(0, response.bodySize);
+    return (response.status == 304 || (resBodySize === 0 && response.content && response.content.size > 0));
+};
+
+HarModel.getEntrySize = function(entry) {
+    var bodySize = entry.response.bodySize;
+    return (bodySize && bodySize != -1) ? bodySize : entry.response.content.size;
+};
+
+HarModel.getEntryUncompressedSize = function(entry) {
+    return Math.max(0, entry.response.content.size) || Math.max(0, entry.response.bodySize);
+};
+
+HarModel.getEntryTransferredSize = function(entry) {
+    return (entry.response.status === 304) ? 0 : Math.max(0, entry.response.bodySize);
+};
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 /**

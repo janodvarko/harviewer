@@ -219,7 +219,13 @@ RequestList.prototype = domplate(
                     DIV({"class": "netCacheSizeLabel netSummaryLabel"},
                         "(",
                         SPAN("0KB"),
-                        SPAN(" " + Strings.fromCache),
+                        SPAN(" " + Strings.summaryFromCache),
+                        ")"
+                    ),
+                    DIV({"class": "netUncompressedSizeLabel netSummaryLabel"},
+                        "(",
+                        SPAN("0KB"),
+                        SPAN(" " + Strings.uncompressed),
                         ")"
                     ),
                     DIV({"class": "netTimeBar"},
@@ -251,7 +257,7 @@ RequestList.prototype = domplate(
 
     isFromCache: function(file)
     {
-        return file.cache && file.cache.afterRequest;
+        return (file.cache && file.cache.afterRequest) || HarModel.isCachedEntry(file);
     },
 
     getHref: function(file)
@@ -813,7 +819,7 @@ RequestList.prototype = domplate(
     updateSummaries: function(page)
     {
         var phases = this.phases;
-        var fileCount = 0, totalSize = 0, cachedSize = 0, totalTime = 0;
+        var fileCount = 0, totalTransferredSize = 0, totalUncompressedSize = 0, cachedSize = 0, totalTime = 0;
         for (var i = 0; i < phases.length; ++i)
         {
             var phase = phases[i];
@@ -821,7 +827,8 @@ RequestList.prototype = domplate(
 
             var summary = this.summarizePhase(phase);
             fileCount += summary.fileCount;
-            totalSize += summary.totalSize;
+            totalTransferredSize += summary.totalTransferredSize;
+            totalUncompressedSize += summary.totalUncompressedSize;
             cachedSize += summary.cachedSize;
             totalTime += summary.totalTime;
         }
@@ -834,8 +841,12 @@ RequestList.prototype = domplate(
         countLabel.firstChild.nodeValue = this.formatRequestCount(fileCount);
 
         var sizeLabel = Lib.getElementByClass(row, "netTotalSizeLabel");
-        sizeLabel.setAttribute("totalSize", totalSize);
-        sizeLabel.firstChild.nodeValue = Lib.formatSize(totalSize);
+        sizeLabel.setAttribute("totalSize", totalTransferredSize);
+        sizeLabel.firstChild.nodeValue = Lib.formatSize(totalTransferredSize);
+
+        var uncompressedSizeLabel = Lib.getElementByClass(row, "netUncompressedSizeLabel");
+        uncompressedSizeLabel.setAttribute("collapsed", totalUncompressedSize == 0);
+        uncompressedSizeLabel.childNodes[1].firstChild.nodeValue = Lib.formatSize(totalUncompressedSize);
 
         var cacheSizeLabel = Lib.getElementByClass(row, "netCacheSizeLabel");
         cacheSizeLabel.setAttribute("collapsed", cachedSize == 0);
@@ -858,7 +869,7 @@ RequestList.prototype = domplate(
 
     summarizePhase: function(phase)
     {
-        var cachedSize = 0, totalSize = 0;
+        var cachedSize = 0, totalTransferredSize = 0, totalUncompressedSize = 0;
 
         var category = "all";
         if (category == "all")
@@ -876,25 +887,35 @@ RequestList.prototype = domplate(
             {
                 ++fileCount;
 
-                var bodySize = file.response.bodySize;
-                var size = (bodySize && bodySize != -1) ? bodySize : file.response.content.size;
+                var transferredSize = HarModel.getEntryTransferredSize(file);
+                var uncompressedSize = HarModel.getEntryUncompressedSize(file);
 
-                totalSize += size;
-                if (file.response.status == 304)
-                    cachedSize += size;
+                totalTransferredSize += transferredSize;
+                totalUncompressedSize += uncompressedSize;
 
-                if (!minTime || startedDateTime < minTime)
+                if (HarModel.isCachedEntry(file)) {
+                    cachedSize += uncompressedSize;
+                }
+
+                if (!minTime || startedDateTime < minTime) {
                     minTime = startedDateTime;
+                }
 
                 var fileEndTime = startedDateTime + file.time;
-                if (fileEndTime > maxTime)
+                if (fileEndTime > maxTime) {
                     maxTime = fileEndTime;
+                }
             }
         }
 
         var totalTime = maxTime - minTime;
-        return {cachedSize: cachedSize, totalSize: totalSize, totalTime: totalTime,
-            fileCount: fileCount}
+        return {
+            cachedSize: cachedSize,
+            totalUncompressedSize: totalUncompressedSize,
+            totalTransferredSize: totalTransferredSize,
+            totalTime: totalTime,
+            fileCount: fileCount
+        };
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -1192,7 +1213,7 @@ var EntryTimeInfoTip = domplate(
             timings.push({bar: "request.phase.Receiving",
                 elapsed: receive,
                 start: startTime += (wait < 0) ? 0 : wait,
-                loaded: file.loaded, fromCache: file.fromCache});
+                loaded: file.loaded, fromCache: HarModel.isCachedEntry(file)});
         }
 
         // Insert request timing info.
@@ -1235,12 +1256,16 @@ var EntryTimeInfoTip = domplate(
 var EntrySizeInfoTip = domplate(
 {
     tag:
-        DIV({"class": "sizeInfoTip"}, "$file|getSize"),
+        DIV(
+            DIV({"class": "sizeInfoTip"}, "$file|getSize"),
+            DIV({"class": "sizeInfoTip", style: "display: $file|getCachedDisplayStyle"}, "$file|getCached")
+        ),
 
     zippedTag:
         DIV(
             DIV({"class": "sizeInfoTip"}, "$file|getBodySize"),
-            DIV({"class": "sizeInfoTip"}, "$file|getContentSize")
+            DIV({"class": "sizeInfoTip"}, "$file|getContentSize"),
+            DIV({"class": "sizeInfoTip", style: "display: $file|getCachedDisplayStyle"}, "$file|getCached")
         ),
 
     getSize: function(file)
@@ -1274,6 +1299,16 @@ var EntrySizeInfoTip = domplate(
         return Lib.formatString(Strings.tooltipUnzippedSize,
             Lib.formatSize(contentSize),
             Lib.formatNumber(contentSize));
+    },
+
+    getCached: function(file)
+    {
+        return HarModel.isCachedEntry(file) ? Strings.resourceFromCache : "";
+    },
+
+    getCachedDisplayStyle: function(file)
+    {
+        return HarModel.isCachedEntry(file) ? "block" : "none";
     },
 
     render: function(requestList, row, parentNode)
