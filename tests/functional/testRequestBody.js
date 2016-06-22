@@ -37,19 +37,33 @@ define([
       .end(2);
   }
 
-  function testTabBodyContainsText(remote, url, expectedPageTitle, tabName, expectedTabBody) {
-    var utils = new DriverUtils(remote);
-    return clickFirstNetLabel(remote, url, expectedPageTitle)
-      .findByCssSelector(".netInfoRow")
-      .findByCssSelector("." + tabName + "Tab.tab")
-      .click()
-      .then(utils.cbAssertElementContainsText("css=.tab" + tabName + "Body.tabBody.selected ", expectedTabBody));
+  function clickTab(tabName) {
+    return function() {
+      return this.parent
+        .findByCssSelector(".netInfoRow")
+        .findByCssSelector("." + tabName + "Tab.tab")
+        .click();
+    };
   }
 
   function getVisibleTextForAll(els) {
     return Promise.all(els.map(function(el, i) {
       return el.getVisibleText();
     }));
+  }
+
+  function testTabBodyContainsText(remote, url, expectedPageTitle, tabName, expectedTabBody) {
+    var utils = new DriverUtils(remote);
+    return clickFirstNetLabel(remote, url, expectedPageTitle)
+      .then(clickTab(tabName))
+      .then(utils.cbAssertElementContainsText("css=.tab" + tabName + "Body.tabBody.selected ", expectedTabBody));
+  }
+
+  function testSyntaxHighlighting(remote, url, expectedPageTitle) {
+      return clickFirstNetLabel(remote, url, expectedPageTitle)
+        .then(clickTab("Response"))
+        // We assume that finding the following class means syntax highlighter has worked.
+        .findByCssSelector(".dp-highlighter")
   }
 
   registerSuite({
@@ -105,6 +119,26 @@ define([
         .then(function(tabLabels) {
             assert.include(tabLabels, "Post", '"Post" tab should be present');
         });
+    },
+
+    'testIssue78 - HTML': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-78/html.har";
+      return testSyntaxHighlighting(this.remote, url, "HTML");
+    },
+
+    'testIssue78 - JSON': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-78/json.har";
+      return testSyntaxHighlighting(this.remote, url, "JSON");
+    },
+
+    'testIssue78 - XML': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-78/xml.har";
+      return testSyntaxHighlighting(this.remote, url, "XML");
+    },
+
+    'testIssue78 - CSS': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-78/css.har";
+      return testSyntaxHighlighting(this.remote, url, "CSS");
     }
   });
 });

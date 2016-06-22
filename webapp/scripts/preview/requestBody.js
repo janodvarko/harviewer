@@ -218,8 +218,17 @@ ResponseTab.prototype = domplate(TabView.Tab.prototype,
 
     bodyTag:
         DIV({"class": "netInfoResponseText netInfoText"},
-            PRE({"class": "javascript:nocontrols:nogutter:", name: "code"})
+            PRE({"class": "nocontrols:nogutter", name: "code"})
         ),
+
+    shouldHighlightAs: function(mimeType) {
+        for (var brush in ResponseTab.mimeTypesToHighlight) {
+            if (ResponseTab.mimeTypesToHighlight[brush].indexOf(mimeType) > -1) {
+                return brush;
+            }
+        }
+        return null;
+    },
 
     onUpdateBody: function(tabView, body)
     {
@@ -235,26 +244,41 @@ ResponseTab.prototype = domplate(TabView.Tab.prototype,
         }
         else
         {
-            Lib.clearNode(responseTextBox.firstChild);
+            var pre = responseTextBox.firstChild;
+            Lib.clearNode(pre);
 
             var text = this.file.response.content.text;
             var mimeType = this.file.response.content.mimeType;
+            // Remove any mime type parameters (if any)
+            mimeType = Lib.extractMimeType(mimeType);
 
-            // Highlight the syntax if the response is Javascript.
-            if (mimeType == "application/javascript" || mimeType == "text/javascript" ||
-                mimeType == "application/x-javascript" || mimeType == "text/ecmascript" ||
-                mimeType == "application/ecmascript")
-            {
-                responseTextBox.firstChild.innerHTML = text;
-                dp.SyntaxHighlighter.HighlightAll(responseTextBox.firstChild);
+            // Highlight the syntax if the mimeType is supported.
+            var brush = this.shouldHighlightAs(mimeType);
+            if (brush) {
+                pre.className = brush + ":" + pre.className;
+
+                // If we want to highlight HTML then we can't use 'innerHTML=' in this way,
+                // as CSS from the HTML content will be parsed/used in the main HAR Viewer document.
+                //pre.innerHTML = text;
+
+                // Instead we insert a text node.
+                pre.appendChild(document.createTextNode(text));
+                dp.SyntaxHighlighter.HighlightAll(pre);
             }
             else
             {
-                Lib.insertWrappedText(text, responseTextBox.firstChild);
+                Lib.insertWrappedText(text, pre);
             }
         }
     }
 });
+
+ResponseTab.mimeTypesToHighlight = {
+    javascript: ["application/javascript", "text/javascript", "application/x-javascript", "text/ecmascript", "application/ecmascript", "application/json"],
+    css: ["text/css"],
+    html: ["text/html", "application/xhtml+xml"],
+    xml: ["text/xml", "application/xml"]
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
