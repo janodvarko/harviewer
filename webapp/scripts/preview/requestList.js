@@ -43,7 +43,7 @@ function RequestList(input)
 }
 
 // ********************************************************************************************* //
-// Columns 
+// Columns
 
 /**
  * List of all available columns for the request table, see also RequestList.prototype.tableTag
@@ -121,7 +121,7 @@ RequestList.setVisibleColumns();
 
 /**
  * @domplate This object represents a template for list of entries (requests).
- * This list is displayed when a page is expanded by the user. 
+ * This list is displayed when a page is expanded by the user.
  */
 RequestList.prototype = domplate(
 /** @lends RequestList */
@@ -237,8 +237,8 @@ RequestList.prototype = domplate(
 
     isError: function(file)
     {
-        var errorRange = Math.floor(file.response.status/100);
-        return errorRange == 4 || errorRange == 5;
+        var errorRange = Math.floor(file.response.status / 100);
+        return errorRange === 4 || errorRange === 5 || errorRange === 0;
     },
 
     isRedirect: function(file)
@@ -267,8 +267,14 @@ RequestList.prototype = domplate(
 
     getStatus: function(file)
     {
-        var status = file.response.status > 0 ? (file.response.status + " ") : "";
-        return status + file.response.statusText;
+        // WebInspector can include an _error property when response.status===0.
+        // Use this _error value if provided, as it's more informative than showing '0'.
+        if (file.response.status === 0 && file.response._error) {
+            return file.response._error;
+        } else {
+            var status = file.response.status > 0 ? (file.response.status + " ") : "";
+            return status + file.response.statusText;
+        }
     },
 
     getType: function(file)
@@ -599,9 +605,9 @@ RequestList.prototype = domplate(
         var startedDateTime = Lib.parseISO8601(file.startedDateTime);
         this.barOffset = (((startedDateTime-this.phaseStartTime)/this.phaseElapsed) * 100).toFixed(3);
 
-        // Compute size of each bar. Left side of each bar starts at the 
+        // Compute size of each bar. Left side of each bar starts at the
         // beginning. The first bar is on top of all and the last one is
-        // at the bottom (z-index). 
+        // at the bottom (z-index).
         this.barBlockingWidth = ((blocking/this.phaseElapsed) * 100).toFixed(3);
         this.barResolvingWidth = ((resolving/this.phaseElapsed) * 100).toFixed(3);
         this.barConnectingWidth = ((connecting/this.phaseElapsed) * 100).toFixed(3);
@@ -643,7 +649,7 @@ RequestList.prototype = domplate(
 
         var phase;
 
-        // Iterate over all existing entries. Some rows aren't associated with a file 
+        // Iterate over all existing entries. Some rows aren't associated with a file
         // (e.g. header, sumarry) so, skip them.
         for (var row = this.firstRow; row; row = row.nextSibling)
         {
@@ -675,11 +681,11 @@ RequestList.prototype = domplate(
             var waitingBar = sendingBar.nextSibling;
             var receivingBar = waitingBar.nextSibling;
 
-            // All bars starts at the beginning of the appropriate request graph. 
-            blockingBar.style.left = 
+            // All bars starts at the beginning of the appropriate request graph.
+            blockingBar.style.left =
                 connectingBar.style.left =
                 resolvingBar.style.left =
-                sendingBar.style.left = 
+                sendingBar.style.left =
                 waitingBar.style.left =
                 receivingBar.style.left = this.barOffset + "%";
 
