@@ -11,6 +11,7 @@ define(
         "Headers": "Headers",
         "Post": "Post",
         "Put": "Put",
+        "Get": "Get",
         "Cookies": "Cookies",
         "Response": "Response",
         "Cache": "Cache",

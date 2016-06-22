@@ -46,8 +46,9 @@ RequestBody.prototype = domplate(
         if (file.request.queryString && file.request.queryString.length)
             tabView.appendTab(new ParamsTab(file));
 
-        if (file.request.postData)
+        if (RequestBody.isValidPostData(file)) {
             tabView.appendTab(new SentDataTab(file, file.request.method));
+        }
 
         if (file.response.content.text && file.response.content.text.length > 0)
             tabView.appendTab(new ResponseTab(file));
@@ -104,6 +105,30 @@ RequestBody.prototype = domplate(
         return file.request.url.indexOf("data:") == 0;
     }
 });
+
+RequestBody.isValidPostData = function(file) {
+    var postData = file.request.postData;
+    if (!postData) {
+        // No post data at all.
+        return false;
+    }
+
+    var paramsMissing = !Lib.isArray(postData.params) || (postData.params.length === 0);
+    var textMissing = !postData.text;
+
+    var postContentMissing = paramsMissing && textMissing;
+
+    if (postContentMissing) {
+        // (at least) Firefox 47 exports GET requests in HARs that have:
+        //   postData.mimeType = ""
+        //   postData.params = []
+        //   postData.text = ""
+        // So double-check for this and only allow such 'empty' postData for PUT and POST
+        return ["PUT", "POST"].indexOf(file.request.method) > -1;
+    }
+
+    return true;
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
