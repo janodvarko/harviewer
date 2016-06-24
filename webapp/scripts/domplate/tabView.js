@@ -39,6 +39,7 @@ var TabViewTempl = domplate(
 
     tabHeaderTag:
         A({"class": "$tab.id\\Tab tab",
+            title: "$tab|getTitle",
             view: "$tab.id", _repObject: "$tab"},
             "$tab.label"
         ),
@@ -68,6 +69,11 @@ var TabViewTempl = domplate(
     {
         var tabView = Lib.getAncestorByClass(node, "tabView");
         return tabView.repObject;
+    },
+
+    getTitle: function(tab)
+    {
+        return tab.title || "";
     }
 });
 
