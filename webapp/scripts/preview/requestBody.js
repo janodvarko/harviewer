@@ -29,6 +29,8 @@ function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) { with
  * {@link ParamsTab}: URL parameters
  * {@link SentDataTab}: posted data
  * {@link ResponseTab}: request response body
+ * {@link ImageTab}: Builds an IMG tag with a data URI built from response.content.text
+ * {@link ExternalImageTab}: Builds an IMG tag with src=request.url
  * {@link CacheTab}: browser cache entry meta-data
  * {@link HighlightedTab}: response body syntax highlighted
  * {@link JsonTab}: response body as JSON tree
@@ -68,6 +70,14 @@ RequestBody.prototype = domplate(
 
         if (XmlTab.canShowFile(file)) {
             tabView.appendTab(new XmlTab(file));
+        }
+
+        if (ImageTab.canShowFile(file)) {
+            tabView.appendTab(new ImageTab(file));
+        }
+
+        if (ExternalImageTab.canShowFile(file)) {
+            tabView.appendTab(new ExternalImageTab(file));
         }
 
         //xxxHonza
@@ -245,6 +255,121 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+function ImageTab(file)
+{
+    this.file = file;
+}
+
+ImageTab.prototype = domplate(TabView.Tab.prototype,
+{
+    id: "Image",
+    label: Strings.Image,
+    title: Strings.ImageTitle,
+
+    bodyTag:
+        DIV({"class": "netInfoImageText netInfoText"}),
+
+    onUpdateBody: function(tabView, body)
+    {
+        // Works for all supported browsers except IE9
+        function addUsingCreateElement(file, container) {
+            var content = file.response.content;
+            var mimeType = Lib.extractMimeType(content.mimeType);
+
+            var responseImage = body.ownerDocument.createElement("img");
+            // https://css-tricks.com/data-uris/
+            responseImage.src = "data:" + mimeType + ";base64," + content.text;
+
+            container.appendChild(responseImage);
+        }
+
+        // Works for all supported browsers including IE9
+        function addUsingInnerHtml(file, container) {
+            var content = file.response.content;
+            var mimeType = Lib.extractMimeType(content.mimeType);
+
+            // http://stackoverflow.com/a/475217/319878
+            var base64regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+
+            // We are going to use dangerous innerHTML, so check the data first.
+            if (content.text.match(base64regex)) {
+                // https://css-tricks.com/data-uris/
+                var src = "data:" + mimeType + ";base64," + content.text;
+
+                container.innerHTML = "<img src=" + src + ">";
+            } else {
+                // error?
+            }
+        }
+
+        var imageTextBox = Lib.getElementByClass(body, "netInfoImageText");
+
+        Lib.clearNode(imageTextBox);
+
+        // Better ways of identifying IE9?
+        // https://msdn.microsoft.com/en-us/library/cc196988%28v=vs.85%29.aspx
+        // http://stackoverflow.com/a/18871780/319878
+        // https://github.com/jquery/jquery-migrate/blob/1.4.1/src/core.js#L118
+        var ie9 = 9 === document.documentMode;
+        if (ie9) {
+            addUsingInnerHtml(this.file, imageTextBox);
+        } else {
+            addUsingCreateElement(this.file, imageTextBox);
+        }
+    }
+});
+
+ImageTab.isFileImage = function(file) {
+    var content = file.response.content;
+    if (!content) {
+        return false;
+    }
+
+    var mimeType = Lib.extractMimeType(content.mimeType);
+    return Lib.startsWith(mimeType, "image/");
+};
+
+ImageTab.canShowFile = function(file) {
+    var content = file.response.content;
+    return ImageTab.isFileImage(file) && (content.text && "base64" === content.encoding);
+};
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+function ExternalImageTab(file)
+{
+    this.file = file;
+}
+
+ExternalImageTab.prototype = domplate(TabView.Tab.prototype,
+{
+    id: "ExternalImage",
+    label: Strings.ExternalImage,
+    title: Strings.ExternalImageTitle,
+
+    bodyTag:
+        DIV({"class": "netInfoExternalImageText netInfoText"}),
+
+    onUpdateBody: function(tabView, body)
+    {
+        var imageTextBox = Lib.getElementByClass(body, "netInfoExternalImageText");
+
+        Lib.clearNode(imageTextBox);
+
+        var responseImage = body.ownerDocument.createElement("img");
+
+        responseImage.src = this.file.request.url;
+
+        imageTextBox.appendChild(responseImage);
+    }
+});
+
+ExternalImageTab.canShowFile = function(file) {
+    return ImageTab.isFileImage(file);
+};
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
 function ResponseTab(file)
 {
     this.file = file;
@@ -330,6 +455,7 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
 
 HighlightedTab.canShowFile = function(file) {
     var content = file.response.content;
+
     if (!content || !content.text) {
         return false;
     }
@@ -633,6 +759,7 @@ JsonTab.prototype = domplate(TabView.Tab.prototype, {
 
 JsonTab.canShowFile = function(file) {
     var content = file.response.content;
+
     if (!content || !content.text) {
         return false;
     }
@@ -689,6 +816,7 @@ XmlTab.isXmlMimeType = function(mimeType) {
 
 XmlTab.canShowFile = function(file) {
     var content = file.response.content;
+
     if (!content || !content.text) {
         return false;
     }

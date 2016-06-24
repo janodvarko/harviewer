@@ -7,71 +7,58 @@ define([
   'intern/chai!assert',
   'require',
   './DriverUtils',
+  './appDriver',
   'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil) {
+], function(intern, registerSuite, assert, require, DriverUtils, appDriver, pollUntil) {
   var harViewerBase = intern.config.harviewer.harViewerBase;
   var testBase = intern.config.harviewer.testBase;
 
-  function clickFirstNetLabel(remote, url, expectedPageTitle) {
-    // Some of these tests need a larger timeout for finding DOM elements
-    // because we need the HAR to parse/display fully before we query the DOM.
-    var findTimeout = intern.config.harviewer.findTimeout;
-    var utils = new DriverUtils(remote);
-
-    return remote
-      .setFindTimeout(findTimeout)
-      .get(url)
-      // The Preview tab must be selected
-      .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"))
-      // There must be one page (expanded).
-      .then(utils.cbAssertElementContainsText("css=.pageRow.opened", expectedPageTitle))
-      // Expand the only request entry.
-      .findByCssSelector(".netFullHrefLabel.netHrefLabel.netLabel")
-      // NOTE - gitgrimbo
-      // The element selected above (".netFullHrefLabel.netHrefLabel.netLabel")
-      // is hidden, so click does not work. Therefore, click the parent.
-      .findByXpath("..")
-      .click()
-      // NOTE - gitgrimbo
-      // The next findByCssSelector() call will fail unless we reset the active Element two times.
-      .end(2);
-  }
-
-  function clickTab(tabName) {
-    return function() {
-      return this.parent
-        .findByCssSelector(".netInfoRow")
-        .findByCssSelector("." + tabName + "Tab.tab")
-        .click();
-    };
-  }
-
-  function getVisibleTextForAll(els) {
-    return Promise.all(els.map(function(el, i) {
-      return el.getVisibleText();
-    }));
-  }
+  var findTimeout = intern.config.harviewer.findTimeout;
+  var timeoutForExternalImagesToLoad = 5 * 1000;
 
   function testTabBodyContainsText(remote, url, expectedPageTitle, tabName, expectedTabBody) {
     var utils = new DriverUtils(remote);
-    return clickFirstNetLabel(remote, url, expectedPageTitle)
-      .then(clickTab(tabName))
+    return appDriver.openAndClickFirstNetLabel(remote, url, findTimeout, expectedPageTitle)
+      .then(appDriver.clickTab(tabName))
       .then(utils.cbAssertElementContainsText("css=.tab" + tabName + "Body.tabBody.selected ", expectedTabBody));
   }
 
   function testSyntaxHighlighting(remote, url, expectedPageTitle) {
-    return clickFirstNetLabel(remote, url, expectedPageTitle)
-      .then(clickTab("Highlighted"))
+    return appDriver.openAndClickFirstNetLabel(remote, url, findTimeout, expectedPageTitle)
+      .then(appDriver.clickTab("Highlighted"))
       // We assume that finding the following class means syntax highlighter has worked.
       .findByCssSelector(".syntaxhighlighter")
   }
 
   function testTreeView(remote, url, expectedPageTitle, tabName, firstLabel, firstValue) {
     var utils = new DriverUtils(remote);
-    return clickFirstNetLabel(remote, url, expectedPageTitle)
-      .then(clickTab(tabName))
+    return appDriver.openAndClickFirstNetLabel(remote, url, findTimeout, expectedPageTitle)
+      .then(appDriver.clickTab(tabName))
       .then(utils.cbAssertElementContainsText("css=.memberLabelCell", firstLabel))
       .then(utils.cbAssertElementContainsText("css=.memberValueCell", firstValue));
+  }
+
+  function testImageDimensions(remote, url, expectedPageTitle, idx, isExternalImage, width, height, delta) {
+    delta = delta || 0;
+
+    var tabName = isExternalImage ? "ExternalImage" : "Image";
+
+    return appDriver.openAndClickNetLabel(remote, url, findTimeout, expectedPageTitle, idx)
+      .then(appDriver.clickTab(tabName))
+      .findByCssSelector(".tabBody.selected")
+      .then(function(body) {
+        return body.findByCssSelector("img").then(function(img) {
+          // return the image for waitForImageToLoad
+          return img;
+        });
+      })
+      .then(appDriver.waitForImageToLoad(timeoutForExternalImagesToLoad))
+      .then(function(size) {
+        // size is NOT from Leadfoot getSize()?
+        // img.getSize() seems to be unreliable, with different values coming from the different browser WebDrivers.
+        assert.closeTo(size.height, height, delta, "height");
+        assert.closeTo(size.width, width, delta, "width");
+      });
   }
 
   registerSuite({
@@ -102,14 +89,14 @@ define([
       var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-21/get-empty-post-data.har";
       var expectedPageTitle = "Tags and Attributes | React";
 
-      return clickFirstNetLabel(r, url, expectedPageTitle)
+      return appDriver.openAndClickFirstNetLabel(r, url, findTimeout, expectedPageTitle)
         .findByCssSelector(".netInfoRow")
         .findAllByCssSelector(".tab")
-        .then(getVisibleTextForAll)
+        .then(appDriver.getVisibleTextForAll)
         // Headers/Response/HTML - No SentDataTab with "undefined" label or "Get" label should be present.
         .then(function(tabLabels) {
-            assert.notInclude(tabLabels, "undefined", "No tab should have undefined as label");
-            assert.notInclude(tabLabels, "Get", '"Get" tab should not be present');
+          assert.notInclude(tabLabels, "undefined", "No tab should have undefined as label");
+          assert.notInclude(tabLabels, "Get", '"Get" tab should not be present');
         });
     },
 
@@ -120,12 +107,12 @@ define([
       var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-21/post-empty-post-data.har";
       var expectedPageTitle = "Tags and Attributes | React";
 
-      return clickFirstNetLabel(r, url, expectedPageTitle)
+      return appDriver.openAndClickFirstNetLabel(r, url, findTimeout, expectedPageTitle)
         .findByCssSelector(".netInfoRow")
         .findAllByCssSelector(".tab")
-        .then(getVisibleTextForAll)
+        .then(appDriver.getVisibleTextForAll)
         .then(function(tabLabels) {
-            assert.include(tabLabels, "Post", '"Post" tab should be present');
+          assert.include(tabLabels, "Post", '"Post" tab should be present');
         });
     },
 
@@ -171,6 +158,38 @@ define([
         return testTreeView(this.remote, url, "SVG", "XML", "svg", "SVGSVGElement");
       }
       return true;
+    },
+
+    'testIssue23 - chrome51.har Image': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-23/chrome51.har";
+      return testImageDimensions(this.remote, url, "Browser test runner", 1, false, 32, 32);
+    },
+
+    'testIssue23 - chrome51.har ExternalImage': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-23/chrome51.har";
+      return testImageDimensions(this.remote, url, "Browser test runner", 2, true, 32, 32);
+    },
+
+    'testIssue23 - ff47.har Image': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-23/ff47.har";
+      return testImageDimensions(this.remote, url, "Browser test runner", 1, false, 32, 32);
+    },
+
+    'testIssue23 - ff47.har ExternalImage': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-23/ff47.har";
+      return testImageDimensions(this.remote, url, "Browser test runner", 2, true, 32, 32);
+    },
+
+    'testIssue23 - images.har PNG Image': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-23/images.har";
+      return testImageDimensions(this.remote, url, "issue-23", 0, false, 88, 31);
+    },
+
+    'testIssue23 - images.har SVG Image': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-23/images.har";
+      var delta = 1;
+      // Chrome and FF report the SVG width/height as 515.  IE reports as 514, so need a delta.
+      return testImageDimensions(this.remote, url, "issue-23", 1, false, 515, 515, delta);
     }
   });
 });
