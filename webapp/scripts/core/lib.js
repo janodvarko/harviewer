@@ -423,6 +423,18 @@ Lib.toISOString = function(date)
 },
 
 //*************************************************************************************************
+// Mime Types
+
+Lib.extractMimeType = function(mimeType) {
+    // remove parameters (if any)
+    var idx = mimeType.indexOf(";");
+    if (idx > -1) {
+        mimeType = mimeType.substring(0, idx).trim();
+    }
+    return mimeType;
+};
+
+//*************************************************************************************************
 // URL
 
 Lib.getFileName = function(url)
