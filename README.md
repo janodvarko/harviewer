@@ -42,6 +42,8 @@ Testing
 Development
 -----------
 
+The HAR Viewer build process uses Ant as its build tool.  To see a list of available tasks, use `ant -p` at the command line.
+
 A build can be performed in one of three ways.
 
 ### 1) Node.js
