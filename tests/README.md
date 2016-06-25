@@ -25,7 +25,7 @@ Start a web server from the project root, and browse to Intern's "client.html" p
 
 The Selenium tests require [Selenium](http://www.seleniumhq.org/download/) and Intern to be installed.
 
-Download Selenium by running the following Ant command from the project root.
+Download Selenium (and the IE/Chrome/Gecko drivers) by running the following Ant command from the project root.
 
     ant get-selenium
 
