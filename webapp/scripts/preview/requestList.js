@@ -313,7 +313,7 @@ RequestList.prototype = domplate(
         // Total request time doesn't include the time spent in queue.
         //var elapsed = file.time - file.timings.blocked;
         var time = Math.round(file.time * 10) / 10;
-        return Lib.formatTime(time);
+        return Lib.formatTime(time.toFixed(2));
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -842,11 +842,11 @@ RequestList.prototype = domplate(
         cacheSizeLabel.childNodes[1].firstChild.nodeValue = Lib.formatSize(cachedSize);
 
         var timeLabel = Lib.getElementByClass(row, "netTotalTimeLabel");
-        var timeText = Lib.formatTime(totalTime);
+        var timeText = Lib.formatTime(totalTime.toFixed(2));
 
         // xxxHonza: localization?
         if (page && page.pageTimings.onLoad > 0)
-            timeText += " (onload: " + Lib.formatTime(page.pageTimings.onLoad) + ")";
+            timeText += " (onload: " + Lib.formatTime(page.pageTimings.onLoad.toFixed(2)) + ")";
 
         timeLabel.innerHTML = timeText;
     },
@@ -1088,13 +1088,13 @@ var EntryTimeInfoTip = domplate(
 
     formatTime: function(time)
     {
-        return Lib.formatTime(time);
+        return Lib.formatTime(time.toFixed(2));
     },
 
     formatStartTime: function(time)
     {
         var positive = time > 0;
-        var label = Lib.formatTime(Math.abs(time));
+        var label = Lib.formatTime(Math.abs(time.toFixed(2)));
         if (!time)
             return label;
 

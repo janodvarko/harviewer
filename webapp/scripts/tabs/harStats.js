@@ -57,7 +57,7 @@ TimingPie.prototype = Lib.extend(PieBase.prototype,
 
     getLabelTooltipText: function(item)
     {
-        return item.label + ": " + Lib.formatTime(item.value);
+        return item.label + ": " + Lib.formatTime(item.value.toFixed(2));
     }
 });
 
@@ -408,11 +408,6 @@ var PieInfoTip = domplate(
         DIV({"class": "pieLabelInfoTip"},
             "$text"
         ),
-
-    getText: function(item)
-    {
-        return item.label + ": " + formatTime(item.value);
-    },
 
     render: function(pie, item, parentNode)
     {

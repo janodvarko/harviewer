@@ -318,7 +318,7 @@ Timeline.Desc = domplate(
         var summary = "";
         var onLoad = object.page.pageTimings.onLoad;
         if (onLoad > 0)
-            summary += Strings.pageLoad + ": " + Lib.formatTime(onLoad) + ", ";
+            summary += Strings.pageLoad + ": " + Lib.formatTime(onLoad.toFixed(2)) + ", ";
 
         var requests = HarModel.getPageEntries(object.input, object.page);
         var count = requests.length;
