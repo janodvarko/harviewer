@@ -190,6 +190,33 @@ define([
       var delta = 1;
       // Chrome and FF report the SVG width/height as 515.  IE reports as 514, so need a delta.
       return testImageDimensions(this.remote, url, "issue-23", 1, false, 515, 515, delta);
+    },
+
+    'testIssue56': {
+      'testIssue56 - Handle missing response.content.mimetype gracefully': function() {
+        var r = this.remote;
+
+        var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-56/missing-content-type.har";
+        var expectedPageTitle = "CSS";
+        var expectedTabBody = "See license.txt for terms of usage";
+
+        // The HAR is invalid, so browse to base page first, turn off
+        // validation and only then do the main test.
+        // We're testing that HAR Viewer handles the lack of
+        // response.content.mimeType gracefully.
+        return r
+          .setFindTimeout(findTimeout)
+          .get(harViewerBase)
+          .then(appDriver.disableValidation())
+          .then(function() {
+            return testTabBodyContainsText(r, url, expectedPageTitle, "Response", expectedTabBody);
+          });
+      },
+
+      teardown: function() {
+        // Clear cookies to return to clean state for other tests
+        return this.remote.clearCookies();
+      }
     }
   });
 });

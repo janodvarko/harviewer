@@ -45,6 +45,7 @@ define([
   config.suites = config.suites.concat([
     'tests/unit/core/lib',
     'tests/unit/core/cookies',
+    'tests/unit/core/mime',
     'tests/unit/core/StatsService'
   ]);
 
