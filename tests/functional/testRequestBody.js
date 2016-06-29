@@ -61,9 +61,9 @@ define([
 
   function testSyntaxHighlighting(remote, url, expectedPageTitle) {
       return clickFirstNetLabel(remote, url, expectedPageTitle)
-        .then(clickTab("Response"))
+        .then(clickTab("Highlighted"))
         // We assume that finding the following class means syntax highlighter has worked.
-        .findByCssSelector(".dp-highlighter")
+        .findByCssSelector(".syntaxhighlighter")
   }
 
   registerSuite({
