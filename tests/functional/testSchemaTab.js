@@ -31,7 +31,7 @@ define([
         // Wait till the schema JS file is loaded.
         // Return null or undefined to indicate poll not successful (yet).
         // http://theintern.github.io/leadfoot/pollUntil.html
-        .then(pollUntil("return (document.querySelectorAll('.dp-highlighter').length > 0) || null;", 10 * 1000));
+        .then(pollUntil("return (document.querySelectorAll('.syntaxhighlighter').length > 0) || null;", 10 * 1000));
     }
   });
 });

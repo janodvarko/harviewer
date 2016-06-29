@@ -225,7 +225,7 @@ ResponseTab.prototype = domplate(TabView.Tab.prototype,
 
     bodyTag:
         DIV({"class": "netInfoResponseText netInfoText"},
-            PRE({"class": "", name: "code"})
+            PRE()
         ),
 
     onUpdateBody: function(tabView, body)
@@ -258,7 +258,7 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
 
     bodyTag:
         DIV({"class": "netInfoHighlightedText netInfoText"},
-            PRE({"class": "nocontrols:nogutter:", name: "code"})
+            PRE({"class": "toolbar: false; brush: ", name: "code"})
         ),
 
     onUpdateBody: function(tabView, body)
@@ -276,7 +276,7 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
         // Highlight the syntax if the mimeType is supported.
         var brush = HighlightedTab.shouldHighlightAs(mimeType);
         if (brush) {
-            pre.className = brush + ":" + pre.className;
+            pre.className += brush;
 
             // If we want to highlight HTML then we can't use 'innerHTML=' in this way,
             // as CSS from the HTML content will be parsed/used in the main HAR Viewer document.
@@ -284,7 +284,7 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
 
             // Instead we insert a text node.
             pre.appendChild(document.createTextNode(text));
-            dp.SyntaxHighlighter.HighlightAll(pre);
+            dp.SyntaxHighlighter.highlight(pre);
         }
         else
         {
@@ -315,7 +315,7 @@ HighlightedTab.mimeTypesToHighlight = {
     javascript: ["application/javascript", "text/javascript", "application/x-javascript", "text/ecmascript", "application/ecmascript", "application/json"],
     css: ["text/css"],
     html: ["text/html", "application/xhtml+xml"],
-    xml: ["text/xml", "application/xml"]
+    xml: ["text/xml", "application/xml", "image/svg+xml", "application/atom+xml", "application/xslt+xml", "application/mathml+xml", "application/rss+xml"]
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -24,7 +24,7 @@ SchemaTab.prototype =
     label: Strings.schemaTabLabel,
 
     bodyTag:
-        PRE({"class": "javascript:nocontrols:", name: "code"}),
+        PRE({"class": "brush: javascript; toolbar: false;", name: "code"}),
 
     onUpdateBody: function(tabView, body)
     {
@@ -36,7 +36,7 @@ SchemaTab.prototype =
             {
                 var code = body.firstChild;
                 code.innerHTML = response;
-                dp.SyntaxHighlighter.HighlightAll(code);
+                dp.SyntaxHighlighter.highlight(code);
             },
 
             error: function(jqXHR, textStatus, errorThrown)
