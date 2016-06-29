@@ -16,6 +16,7 @@ function(Domplate, Lib, Trace) { with (Domplate) {
 function DomTree(input)
 {
     this.input = input;
+    this.view = $.isXMLDoc(input) ? new XmlView(input) : new PlainObjectView(input);
 }
 
 /**
@@ -56,7 +57,7 @@ DomTree.prototype = domplate(
 
     memberIterator: function(object)
     {
-        return this.getMembers(object);
+        return this.view.getMembers(object);
     },
 
     getValue: function(member)
@@ -114,59 +115,11 @@ DomTree.prototype = domplate(
                 if (!repObject.hasChildren)
                     return;
 
-                var members = this.getMembers(repObject.value, level+1);
+                var members = this.view.getMembers(repObject.value, level+1);
                 if (members)
                     this.loop.insertRows({members: members}, row);
             }
         }
-    },
-
-    getMembers: function(object, level)
-    {
-        if (!level)
-            level = 0;
-
-        var members = [];
-        for (var p in object)
-        {
-            var propObj = object[p];
-            if (typeof(propObj) != "function"/* && typeof(propObj) != "number"*/)
-                members.push(this.createMember("dom", p, propObj, level));
-        }
-
-        return members;
-    },
-
-    createMember: function(type, name, value, level)
-    {
-        var valueType = typeof(value);
-        var hasChildren = this.hasProperties(value) && (valueType == "object");
-
-        var valueTag = DomTree.Reps.getRep(value);
-
-        return {
-            name: name,
-            value: value,
-            type: type,
-            rowClass: "memberRow-" + type,
-            open: "",
-            level: level,
-            indent: level*16,
-            hasChildren: hasChildren,
-            tag: valueTag.tag
-        };
-    },
-
-    hasProperties: function(ob)
-    {
-        if (typeof(ob) == "string")
-            return false;
-
-        try {
-            for (var name in ob)
-                return true;
-        } catch (exc) {}
-        return false;
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -174,7 +127,7 @@ DomTree.prototype = domplate(
 
     append: function(parentNode)
     {
-        this.element = this.tag.append({object: this.input}, parentNode);
+        this.element = this.tag.append({object: this.input}, parentNode, this);
         this.element.repObject = this;
 
         // Expand the first node (root) by default
@@ -212,23 +165,145 @@ DomTree.prototype = domplate(
     }
 });
 
-function safeToString(ob)
-{
-    try
-    {
-        return ob.toString();
-    }
-    catch (exc)
-    {
-        return "";
-    }
-}
+DomTree.createMember = function(type, name, value, hasChildren, level) {
+    var valueTag = DomTree.Reps.getRep(value);
+
+    return {
+        name: name,
+        value: value,
+        type: type,
+        rowClass: "memberRow-" + type,
+        open: "",
+        level: level,
+        indent: level*16,
+        hasChildren: hasChildren,
+        tag: valueTag.tag
+    };
+};
 
 // ********************************************************************************************* //
 // Value Templates
 
 var OBJECTBOX =
     DIV({"class": "objectBox objectBox-$className"});
+
+// ********************************************************************************************* //
+
+function hasProperties(ob) {
+    if (typeof(ob) == "string")
+        return false;
+
+    try {
+        for (var name in ob)
+            return true;
+    } catch (exc) {}
+    return false;
+}
+
+// ********************************************************************************************* //
+
+function PlainObjectView(input) {
+    this.input = input;
+}
+
+PlainObjectView.prototype.getMembers = function(object, level) {
+    if (!level)
+        level = 0;
+
+    var members = [];
+
+    for (var p in object) {
+        var propObj = object[p];
+        if (typeof(propObj) != "function"/* && typeof(propObj) != "number"*/)
+            members.push(DomTree.createMember("dom", p, propObj, this.hasChildren(propObj), level));
+    }
+
+    return members;
+};
+
+PlainObjectView.prototype.hasChildren = function(value) {
+    return hasProperties(value) && (typeof value === "object");
+};
+
+// ********************************************************************************************* //
+
+function XmlView(input) {
+    this.input = input;
+}
+
+XmlView.prototype.getMembers = function(object, level) {
+    if (!level)
+        level = 0;
+
+    var attrs = XmlView.nodeAttributes(object).map(function(attr) {
+        return DomTree.createMember("dom", "@" + attr.name, attr.value, false, level);
+    });
+
+    var elements = XmlView.nodeChildElements(object).map(function(element) {
+        var hasChildren = this.hasChildren(element);
+        return DomTree.createMember("dom", element.tagName, hasChildren ? element : element.firstChild.nodeValue, hasChildren, level);
+    }, this);
+
+    var members = attrs;
+
+    // If there are no child elements, then we add the element's firstChild content (if it exists).
+    // This firstChild content could be text.
+    if (elements.length === 0 && object.firstChild) {
+        members.push(DomTree.createMember("dom", "value", object.firstChild.nodeValue, false, level));
+    }
+
+    return members.concat(elements);
+};
+
+XmlView.prototype.hasChildren = function(value) {
+    return XmlView.hasChildren(value);
+};
+
+XmlView.hasChildren = function(node) {
+    var attrs = XmlView.nodeAttributes(node);
+    var elements = XmlView.nodeChildElements(node);
+    return (attrs.length > 0 || elements.length > 0);
+    /*
+    if (!hasChildren) {
+        if ("string" !== typeof value) {
+            value = value.nodeValue ? value.nodeValue : value.firstChild.nodeValue;
+        }
+    }
+    */
+};
+
+XmlView.nodeChildElements = function(node, limit) {
+    limit = ("number" === limit) ? limit : null;
+
+    var elements = [];
+    var child = node.firstChild;
+    while (child) {
+        if (Node.ELEMENT_NODE === child.nodeType) {
+            elements.push(child);
+            if (null !== limit && elements.length >= limit) {
+                return elements;
+            }
+        }
+        child = child.nextSibling;
+    }
+    return elements;
+};
+
+XmlView.nodeAttributes = function(node, limit) {
+    limit = ("number" === limit) ? limit : null;
+
+    var attrs = [];
+    if (!node.attributes) {
+        return attrs;
+    }
+    for (var i = node.attributes.length; --i >= 0; ) {
+        attrs.push(node.attributes[i]);
+        if (null !== limit && attrs.length >= limit) {
+            return attrs;
+        }
+    }
+    return attrs;
+};
 
 // ********************************************************************************************* //
 
@@ -267,6 +342,24 @@ DomTree.Reps =
 
 // ********************************************************************************************* //
 
+function safeToString(ob) {
+    try
+    {
+        return ob.toString();
+    }
+    catch (exc)
+    {
+        return "";
+    }
+}
+
+function objectAsStringOrType(object) {
+    var label = safeToString(object);
+    var re = /\[object (.*?)\]/;
+    var m = re.exec(label);
+    return m ? m[1] : label;
+}
+
 DomTree.Rep = domplate(
 {
     tag:
@@ -276,10 +369,7 @@ DomTree.Rep = domplate(
 
     getTitle: function(object)
     {
-        var label = safeToString(object);
-        var re = /\[object (.*?)\]/;
-        var m = re.exec(label);
-        return m ? m[1] : label;
+        return objectAsStringOrType(object);
     },
 
     getTooltip: function(object)
@@ -393,7 +483,7 @@ var Tree = domplate(DomTree.prototype,
 {
     createMember: function(type, name, value, level)
     {
-        var member = DomTree.prototype.createMember(type, name, value, level);
+        var member = DomTree.createMember(type, name, value, false, level);
         if (level == 0)
         {
             member.name = "";
