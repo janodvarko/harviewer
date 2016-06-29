@@ -14,6 +14,7 @@ define(
         "Get": "Get",
         "Cookies": "Cookies",
         "Response": "Response",
+        "Highlighted": "Highlighted",
         "Cache": "Cache",
         "HTML": "HTML",
         "DataURL": "Data URL"

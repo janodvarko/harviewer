@@ -50,8 +50,13 @@ RequestBody.prototype = domplate(
             tabView.appendTab(new SentDataTab(file, file.request.method));
         }
 
-        if (file.response.content.text && file.response.content.text.length > 0)
+        if (ResponseTab.canShowFile(file)) {
             tabView.appendTab(new ResponseTab(file));
+        }
+
+        if (HighlightedTab.canShowFile(file)) {
+            tabView.appendTab(new HighlightedTab(file));
+        }
 
         //xxxHonza
         //if (file.request.cookies || file.response.cookies)
@@ -206,6 +211,8 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
 function ResponseTab(file)
 {
     this.file = file;
@@ -218,62 +225,93 @@ ResponseTab.prototype = domplate(TabView.Tab.prototype,
 
     bodyTag:
         DIV({"class": "netInfoResponseText netInfoText"},
-            PRE({"class": "nocontrols:nogutter", name: "code"})
+            PRE({"class": "", name: "code"})
         ),
-
-    shouldHighlightAs: function(mimeType) {
-        for (var brush in ResponseTab.mimeTypesToHighlight) {
-            if (ResponseTab.mimeTypesToHighlight[brush].indexOf(mimeType) > -1) {
-                return brush;
-            }
-        }
-        return null;
-    },
 
     onUpdateBody: function(tabView, body)
     {
         var responseTextBox = Lib.getElementByClass(body, "netInfoResponseText");
 
-        if (this.file.category == "image")
-        {
-            Lib.clearNode(responseTextBox);
+        var pre = responseTextBox.firstChild;
+        Lib.clearNode(pre);
 
-            var responseImage = body.ownerDocument.createElement("img");
-            responseImage.src = this.file.href;
-            responseTextBox.appendChild(responseImage, responseTextBox);
+        var text = this.file.response.content.text;
+        Lib.insertWrappedText(text, pre);
+    }
+});
+
+ResponseTab.canShowFile = function(file) {
+    return (file.response.content.text && file.response.content.text.length > 0);
+};
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+function HighlightedTab(file)
+{
+    this.file = file;
+}
+
+HighlightedTab.prototype = domplate(TabView.Tab.prototype,
+{
+    id: "Highlighted",
+    label: Strings.Highlighted,
+
+    bodyTag:
+        DIV({"class": "netInfoHighlightedText netInfoText"},
+            PRE({"class": "nocontrols:nogutter:", name: "code"})
+        ),
+
+    onUpdateBody: function(tabView, body)
+    {
+        var responseTextBox = Lib.getElementByClass(body, "netInfoHighlightedText");
+
+        var pre = responseTextBox.firstChild;
+        Lib.clearNode(pre);
+
+        var text = this.file.response.content.text;
+        var mimeType = this.file.response.content.mimeType || "";
+        // Remove any mime type parameters (if any)
+        mimeType = Lib.extractMimeType(mimeType);
+
+        // Highlight the syntax if the mimeType is supported.
+        var brush = HighlightedTab.shouldHighlightAs(mimeType);
+        if (brush) {
+            pre.className = brush + ":" + pre.className;
+
+            // If we want to highlight HTML then we can't use 'innerHTML=' in this way,
+            // as CSS from the HTML content will be parsed/used in the main HAR Viewer document.
+            //pre.innerHTML = text;
+
+            // Instead we insert a text node.
+            pre.appendChild(document.createTextNode(text));
+            dp.SyntaxHighlighter.HighlightAll(pre);
         }
         else
         {
-            var pre = responseTextBox.firstChild;
-            Lib.clearNode(pre);
-
-            var text = this.file.response.content.text;
-            var mimeType = this.file.response.content.mimeType;
-            // Remove any mime type parameters (if any)
-            mimeType = Lib.extractMimeType(mimeType);
-
-            // Highlight the syntax if the mimeType is supported.
-            var brush = this.shouldHighlightAs(mimeType);
-            if (brush) {
-                pre.className = brush + ":" + pre.className;
-
-                // If we want to highlight HTML then we can't use 'innerHTML=' in this way,
-                // as CSS from the HTML content will be parsed/used in the main HAR Viewer document.
-                //pre.innerHTML = text;
-
-                // Instead we insert a text node.
-                pre.appendChild(document.createTextNode(text));
-                dp.SyntaxHighlighter.HighlightAll(pre);
-            }
-            else
-            {
-                Lib.insertWrappedText(text, pre);
-            }
+            Lib.insertWrappedText(text, pre);
         }
     }
 });
 
-ResponseTab.mimeTypesToHighlight = {
+HighlightedTab.canShowFile = function(file) {
+    var mimeType = file.response.content.mimeType || "";
+    // Remove any mime type parameters (if any)
+    mimeType = Lib.extractMimeType(mimeType);
+
+    var hasContent = file.response.content.text && file.response.content.text.length > 0;
+    return hasContent && (null !== HighlightedTab.shouldHighlightAs(mimeType));
+};
+
+HighlightedTab.shouldHighlightAs = function(mimeType) {
+    for (var brush in HighlightedTab.mimeTypesToHighlight) {
+        if (HighlightedTab.mimeTypesToHighlight[brush].indexOf(mimeType) > -1) {
+            return brush;
+        }
+    }
+    return null;
+};
+
+HighlightedTab.mimeTypesToHighlight = {
     javascript: ["application/javascript", "text/javascript", "application/x-javascript", "text/ecmascript", "application/ecmascript", "application/json"],
     css: ["text/css"],
     html: ["text/html", "application/xhtml+xml"],
