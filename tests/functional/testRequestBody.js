@@ -60,10 +60,18 @@ define([
   }
 
   function testSyntaxHighlighting(remote, url, expectedPageTitle) {
-      return clickFirstNetLabel(remote, url, expectedPageTitle)
-        .then(clickTab("Highlighted"))
-        // We assume that finding the following class means syntax highlighter has worked.
-        .findByCssSelector(".syntaxhighlighter")
+    return clickFirstNetLabel(remote, url, expectedPageTitle)
+      .then(clickTab("Highlighted"))
+      // We assume that finding the following class means syntax highlighter has worked.
+      .findByCssSelector(".syntaxhighlighter")
+  }
+
+  function testTreeView(remote, url, expectedPageTitle, tabName, firstLabel, firstValue) {
+    var utils = new DriverUtils(remote);
+    return clickFirstNetLabel(remote, url, expectedPageTitle)
+      .then(clickTab(tabName))
+      .then(utils.cbAssertElementContainsText("css=.memberLabelCell", firstLabel))
+      .then(utils.cbAssertElementContainsText("css=.memberValueCell", firstValue));
   }
 
   registerSuite({
@@ -139,6 +147,21 @@ define([
     'testIssue78 - CSS': function() {
       var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-78/css.har";
       return testSyntaxHighlighting(this.remote, url, "CSS");
+    },
+
+    'testIssue78 - RSS': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-62/rss.har";
+      return testSyntaxHighlighting(this.remote, url, "npr.org");
+    },
+
+    'testIssue62 - RSS as XML': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-62/rss.har";
+      return testTreeView(this.remote, url, "npr.org", "XML", "rss", "Element");
+    },
+
+    'testIssue62 - JSON': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-78/json.har";
+      return testTreeView(this.remote, url, "JSON", "JSON", "log", "Object");
     }
   });
 });

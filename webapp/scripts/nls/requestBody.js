@@ -17,6 +17,8 @@ define(
         "Highlighted": "Highlighted",
         "Cache": "Cache",
         "HTML": "HTML",
+        "JSON": "JSON",
+        "XML": "XML",
         "DataURL": "Data URL"
     }
 });
