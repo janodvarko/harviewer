@@ -162,6 +162,15 @@ define([
     'testIssue62 - JSON': function() {
       var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-78/json.har";
       return testTreeView(this.remote, url, "JSON", "JSON", "log", "Object");
+    },
+
+    'testIssue62 - base64 encoded SVG as XML': function() {
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-62/svg.base64.har";
+      // TODO - Need a better way of determining if this test should be run or not.
+      if ("undefined" !== typeof atob) {
+        return testTreeView(this.remote, url, "SVG", "XML", "svg", "SVGSVGElement");
+      }
+      return true;
     }
   });
 });

@@ -30,6 +30,9 @@ function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) { with
  * {@link SentDataTab}: posted data
  * {@link ResponseTab}: request response body
  * {@link CacheTab}: browser cache entry meta-data
+ * {@link HighlightedTab}: response body syntax highlighted
+ * {@link JsonTab}: response body as JSON tree
+ * {@link XmlTab}: response body as XML tree
  * {@link HtmlTab}: Preview for HTML responses
  * {@link DataURLTab}: Data URLs
  */
@@ -144,6 +147,28 @@ RequestBody.isValidPostData = function(file) {
     return true;
 };
 
+RequestBody.canDecode = function(encoding) {
+    if (!encoding) {
+        return true;
+    }
+
+    if ("base64" !== encoding) {
+        // only base64 supported
+        return false;
+    }
+
+    if ("undefined" === typeof atob) {
+        // it's base64 but we can't decode it.  E.g. IE9.
+        return false;
+    }
+
+    return true;
+};
+
+RequestBody.decode = function(text, encoding) {
+    return ("base64" === encoding) ? atob(text) : text;
+};
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 function HeadersTab(file)
@@ -220,8 +245,6 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
 function ResponseTab(file)
 {
     this.file = file;
@@ -277,8 +300,9 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
         var pre = responseTextBox.firstChild;
         Lib.clearNode(pre);
 
-        var text = this.file.response.content.text;
-        var mimeType = this.file.response.content.mimeType || "";
+        var content = this.file.response.content;
+        var text = content.text;
+        var mimeType = content.mimeType || "";
         // Remove any mime type parameters (if any)
         mimeType = Lib.extractMimeType(mimeType);
 
@@ -286,6 +310,8 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
         var brush = HighlightedTab.shouldHighlightAs(mimeType);
         if (brush) {
             pre.className += brush;
+
+            text = RequestBody.decode(text, content.encoding);
 
             // If we want to highlight HTML then we can't use 'innerHTML=' in this way,
             // as CSS from the HTML content will be parsed/used in the main HAR Viewer document.
@@ -303,12 +329,20 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
 });
 
 HighlightedTab.canShowFile = function(file) {
-    var mimeType = file.response.content.mimeType || "";
+    var content = file.response.content;
+    if (!content || !content.text) {
+        return false;
+    }
+
+    if (!RequestBody.canDecode(content.encoding)) {
+        return false;
+    }
+
+    var mimeType = content.mimeType || "";
     // Remove any mime type parameters (if any)
     mimeType = Lib.extractMimeType(mimeType);
 
-    var hasContent = file.response.content.text && file.response.content.text.length > 0;
-    return hasContent && (null !== HighlightedTab.shouldHighlightAs(mimeType));
+    return (null !== HighlightedTab.shouldHighlightAs(mimeType));
 };
 
 HighlightedTab.shouldHighlightAs = function(mimeType) {
@@ -587,7 +621,7 @@ JsonTab.prototype = domplate(TabView.Tab.prototype, {
 
         var content = this.file.response.content;
         try {
-            var jsonStr = ("base64" === content.encoding) ? atob(content.text) : content.text;
+            var jsonStr = RequestBody.decode(content.text, content.encoding);
             var ob = JSON.parse(jsonStr);
             var domTree = new DomTree(ob);
             domTree.append(body);
@@ -602,7 +636,8 @@ JsonTab.canShowFile = function(file) {
     if (!content || !content.text) {
         return false;
     }
-    if (content.encoding && "base64" !== content.encoding) {
+
+    if (!RequestBody.canDecode(content.encoding)) {
         return false;
     }
 
@@ -629,7 +664,7 @@ XmlTab.prototype = domplate(TabView.Tab.prototype, {
 
         var content = this.file.response.content;
         try {
-            var xmlStr = ("base64" === content.encoding) ? atob(content.text) : content.text;
+            var xmlStr = RequestBody.decode(content.text, content.encoding);
             var xmlDoc = $.parseXML(xmlStr);
             var domTree = new DomTree(xmlDoc);
             domTree.append(body);
@@ -657,9 +692,11 @@ XmlTab.canShowFile = function(file) {
     if (!content || !content.text) {
         return false;
     }
-    if (content.encoding && "base64" !== content.encoding) {
+
+    if (!RequestBody.canDecode(content.encoding)) {
         return false;
     }
+
     return XmlTab.isXmlMimeType(Lib.extractMimeType(content.mimeType));
 };
 
