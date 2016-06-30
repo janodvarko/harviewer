@@ -6,11 +6,12 @@ define("preview/requestBody", [
     "core/lib",
     "core/cookies",
     "domplate/tabView",
+    "domplate/domTree",
     "core/dragdrop",
     "syntax-highlighter/shCore"
 ],
 
-function(Domplate, Strings, Lib, Cookies, TabView, DragDrop, dp) { with (Domplate) {
+function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) { with (Domplate) {
 
 //*************************************************************************************************
 // Request Body
@@ -58,6 +59,14 @@ RequestBody.prototype = domplate(
             tabView.appendTab(new HighlightedTab(file));
         }
 
+        if (JsonTab.canShowFile(file)) {
+            tabView.appendTab(new JsonTab(file));
+        }
+
+        if (XmlTab.canShowFile(file)) {
+            tabView.appendTab(new XmlTab(file));
+        }
+
         //xxxHonza
         //if (file.request.cookies || file.response.cookies)
         //    tabView.appendTab(new CookiesTab(file));
@@ -87,8 +96,8 @@ RequestBody.prototype = domplate(
         if (!file.cache.afterRequest)
             return false;
 
-        // Don't show cache tab for images 
-        // xxxHonza: the tab could display the image. 
+        // Don't show cache tab for images
+        // xxxHonza: the tab could display the image.
         if (file.category == "image")
             return false;
 
@@ -303,19 +312,17 @@ HighlightedTab.canShowFile = function(file) {
 };
 
 HighlightedTab.shouldHighlightAs = function(mimeType) {
-    for (var brush in HighlightedTab.mimeTypesToHighlight) {
-        if (HighlightedTab.mimeTypesToHighlight[brush].indexOf(mimeType) > -1) {
+    var mimeTypesToHighlight = {
+        javascript: ["application/javascript", "text/javascript", "application/x-javascript", "text/ecmascript", "application/ecmascript", "application/json"],
+        css: ["text/css"],
+        html: ["text/html", "application/xhtml+xml"]
+    };
+    for (var brush in mimeTypesToHighlight) {
+        if (mimeTypesToHighlight[brush].indexOf(mimeType) > -1) {
             return brush;
         }
     }
-    return null;
-};
-
-HighlightedTab.mimeTypesToHighlight = {
-    javascript: ["application/javascript", "text/javascript", "application/x-javascript", "text/ecmascript", "application/ecmascript", "application/json"],
-    css: ["text/css"],
-    html: ["text/html", "application/xhtml+xml"],
-    xml: ["text/xml", "application/xml", "image/svg+xml", "application/atom+xml", "application/xslt+xml", "application/mathml+xml", "application/rss+xml"]
+    return XmlTab.isXmlMimeType(mimeType) ? "xml" : null;
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -463,7 +470,7 @@ CacheTab.prototype = domplate(HeadersTab.prototype,
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 /**
- * @domplate Represents an HTML preview for network responses using 'text/html' or 
+ * @domplate Represents an HTML preview for network responses using 'text/html' or
  * 'application/xhtml+xml' mime type.
  */
 function HtmlTab(file)
@@ -561,6 +568,100 @@ DataURLTab.prototype = domplate(HeadersTab.prototype,
         }
     }
 });
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+function JsonTab(file) {
+    this.file = file;
+}
+
+JsonTab.prototype = domplate(TabView.Tab.prototype, {
+    id: "JSON",
+    label: Strings.JSON,
+
+    bodyTag:
+        DIV({"class": "netInfoJsonText netInfoText"}),
+
+    onUpdateBody: function(tabView, body) {
+        Lib.clearNode(body.firstChild);
+
+        var content = this.file.response.content;
+        try {
+            var jsonStr = ("base64" === content.encoding) ? atob(content.text) : content.text;
+            var ob = JSON.parse(jsonStr);
+            var domTree = new DomTree(ob);
+            domTree.append(body);
+        } catch (e) {
+            body.innerHTML = "" + e;
+        }
+    }
+});
+
+JsonTab.canShowFile = function(file) {
+    var content = file.response.content;
+    if (!content || !content.text) {
+        return false;
+    }
+    if (content.encoding && "base64" !== content.encoding) {
+        return false;
+    }
+
+    var mimeType = Lib.extractMimeType(content.mimeType);
+    return ["application/json"].indexOf(mimeType) > -1;
+};
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+function XmlTab(file) {
+    this.file = file;
+}
+
+XmlTab.prototype = domplate(TabView.Tab.prototype, {
+    id: "XML",
+    label: Strings.XML,
+
+    bodyTag:
+        DIV({"class": "netInfoXmlText netInfoText"}),
+
+    onUpdateBody: function(tabView, body)
+    {
+        Lib.clearNode(body.firstChild);
+
+        var content = this.file.response.content;
+        try {
+            var xmlStr = ("base64" === content.encoding) ? atob(content.text) : content.text;
+            var xmlDoc = $.parseXML(xmlStr);
+            var domTree = new DomTree(xmlDoc);
+            domTree.append(body);
+        } catch (e) {
+            body.innerHTML = "" + e;
+        }
+    }
+});
+
+XmlTab.isXmlMimeType = function(mimeType) {
+    var mimeType = Lib.extractMimeType(mimeType);
+    return [
+        "text/xml",
+        "application/xml",
+        "image/svg+xml",
+        "application/atom+xml",
+        "application/xslt+xml",
+        "application/mathml+xml",
+        "application/rss+xml"
+    ].indexOf(mimeType) > -1;
+};
+
+XmlTab.canShowFile = function(file) {
+    var content = file.response.content;
+    if (!content || !content.text) {
+        return false;
+    }
+    if (content.encoding && "base64" !== content.encoding) {
+        return false;
+    }
+    return XmlTab.isXmlMimeType(Lib.extractMimeType(content.mimeType));
+};
 
 //*************************************************************************************************
 
