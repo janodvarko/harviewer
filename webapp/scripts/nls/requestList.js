@@ -3,7 +3,9 @@
 define(
 {
     "root": {
-        "fromCache": "From Cache",
+        "summaryFromCache": "From Cache",
+        "resourceFromCache": "Resource from cache",
+        "uncompressed": "Uncompressed",
         "menuBreakLayout": "Break Timeline Layout",
         "menuOpenRequestInWindow": "Open Request in New Window",
         "menuOpenResponseInWindow": "Open Response in New Window",

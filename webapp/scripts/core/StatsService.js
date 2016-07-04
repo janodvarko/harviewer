@@ -5,9 +5,10 @@
  */
 define("core/StatsService", [
     "core/lib",
+    "preview/harModel"
 ],
 
-function(Lib) {
+function(Lib, HarModel) {
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -282,10 +283,6 @@ StatsService.prototype = {
         for (var i = 0; i < entries.length; i++) {
             var entry = entries[i];
 
-            if (!entry.timings) {
-                continue;
-            }
-
             var response = entry.response;
             var resBodySize = ensurePositive(response.bodySize);
 
@@ -293,13 +290,11 @@ StatsService.prototype = {
             if (entry.response.status == 206) { // Partial content
                 totals.partial.resBodySize += resBodySize;
                 totals.partial.count++;
-            }
-            else if (entry.response.status == 304) { // From cache
-                var cachedSize = resBodySize;
+            } else if (HarModel.isCachedEntry(entry)) { // From cache
+                var cachedSize = HarModel.getEntryUncompressedSize(entry);
                 totals.cached.resBodySize += cachedSize;
                 totals.cached.count++;
-            }
-            else if (resBodySize > 0){ // Downloaded
+            } else if (resBodySize > 0){ // Downloaded
                 totals.downloaded.resBodySize += resBodySize;
                 totals.downloaded.count++;
             }

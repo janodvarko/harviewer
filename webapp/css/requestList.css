@@ -18,6 +18,10 @@
     background: #FFFFFF;
 }
 
+.netRow.fromCache {
+    color: gray;
+}
+
 .netHrefCol:hover {
     /*background: white; the summary bar shouldn't have this */
 }
@@ -389,6 +393,18 @@
 }
 
 .netCacheSizeLabel {
+    display: inline-block;
+    float:left;
+    padding-left: 6px;
+}
+
+.netTransferredSizeLabel {
+    display: inline-block;
+    float:left;
+    padding-left: 6px;
+}
+
+.netUncompressedSizeLabel {
     display: inline-block;
     float:left;
     padding-left: 6px;
