@@ -56,30 +56,32 @@ define([
 
   var node1 = [{
     browserName: 'firefox',
-    version: '37'
-  }, {
-    browserName: 'chrome',
-    version: '44'
+    version: '45'
   }, {
     browserName: 'internet explorer',
     version: '9'
+  }, {
+    browserName: 'phantomjs',
+    version: '2.0.0'
   }];
 
   var node2 = [{
+    browserName: 'chrome',
+    version: '51'
+  }, {
     browserName: 'firefox',
-    version: '27'
+    version: '46'
   }, {
     browserName: 'internet explorer',
     version: '11'
+  }, {
+    browserName: 'phantomjs',
+    version: '2.1.1'
   }];
 
-  var node3 = [{
-    browserName: 'phantomjs'
-  }];
 
   config.environments = config.environments.concat(node1);
   config.environments = config.environments.concat(node2);
-  config.environments = config.environments.concat(node3);
 
   return lang.mixin({}, base, config);
 });

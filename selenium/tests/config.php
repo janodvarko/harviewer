@@ -1,7 +1,7 @@
 <?php 
 # don't forget the trailing slash
-$harviewer_base = "http://legoas/src/github.com/janodvarko/harviewer/webapp-build/";
-$test_base = "http://legoas/src/github.com/janodvarko/harviewer/selenium/";
+#$harviewer_base = "http://legoas/src/github.com/janodvarko/harviewer/webapp-build/";
+#$test_base = "http://legoas/src/github.com/janodvarko/harviewer/selenium/";
 
 # For Selenium grid testing, the Selenium nodes must be able to access a
 # HAR Viewer server called "harviewer" on port "49001".
@@ -14,6 +14,6 @@ $test_base = "http://legoas/src/github.com/janodvarko/harviewer/selenium/";
 # Or change "http://harviewer" to "http://localhost" to run Selenium
 # in standalone mode (not grid).
 
-#$harviewer_base = "http://harviewer:49001/webapp/";
-#$test_base = "http://harviewer:49001/selenium/";
+$harviewer_base = "http://harviewer:49001/webapp/";
+$test_base = "http://harviewer:49001/selenium/";
 ?>
