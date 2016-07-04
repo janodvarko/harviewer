@@ -19,16 +19,20 @@ var Lib = {};
 //***********************************************************************************************//
 // Browser Version
 
-var userAgent = navigator.userAgent.toLowerCase();
-Lib.isFirefox = /firefox/.test(userAgent);
-Lib.isOpera   = /opera/.test(userAgent);
-Lib.isWebkit  = /webkit/.test(userAgent);
-Lib.isSafari  = /webkit/.test(userAgent);
-Lib.isIE      = /msie/.test(userAgent) && !/opera/.test(userAgent);
-Lib.isIE6     = /msie 6/i.test(navigator.appVersion);
+var hasNav           = ("undefined" !== typeof navigator);
+var hasWin           = ("undefined" !== typeof window);
+var userAgent        = hasNav ? navigator.userAgent.toLowerCase() : "";
+
+Lib.isFirefox      = /firefox/.test(userAgent);
+Lib.isOpera        = /opera/.test(userAgent);
+Lib.isWebkit       = /webkit/.test(userAgent);
+Lib.isSafari       = /webkit/.test(userAgent);
+Lib.isIE           = /msie/.test(userAgent) && !/opera/.test(userAgent);
+Lib.isIE6          = hasNav && /msie 6/i.test(navigator.appVersion);
 Lib.browserVersion = (userAgent.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [0,'0'])[1];
-Lib.isIElt8   = Lib.isIE && (Lib.browserVersion-0 < 8);
-Lib.supportsSelectElementText = (window.getSelection && window.document.createRange) || (window.document.body.createTextRange);
+Lib.isIElt8        = Lib.isIE && (Lib.browserVersion-0 < 8);
+Lib.supportsSelectElementText = hasWin && ((window.getSelection && window.document.createRange) ||
+                                             (window.document.body.createTextRange));
 
 //***********************************************************************************************//
 // Core concepts (extension, dispatch, bind)

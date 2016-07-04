@@ -6,8 +6,7 @@ define([
     "intern/chai!assert",
     "core/StatsService",
     "preview/harModel",
-    "text!../../../webapp/examples/google.com.har",
-    "jquery" // ensure jquery is available to test code, as the Intern harness does not pull it in by default
+    "text!../../../webapp/examples/google.com.har"
 ], function (registerSuite, assert, StatsService, HarModel, googleHar) {
 
     // Set up the expectations for the test HAR files
