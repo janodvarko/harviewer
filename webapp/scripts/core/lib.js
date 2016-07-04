@@ -110,8 +110,9 @@ var reFunction = /^\s*function(\s+[\w_$][\w\d_$]*)?\s*\(/;
 
 Lib.isArray = function(object)
 {
-    //return toString.call(object) === "[object Array]";
-    return jQuery.isArray(object);
+    // Supported by IE9
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
+    return Array.isArray(object);
 };
 
 Lib.isFunction = function(object)
