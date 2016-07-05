@@ -871,10 +871,6 @@ RequestList.prototype = domplate(
     {
         var cachedSize = 0, totalTransferredSize = 0, totalUncompressedSize = 0;
 
-        var category = "all";
-        if (category == "all")
-            category = null;
-
         var fileCount = 0;
         var minTime = 0, maxTime = 0;
 
@@ -883,28 +879,25 @@ RequestList.prototype = domplate(
             var file = phase.files[i];
             var startedDateTime = Lib.parseISO8601(file.startedDateTime);
 
-            if (!category || file.category == category)
-            {
-                ++fileCount;
+            ++fileCount;
 
-                var transferredSize = HarModel.getEntryTransferredSize(file);
-                var uncompressedSize = HarModel.getEntryUncompressedSize(file);
+            var transferredSize = HarModel.getEntryTransferredSize(file);
+            var uncompressedSize = HarModel.getEntryUncompressedSize(file);
 
-                totalTransferredSize += transferredSize;
-                totalUncompressedSize += uncompressedSize;
+            totalTransferredSize += transferredSize;
+            totalUncompressedSize += uncompressedSize;
 
-                if (HarModel.isCachedEntry(file)) {
-                    cachedSize += uncompressedSize;
-                }
+            if (HarModel.isCachedEntry(file)) {
+                cachedSize += uncompressedSize;
+            }
 
-                if (!minTime || startedDateTime < minTime) {
-                    minTime = startedDateTime;
-                }
+            if (!minTime || startedDateTime < minTime) {
+                minTime = startedDateTime;
+            }
 
-                var fileEndTime = startedDateTime + file.time;
-                if (fileEndTime > maxTime) {
-                    maxTime = fileEndTime;
-                }
+            var fileEndTime = startedDateTime + file.time;
+            if (fileEndTime > maxTime) {
+                maxTime = fileEndTime;
             }
         }
 

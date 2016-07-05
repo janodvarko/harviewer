@@ -109,11 +109,6 @@ RequestBody.prototype = domplate(
         if (!file.cache.afterRequest)
             return false;
 
-        // Don't show cache tab for images
-        // xxxHonza: the tab could display the image.
-        if (file.category == "image")
-            return false;
-
         return true;
     },
 
