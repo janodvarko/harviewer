@@ -307,8 +307,8 @@ ImageTab.prototype = domplate(TabView.Tab.prototype,
 
         // IE9 and IE10 will set the image width and height to 0 if using the
         // createElement() approach.  The innerHTML approach works for those browsers.
-        var supportsCreateElementForSvgImage = (9 === document.documentMode) || (10 === document.documentMode);
-        if (supportsCreateElementForSvgImage) {
+        var mustUseInnerHtmlForSvgImage = (9 === document.documentMode) || (10 === document.documentMode);
+        if (mustUseInnerHtmlForSvgImage) {
             addUsingInnerHtml(this.file, imageTextBox);
         } else {
             addUsingCreateElement(this.file, imageTextBox);
