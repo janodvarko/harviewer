@@ -266,22 +266,26 @@ ImageTab.prototype = domplate(TabView.Tab.prototype,
 
     onUpdateBody: function(tabView, body)
     {
-        // Works for all supported browsers except IE9
-        function addUsingCreateElement(file, container) {
-            var content = file.response.content;
+        function createImageSrc(content) {
             var mimeType = Lib.extractMimeType(content.mimeType);
-
-            var responseImage = body.ownerDocument.createElement("img");
             // https://css-tricks.com/data-uris/
-            responseImage.src = "data:" + mimeType + ";base64," + content.text;
+            return "data:" + mimeType + ";base64," + content.text;
+        }
+
+        // Works for all supported browsers except IE9/IE10 where the image
+        // will have width=0 and height=0, so cannot be seen by the user.
+        function addUsingCreateElement(file, container) {
+            var responseImage = body.ownerDocument.createElement("img");
+
+            var content = file.response.content;
+            responseImage.src = createImageSrc(content);
 
             container.appendChild(responseImage);
         }
 
-        // Works for all supported browsers including IE9
+        // Works for all supported browsers including IE9/IE10
         function addUsingInnerHtml(file, container) {
             var content = file.response.content;
-            var mimeType = Lib.extractMimeType(content.mimeType);
 
             // http://stackoverflow.com/a/475217/319878
             var base64regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
@@ -289,7 +293,7 @@ ImageTab.prototype = domplate(TabView.Tab.prototype,
             // We are going to use dangerous innerHTML, so check the data first.
             if (content.text.match(base64regex)) {
                 // https://css-tricks.com/data-uris/
-                var src = "data:" + mimeType + ";base64," + content.text;
+                var src = createImageSrc(content);
 
                 container.innerHTML = "<img src=" + src + ">";
             } else {
@@ -301,12 +305,10 @@ ImageTab.prototype = domplate(TabView.Tab.prototype,
 
         Lib.clearNode(imageTextBox);
 
-        // Better ways of identifying IE9?
-        // https://msdn.microsoft.com/en-us/library/cc196988%28v=vs.85%29.aspx
-        // http://stackoverflow.com/a/18871780/319878
-        // https://github.com/jquery/jquery-migrate/blob/1.4.1/src/core.js#L118
-        var ie9 = 9 === document.documentMode;
-        if (ie9) {
+        // IE9 and IE10 will set the image width and height to 0 if using the
+        // createElement() approach.  The innerHTML approach works for those browsers.
+        var supportsCreateElementForSvgImage = (9 === document.documentMode) || (10 === document.documentMode);
+        if (supportsCreateElementForSvgImage) {
             addUsingInnerHtml(this.file, imageTextBox);
         } else {
             addUsingCreateElement(this.file, imageTextBox);
