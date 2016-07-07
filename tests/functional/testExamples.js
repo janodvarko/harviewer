@@ -7,9 +7,13 @@ define([
 ], function(intern, registerSuite, assert, require, DriverUtils) {
   var harViewerBase = intern.config.harviewer.harViewerBase;
 
-  function loadAndVerify(driver, exampleId, expected) {
-    var utils = new DriverUtils(driver);
-    return driver
+  function testExample(remote, exampleId, expected) {
+    // Some of these tests need a larger timeout for finding DOM elements
+    // because we need the HAR to parse/display fully before we query the DOM.
+    var findTimeout = intern.config.harviewer.findTimeout;
+    var utils = new DriverUtils(remote);
+    return remote
+      .setFindTimeout(findTimeout)
       .get(harViewerBase)
       .find("id", exampleId)
       .click()
@@ -17,27 +21,23 @@ define([
       .then(utils.cbAssertElementContainsText("css=.previewList", expected));
   }
 
-  function cbLoadAndVerify(driver, exampleId, expected) {
-    return function() {
-      return loadAndVerify(driver, exampleId, expected);
-    };
-  }
-
   registerSuite({
     name: 'testExamples',
 
-    'testTabs': function() {
-      // Some of these tests need a larger timeout for finding DOM elements
-      // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
-      var r = this.remote;
-      return r
-        .setFindTimeout(findTimeout)
-        .get(harViewerBase)
-        .then(cbLoadAndVerify(r, "example1", "Cuzillion"))
-        .then(cbLoadAndVerify(r, "example2", "Cuzillion"))
-        .then(cbLoadAndVerify(r, "example3", "Software is hard | Firebug 1.6 beta 1 Released"))
-        .then(cbLoadAndVerify(r, "example4", "Google"));
+    'example1': function() {
+      return testExample(this.remote, "example1", "Cuzillion");
+    },
+
+    'example2': function() {
+      return testExample(this.remote, "example2", "Cuzillion");
+    },
+
+    'example3': function() {
+      return testExample(this.remote, "example3", "Software is hard | Firebug 1.6 beta 1 Released");
+    },
+
+    'example4': function() {
+      return testExample(this.remote, "example4", "Google");
     }
   });
 });
