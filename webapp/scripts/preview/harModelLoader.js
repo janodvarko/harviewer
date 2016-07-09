@@ -61,16 +61,8 @@ var Loader =
             url: filePath,
             context: this,
             dataType: "json",
-
-            success: function(response)
-            {
-                callback(response);
-            },
-
-            error: function(jqXHR, textStatus, errorThrown)
-            {
-                errorCallback(jqXHR, textStatus, errorThrown);
-            }
+            success: callback,
+            error: errorCallback
         });
 
         return true;
@@ -110,11 +102,7 @@ var Loader =
                 }
             },
 
-            error: function(jqXHR, textStatus, errorThrown)
-            {
-                if (errorCallback)
-                    errorCallback(jqXHR, textStatus, errorThrown);
-            }
+            error: errorCallback
         });
 
         return true;
