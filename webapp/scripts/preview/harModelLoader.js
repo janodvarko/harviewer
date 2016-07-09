@@ -4,15 +4,10 @@
  * @module preview/harModelLoader
  */
 define([
-    "core/lib",
-    "preview/jsonSchema",
-    "preview/ref",
-    "preview/harSchema",
-    "core/trace",
-    "i18n!nls/harModel"
+    "core/url"
 ],
 
-function(Lib, JSONSchema, Ref, HarSchema, Trace, Strings) {
+function(Url) {
 
 /**
  * Helper for loading HAR resources.
@@ -22,15 +17,15 @@ var Loader =
 {
     run: function(callback, errorCallback)
     {
-        var baseUrl = Lib.getURLParameter("baseUrl");
+        var baseUrl = Url.getURLParameter("baseUrl");
 
         // Append traling slahs if missing.
         if (baseUrl && baseUrl[baseUrl.length-1] !== "/")
             baseUrl += "/";
 
-        var paths = Lib.getURLParameters("path");
-        var callbackName = Lib.getURLParameter("callback");
-        var inputUrls = Lib.getURLParameters("inputUrl").concat(Lib.getHashParameters("inputUrl"));
+        var paths = Url.getURLParameters("path");
+        var callbackName = Url.getURLParameter("callback");
+        var inputUrls = Url.getURLParameters("inputUrl").concat(Url.getHashParameters("inputUrl"));
 
         //for (var p in inputUrls)
         //    inputUrls[p] = inputUrls[p].replace(/%/g,'%25');
@@ -48,7 +43,7 @@ var Loader =
 
         // The URL can specify also a locale file (with the same domain).
         // http://domain/har/viewer?path=<local-file-path>
-        var filePath = Lib.getURLParameter("path");
+        var filePath = Url.getURLParameter("path");
         if (filePath)
             return this.loadLocalArchive(filePath, callback, errorCallback);
     },
