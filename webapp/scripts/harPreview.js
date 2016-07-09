@@ -7,13 +7,14 @@ define("harPreview", [
     "preview/requestList",
     "preview/pageList",
     "preview/harModel",
+    "preview/harModelLoader",
     "core/lib",
     "core/trace",
     "preview/menu",
     "preview/validationError"
 ],
 
-function(RequestList, PageList, HarModel, Lib, Trace, Menu, ValidationError) {
+function(RequestList, PageList, HarModel, Loader, Lib, Trace, Menu, ValidationError) {
 
 var content = document.getElementById("content");
 
@@ -37,7 +38,7 @@ HarPreview.prototype =
         // Auto load all HAR files specified in the URL.
         var okCallback = Lib.bind(this.appendPreview, this);
         var errorCallback = Lib.bind(this.onError, this);
-        HarModel.Loader.run(okCallback, errorCallback);
+        Loader.run(okCallback, errorCallback);
     },
 
     appendPreview: function(jsonString)
@@ -79,7 +80,7 @@ HarPreview.prototype =
     loadHar: function(url, settings)
     {
         settings = settings || {};
-        return HarModel.Loader.load(this, url,
+        return Loader.load(this, url,
             settings.jsonp,
             settings.jsonpCallback,
             settings.success,

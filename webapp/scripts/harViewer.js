@@ -11,6 +11,7 @@ define("harViewer", [
     "tabs/schemaTab",
     "tabs/domTab",
     "preview/harModel",
+    "preview/harModelLoader",
     "i18n!nls/harViewer",
     "preview/requestList",
     "core/lib",
@@ -18,7 +19,7 @@ define("harViewer", [
 ],
 
 function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,
-    Strings, RequestList, Lib, Trace) {
+    Loader, Strings, RequestList, Lib, Trace) {
 
 var content = document.getElementById("content");
 
@@ -77,7 +78,7 @@ HarView.prototype = Lib.extend(new TabView(),
         var okCallback = Lib.bind(this.appendPreview, this);
         var errorCallback = Lib.bind(this.onLoadError, this);
 
-        if (HarModel.Loader.run(okCallback, errorCallback))
+        if (Loader.run(okCallback, errorCallback))
         {
             var homeTab = this.getTab("Home");
             if (homeTab)
@@ -172,7 +173,7 @@ HarView.prototype = Lib.extend(new TabView(),
     loadHar: function(url, settings)
     {
         settings = settings || {};
-        return HarModel.Loader.load(this, url,
+        return Loader.load(this, url,
             settings.jsonp,
             settings.jsonpCallback,
             settings.success,
