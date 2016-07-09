@@ -8,12 +8,11 @@ define([
     "preview/jsonSchema",
     "preview/ref",
     "preview/harSchema",
-    "core/cookies",
     "core/trace",
     "i18n!nls/harModel"
 ],
 
-function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {
+function(Lib, JSONSchema, Ref, HarSchema, Trace, Strings) {
 
 /**
  * Helper for loading HAR resources.
@@ -52,22 +51,6 @@ var Loader =
         var filePath = Lib.getURLParameter("path");
         if (filePath)
             return this.loadLocalArchive(filePath, callback, errorCallback);
-    },
-
-    /**
-     * Loads the HAR from `path` by navigating to a new URL.
-     * @param {String} path The path to the example.
-     * @param {Function} callback Not used.
-     */
-    loadExample: function(path, callback)
-    {
-        var href = document.location.href;
-        var index = href.indexOf("?");
-        document.location = href.substr(0, index) + "?path=" + path;
-
-        // Show timeline and stats by default if an example is displayed.
-        Cookies.setCookie("timeline", true);
-        Cookies.setCookie("stats", true);
     },
 
     /**
