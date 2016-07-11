@@ -14,6 +14,7 @@ define([
 function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) {
 
 var domplate = Domplate.domplate;
+var A = Domplate.A;
 var DIV = Domplate.DIV;
 var FOR = Domplate.FOR;
 var IFRAME = Domplate.IFRAME;
@@ -137,31 +138,36 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
     label: Strings.Headers,
 
     bodyTag:
-        TABLE({"class": "netInfoHeadersText netInfoText netInfoHeadersTable",
+        DIV(
+            DIV(
+                A({"class": "netInfoRequestURL"})
+            ),
+            TABLE({"class": "netInfoHeadersText netInfoText netInfoHeadersTable",
                 cellpadding: 0, cellspacing: 0},
-            TBODY(
-                TR({"class": "netInfoResponseVersionTitle"},
-                    TD({colspan: 2},
-                        DIV({"class": "netInfoHeadersGroup"}, Strings.ResponseVersion)
-                    )
-                ),
-                TR({"class": "netInfoResponseHeadersTitle"},
-                    TD({colspan: 2},
-                        DIV({"class": "netInfoHeadersGroup"}, Strings.ResponseHeaders)
-                    )
-                ),
-                TR({"class": "netInfoRequestVersionTitle"},
-                    TD({colspan: 2},
-                        DIV({"class": "netInfoHeadersGroup"}, Strings.RequestVersion)
-                    )
-                ),
-                TR({"class": "netInfoRequestHeadersTitle"},
-                    TD({colspan: 2},
-                        DIV({"class": "netInfoHeadersGroup"}, Strings.RequestHeaders)
+                TBODY(
+                    TR({"class": "netInfoResponseVersionTitle"},
+                        TD({colspan: 2},
+                            DIV({"class": "netInfoHeadersGroup"}, Strings.ResponseVersion)
+                        )
+                    ),
+                    TR({"class": "netInfoResponseHeadersTitle"},
+                        TD({colspan: 2},
+                            DIV({"class": "netInfoHeadersGroup"}, Strings.ResponseHeaders)
+                        )
+                    ),
+                    TR({"class": "netInfoRequestVersionTitle"},
+                        TD({colspan: 2},
+                            DIV({"class": "netInfoHeadersGroup"}, Strings.RequestVersion)
+                        )
+                    ),
+                    TR({"class": "netInfoRequestHeadersTitle"},
+                        TD({colspan: 2},
+                            DIV({"class": "netInfoHeadersGroup"}, Strings.RequestHeaders)
                     )
                 )
             )
-        ),
+        )
+    ),
 
     headerDataTag:
         FOR("param", "$headers",
@@ -184,6 +190,13 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
 
     onUpdateBody: function(tabView, body)
     {
+        var url = this.file.request.url;
+        if (url) {
+            var anchor = $(body).find("a")[0];
+            anchor.setAttribute("href", url);
+            anchor.appendChild(document.createTextNode(Lib.cropString(url, 128)));
+        }
+
         var responseVersion = { name: "", value: this.file.response.httpVersion };
         this.insertHeaderRows(body, [responseVersion], "Headers", "ResponseVersion");
         this.insertHeaderRows(body, this.file.response.headers || [], "Headers", "ResponseHeaders");
@@ -198,20 +211,18 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
         var headersTable = Lib.getElementByClass(parentNode, "netInfo" + tableName + "Table");
         var titleRow = Lib.getElementByClass(headersTable, "netInfo" + rowName + "Title");
 
-        if (headers.length)
-        {
+        if (headers.length) {
             this.headerDataTag.insertRows({headers: headers}, titleRow ? titleRow : parentNode);
             Lib.removeClass(titleRow, "collapsed");
-        }
-        else
-        {
+        } else {
             Lib.setClass(titleRow, "collapsed");
         }
     }
 });
 
 HeadersTab.canShowFile = function(file) {
-    return (file.response.headers.length > 0);
+    // We always show the 'headers' because we always show the HTTP version and request URL.
+    return true;
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
