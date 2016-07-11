@@ -322,7 +322,7 @@ ImageTab.isFileImage = function(file) {
         return false;
     }
 
-    var mimeType = Lib.extractMimeType(content.mimeType);
+    var mimeType = Lib.extractMimeType(content.mimeType || "");
     return Lib.startsWith(mimeType, "image/");
 };
 
@@ -424,9 +424,8 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
 
         var content = this.file.response.content;
         var text = content.text;
-        var mimeType = content.mimeType || "";
         // Remove any mime type parameters (if any)
-        mimeType = Lib.extractMimeType(mimeType);
+        var mimeType = Lib.extractMimeType(content.mimeType);
 
         // Highlight the syntax if the mimeType is supported.
         var brush = HighlightedTab.shouldHighlightAs(mimeType);
@@ -461,9 +460,8 @@ HighlightedTab.canShowFile = function(file) {
         return false;
     }
 
-    var mimeType = content.mimeType || "";
     // Remove any mime type parameters (if any)
-    mimeType = Lib.extractMimeType(mimeType);
+    var mimeType = Lib.extractMimeType(content.mimeType || "");
 
     return (null !== HighlightedTab.shouldHighlightAs(mimeType));
 };
@@ -765,7 +763,7 @@ JsonTab.canShowFile = function(file) {
         return false;
     }
 
-    var mimeType = Lib.extractMimeType(content.mimeType);
+    var mimeType = Lib.extractMimeType(content.mimeType || "");
     return ["application/json"].indexOf(mimeType) > -1;
 };
 
@@ -799,7 +797,7 @@ XmlTab.prototype = domplate(TabView.Tab.prototype, {
 });
 
 XmlTab.isXmlMimeType = function(mimeType) {
-    var mimeType = Lib.extractMimeType(mimeType);
+    mimeType = Lib.extractMimeType(mimeType);
     return [
         "text/xml",
         "application/xml",
@@ -822,7 +820,8 @@ XmlTab.canShowFile = function(file) {
         return false;
     }
 
-    return XmlTab.isXmlMimeType(Lib.extractMimeType(content.mimeType));
+    var mimeType = Lib.extractMimeType(content.mimeType || "");
+    return XmlTab.isXmlMimeType(mimeType);
 };
 
 //*************************************************************************************************

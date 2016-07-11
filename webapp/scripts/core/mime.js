@@ -24,6 +24,9 @@ var Mime = {};
  * @return {String}
  */
 Mime.extractMimeType = function(mimeType) {
+    if ("string" !== typeof mimeType) {
+        throw new Error((typeof mimeType) + " is not of type string");
+    }
     // remove parameters (if any)
     var idx = mimeType.indexOf(";");
     if (idx > -1) {

@@ -48,6 +48,11 @@ define([
           assert.strictEqual(cookie.name, "validate");
           assert.strictEqual(cookie.value, "true");
         })
+    },
+
+    teardown: function() {
+      // Clear cookies to return to clean state for other tests
+      return this.remote.clearCookies();
     }
   });
 });
