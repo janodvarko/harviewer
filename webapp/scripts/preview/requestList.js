@@ -54,6 +54,8 @@ RequestList.columns = [
     "status",
     "type",
     "domain",
+    "serverIPAddress",
+    "connection",
     "size",
     "timeline"
 ];
@@ -137,6 +139,8 @@ RequestList.prototype = domplate(
                     TD({"class": "netStatusCol netCol", width: "7%"}),
                     TD({"class": "netTypeCol netCol", width: "7%"}),
                     TD({"class": "netDomainCol netCol", width: "7%"}),
+                    TD({"class": "netServerIPAddressCol netCol", width: "7%"}),
+                    TD({"class": "netConnectionCol netCol", width: "7%"}),
                     TD({"class": "netSizeCol netCol", width: "7%"}),
                     TD({"class": "netTimeCol netCol", width: "100%"}),
                     TD({"class": "netOptionsCol netCol", width: "15px"}) // Options
@@ -165,13 +169,24 @@ RequestList.prototype = domplate(
                     )
                 ),
                 TD({"class": "netStatusCol netCol"},
-                    DIV({"class": "netStatusLabel netLabel"}, "$file|getStatus")
+                    DIV({"class": "netStatusLabel netLabel", title: "$file|getStatus"},
+                        "$file|getStatus")
                 ),
                 TD({"class": "netTypeCol netCol"},
-                    DIV({"class": "netTypeLabel netLabel"}, "$file|getType")
+                    DIV({"class": "netTypeLabel netLabel", title: "$file|getType"},
+                        "$file|getType")
                 ),
-                TD({"class": "netDomainCol netCol"},
-                    DIV({"class": "netDomainLabel netLabel"}, "$file|getDomain")
+                TD({"class": "netDomainCol netCol", title: "$file|getDomain"},
+                    DIV({"class": "netDomainLabel netLabel"},
+                        "$file|getDomain")
+                ),
+                TD({"class": "netServerIPAddressCol netCol"},
+                    DIV({"class": "netServerIPAddressLabel netLabel", title: "$file|getServerIPAddress"},
+                        "$file|getServerIPAddress")
+                ),
+                TD({"class": "netConnectionCol netCol"},
+                    DIV({"class": "netConnectionLabel netLabel", title: "$file|getConnection"},
+                        "$file|getConnection")
                 ),
                 TD({"class": "netSizeCol netCol"},
                     DIV({"class": "netSizeLabel netLabel"}, "$file|getSize")
@@ -198,14 +213,14 @@ RequestList.prototype = domplate(
 
     headTag:
         TR({"class": "netHeadRow"},
-            TD({"class": "netHeadCol", colspan: 7},
+            TD({"class": "netHeadCol", colspan: 9},
                 DIV({"class": "netHeadLabel"}, "$doc.rootFile.href")
             )
         ),
 
     netInfoTag:
         TR({"class": "netInfoRow"},
-            TD({"class": "netInfoCol", colspan: 7})
+            TD({"class": "netInfoCol", colspan: 9})
         ),
 
     summaryTag:
@@ -217,6 +232,8 @@ RequestList.prototype = domplate(
             TD({"class": "netStatusCol netCol"}),
             TD({"class": "netTypeCol netCol"}),
             TD({"class": "netDomainCol netCol"}),
+            TD({"class": "netServerIPAddressCol netCol"}),
+            TD({"class": "netConnectionCol netCol"}),
             TD({"class": "netTotalSizeCol netSizeCol netCol"},
                 DIV({"class": "netTotalSizeLabel netSummaryLabel"}, "0KB")
             ),
@@ -302,6 +319,16 @@ RequestList.prototype = domplate(
     getDomain: function(file)
     {
         return Lib.getPrettyDomain(file.request.url);
+    },
+
+    getServerIPAddress: function(file)
+    {
+        return file.serverIPAddress || "";
+    },
+
+    getConnection: function(file)
+    {
+        return file.connection || "";
     },
 
     getSize: function(file)
