@@ -60,6 +60,8 @@
 .netStatusCol,
 .netTypeCol,
 .netDomainCol,
+.netServerIPAddressCol,
+.netConnectionCol,
 .netSizeCol,
 .netTimeCol {
     padding-left: 8px;
@@ -69,8 +71,13 @@
     overflow: visible;
 }
 
+.netIndexCol,
 .netSizeCol {
     text-align: right;
+}
+
+.netIndexCol {
+    width: 3em;
 }
 
 .netHrefLabel {
@@ -113,6 +120,8 @@
 .netStatusLabel,
 .netTypeLabel,
 .netDomainLabel,
+.netServerIPAddressLabel,
+.netConnectionLabel,
 .netSizeLabel,
 .netTimelineBar {
     padding: 1px 0 2px 0 !important;
@@ -456,9 +465,12 @@
     display: table-cell;
 }
 
+#content[previewCols~=index] TD.netIndexCol,
 #content[previewCols~=url] TD.netHrefCol,
 #content[previewCols~=status] TD.netStatusCol,
 #content[previewCols~=domain] TD.netDomainCol,
+#content[previewCols~=serverIPAddress] TD.netServerIPAddressCol,
+#content[previewCols~=connection] TD.netConnectionCol,
 #content[previewCols~=size] TD.netSizeCol,
 #content[previewCols~=timeline] TD.netTimeCol,
 #content[previewCols~=type] TD.netTypeCol {
