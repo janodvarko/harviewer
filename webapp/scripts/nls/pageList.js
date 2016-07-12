@@ -3,6 +3,7 @@
 define(
 {
     "root": {
+        "column.label.index": "Index",
         "column.label.url": "URL",
         "column.label.status": "Status",
         "column.label.type": "Type",

@@ -49,6 +49,7 @@ function RequestList(input)
  * List of all available columns for the request table, see also RequestList.prototype.tableTag
  */
 RequestList.columns = [
+    "index",
     "url",
     "status",
     "type",
@@ -131,6 +132,7 @@ RequestList.prototype = domplate(
             _repObject: "$requestList"},
             TBODY(
                 TR({"class" : "netSizerRow"},
+                    TD({"class": "netIndexCol netCol"}),
                     TD({"class": "netHrefCol netCol", width: "20%"}),
                     TD({"class": "netStatusCol netCol", width: "7%"}),
                     TD({"class": "netTypeCol netCol", width: "7%"}),
@@ -149,6 +151,9 @@ RequestList.prototype = domplate(
                 $responseError: "$file|isError",
                 $responseRedirect: "$file|isRedirect",
                 $fromCache: "$file|isFromCache"},
+                TD({"class": "netIndexCol netCol"},
+                    DIV({"class": "netIndexLabel netLabel"}, "$file|getIndex")
+                ),
                 TD({"class": "netHrefCol netCol"},
                     DIV({"class": "netHrefLabel netLabel",
                          style: "margin-left: $file|getIndent\\px"},
@@ -205,6 +210,7 @@ RequestList.prototype = domplate(
 
     summaryTag:
         TR({"class": "netRow netSummaryRow"},
+            TD({"class": "netIndexCol netCol"}),
             TD({"class": "netHrefCol netCol"},
                 DIV({"class": "netCountLabel netSummaryLabel"}, "-")
             ),
@@ -235,6 +241,11 @@ RequestList.prototype = domplate(
             ),
             TD({"class": "netOptionsCol netCol"})
         ),
+
+    getIndex: function(file)
+    {
+        return (file.index + 1);
+    },
 
     getIndent: function(file)
     {
@@ -985,7 +996,13 @@ RequestList.prototype = domplate(
         var tbody = this.table.firstChild;
         var lastRow = tbody.lastChild.previousSibling;
 
-        var result = this.fileTag.insertRows({files: entries}, lastRow, this);
+        // Copy the entries and add an index property to each file,
+        // so that we can display the index.
+        var files = entries.map(function(file, i) {
+            return Lib.extend(file, { index: i });
+        });
+
+        var result = this.fileTag.insertRows({files: files}, lastRow, this);
         this.updateLayout(this.table, page);
 
         return result[0];
