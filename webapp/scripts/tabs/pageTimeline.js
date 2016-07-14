@@ -175,8 +175,8 @@ Timeline.prototype = domplate(
         // Recalculate height of all pages only if there is a new maximum.
         if (prevMaxElapsedTime != this.maxElapsedTime)
         {
-            for (var i=0; i<bars.length; i++)
-                bars[i].style.height = this.getHeight(bars[i].page) + "px";
+            for (var j=0; j<bars.length; j++)
+                bars[j].style.height = this.getHeight(bars[j].page) + "px";
         }
     },
 

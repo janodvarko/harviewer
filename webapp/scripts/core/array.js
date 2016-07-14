@@ -42,8 +42,8 @@ Arr.cloneArray = function(array, fn)
        for (var i = 0; i < array.length; ++i)
            newArray.push(fn(array[i]));
    else
-       for (var i = 0; i < array.length; ++i)
-           newArray.push(array[i]);
+       for (var j = 0; j < array.length; ++j)
+           newArray.push(array[j]);
 
    return newArray;
 };

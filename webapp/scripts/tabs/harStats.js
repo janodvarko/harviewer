@@ -359,7 +359,9 @@ var Pie = domplate(
 
         var data = pie.data;
         var total = 0;
-        for (var i=0; i<data.length; i++)
+        var i;
+
+        for (i=0; i<data.length; i++)
             total += data[i].value;
 
         if (!total)
@@ -374,7 +376,7 @@ var Pie = domplate(
             return;
         }
 
-        for (var i=0; i<data.length; i++)
+        for (i=0; i<data.length; i++)
         {
             var thisvalue = data[i].value / total;
             if (thisvalue <= 0) {

@@ -90,6 +90,7 @@ var TableView = domplate(
         for (var i=0; i<this.columns.length; i++)
         {
             var prop = this.columns[i].property;
+            var value;
 
             if (!prop)
             {
@@ -99,7 +100,7 @@ var TableView = domplate(
             {
                 var props = (typeof(prop) == "string") ? prop.split(".") : [prop];
 
-                var value = row;
+                value = row;
                 for (var p in props)
                     value = (value && value[props[p]]) || undefined;
             }
@@ -193,8 +194,8 @@ var TableView = domplate(
 
             header.sorted = 1;
 
-            for (var i = values.length-1; i >= 0; --i)
-                tbody.appendChild(values[i].row);
+            for (var j = values.length-1; j >= 0; --j)
+                tbody.appendChild(values[j].row);
         }
     },
 
@@ -206,9 +207,9 @@ var TableView = domplate(
     {
         // Get the first row in the object.
         var firstRow;
-        for (var p in data)
+        for (var k in data)
         {
-            firstRow = data[p];
+            firstRow = data[k];
             break;
         }
 

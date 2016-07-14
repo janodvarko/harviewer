@@ -274,9 +274,10 @@ Url.parseURLEncodedText = function(text, noLimit)
         try
         {
             var index = args[i].indexOf("=");
+            var paramName;
             if (index != -1)
             {
-                var paramName = args[i].substring(0, index);
+                paramName = args[i].substring(0, index);
                 var paramValue = args[i].substring(index + 1);
 
                 if (paramValue.length > maxValueLength && !noLimit)
@@ -286,7 +287,7 @@ Url.parseURLEncodedText = function(text, noLimit)
             }
             else
             {
-                var paramName = args[i];
+                paramName = args[i];
                 params.push({name: decodeText(paramName), value: ""});
             }
         }

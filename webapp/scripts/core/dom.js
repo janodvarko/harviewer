@@ -72,13 +72,6 @@ Dom.getElementByClass = function(node, className)  // className, className, ...
 
 Dom.getElementsByClass = function(node, className)  // className, className, ...
 {
-    if (node.querySelectorAll)
-    {
-        var args = Arr.cloneArray(arguments); args.shift();
-        var selector = "." + args.join(".");
-        return node.querySelectorAll(selector);
-    }
-
     function iteratorHelper(node, classNames, result)
     {
         for (var child = node.firstChild; child; child = child.nextSibling)
@@ -91,8 +84,16 @@ Dom.getElementsByClass = function(node, className)  // className, className, ...
         }
     }
 
+    var args = Arr.cloneArray(arguments);
+    args.shift();
+
+    if (node.querySelectorAll)
+    {
+        var selector = "." + args.join(".");
+        return node.querySelectorAll(selector);
+    }
+
     var result = [];
-    var args = Arr.cloneArray(arguments); args.shift();
     iteratorHelper(node, args, result);
     return result;
 };

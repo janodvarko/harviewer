@@ -96,10 +96,12 @@ PageList.prototype = domplate(
         if (opened && forceOpen)
             return;
 
+        var infoBodyRow;
+
         Lib.toggleClass(row, "opened");
         if (Lib.hasClass(row, "opened"))
         {
-            var infoBodyRow = this.bodyTag.insertRows({}, row)[0];
+            infoBodyRow = this.bodyTag.insertRows({}, row)[0];
 
             // Build request list for the expanded page.
             var requestList = this.createRequestList();
@@ -113,7 +115,7 @@ PageList.prototype = domplate(
         }
         else
         {
-            var infoBodyRow = row.nextSibling;
+            infoBodyRow = row.nextSibling;
             row.parentNode.removeChild(infoBodyRow);
         }
     },

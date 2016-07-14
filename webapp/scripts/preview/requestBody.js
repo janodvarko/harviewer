@@ -584,15 +584,15 @@ CookiesTab.prototype = domplate(HeadersTab.prototype,
 
     onUpdateBody: function(tabView, body)
     {
+        var textBox = Lib.getElementByClass(body, "netInfoParamsText");
+
         if (file.response.cookies)
         {
-            var textBox = Lib.getElementByClass(body, "netInfoParamsText");
             this.insertHeaderRows(textBox, file.response.cookies, "Cookies", "ResponseCookies");
         }
 
         if (file.request.cookies)
         {
-            var textBox = Lib.getElementByClass(body, "netInfoParamsText");
             this.insertHeaderRows(textBox, file.request.cookies, "Cookies", "RequestCookies");
         }
     }

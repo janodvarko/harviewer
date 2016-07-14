@@ -394,11 +394,12 @@ RequestList.prototype = domplate(
             return;
 
         var file = row.repObject;
+        var netInfoRow;
 
         Lib.toggleClass(row, "opened");
         if (Lib.hasClass(row, "opened"))
         {
-            var netInfoRow = this.netInfoTag.insertRows({}, row)[0];
+            netInfoRow = this.netInfoTag.insertRows({}, row)[0];
             netInfoRow.repObject = file;
 
             var requestBody = new RequestBody();
@@ -406,7 +407,7 @@ RequestList.prototype = domplate(
         }
         else
         {
-            var netInfoRow = row.nextSibling;
+            netInfoRow = row.nextSibling;
             var netInfoBox = Lib.getElementByClass(netInfoRow, "netInfoBody");
             row.parentNode.removeChild(netInfoRow);
         }
@@ -752,8 +753,8 @@ RequestList.prototype = domplate(
             // Remove all existing timing bars first. The UI can be relayouting at this moment
             // (can happen if break layout is executed).
             var bars = Lib.getElementsByClass(timelineBar, "netPageTimingBar");
-            for (var i=0; i<bars.length; i++)
-                bars[i].parentNode.removeChild(bars[i]);
+            for (var j=0; j<bars.length; j++)
+                bars[j].parentNode.removeChild(bars[j]);
 
             // Generate UI for page timings (vertical lines displayed for the first phase)
             for (var i=0; i<phase.pageTimings.length; i++)
@@ -814,16 +815,16 @@ RequestList.prototype = domplate(
 
         // Iterate all existing phases.
         var phases = this.phases;
-        for (var i=0; i<phases.length; i++)
+        for (var phaseIdx=0; phaseIdx<phases.length; phaseIdx++)
         {
-            var phase = phases[i];
-            var nextPhase = phases[i+1];
+            var phase = phases[phaseIdx];
+            var nextPhase = phases[phaseIdx+1];
 
             // Iterate all timings and divide them into phases. This process can extend
             // the end of a phase.
-            for (var j=0; j<pageTimings.length; j++)
+            for (var pageTimingIdx=0; pageTimingIdx<pageTimings.length; pageTimingIdx++)
             {
-                var stamp = pageTimings[j];
+                var stamp = pageTimings[pageTimingIdx];
                 var time = stamp.time;
                 if (!time)
                     continue;
@@ -837,7 +838,7 @@ RequestList.prototype = domplate(
                 if (!nextPhase || time < nextPhase.startTime)
                 {
                     // 2) It occurs after the current phase started, or this is the first phase.
-                    if (i == 0 || time >= phase.startTime)
+                    if (phaseIdx == 0 || time >= phase.startTime)
                     {
                         // This is the case where the time stamp occurs before the first phase
                         // started (shouldn't actually happen since there can't be a stamp made
@@ -971,11 +972,13 @@ RequestList.prototype = domplate(
         var row = Lib.getAncestorByClass(target, "netRow");
         if (row)
         {
+            var infoTipURL;
+
             if (Lib.getAncestorByClass(target, "netBar"))
             {
                 // There is no background image for multiline tooltips.
                 infoTip.setAttribute("multiline", true);
-                var infoTipURL = row.repObject.startedDateTime + "-nettime"; //xxxHonza the ID should be URL.
+                infoTipURL = row.repObject.startedDateTime + "-nettime"; //xxxHonza the ID should be URL.
                 // xxxHonza: there can be requests to the same URLs with different timings.
                 //if (infoTipURL == this.infoTipURL)
                 //    return true;
@@ -985,7 +988,7 @@ RequestList.prototype = domplate(
             }
             else if (Lib.hasClass(target, "netSizeLabel"))
             {
-                var infoTipURL = row.repObject.startedDateTime + "-netsize"; //xxxHonza the ID should be URL.
+                infoTipURL = row.repObject.startedDateTime + "-netsize"; //xxxHonza the ID should be URL.
                 // xxxHonza: there can be requests to the same URLs with different response sizes.
                 //if (infoTipURL == this.infoTipURL)
                 //    return true;

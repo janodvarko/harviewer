@@ -122,8 +122,8 @@ function findHarElements()
     }
 
     var result = [];
-    for (var i=0; i<elements.length; i++)
-        result.push(elements[i]);
+    for (var j=0; j<elements.length; j++)
+        result.push(elements[j]);
 
     return result;
 }

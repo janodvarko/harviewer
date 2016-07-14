@@ -263,11 +263,11 @@ DomplateTag.prototype =
                 child.tag.getVarNames(args);
             else if (child instanceof Parts)
             {
-                for (var i = 0; i < child.parts.length; ++i)
+                for (var j = 0; j < child.parts.length; ++j)
                 {
-                    if (child.parts[i] instanceof Variable)
+                    if (child.parts[j] instanceof Variable)
                     {
-                        var name = child.parts[i].name;
+                        var name = child.parts[j].name;
                         var names = name.split(".");
                         args.push(names[0]);
                     }
@@ -280,7 +280,8 @@ DomplateTag.prototype =
     {
         topBlock.push(',"<', this.tagName, '"');
 
-        for (var name in this.attrs)
+        var name;
+        for (name in this.attrs)
         {
             if (name != "class")
             {
@@ -299,7 +300,7 @@ DomplateTag.prototype =
 
         if (this.props)
         {
-            for (var name in this.props)
+            for (name in this.props)
                 readPartNames(this.props[name], topOuts);
         }
 
@@ -309,7 +310,7 @@ DomplateTag.prototype =
             if ("class" in this.attrs)
                 addParts(this.attrs["class"], ',', topBlock, info, true);
               topBlock.push(', " "');
-            for (var name in this.classes)
+            for (name in this.classes)
             {
                 topBlock.push(', (');
                 addParts(this.classes[name], '', topBlock, info);
@@ -376,16 +377,18 @@ DomplateTag.prototype =
 
         var fnBlock = ['(function (root, context, o'];
 
-        for (var i = 0; i < path.staticIndex; ++i)
+        var i;
+
+        for (i = 0; i < path.staticIndex; ++i)
             fnBlock.push(', ', 's'+i);
 
-        for (var i = 0; i < path.renderIndex; ++i)
+        for (i = 0; i < path.renderIndex; ++i)
             fnBlock.push(', ', 'd'+i);
 
         fnBlock.push(') {\n');
-        for (var i = 0; i < path.loopIndex; ++i)
+        for (i = 0; i < path.loopIndex; ++i)
             fnBlock.push('var l', i, ' = 0;\n');
-        for (var i = 0; i < path.embedIndex; ++i)
+        for (i = 0; i < path.embedIndex; ++i)
             fnBlock.push('var e', i, ' = 0;\n');
 
         if (this.subject)
@@ -469,12 +472,15 @@ DomplateTag.prototype =
         if (this.listeners || this.props)
             this.generateNodePath(path, blocks);
 
+        var val;
+        var arg;
+
         if (this.listeners)
         {
             for (var i = 0; i < this.listeners.length; i += 2)
             {
-                var val = this.listeners[i+1];
-                var arg = generateArg(val, path, args);
+                val = this.listeners[i+1];
+                arg = generateArg(val, path, args);
                 blocks.push('node.addEventListener("', this.listeners[i], '", __bind__(this, ', arg, '), false);\n');
             }
         }
@@ -483,8 +489,8 @@ DomplateTag.prototype =
         {
             for (var name in this.props)
             {
-                var val = this.props[name];
-                var arg = generateArg(val, path, args);
+                val = this.props[name];
+                arg = generateArg(val, path, args);
                 blocks.push("__prop__(node, '" + name + "', " + arg + ");\n");
                 //blocks.push('node.', name, ' = ', arg, ';');
             }
@@ -669,8 +675,8 @@ DomplateLoop.prototype = copyObject(DomplateTag.prototype,
 
         //blocks.push("console.group('", loopName, "');");
         blocks.push(loopName,' = __loop__.apply(this, [', iterName, ', function(', counterName,',',loopName);
-        for (var i = 0; i < path.renderIndex; ++i)
-            blocks.push(',d'+i);
+        for (var j = 0; j < path.renderIndex; ++j)
+            blocks.push(',d'+j);
         blocks.push(') {\n');
         blocks.push(subBlocks.join(""));
         blocks.push('return ', nodeCount, ';\n');
