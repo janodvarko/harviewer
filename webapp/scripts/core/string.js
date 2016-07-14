@@ -222,15 +222,11 @@ Str.cropString = function(text, limit)
 {
     text = text + "";
 
-    if (!limit)
-        var halfLimit = 50;
-    else
-        var halfLimit = limit / 2;
+    var halfLimit = limit ? limit / 2 : 50;
 
-    if (text.length > limit)
-        return Str.escapeNewLines(text.substr(0, halfLimit) + "..." + text.substr(text.length-halfLimit));
-    else
-        return Str.escapeNewLines(text);
+    return (text.length > limit) ?
+        Str.escapeNewLines(text.substr(0, halfLimit) + "..." + text.substr(text.length-halfLimit)) :
+        Str.escapeNewLines(text);
 };
 
 /**

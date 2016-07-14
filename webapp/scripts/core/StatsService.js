@@ -188,7 +188,7 @@ StatsService.prototype = {
             // even if there is also a charset specified.
             var mimeType = response.content.mimeType;
             var contentType = mimeType ? mimeType.match(/^([^;]+)/)[1] : null;
-            var mimeType = contentType ? contentType : response.content.mimeType;
+            mimeType = contentType ? contentType : response.content.mimeType;
 
             // Collect response sizes according to the mimeType.
             if (htmlTypes[mimeType]) {

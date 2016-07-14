@@ -33,7 +33,7 @@ Css.hasClass = function(node, name) // className, className, ...
         var $node = jQuery(node);
         for (var i=1; i<arguments.length; ++i)
         {
-            var name = arguments[i];
+            name = arguments[i];
             if (!$node.hasClass(name))
                 return false;
         }

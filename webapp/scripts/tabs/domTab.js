@@ -200,8 +200,6 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
             var placeholder = value ? Strings.jsonQueryPlaceholder : Strings.searchPlaceholder;
             searchInput.setAttribute("placeholder", placeholder);
         }
-
-        var searchInput = Lib.getElementByClass(this._body, "searchInput");
     },
 
     onSearch: function(text, keyCode)

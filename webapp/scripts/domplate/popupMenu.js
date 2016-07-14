@@ -366,7 +366,6 @@ Menu.prototype = Lib.extend(Controller,
     {
         var id = target.getAttribute("child");
         var parent = this;
-        var target = target;
 
         this.showChildTimeout = window.setTimeout(function()
         {
