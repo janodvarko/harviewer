@@ -201,7 +201,9 @@ Dom.getElementPosition = function(el)
 
 Dom.getWindowSize = function()
 {
-    var width=0, height=0, el;
+    var width = 0;
+    var height = 0;
+    var el;
 
     if (typeof window.innerWidth == "number")
     {
@@ -224,7 +226,9 @@ Dom.getWindowSize = function()
 
 Dom.getWindowScrollSize = function()
 {
-    var width=0, height=0, el;
+    var width = 0;
+    var height = 0;
+    var el;
 
     // first try the document.documentElement scroll size
     if (!Sniff.isIEQuiksMode && (el=document.documentElement) &&
@@ -249,7 +253,9 @@ Dom.getWindowScrollSize = function()
 
 Dom.getWindowScrollPosition = function()
 {
-    var top=0, left=0, el;
+    var top = 0;
+    var left = 0;
+    var el;
 
     if(typeof window.pageYOffset == "number")
     {

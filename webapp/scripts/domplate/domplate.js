@@ -164,7 +164,10 @@ DomplateTag.prototype =
     compileMarkup: function()
     {
         this.markupArgs = [];
-        var topBlock = [], topOuts = [], blocks = [], info = {args: this.markupArgs, argIndex: 0};
+        var topBlock = [];
+        var topOuts = [];
+        var blocks = [];
+        var info = {args: this.markupArgs, argIndex: 0};
         //this.addLocals(blocks);
         this.generateMarkup(topBlock, topOuts, blocks, info);
         this.addCode(topBlock, topOuts, blocks);
@@ -933,7 +936,8 @@ var Renderer =
         var parent = before.tagName.toLowerCase() == "tr" ? before.parentNode : before;
         var after = before.tagName.toLowerCase() == "tr" ? before.nextSibling : null;
 
-        var firstRow = tbody.firstChild, lastRow;
+        var firstRow = tbody.firstChild;
+        var lastRow;
         while (tbody.firstChild)
         {
             lastRow = tbody.firstChild;

@@ -866,7 +866,11 @@ RequestList.prototype = domplate(
     updateSummaries: function(page)
     {
         var phases = this.phases;
-        var fileCount = 0, totalTransferredSize = 0, totalUncompressedSize = 0, cachedSize = 0, totalTime = 0;
+        var fileCount = 0;
+        var totalTransferredSize = 0;
+        var totalUncompressedSize = 0;
+        var cachedSize = 0;
+        var totalTime = 0;
         for (var i = 0; i < phases.length; ++i)
         {
             var phase = phases[i];
@@ -916,10 +920,13 @@ RequestList.prototype = domplate(
 
     summarizePhase: function(phase)
     {
-        var cachedSize = 0, totalTransferredSize = 0, totalUncompressedSize = 0;
+        var cachedSize = 0;
+        var totalTransferredSize = 0;
+        var totalUncompressedSize = 0;
 
         var fileCount = 0;
-        var minTime = 0, maxTime = 0;
+        var minTime = 0;
+        var maxTime = 0;
 
         for (var i=0; i<phase.files.length; i++)
         {

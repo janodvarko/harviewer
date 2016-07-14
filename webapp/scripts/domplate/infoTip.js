@@ -104,7 +104,8 @@ var InfoTip = Lib.extend(
         // There is no background image for mulitline tooltips.
         this.infoTip.setAttribute("multiline", false);
 
-        var x = event.clientX, y = event.clientY;
+        var x = event.clientX;
+        var y = event.clientY;
         this.showInfoTip(this.infoTip, event.target, x, y, event.rangeParent, event.rangeOffset);
     },
 

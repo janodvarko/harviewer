@@ -85,7 +85,8 @@ Str.formatNumber = function(number)
  */
 Str.formatString = function(string)
 {
-    var args = Arr.cloneArray(arguments), string = args.shift();
+    var args = Arr.cloneArray(arguments);
+    string = args.shift();
     for (var i=0; i<args.length; i++)
     {
         var value = args[i].toString();

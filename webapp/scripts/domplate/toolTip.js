@@ -97,7 +97,8 @@ ToolTip.prototype = domplate(
         if (ancestor)
             return;
 
-        var x = event.clientX, y = event.clientY;
+        var x = event.clientX;
+        var y = event.clientY;
         var box = Lib.getElementBox(this.element);
 
         if (event.type != "click" && event.type != "mousedown")
