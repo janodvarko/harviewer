@@ -328,13 +328,13 @@ function RequestList(input)
     this.addPageTiming({
         name: "onContentLoad",
         classes: "netContentLoadBar",
-        description: Strings["ContentLoad"]
+        description: Strings.ContentLoad
     });
 
     this.addPageTiming({
         name: "onLoad",
         classes: "netWindowLoadBar",
-        description: Strings["WindowLoad"]
+        description: Strings.WindowLoad
     });
 
     InfoTip.addListener(this);
@@ -824,7 +824,7 @@ RequestList.prototype = domplate(
         // The onLoad time stamp is used for proper initialization of the first phase. The first
         // phase contains all requests till onLoad is fired (even if there are time gaps).
         // Don't worry if it
-        var onLoadTime = (page && page.pageTimings) ? page.pageTimings["onLoad"] : -1;
+        var onLoadTime = (page && page.pageTimings) ? page.pageTimings.onLoad : -1;
 
         // The timing could be NaN or -1. In such case keep the value otherwise
         // make the time absolute.
