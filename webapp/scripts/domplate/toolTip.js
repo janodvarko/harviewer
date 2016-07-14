@@ -101,7 +101,7 @@ ToolTip.prototype = domplate(
         var y = event.clientY;
         var box = Lib.getElementBox(this.element);
 
-        if (event.type != "click" && event.type != "mousedown")
+        if (event.type !== "click" && event.type !== "mousedown")
             box = Lib.inflateRect(box, 10, 10);
 
         // If the mouse is hovering within near neighbourhood, ignore it.

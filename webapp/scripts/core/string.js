@@ -30,14 +30,14 @@ Str.formatSize = function(bytes)
     sizePrecision = (sizePrecision > 2) ? 2 : sizePrecision;
     sizePrecision = (sizePrecision < -1) ? -1 : sizePrecision;
 
-    if (sizePrecision == -1)
+    if (sizePrecision === -1)
         return bytes + " B";
 
     var a = Math.pow(10, sizePrecision);
 
-    if (bytes == -1 || bytes == undefined)
+    if (bytes === -1 || bytes === undefined)
         return "?";
-    else if (bytes == 0)
+    else if (bytes === 0)
         return "0";
     else if (bytes < 1024)
         return bytes + " B";
@@ -53,7 +53,7 @@ Str.formatSize = function(bytes)
  */
 Str.formatTime = function(elapsed)
 {
-    if (elapsed == -1)
+    if (elapsed === -1)
         return "-"; // should be &nbsp; but this will be escaped so we need something that is no whitespace
     else if (elapsed < 1000)
         return elapsed + "ms";

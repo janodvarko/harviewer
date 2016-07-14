@@ -63,10 +63,10 @@ Date_.fromISOString = function(text)
     else
         date.setUTCMilliseconds(0);
 
-    if (m[13] != 'Z')
+    if (m[13] !== 'Z')
     {
         var offset = (m[15] * 60) + parseInt(m[17], 10);
-        offset *= ((m[14] == '-') ? -1 : 1);
+        offset *= ((m[14] === '-') ? -1 : 1);
         date.setTime(date.getTime() - offset * 60 * 1000);
     }
 

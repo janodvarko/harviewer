@@ -66,7 +66,7 @@ var TableView = domplate(
         var type = typeof(object);
 
         // Display embedded tree for object in table-cells
-        if (type == "object")
+        if (type === "object")
             return DomTree.Reps.Tree.tag;
 
         var rep = DomTree.Reps.getRep(object);
@@ -83,7 +83,7 @@ var TableView = domplate(
 
     getColumns: function(row)
     {
-        if (typeof(row) != "object")
+        if (typeof(row) !== "object")
             return [row];
 
         var cols = [];
@@ -98,7 +98,7 @@ var TableView = domplate(
             }
             else if (typeof row[prop] === "undefined")
             {
-                var props = (typeof(prop) == "string") ? prop.split(".") : [prop];
+                var props = (typeof(prop) === "string") ? prop.split(".") : [prop];
 
                 value = row;
                 for (var p in props)
@@ -116,7 +116,7 @@ var TableView = domplate(
 
     getProps: function(obj)
     {
-        if (typeof(obj) != "object")
+        if (typeof(obj) !== "object")
             return [obj];
 
         if (obj.length)
@@ -175,7 +175,7 @@ var TableView = domplate(
         var header = headerRow.childNodes[colIndex];
         Lib.setClass(header, "headerSorted");
 
-        if (!header.sorted || header.sorted == 1)
+        if (!header.sorted || header.sorted === 1)
         {
             Lib.removeClass(header, "sortedDescending");
             Lib.setClass(header, "sortedAscending");
@@ -213,7 +213,7 @@ var TableView = domplate(
             break;
         }
 
-        if (typeof(firstRow) != "object")
+        if (typeof(firstRow) !== "object")
             return [{label: Strings.objectProperties}];
 
         // Put together a column property, label and type (type for default sorting logic).
@@ -227,7 +227,7 @@ var TableView = domplate(
             header.push({
                 property: p,
                 label: p,
-                alphaValue: (typeof(value) != "number")
+                alphaValue: (typeof(value) !== "number")
             });
         }
 
@@ -260,8 +260,8 @@ var TableView = domplate(
         for (var i=0; cols && i<cols.length; i++)
         {
             var col = cols[i];
-            var prop = (typeof(col.property) != "undefined") ? col.property : col;
-            var label = (typeof(col.label) != "undefined") ? col.label : prop;
+            var prop = (typeof(col.property) !== "undefined") ? col.property : col;
+            var label = (typeof(col.label) !== "undefined") ? col.label : prop;
 
             columns.push({
                 property: prop,

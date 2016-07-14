@@ -136,7 +136,7 @@ Events.removeEventListener = function(object, name, handler, direction)
  */
 Events.isLeftClick = function(event)
 {
-    return event.button == 0 && Events.noKeyModifiers(event);
+    return event.button === 0 && Events.noKeyModifiers(event);
 };
 
 /**
@@ -152,7 +152,7 @@ Events.noKeyModifiers = function(event)
  */
 Events.isControlClick = function(event)
 {
-    return event.button == 0 && Events.isControl(event);
+    return event.button === 0 && Events.isControl(event);
 };
 
 /**
@@ -160,7 +160,7 @@ Events.isControlClick = function(event)
  */
 Events.isShiftClick = function(event)
 {
-    return event.button == 0 && Events.isShift(event);
+    return event.button === 0 && Events.isShift(event);
 };
 
 /**
@@ -184,7 +184,7 @@ Events.isAlt = function(event)
  */
 Events.isAltClick = function(event)
 {
-    return event.button == 0 && Events.isAlt(event);
+    return event.button === 0 && Events.isAlt(event);
 };
 
 /**

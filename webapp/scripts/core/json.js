@@ -25,7 +25,7 @@ var Json = {};
  */
 Json.cloneJSON = function(obj)
 {
-    if (obj == null || typeof(obj) != "object")
+    if (obj === null || typeof(obj) !== "object")
         return obj;
 
     try

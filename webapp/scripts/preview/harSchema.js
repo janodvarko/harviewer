@@ -266,7 +266,7 @@ Schema.prototype =
     {
         var doIt = function(my, obj){
             for (var name in obj) {
-                if (obj.hasOwnProperty(name) && name != "prototype") {
+                if (obj.hasOwnProperty(name) && name !== "prototype") {
                     my[name] = obj[name];
                 }
             }

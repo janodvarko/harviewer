@@ -110,7 +110,7 @@ Toolbar.prototype =
     {
         for (var i=0; i<this.buttons.length; i++)
         {
-            if (this.buttons[i].id == buttonId)
+            if (this.buttons[i].id === buttonId)
             {
                 this.buttons.splice(i, 1);
                 break;
@@ -128,7 +128,7 @@ Toolbar.prototype =
     {
         for (var i=0; i<this.buttons.length; i++)
         {
-            if (this.buttons[i].id == buttonId)
+            if (this.buttons[i].id === buttonId)
                 return this.buttons[i];
         }
     },

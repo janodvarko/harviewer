@@ -213,7 +213,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
             return true;
 
         // Clear previous search if the text has changed.
-        if (this.currSearch && this.currSearch.text != text)
+        if (this.currSearch && this.currSearch.text !== text)
             this.currSearch = null;
 
         // Create new search object if necessary. This objects holds current search
@@ -261,7 +261,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
     evalJsonQuery: function(expr, keyCode)
     {
         // JSON Path is executed when enter key is pressed.
-        if (keyCode != 13)
+        if (keyCode !== 13)
             return true;
 
         // Eval the expression for all logs.
@@ -383,7 +383,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         for (var i=0; i<tables.length; i++)
         {
             var tree = tables[i].repObject;
-            if (tree.input == input)
+            if (tree.input === input)
                 return tree;
         }
         return null;

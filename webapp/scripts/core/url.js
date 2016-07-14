@@ -49,7 +49,7 @@ Url.getFileExtension = function(url)
 
     // Remove query string from the URL if any.
     var queryString = url.indexOf("?");
-    if (queryString != -1)
+    if (queryString !== -1)
         url = url.substr(0, queryString);
 
     // Now get the file extension.
@@ -74,7 +74,7 @@ Url.splitURLBase = function(url)
  */
 Url.isDataURL = function(url)
 {
-    return (url && url.substr(0,5) == "data:");
+    return (url && url.substr(0,5) === "data:");
 };
 
 /**
@@ -84,7 +84,7 @@ Url.isDataURL = function(url)
 Url.splitDataURL = function(url)
 {
     var mark = url.indexOf(':', 3);
-    if (mark != 4)
+    if (mark !== 4)
         return false;   //  the first 5 chars must be 'data:'
 
     var point = url.indexOf(',', mark+1);
@@ -98,7 +98,7 @@ Url.splitDataURL = function(url)
     for (var i = 0; i < metadata.length; i++)
     {
         var nv = metadata[i].split('=');
-        if (nv.length == 2)
+        if (nv.length === 2)
             props[nv[0]] = nv[1];
     }
 
@@ -167,7 +167,7 @@ Url.getURLParameter = function(name)
     for (var i=0;i<vars.length;i++)
     {
         var pair = vars[i].split("=");
-        if (pair[0] == name)
+        if (pair[0] === name)
             return unescape(pair[1]);
     }
     return null;
@@ -187,7 +187,7 @@ Url.getURLParameters = function(name)
     for (var i=0;i<vars.length;i++)
     {
         var pair = vars[i].split("=");
-        if (pair[0] == name)
+        if (pair[0] === name)
             result.push(unescape(pair[1]));
     }
     return result;
@@ -207,7 +207,7 @@ Url.getHashParameters = function(name)
     for (var i=0;i<vars.length;i++)
     {
         var pair = vars[i].split("=");
-        if (pair[0] == name)
+        if (pair[0] === name)
             result.push(unescape(pair[1]));
     }
     return result;
@@ -220,12 +220,12 @@ Url.getHashParameters = function(name)
 Url.parseURLParams = function(url)
 {
     var q = url ? url.indexOf("?") : -1;
-    if (q == -1)
+    if (q === -1)
         return [];
 
     var search = url.substr(q+1);
     var h = search.lastIndexOf("#");
-    if (h != -1)
+    if (h !== -1)
         search = search.substr(0, h);
 
     if (!search)
@@ -246,7 +246,7 @@ Url.parseURLEncodedText = function(text, noLimit)
     var params = [];
 
     // In case the text is empty just return the empty parameters
-    if(text == '')
+    if (!text)
       return params;
 
     // Unescape '+' characters that are used to encode a space.
@@ -275,7 +275,7 @@ Url.parseURLEncodedText = function(text, noLimit)
         {
             var index = args[i].indexOf("=");
             var paramName;
-            if (index != -1)
+            if (index !== -1)
             {
                 paramName = args[i].substring(0, index);
                 var paramValue = args[i].substring(index + 1);

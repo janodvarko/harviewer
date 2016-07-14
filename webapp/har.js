@@ -66,11 +66,11 @@ var harInitialize = window.harInitialize = function()
         var expand = element.getAttribute("expand");
         var validate = element.getAttribute("validate");
 
-        var args = "?" + (path.indexOf("http:") == 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
-        if (expand != "false")
+        var args = "?" + (path.indexOf("http:") === 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
+        if (expand !== "false")
             args += "&expand=" + (expand ? expand : "true");
 
-        if (validate == "false")
+        if (validate === "false")
             args += "&validate=false";
 
         if (callback)

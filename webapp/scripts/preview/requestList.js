@@ -83,7 +83,7 @@ var EntryTimeInfoTip = domplate(
 
     hideBar: function(obj)
     {
-        return !obj.elapsed && obj.bar == "request.phase.Blocking";
+        return !obj.elapsed && obj.bar === "request.phase.Blocking";
     },
 
     getBarClass: function(obj)
@@ -306,7 +306,7 @@ var EntrySizeInfoTip = domplate(
     {
         var input = requestList.input;
         var file = row.repObject;
-        if (file.response.bodySize == file.response.content.size)
+        if (file.response.bodySize === file.response.content.size)
             return this.tag.replace({file: file}, parentNode);
 
         return this.zippedTag.replace({file: file}, parentNode);
@@ -633,7 +633,7 @@ RequestList.prototype = domplate(
     getSize: function(file)
     {
         var bodySize = file.response.bodySize;
-        var size = (bodySize && bodySize != -1) ? bodySize :
+        var size = (bodySize && bodySize !== -1) ? bodySize :
             file.response.content.size;
 
         return this.formatSize(size);
@@ -642,7 +642,7 @@ RequestList.prototype = domplate(
     isExpandable: function(file)
     {
         var hasHeaders = file.response.headers.length > 0;
-        var hasDataURL = file.request.url.indexOf("data:") == 0;
+        var hasDataURL = file.request.url.indexOf("data:") === 0;
         return hasHeaders || hasDataURL;
     },
 
@@ -738,14 +738,14 @@ RequestList.prototype = domplate(
         var phase = row.phase;
 
         // Disable the 'break layout' command for the first file in the first phase.
-        var disableBreakLayout = (phase.files[0] == file && this.phases[0] == phase);
+        var disableBreakLayout = (phase.files[0] === file && this.phases[0] === phase);
 
         var items = [
             {
                 label: Strings.menuBreakTimeline,
                 type: "checkbox",
                 disabled: disableBreakLayout,
-                checked: phase.files[0] == file && !disableBreakLayout,
+                checked: phase.files[0] === file && !disableBreakLayout,
                 command: Lib.bind(this.breakLayout, this, row)
             },
             "-",
@@ -790,7 +790,7 @@ RequestList.prototype = domplate(
     {
         var file = row.repObject;
         var phase = row.phase;
-        var layoutBroken = phase.files[0] == file;
+        var layoutBroken = phase.files[0] === file;
         row.breakLayout = !layoutBroken;
 
         // For CSS (visual separator between two phases).
@@ -865,7 +865,7 @@ RequestList.prototype = domplate(
             }
 
             // 4) The file can be also marked with breakLayout
-            if (typeof(row.breakLayout) == "boolean")
+            if (typeof(row.breakLayout) === "boolean")
             {
                 if (!phase || row.breakLayout)
                     phase = this.startPhase(file);
@@ -882,14 +882,14 @@ RequestList.prototype = domplate(
 
             // For CSS (visual separator between two phases). Except of the first file
             // in the first phase.
-            if (this.phases[0] != phase)
-                row.setAttribute("breakLayout", (phase.files[0] == file) ? "true" : "false");
+            if (this.phases[0] !== phase)
+                row.setAttribute("breakLayout", (phase.files[0] === file) ? "true" : "false");
 
-            if (phase.startTime == undefined || phase.startTime > startedDateTime)
+            if ("number" !== typeof phase.startTime || phase.startTime > startedDateTime)
                 phase.startTime = startedDateTime;
 
             // file.time represents total elapsed time of the request.
-            if (phase.endTime == undefined || phase.endTime < startedDateTime + file.time)
+            if ("number" !== typeof phase.endTime || phase.endTime < startedDateTime + file.time)
                 phase.endTime = startedDateTime + file.time;
 
             row = row.nextSibling;
@@ -909,7 +909,7 @@ RequestList.prototype = domplate(
 
     calculateFileTimes: function(page, file, phase)
     {
-        if (phase != file.phase)
+        if (phase !== file.phase)
         {
             phase = file.phase;
             this.phaseStartTime = phase.startTime;
@@ -1131,7 +1131,7 @@ RequestList.prototype = domplate(
                 if (!nextPhase || time < nextPhase.startTime)
                 {
                     // 2) It occurs after the current phase started, or this is the first phase.
-                    if (i == 0 || time >= phase.startTime)
+                    if (i === 0 || time >= phase.startTime)
                     {
                         // This is the case where the time stamp occurs before the first phase
                         // started (shouldn't actually happen since there can't be a stamp made
@@ -1189,11 +1189,11 @@ RequestList.prototype = domplate(
         sizeLabel.firstChild.nodeValue = Lib.formatSize(totalTransferredSize);
 
         var uncompressedSizeLabel = Lib.getElementByClass(row, "netUncompressedSizeLabel");
-        uncompressedSizeLabel.setAttribute("collapsed", totalUncompressedSize == 0);
+        uncompressedSizeLabel.setAttribute("collapsed", totalUncompressedSize === 0);
         uncompressedSizeLabel.childNodes[1].firstChild.nodeValue = Lib.formatSize(totalUncompressedSize);
 
         var cacheSizeLabel = Lib.getElementByClass(row, "netCacheSizeLabel");
-        cacheSizeLabel.setAttribute("collapsed", cachedSize == 0);
+        cacheSizeLabel.setAttribute("collapsed", cachedSize === 0);
         cacheSizeLabel.childNodes[1].firstChild.nodeValue = Lib.formatSize(cachedSize);
 
         var timeLabel = Lib.getElementByClass(row, "netTotalTimeLabel");
@@ -1208,7 +1208,7 @@ RequestList.prototype = domplate(
 
     formatRequestCount: function(count)
     {
-        return count + " " + (count == 1 ? Strings.request : Strings.requests);
+        return count + " " + (count === 1 ? Strings.request : Strings.requests);
     },
 
     summarizePhase: function(phase)
@@ -1266,7 +1266,7 @@ RequestList.prototype = domplate(
         // There is more instances of RequestList object registered as info-tips listener
         // so make sure the one that is associated with the target is used.
         var table = Lib.getAncestorByClass(target, "netTable");
-        if (!table || table.repObject != this)
+        if (!table || table.repObject !== this)
             return;
 
         var row = Lib.getAncestorByClass(target, "netRow");

@@ -287,7 +287,7 @@ StatsService.prototype = {
             var resBodySize = ensurePositive(response.bodySize);
 
             // Get Cache info
-            if (entry.response.status == 206) { // Partial content
+            if (entry.response.status === 206) { // Partial content
                 totals.partial.resBodySize += resBodySize;
                 totals.partial.count++;
             } else if (HarModel.isCachedEntry(entry)) { // From cache

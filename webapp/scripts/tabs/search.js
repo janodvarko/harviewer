@@ -82,12 +82,12 @@ Search.Box = domplate(
         var text = searchInput.value;
 
         // Support for incremental search, changing the text also causes search.
-        if (text == prevText && keyCode != 13)
+        if (text === prevText && keyCode !== 13)
             return;
 
         // The search input box looses focus if something is selected on the page
         // So, switch off the incremental search for webkit (works only on Enter)
-        if (keyCode != 13 && Lib.isWebkit)
+        if (keyCode !== 13 && Lib.isWebkit)
             return;
 
         var result = tab.repObject.onSearch(text, keyCode);
@@ -220,7 +220,7 @@ Search.ObjectSearch.prototype =
             scope.propIndex = propIndex;
 
             // Any children object are pushed on the stack and scaned in the next call.
-            if (typeof(value) == "object")
+            if (typeof(value) === "object")
             {
                 // Put child on the stack (alternative for recursion).
                 this.stack.push({

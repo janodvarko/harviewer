@@ -71,10 +71,10 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
         // Show timeline & stats by default if the cookie says so (no animation)
         // But there should be an input.
         var input = this.model.input;
-        if (input && Cookies.getCookie("timeline") == "true")
+        if (input && Cookies.getCookie("timeline") === "true")
             this.onTimeline(false);
 
-        if (input && Cookies.getCookie("stats") == "true")
+        if (input && Cookies.getCookie("stats") === "true")
             this.onStats(false);
 
         this.updateDownloadifyButton();

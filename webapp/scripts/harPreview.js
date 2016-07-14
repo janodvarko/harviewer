@@ -46,7 +46,7 @@ HarPreview.prototype =
         {
             var validate = true;
             var param = Lib.getURLParameter("validate");
-            if (param == "false")
+            if (param === "false")
                 validate = false;
 
             var input = HarModel.parse(jsonString, validate);

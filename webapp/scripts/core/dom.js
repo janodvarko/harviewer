@@ -122,7 +122,7 @@ Dom.isAncestor = function(node, potentialAncestor)
 {
     for (var parent = node; parent; parent = parent.parentNode)
     {
-        if (parent == potentialAncestor)
+        if (parent === potentialAncestor)
             return true;
     }
 
@@ -194,7 +194,7 @@ Dom.getElementPosition = function(el)
         left += el.offsetLeft;
         top += el.offsetTop;
     }
-    while (el = el.offsetParent);
+    while (el === el.offsetParent);
 
     return {left:left, top:top};
 };
@@ -205,7 +205,7 @@ Dom.getWindowSize = function()
     var height = 0;
     var el;
 
-    if (typeof window.innerWidth == "number")
+    if (typeof window.innerWidth === "number")
     {
         width = window.innerWidth;
         height = window.innerHeight;
@@ -257,7 +257,7 @@ Dom.getWindowScrollPosition = function()
     var left = 0;
     var el;
 
-    if(typeof window.pageYOffset == "number")
+    if(typeof window.pageYOffset === "number")
     {
         top = window.pageYOffset;
         left = window.pageXOffset;
@@ -334,7 +334,7 @@ Dom.getClientOffset = function(elt)
 
         if (p)
         {
-            if (p.nodeType == 1)
+            if (p.nodeType === 1)
                 addOffset(p, coords, view);
         }
         else if (elt.ownerDocument.defaultView.frameElement)

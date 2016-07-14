@@ -113,7 +113,7 @@ TabView.prototype =
     {
         for (var i = 0; i < this.tabs.length; i++) {
             var tab = this.tabs[i];
-            if (tab.id == tabId) {
+            if (tab.id === tabId) {
                 this.tabs.splice(i, 1);
                 break;
             }
@@ -124,7 +124,7 @@ TabView.prototype =
     {
         for (var i = 0; i < this.tabs.length; i++) {
             var tab = this.tabs[i];
-            if (tab.id == tabId) {
+            if (tab.id === tabId) {
                 return tab;
             }
         }

@@ -94,7 +94,7 @@ DomplateTag.prototype =
         this.vars = oldTag ? copyArray(oldTag.vars) : [];
 
         var attrs = args.length ? args[0] : null;
-        var hasAttrs = typeof(attrs) == "object" && !isTag(attrs);
+        var hasAttrs = typeof(attrs) === "object" && !isTag(attrs);
 
         this.children = [];
 
@@ -117,21 +117,21 @@ DomplateTag.prototype =
             var val = parseValue(args[name]);
             readPartNames(val, this.vars);
 
-            if (name.indexOf("on") == 0)
+            if (name.indexOf("on") === 0)
             {
                 var eventName = name.substr(2);
                 if (!this.listeners)
                     this.listeners = [];
                 this.listeners.push(eventName, val);
             }
-            else if (name.indexOf("_") == 0)
+            else if (name.indexOf("_") === 0)
             {
                 var propName = name.substr(1);
                 if (!this.props)
                     this.props = {};
                 this.props[propName] = val;
             }
-            else if (name.indexOf("$") == 0)
+            else if (name.indexOf("$") === 0)
             {
                 var className = name.substr(1);
                 if (!this.classes)
@@ -140,7 +140,7 @@ DomplateTag.prototype =
             }
             else
             {
-                if (name == "class" && name in this.attrs)
+                if (name === "class" && name in this.attrs)
                     this.attrs[name] += " " + val;
                 else
                     this.attrs[name] = val;
@@ -247,7 +247,7 @@ DomplateTag.prototype =
             }
             catch (exc)
             {
-                if (exc != StopIteration)
+                if (exc !== StopIteration)
                     throw exc;
             }
         }
@@ -288,7 +288,7 @@ DomplateTag.prototype =
         var name;
         for (name in this.attrs)
         {
-            if (name != "class")
+            if (name !== "class")
             {
                 var val = this.attrs[name];
                 topBlock.push(', " ', name, '=\\""');
@@ -454,10 +454,10 @@ DomplateTag.prototype =
             for (var i = 2; i < arguments.length; ++i)
             {
                 var index = arguments[i];
-                if (i == 3)
+                if (i === 3)
                     index += offset;
 
-                if (index == -1)
+                if (index === -1)
                     parent = parent.parentNode;
                 else
                     parent = parent.childNodes[index];
@@ -739,7 +739,7 @@ function parseParts(str)
 
 function parseValue(val)
 {
-    return typeof(val) == 'string' ? parseParts(val) : val;
+    return typeof(val) === 'string' ? parseParts(val) : val;
 }
 
 function parseChildren(args, offset, vars, children)
@@ -838,12 +838,12 @@ function addParts(val, delim, block, info, escapeIt)
 
 function isTag(obj)
 {
-    return (typeof(obj) == "function" || obj instanceof Function) && !!obj.tag;
+    return (typeof(obj) === "function" || obj instanceof Function) && !!obj.tag;
 }
 
 function isDomplate(obj)
 {
-    return (typeof(obj) == "object") && !!obj.render;
+    return (typeof(obj) === "object") && !!obj.render;
 }
 
 function creator(tag, cons)
@@ -933,8 +933,8 @@ var Renderer =
         tableParent.innerHTML = "<table>" + html + "</table>";
 
         var tbody = tableParent.firstChild.firstChild;
-        var parent = before.tagName.toLowerCase() == "tr" ? before.parentNode : before;
-        var after = before.tagName.toLowerCase() == "tr" ? before.nextSibling : null;
+        var parent = before.tagName.toLowerCase() === "tr" ? before.parentNode : before;
+        var after = before.tagName.toLowerCase() === "tr" ? before.nextSibling : null;
 
         var firstRow = tbody.firstChild;
         var lastRow;
@@ -951,7 +951,7 @@ var Renderer =
         if (this.tag.isLoop)
         {
             var node = firstRow.parentNode.firstChild;
-            for (; node && node != firstRow; node = node.nextSibling)
+            for (; node && node !== firstRow; node = node.nextSibling)
                 ++offset;
         }
 
@@ -999,17 +999,17 @@ var Renderer =
         var html = this.renderHTML(args, outputs, self);
 
         var root;
-        if (parent.nodeType == 1)
+        if (parent.nodeType === 1)
         {
             parent.innerHTML = html;
             root = parent.firstChild;
         }
         else
         {
-            if (!parent || parent.nodeType != 9)
+            if (!parent || parent.nodeType !== 9)
                 parent = document; //xxxHonza: There are no globals.
 
-            if (!womb || womb.ownerDocument != parent)
+            if (!womb || womb.ownerDocument !== parent)
                 womb = parent.createElement("div");
             womb.innerHTML = html;
 
@@ -1032,7 +1032,7 @@ var Renderer =
         var outputs = [];
         var html = this.renderHTML(args, outputs, self);
 
-        if (!womb || womb.ownerDocument != parent.ownerDocument)
+        if (!womb || womb.ownerDocument !== parent.ownerDocument)
             womb = parent.ownerDocument.createElement("div");
         womb.innerHTML = html;
 
@@ -1077,7 +1077,7 @@ var Renderer =
         if (this.tag.isLoop)
         {
             var node = firstCol.parentNode.firstChild;
-            for (; node && node != firstCol; node = node.nextSibling)
+            for (; node && node !== firstCol; node = node.nextSibling)
                 ++offset;
         }
 

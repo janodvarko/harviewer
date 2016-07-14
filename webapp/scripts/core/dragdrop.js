@@ -87,10 +87,10 @@ var TrackerPrototype = {
         //newPos.Apply(this.element);
 
         // Only fire event if the position has been changed.
-        if (this.cursorLastPos.x == newPos.x && this.cursorLastPos.y == newPos.y)
+        if (this.cursorLastPos.x === newPos.x && this.cursorLastPos.y === newPos.y)
             return;
 
-        if (this.callbacks.onDragOver != null)
+        if (typeof this.callbacks.onDragOver === "function")
         {
             var result = this.callbacks.onDragOver(newPos, this);
             this.cursorLastPos = newPos;
@@ -127,7 +127,7 @@ var TrackerPrototype = {
         this.cursorLastPos = null;
         //this.elementStartPos = null;
 
-        if (this.callbacks.onDrop != null)
+        if (this.callbacks.onDrop !== null)
             this.callbacks.onDrop(this);
 
         this.dragging = false;
@@ -158,7 +158,7 @@ function Position(x, y)
     this.Add = function(val)
     {
         var newPos = new Position(this.x, this.y);
-        if (val != null)
+        if (val !== null && val !== undefined)
         {
             if(!isNaN(val.x))
                 newPos.x += val.x;
@@ -171,7 +171,7 @@ function Position(x, y)
     this.Subtract = function(val)
     {
         var newPos = new Position(this.x, this.y);
-        if (val != null)
+        if (val !== null && val !== undefined)
         {
             if(!isNaN(val.x))
                 newPos.x -= val.x;
@@ -201,7 +201,7 @@ function Position(x, y)
 
     this.Apply = function(element)
     {
-        if (typeof(element) == "string")
+        if (typeof(element) === "string")
             element = document.getElementById(element);
 
         if (!element)

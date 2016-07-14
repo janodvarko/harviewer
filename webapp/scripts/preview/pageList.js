@@ -138,7 +138,7 @@ PageList.prototype = domplate(
         for (var i=0; i<rows.length; i++)
         {
             var row = rows[i];
-            if (row.repObject == page)
+            if (row.repObject === page)
                 return row;
         }
     },
@@ -215,7 +215,7 @@ PageList.prototype = domplate(
         }
 
         // If the last column is visible, disable its menu item.
-        if (visibleColCount == 1)
+        if (visibleColCount === 1)
             items[lastVisibleIndex].disabled = true;
 
         items.push("-");
@@ -284,7 +284,7 @@ PageList.prototype = domplate(
 
             // Expand appended page by default only if there is only one page.
             // Note that there can be more page-lists (pageTable elements)
-            if (pageRows.length == 1 && pageTables.length == 1)
+            if (pageRows.length === 1 && pageTables.length === 1)
                 this.toggleRow(pageRows[0]);
 
             // If 'expand' parameter is specified expand all by default.

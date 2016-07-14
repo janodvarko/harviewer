@@ -68,7 +68,7 @@ Arr.remove = function(list, item)
 {
     for (var i = 0; i < list.length; ++i)
     {
-        if (list[i] == item)
+        if (list[i] === item)
         {
             list.splice(i, 1);
             return true;

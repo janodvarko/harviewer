@@ -134,7 +134,7 @@ RequestBody.prototype = domplate(
 
     showDataURL: function(file)
     {
-        return file.request.url.indexOf("data:") == 0;
+        return file.request.url.indexOf("data:") === 0;
     }
 });
 
@@ -545,7 +545,7 @@ SentDataTab.prototype = domplate(HeadersTab.prototype,
             return;
 
         var textBox = Lib.getElementByClass(body, "netInfo" + this.id + "Text");
-        if (postData.mimeType == "application/x-www-form-urlencoded")
+        if (postData.mimeType === "application/x-www-form-urlencoded")
             this.insertHeaderRows(textBox, postData.params, this.id);
         else
             Lib.insertWrappedText(postData.text, textBox);
@@ -721,7 +721,7 @@ DataURLTab.prototype = domplate(HeadersTab.prototype,
         var textBox = Lib.getElementByClass(body, "netInfoDataURLText");
         var data = this.file.request.url;
 
-        if (data.indexOf("data:image") == 0)
+        if (data.indexOf("data:image") === 0)
         {
             var image = body.ownerDocument.createElement("img");
             image.src = data;

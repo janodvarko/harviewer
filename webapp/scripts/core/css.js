@@ -26,7 +26,7 @@ var Css = {};
  */
 Css.hasClass = function(node, name) // className, className, ...
 {
-    if (!node || node.nodeType != 1)
+    if (!node || node.nodeType !== 1)
         return false;
     else
     {

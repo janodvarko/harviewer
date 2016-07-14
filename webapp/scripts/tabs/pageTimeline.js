@@ -68,7 +68,7 @@ var Selection =
         var bars = Lib.getElementsByClass(row, "pageBar");
         for (var i=0; i<bars.length; i++)
         {
-            if (except != bars[i])
+            if (except !== bars[i])
                 this.unselect(bars[i]);
         }
     }
@@ -174,7 +174,7 @@ Timeline.prototype = domplate(
         if (!Lib.hasClass(bar, "pageBar"))
             return;
 
-        if (this.highlightedPage == bar.page)
+        if (this.highlightedPage === bar.page)
             return;
 
         this.highlightedPage = bar.page;
@@ -200,7 +200,7 @@ Timeline.prototype = domplate(
         var col = table.firstChild.firstChild.firstChild;
         while (col)
         {
-            if (col.firstChild.page == page)
+            if (col.firstChild.page === page)
                 return col.firstChild;
             col = col.nextSibling;
         }
@@ -223,7 +223,7 @@ Timeline.prototype = domplate(
         }
 
         // Recalculate height of all pages only if there is a new maximum.
-        if (prevMaxElapsedTime != this.maxElapsedTime)
+        if (prevMaxElapsedTime !== this.maxElapsedTime)
         {
             for (var j=0; j<bars.length; j++)
                 bars[j].style.height = this.getHeight(bars[j].page) + "px";
@@ -383,7 +383,7 @@ Timeline.Desc = domplate(
 
         var requests = HarModel.getPageEntries(object.input, object.page);
         var count = requests.length;
-        summary += count + " " + (count == 1 ? Strings.request : Strings.requests);
+        summary += count + " " + (count === 1 ? Strings.request : Strings.requests);
 
         return summary;
     },

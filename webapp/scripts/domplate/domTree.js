@@ -167,7 +167,7 @@ DomTree.prototype = domplate(
         for (var i=0; i<rows.length; i++)
         {
             var row = rows[i];
-            if (row.repObject.value == object)
+            if (row.repObject.value === object)
                 return row;
         }
 
@@ -200,7 +200,7 @@ var OBJECTBOX =
 // ********************************************************************************************* //
 
 function hasProperties(ob) {
-    if (typeof(ob) == "string")
+    if (typeof(ob) === "string")
         return false;
 
     try {
@@ -224,7 +224,7 @@ PlainObjectView.prototype.getMembers = function(object, level) {
 
     for (var p in object) {
         var propObj = object[p];
-        if (typeof(propObj) != "function"/* && typeof(propObj) != "number"*/)
+        if (typeof(propObj) !== "function"/* && typeof(propObj) != "number"*/)
             members.push(DomTree.createMember("dom", p, propObj, this.hasChildren(propObj), level));
     }
 
@@ -329,7 +329,7 @@ DomTree.Reps =
     getRep: function(object)
     {
         var type = typeof(object);
-        if (type == "object" && object instanceof String)
+        if (type === "object" && object instanceof String)
             type = "string";
 
         for (var i=0; i<this.reps.length; ++i)
@@ -404,7 +404,7 @@ DomTree.Reps.Null = domplate(DomTree.Rep,
 
     supportsObject: function(object, type)
     {
-        return object == null;
+        return object === null;
     }
 });
 
@@ -419,7 +419,7 @@ DomTree.Reps.Number = domplate(DomTree.Rep,
 
     supportsObject: function(object, type)
     {
-        return type == "boolean" || type == "number";
+        return type === "boolean" || type === "number";
     }
 });
 
@@ -435,7 +435,7 @@ DomTree.Reps.String = domplate(DomTree.Rep,
 
     supportsObject: function(object, type)
     {
-        return type == "string";
+        return type === "string";
     }
 });
 
@@ -468,7 +468,7 @@ var Tree = domplate(DomTree.prototype,
     createMember: function(type, name, value, level)
     {
         var member = DomTree.createMember(type, name, value, false, level);
-        if (level == 0)
+        if (level === 0)
         {
             member.name = "";
             member.type = "tableCell";
@@ -499,7 +499,7 @@ DomTree.Reps.Tree = domplate(DomTree.Rep,
 
     supportsObject: function(object, type)
     {
-        return type == "object";
+        return type === "object";
     }
 });
 

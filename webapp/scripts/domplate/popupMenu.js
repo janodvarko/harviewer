@@ -61,7 +61,7 @@ var Controller =
         {
             for (var j=0, c; c=this.controllers[j]; j++)
             {
-                if (arg[0] == c[0] && arg[1] == c[1] && arg[2] == c[3])
+                if (arg[0] === c[0] && arg[1] === c[1] && arg[2] === c[3])
                     Lib.removeEventListener.apply(this, c);
             }
         }
@@ -139,7 +139,7 @@ var MenuPlate = domplate(
             var item = items[i];
 
             // separator representation
-            if (typeof item == "string" && item.indexOf("-") == 0)
+            if (typeof item === "string" && item.indexOf("-") === 0)
             {
                 result.push({tag: this.separatorTag});
                 continue;
@@ -158,22 +158,22 @@ var MenuPlate = domplate(
             className += "popupMenuOption ";
 
             // specific representations
-            if (type == "checkbox")
+            if (type === "checkbox")
             {
                 className += "popupMenuCheckBox ";
                 item.tag = this.checkBoxTag;
             }
-            else if (type == "radio")
+            else if (type === "radio")
             {
                 className += "popupMenuRadioButton ";
                 item.tag = this.radioButtonTag;
             }
-            else if (type == "group")
+            else if (type === "group")
             {
                 className += "popupMenuGroup ";
                 item.tag = this.groupTag;
             }
-            else if (type == "shortcut")
+            else if (type === "shortcut")
             {
                 className += "popupMenuShortcut ";
                 item.tag = this.shortcutTag;
@@ -207,9 +207,9 @@ function Menu(options)
             options.items = options.getItems();
 
         // Trim separators
-        if (options.items[0] == "-")
+        if (options.items[0] === "-")
             options.items.shift();
-        if (options.items[options.items.length - 1] == "-")
+        if (options.items[options.items.length - 1] === "-")
             options.items.pop();
 
         var body = Lib.getBody(document);
@@ -219,7 +219,7 @@ function Menu(options)
     // extend itself with the provided options
     Lib.append(this, options);
 
-    if (typeof this.element == "string")
+    if (typeof this.element === "string")
     {
         this.id = this.element;
         this.element = $(this.id);
@@ -304,7 +304,7 @@ Menu.prototype = Lib.extend(Controller,
         if (this.parentMenu)
         {
             var oldChildMenu = this.parentMenu.childMenu;
-            if (oldChildMenu && oldChildMenu != this)
+            if (oldChildMenu && oldChildMenu !== this)
             {
                 oldChildMenu.destroy();
             }
@@ -422,7 +422,7 @@ Menu.prototype = Lib.extend(Controller,
         {
             var type = target.getAttribute("type");
 
-            if (type == "checkbox")
+            if (type === "checkbox")
             {
                 var checked = target.getAttribute("checked");
                 var value = target.getAttribute("value");
@@ -443,7 +443,7 @@ Menu.prototype = Lib.extend(Controller,
                     this.onCheck.call(this, target, value, !wasChecked);
             }
 
-            if (type == "radiobutton")
+            if (type === "radiobutton")
             {
                 var selectedRadios = Lib.getElementsByClass(target.parentNode, "popupMenuRadioSelected");
                 var group = target.getAttribute("group");
@@ -452,7 +452,7 @@ Menu.prototype = Lib.extend(Controller,
                 {
                     var radio = selectedRadios[i];
 
-                    if (radio.getAttribute("group") == group)
+                    if (radio.getAttribute("group") === group)
                     {
                         Lib.removeClass(radio, "popupMenuRadioSelected");
                         radio.setAttribute("selected", "");
@@ -473,7 +473,7 @@ Menu.prototype = Lib.extend(Controller,
             // will be used as the handler
             if (Lib.isFunction(cmd))
                 handler = cmd;
-            else if (typeof cmd == "string")
+            else if (typeof cmd === "string")
                 handler = this[cmd];
 
             var closeMenu = true;
@@ -515,7 +515,7 @@ Menu.prototype = Lib.extend(Controller,
         {
             Lib.removeClass(childMenu.parentTarget, "popupMenuGroupSelected");
 
-            if (childMenu.parentTarget != target && childMenu.isVisible)
+            if (childMenu.parentTarget !== target && childMenu.isVisible)
             {
                 childMenu.clearHideTimeout();
                 childMenu.hideTimeout = window.setTimeout(function(){
