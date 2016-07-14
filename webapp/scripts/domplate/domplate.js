@@ -843,11 +843,6 @@ function isTag(obj)
     return (typeof(obj) === "function" || obj instanceof Function) && !!obj.tag;
 }
 
-function isDomplate(obj)
-{
-    return (typeof(obj) === "object") && !!obj.render;
-}
-
 function creator(tag, cons)
 {
     var fn = new Function(

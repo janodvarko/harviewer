@@ -39,6 +39,7 @@ var flashTypes = {
     "application/x-shockwave-flash": 1
 };
 
+// eslint-disable-next-line no-unused-vars
 var jsonTypes = {
     "text/x-json": 1,
     "text/x-js": 1,
@@ -46,6 +47,7 @@ var jsonTypes = {
     "application/x-js": 1
 };
 
+// eslint-disable-next-line no-unused-vars
 var xmlTypes = {
     "application/xml": 1,
     "application/xhtml+xml": 1,
@@ -55,6 +57,7 @@ var xmlTypes = {
     "application/rdf+xml": 1
 };
 
+// eslint-disable-next-line no-unused-vars
 var unknownTypes = {
     "text/xsl": 1,
     "text/sgml": 1,

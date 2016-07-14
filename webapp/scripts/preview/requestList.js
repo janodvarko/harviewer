@@ -304,7 +304,6 @@ var EntrySizeInfoTip = domplate(
 
     render: function(requestList, row, parentNode)
     {
-        var input = requestList.input;
         var file = row.repObject;
         if (file.response.bodySize === file.response.content.size)
             return this.tag.replace({file: file}, parentNode);
@@ -699,7 +698,6 @@ RequestList.prototype = domplate(
         else
         {
             netInfoRow = row.nextSibling;
-            var netInfoBox = Lib.getElementByClass(netInfoRow, "netInfoBody");
             row.parentNode.removeChild(netInfoRow);
         }
     },
@@ -945,7 +943,6 @@ RequestList.prototype = domplate(
         var waiting = sending + ((file.timings.wait < 0) ? 0 : file.timings.wait);
         var receiving = waiting + ((file.timings.receive < 0) ? 0 : file.timings.receive);
 
-        var elapsed = file.time;
         var startedDateTime = Lib.parseISO8601(file.startedDateTime);
         this.barOffset = (((startedDateTime-this.phaseStartTime)/this.phaseElapsed) * 100).toFixed(3);
 
@@ -989,8 +986,6 @@ RequestList.prototype = domplate(
 
     updateTimeline: function(page)
     {
-        var tbody = this.table.firstChild;
-
         var phase;
 
         // Iterate over all existing entries. Some rows aren't associated with a file

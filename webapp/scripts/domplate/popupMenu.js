@@ -424,7 +424,6 @@ Menu.prototype = Lib.extend(Controller,
 
             if (type === "checkbox")
             {
-                var checked = target.getAttribute("checked");
                 var value = target.getAttribute("value");
                 var wasChecked = Lib.hasClass(target, "popupMenuChecked");
 

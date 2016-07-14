@@ -92,7 +92,7 @@ var TrackerPrototype = {
 
         if (typeof this.callbacks.onDragOver === "function")
         {
-            var result = this.callbacks.onDragOver(newPos, this);
+            this.callbacks.onDragOver(newPos, this);
             this.cursorLastPos = newPos;
         }
 

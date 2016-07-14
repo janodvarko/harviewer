@@ -204,6 +204,7 @@ function hasProperties(ob) {
         return false;
 
     try {
+        // eslint-disable-next-line no-unused-vars
         for (var name in ob)
             return true;
     } catch (exc) {}

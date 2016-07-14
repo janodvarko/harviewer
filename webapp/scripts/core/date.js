@@ -44,7 +44,6 @@ Date_.fromISOString = function(text)
     // http://www.w3.org/TR/NOTE-datetime
     // xxxHonza: use the one from the schema.
     var regex = /(\d\d\d\d)(-)?(\d\d)(-)?(\d\d)(T)?(\d\d)(:)?(\d\d)(:)?(\d\d)(\.\d+)?(Z|([+-])(\d\d)(:)?(\d\d))/;
-    var reg = new RegExp(regex);
     var m = text.toString().match(new RegExp(regex));
     if (!m)
         return null;

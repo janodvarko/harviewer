@@ -75,7 +75,6 @@ Search.Box = domplate(
 
     search: function(tab, keyCode, prevText)
     {
-        var searchBox = Lib.getElementByClass(tab, "searchBox");
         var searchInput = Lib.getElementByClass(tab, "searchInput");
         searchInput.removeAttribute("status");
 

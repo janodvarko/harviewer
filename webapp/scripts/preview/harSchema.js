@@ -156,6 +156,7 @@ var responseType = {
     }
 };
 
+// eslint-disable-next-line no-unused-vars
 var cookieType = {
     "cookieType": {
         "id": "cookieType",
