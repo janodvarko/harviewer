@@ -208,7 +208,7 @@ Str.escapeHTML = function(value)
                 return "&quot;";
         }
         return "?";
-    };
+    }
     return String(value).replace(/[<>&"']/g, replaceChars);
 };
 

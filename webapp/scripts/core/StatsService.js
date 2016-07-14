@@ -254,7 +254,7 @@ StatsService.prototype = {
             totals.request.bodySize += ensurePositive(entry.request.bodySize);
             totals.response.headersSize += ensurePositive(entry.response.headersSize);
             totals.response.bodySize += ensurePositive(response.bodySize);
-        };
+        }
 
         return totals;
     },

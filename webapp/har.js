@@ -136,7 +136,7 @@ function addEventListener(object, name, handler, direction)
         object.addEventListener(name, handler, direction);
     else
         object.attachEvent("on"+name, handler);
-};
+}
 
 harInitialize();
 

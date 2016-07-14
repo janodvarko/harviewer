@@ -220,7 +220,7 @@ DomplateTag.prototype =
                         return "&quot;";
                 }
                 return "?";
-            };
+            }
             return String(value).replace(/[<>&"']/g, replaceChars);
         }
 
