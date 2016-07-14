@@ -150,7 +150,7 @@ Search.Box = domplate(
 /**
  * Implements search over object properties and children objects. There should be no
  * cycles in the scanned object hierarchy.
- * 
+ *
  * @param {Object} text Text to search for.
  * @param {Object} object The input object to search.
  * @param {Object} reverse If true search is made backwards.

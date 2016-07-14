@@ -33,7 +33,7 @@ function PageList(input)
 
 /**
  * @domplate This object represents a template for list of pages.
- * This list is displayed within the Preview tab. 
+ * This list is displayed within the Preview tab.
  */
 PageList.prototype = domplate(
 /** @lends PageList */
@@ -79,10 +79,10 @@ PageList.prototype = domplate(
     onClick: function(event)
     {
         var e = Lib.fixEvent(event);
-        if (Lib.isLeftClick(event)) 
+        if (Lib.isLeftClick(event))
         {
             var row = Lib.getAncestorByClass(e.target, "pageRow");
-            if (row) 
+            if (row)
             {
                 this.toggleRow(row);
                 Lib.cancelEvent(event);
@@ -245,7 +245,7 @@ PageList.prototype = domplate(
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-    // Helpers 
+    // Helpers
 
     createRequestList: function()
     {
@@ -259,11 +259,11 @@ PageList.prototype = domplate(
 
     append: function(parentNode)
     {
-        // According to the spec, network requests doesn't have to be 
+        // According to the spec, network requests doesn't have to be
         // associated with the parent page. This is to support even
         // tools that can't get this info.
         // Also if log files are merged there can be some requests not
-        // associated with any page. Make sure these are displayed too. 
+        // associated with any page. Make sure these are displayed too.
         var requestList = this.createRequestList();
         requestList.render(parentNode, null);
 

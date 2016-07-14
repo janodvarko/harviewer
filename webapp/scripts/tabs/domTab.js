@@ -378,12 +378,12 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
     getDomTree: function(input)
     {
         // Iterate all existing dom-trees. There can be more if more logs
-        // is currently displayed. 
+        // is currently displayed.
         var tables = Lib.getElementsByClass(this._body, "domTable");
         for (var i=0; i<tables.length; i++)
         {
             var tree = tables[i].repObject;
-            if (tree.input == input) 
+            if (tree.input == input)
                 return tree;
         }
         return null;

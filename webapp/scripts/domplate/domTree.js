@@ -37,13 +37,13 @@ DomTree.prototype = domplate(
     tag:
         TABLE({"class": "domTable", cellpadding: 0, cellspacing: 0, onclick: "$onClick"},
             TBODY(
-                FOR("member", "$object|memberIterator", 
+                FOR("member", "$object|memberIterator",
                     TAG("$member|getRowTag", {member: "$member"}))
             )
         ),
 
     rowTag:
-        TR({"class": "memberRow $member.open $member.type\\Row $member|hasChildren", 
+        TR({"class": "memberRow $member.open $member.type\\Row $member|hasChildren",
             $hasChildren: "$member|hasChildren",
             _repObject: "$member", level: "$member.level"},
             TD({"class": "memberLabelCell", style: "padding-left: $member.indent\\px"},
@@ -55,7 +55,7 @@ DomTree.prototype = domplate(
         ),
 
     loop:
-        FOR("member", "$members", 
+        FOR("member", "$members",
             TAG("$member|getRowTag", {member: "$member"})),
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

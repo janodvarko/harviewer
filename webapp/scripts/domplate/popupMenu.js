@@ -41,7 +41,7 @@ var Controller =
     {
         for (var i=0, arg; arg=arguments[i]; i++)
         {
-            // If the first argument is a string, make a selector query 
+            // If the first argument is a string, make a selector query
             // within the controller node context
             if (typeof arg[0] == "string")
             {
@@ -427,7 +427,7 @@ Menu.prototype = Lib.extend(Controller,
         if (target && !Lib.hasClass(target, "popupMenuDisabled"))
         {
             var type = target.getAttribute("type");
-            
+
             if (type == "checkbox")
             {
                 var checked = target.getAttribute("checked");
@@ -471,11 +471,11 @@ Menu.prototype = Lib.extend(Controller,
 
             var handler = null;
 
-            // target.command can be a function or a string. 
+            // target.command can be a function or a string.
             var cmd = target.command;
 
             // If it is a function it will be used as the handler
-            // If it is a string, tha handler is the property of the current menu object 
+            // If it is a string, tha handler is the property of the current menu object
             // will be used as the handler
             if (Lib.isFunction(cmd))
                 handler = cmd;
@@ -517,13 +517,13 @@ Menu.prototype = Lib.extend(Controller,
             return;
 
         var childMenu = this.childMenu;
-        if (childMenu) 
+        if (childMenu)
         {
             Lib.removeClass(childMenu.parentTarget, "popupMenuGroupSelected");
-            
+
             if (childMenu.parentTarget != target && childMenu.isVisible)
             {
-                childMenu.clearHideTimeout(); 
+                childMenu.clearHideTimeout();
                 childMenu.hideTimeout = window.setTimeout(function(){
                     childMenu.destroy();
                 },300);

@@ -204,7 +204,7 @@ TabView.prototype =
             Lib.removeClass(viewBody.selectedBody, "selected");
         }
 
-        // Store info about new active tab. Each tab has to have a body, 
+        // Store info about new active tab. Each tab has to have a body,
         // which is identified by class.
         var tabBody = Lib.getElementByClass(viewBody, "tab" + view + "Body");
         if (!tabBody)
