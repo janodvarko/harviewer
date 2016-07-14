@@ -86,7 +86,7 @@ window.harInitialize = function()
 
         removeHarClass(element);
     }
-}
+};
 
 var re = new RegExp('(^|\\s)har(\\s|$)', "g");
 

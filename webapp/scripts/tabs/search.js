@@ -180,7 +180,7 @@ Search.ObjectSearch = function(text, object, reverse, caseSensitive)
 
     // Array of matched values.
     this.matches = [];
-}
+};
 
 Search.ObjectSearch.prototype =
 {
@@ -259,7 +259,7 @@ Search.ObjectSearch.prototype =
                 this.matches.push({
                     value: value,
                     startOffset: offset
-                })
+                });
 
                 // One occurence found.
                 return true;
@@ -287,7 +287,7 @@ Search.ObjectSearch.prototype =
         var match = this.getCurrentMatch();
         Lib.selectElementText(textNode, match.startOffset, match.startOffset + this.text.length);
     }
-}
+};
 
 // ********************************************************************************************* //
 

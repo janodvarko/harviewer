@@ -189,7 +189,7 @@ var TableView = domplate(
         {
             Lib.removeClass(header, "sortedAscending");
             Lib.setClass(header, "sortedDescending");
-            header.setAttribute("aria-sort", "descending")
+            header.setAttribute("aria-sort", "descending");
 
             header.sorted = 1;
 

@@ -59,7 +59,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         var validate = Cookies.getCookie("validate");
         if (validate)
             this.validateNode.prop("checked", (validate == "false") ? false : true);
-        this.validateNode.change(Lib.bind(this.onValidationChange, this))
+        this.validateNode.change(Lib.bind(this.onValidationChange, this));
 
         // Load examples
         $(".example").click(Lib.bind(this.onLoadExample, this));
@@ -177,7 +177,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
                 };
                 fileReader.readAsText(file);
             }
-        }
+        };
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -77,7 +77,7 @@ Events.dispatch2 = function(listeners, name, args)
 Events.fixEvent = function(e)
 {
     return jQuery.event.fix(e || window.event);
-}
+};
 
 /**
  *
@@ -90,7 +90,7 @@ Events.fireEvent = function(element, event)
         evt.initEvent(event, true, false); // event type,bubbling,cancelable
         return !element.dispatchEvent(evt);
     }
-}
+};
 
 /**
  *

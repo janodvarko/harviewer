@@ -163,10 +163,10 @@ function Position(x, y)
             if(!isNaN(val.x))
                 newPos.x += val.x;
             if(!isNaN(val.y))
-                newPos.y += val.y
+                newPos.y += val.y;
         }
         return newPos;
-    }
+    };
 
     this.Subtract = function(val)
     {
@@ -176,16 +176,16 @@ function Position(x, y)
             if(!isNaN(val.x))
                 newPos.x -= val.x;
             if(!isNaN(val.y))
-                newPos.y -= val.y
+                newPos.y -= val.y;
         }
         return newPos;
-    }
+    };
 
     this.Bound = function(lower, upper)
     {
         var newPos = this.Max(lower);
         return newPos.Min(upper);
-    }
+    };
 
     this.Check = function()
     {
@@ -197,7 +197,7 @@ function Position(x, y)
             newPos.y = 0;
 
         return newPos;
-    }
+    };
 
     this.Apply = function(element)
     {
@@ -212,7 +212,7 @@ function Position(x, y)
 
         if(!isNaN(this.y))
             element.style.top = this.y + "px";
-    }
+    };
 }
 
 // ********************************************************************************************* //

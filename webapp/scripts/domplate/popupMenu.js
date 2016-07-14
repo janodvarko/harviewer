@@ -241,7 +241,7 @@ function Menu(options)
     this.handleMouseOver = Lib.bind(this.handleMouseOver, this);
     this.handleMouseOut = Lib.bind(this.handleMouseOut, this);
     this.handleWindowMouseDown = Lib.bind(this.handleWindowMouseDown, this);
-};
+}
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -446,7 +446,7 @@ Menu.prototype = Lib.extend(Controller,
                 }
 
                 if (Lib.isFunction(this.onCheck))
-                    this.onCheck.call(this, target, value, !wasChecked)
+                    this.onCheck.call(this, target, value, !wasChecked);
             }
 
             if (type == "radiobutton")

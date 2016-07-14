@@ -218,7 +218,7 @@ var JSONSchema = {
 	newFromSchema : function() {
 	}
 */
-}
+};
 
 return JSONSchema;
 

@@ -47,7 +47,7 @@ var InfoTip = Lib.extend(
         // Distribute event to all registered listeners and show the info tip if
         // any of them return true.
         var result = Lib.dispatch2(this.listeners, "showInfoTip",
-            [infoTip, target, scrollX, y, rangeParent, rangeOffset])
+            [infoTip, target, scrollX, y, rangeParent, rangeOffset]);
 
         if (result)
         {

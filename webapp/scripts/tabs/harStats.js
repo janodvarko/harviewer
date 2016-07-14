@@ -45,11 +45,12 @@ PieBase.prototype =
             this.data[i].count = 0;
         }
     }
-}
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-function TimingPie() {};
+function TimingPie() {}
+
 TimingPie.prototype = Lib.extend(PieBase.prototype,
 {
     title: "Summary of request times.",
@@ -72,7 +73,8 @@ TimingPie.prototype = Lib.extend(PieBase.prototype,
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-function ContentPie() {};
+function ContentPie() {}
+
 ContentPie.prototype = Lib.extend(PieBase.prototype,
 {
     title: "Summary of content types.",
@@ -94,7 +96,8 @@ ContentPie.prototype = Lib.extend(PieBase.prototype,
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-function TrafficPie() {};
+function TrafficPie() {}
+
 TrafficPie.prototype = Lib.extend(PieBase.prototype,
 {
     title: "Summary of sent and received bodies & headers.",
@@ -109,7 +112,8 @@ TrafficPie.prototype = Lib.extend(PieBase.prototype,
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-function CachePie() {};
+function CachePie() {}
+
 CachePie.prototype = Lib.extend(PieBase.prototype,
 {
     title: "Comparison of downloaded data from the server and browser cache.",
@@ -362,7 +366,7 @@ var Pie = domplate(
         {
             ctx.beginPath();
             ctx.moveTo(center[0], center[1]); // center of the pie
-            ctx.arc(center[0], center[1], radius, 0, Math.PI * 2, false)
+            ctx.arc(center[0], center[1], radius, 0, Math.PI * 2, false);
             ctx.closePath();
             ctx.fillStyle = "rgb(229,236,238)";
             ctx.lineStyle = "lightgray";

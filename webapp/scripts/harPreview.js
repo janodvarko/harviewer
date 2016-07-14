@@ -29,7 +29,7 @@ HarPreview.prototype =
 {
     initialize: function(content)
     {
-        this.topMenu = new Menu()
+        this.topMenu = new Menu();
         this.topMenu.render(content);
 
         // Auto load all HAR files specified in the URL.
@@ -88,7 +88,7 @@ HarPreview.prototype =
     {
         RequestList.setVisibleColumns(cols, avoidCookies);
     }
-}
+};
 
 //*************************************************************************************************
 // Initialization

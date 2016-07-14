@@ -105,7 +105,7 @@ RequestList.getVisibleColumns = function()
     }
 
     return Lib.cloneArray(RequestList.defaultColumns);
-}
+};
 
 RequestList.setVisibleColumns = function(cols, avoidCookies)
 {
@@ -123,7 +123,7 @@ RequestList.setVisibleColumns = function(cols, avoidCookies)
     // Update cookie
     if (!avoidCookies)
         Cookies.setCookie("previewCols", cols);
-}
+};
 
 // Initialize UI. List of columns is specified on the content element (used by CSS).
 RequestList.setVisibleColumns();
@@ -1060,7 +1060,7 @@ function Phase(file)
     this.pageTimings = [];
 
     this.addFile(file);
-};
+}
 
 Phase.prototype =
 {

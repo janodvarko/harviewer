@@ -171,7 +171,7 @@ var cookieType = {
             "comment": {"type": "string", "optional": true}
         }
     }
-}
+};
 
 var postDataType = {
     "postDataType": {
@@ -270,7 +270,7 @@ Schema.prototype =
                     my[name] = obj[name];
                 }
             }
-        }
+        };
         var that = this;
         for(i=0; i < arguments.length; i +=1) {
             doIt(that, arguments[i]);

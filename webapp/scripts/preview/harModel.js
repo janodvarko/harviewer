@@ -51,7 +51,7 @@ HarModel.prototype =
                 return 1;
 
             return 0;
-        })
+        });
 
         if (this.input)
         {
@@ -348,7 +348,7 @@ HarModel.validateRequestTimings = function(input)
 
     if (errors.length)
         throw {errors: errors, input: input};
-}
+};
 
 HarModel.isCachedEntry = function(entry) {
     var response = entry.response;

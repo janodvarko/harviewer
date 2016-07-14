@@ -192,7 +192,7 @@ PageList.prototype = domplate(
         var lastVisibleIndex;
         var visibleColCount = 0;
 
-        var items = []
+        var items = [];
         for (var i=0; i<RequestList.columns.length; i++)
         {
             var colName = RequestList.columns[i];

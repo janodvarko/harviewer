@@ -279,11 +279,11 @@ TabView.prototype =
 
         return this.element;
     }
-}
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-TabView.Tab = function() {}
+TabView.Tab = function() {};
 TabView.Tab.prototype =
 {
     invalidate: function()
@@ -295,7 +295,7 @@ TabView.Tab.prototype =
     {
         this.tabView.selectTabByName(this.id);
     }
-}
+};
 
 return TabView;
 

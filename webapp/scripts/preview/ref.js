@@ -199,7 +199,7 @@ var ref =
 	_addProp: function(id, prop){
 		return id + (id.match(/#/) ? id.length == 1 ? '' : '.' : '#') + prop;
 	}
-}
+};
 
 return ref;
 
