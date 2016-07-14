@@ -9,7 +9,10 @@ define("domplate/infoTip", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function(Domplate, Lib, Trace) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
 
 //***********************************************************************************************//
 
@@ -132,4 +135,4 @@ InfoTip.initialize();
 return InfoTip;
 
 // **********************************************************************************************//
-}});
+});

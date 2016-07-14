@@ -9,7 +9,14 @@ define("domplate/popupMenu", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function(Domplate, Lib, Trace) {
+
+var domplate = Domplate.domplate;
+var A = Domplate.A;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var SPAN = Domplate.SPAN;
+var TAG = Domplate.TAG;
 
 // ************************************************************************************************
 // Controller
@@ -567,4 +574,4 @@ Lib.append(Menu,
 return Menu;
 
 // **********************************************************************************************//
-}});
+});

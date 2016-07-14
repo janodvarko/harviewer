@@ -11,7 +11,16 @@ define("preview/pageList", [
 ],
 
 function(Domplate, Lib, Trace, Cookies, RequestList, Strings, Menu) {
-with (Domplate) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TAG = Domplate.TAG;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 // ********************************************************************************************* //
 // Page List
@@ -313,4 +322,4 @@ PageList.prototype.pageTimings = [];
 return PageList;
 
 // ********************************************************************************************* //
-}});
+});

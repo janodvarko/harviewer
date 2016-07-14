@@ -9,7 +9,10 @@ define("domplate/toolTip", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function(Domplate, Lib, Trace) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
 
 // ************************************************************************************************
 // Globals
@@ -126,4 +129,4 @@ ToolTip.prototype = domplate(
 return ToolTip;
 
 // **********************************************************************************************//
-}});
+});

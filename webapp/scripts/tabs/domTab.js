@@ -21,7 +21,14 @@ define("tabs/domTab", [
 function(Domplate, TabView, Lib, Strings, Toolbar, Search, DragDrop, DomTree, Cookies,
     TableView, Trace) {
 
-with (Domplate) {
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var INPUT = Domplate.INPUT;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 // ********************************************************************************************* //
 // Home Tab
@@ -437,4 +444,4 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
 return DomTab;
 
 // ********************************************************************************************* //
-}});
+});

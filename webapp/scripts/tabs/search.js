@@ -13,7 +13,11 @@ define("tabs/search", [
     "core/dragdrop"
 ],
 
-function(Domplate, Lib, Strings, Toolbar, Menu, Cookies, DragDrop) { with (Domplate) {
+function(Domplate, Lib, Strings, Toolbar, Menu, Cookies, DragDrop) {
+
+var domplate = Domplate.domplate;
+var INPUT = Domplate.INPUT;
+var SPAN = Domplate.SPAN;
 
 // ********************************************************************************************* //
 // Search
@@ -333,4 +337,4 @@ Search.Resizer = domplate(
 return Search;
 
 // ********************************************************************************************* //
-}});
+});

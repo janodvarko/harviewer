@@ -7,7 +7,16 @@ define("preview/validationError", [
     "domplate/popupMenu"
 ],
 
-function(Domplate, Lib, Trace, Menu) { with (Domplate) {
+function(Domplate, Lib, Trace, Menu) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 // ********************************************************************************************* //
 // Template for displaying validation errors
@@ -109,4 +118,4 @@ var ValidationError = domplate(
 return ValidationError;
 
 // ********************************************************************************************* //
-}});
+});

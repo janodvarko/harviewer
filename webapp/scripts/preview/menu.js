@@ -7,7 +7,10 @@ define("preview/menu", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Toolbar, Trace) { with (Domplate) {
+function(Domplate, Lib, Toolbar, Trace) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
 
 // ********************************************************************************************* //
 // Credentials for HAR Preview
@@ -123,4 +126,4 @@ var MenuPlate = domplate(
 return Menu;
 
 // ********************************************************************************************* //
-}});
+});

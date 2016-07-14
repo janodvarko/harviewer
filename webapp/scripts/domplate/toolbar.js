@@ -10,7 +10,11 @@ define("domplate/toolbar", [
     "domplate/popupMenu"
 ],
 
-function(Domplate, Lib, Trace, Menu) { with (Domplate) {
+function(Domplate, Lib, Trace, Menu) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var SPAN = Domplate.SPAN;
 
 //*************************************************************************************************
 
@@ -163,4 +167,4 @@ Toolbar.prototype =
 return Toolbar;
 
 // ************************************************************************************************
-}});
+});

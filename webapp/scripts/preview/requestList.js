@@ -12,7 +12,15 @@ define("preview/requestList", [
 ],
 
 function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip, Menu) {
-with (Domplate) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 // ********************************************************************************************* //
 // Request List
@@ -1364,4 +1372,4 @@ var EntrySizeInfoTip = domplate(
 return RequestList;
 
 // ********************************************************************************************* //
-}});
+});

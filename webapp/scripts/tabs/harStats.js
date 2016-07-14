@@ -12,7 +12,16 @@ define("tabs/harStats", [
     "domplate/infoTip"
 ],
 
-function(Domplate, Lib, StatsService, Strings, HarModel, InfoTip) { with (Domplate) {
+function(Domplate, Lib, StatsService, Strings, HarModel, InfoTip) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 //*************************************************************************************************
 // Page Load Statistics
@@ -421,4 +430,4 @@ var PieInfoTip = domplate(
 return Stats;
 
 //*************************************************************************************************
-}});
+});

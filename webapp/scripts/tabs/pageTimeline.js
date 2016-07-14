@@ -11,7 +11,18 @@ define("tabs/pageTimeline", [
     "preview/harModel"
 ],
 
-function(Domplate, Lib, Trace, Strings, HarModel) { with (Domplate) {
+function(Domplate, Lib, Trace, Strings, HarModel) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var PRE = Domplate.PRE;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TAG = Domplate.TAG;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 //*************************************************************************************************
 // Timeline
@@ -413,4 +424,4 @@ var Selection =
 return Timeline;
 
 //*************************************************************************************************
-}});
+});

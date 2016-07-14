@@ -11,7 +11,17 @@ define("preview/requestBody", [
     "syntax-highlighter/shCore"
 ],
 
-function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) { with (Domplate) {
+function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var IFRAME = Domplate.IFRAME;
+var PRE = Domplate.PRE;
+var TABLE = Domplate.TABLE;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 //*************************************************************************************************
 // Request Body
@@ -829,4 +839,4 @@ XmlTab.canShowFile = function(file) {
 return RequestBody;
 
 //*************************************************************************************************
-}});
+});

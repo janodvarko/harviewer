@@ -21,7 +21,7 @@ define("tabs/previewTab", [
 function(Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies,
     ValidationError) {
 
-with (Domplate) {
+var DIV = Domplate.DIV;
 
 //*************************************************************************************************
 // Home Tab
@@ -255,4 +255,4 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
 return PreviewTab;
 
 //*************************************************************************************************
-}});
+});

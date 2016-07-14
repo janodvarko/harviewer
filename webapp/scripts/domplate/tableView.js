@@ -11,7 +11,18 @@ define("domplate/tableView", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Strings, DomTree, Trace) { with (Domplate) {
+function(Domplate, Lib, Strings, DomTree, Trace) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var TABLE = Domplate.TABLE;
+var TAG = Domplate.TAG;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TH = Domplate.TH;
+var THEAD = Domplate.THEAD;
+var TR = Domplate.TR;
 
 // ********************************************************************************************* //
 
@@ -290,4 +301,4 @@ var TableView = domplate(
 return TableView;
 
 // ********************************************************************************************* //
-}});
+});

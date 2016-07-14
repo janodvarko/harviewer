@@ -12,7 +12,9 @@ define("tabs/schemaTab", [
     "core/trace"
 ],
 
-function(Domplate, TabView, Lib, Strings, dp, Trace) { with (Domplate) {
+function(Domplate, TabView, Lib, Strings, dp, Trace) {
+
+var PRE = Domplate.PRE;
 
 //*************************************************************************************************
 // Home Tab
@@ -50,4 +52,4 @@ SchemaTab.prototype =
 return SchemaTab;
 
 //*************************************************************************************************
-}});
+});

@@ -14,7 +14,9 @@ define("tabs/homeTab", [
     "preview/harModel"
 ],
 
-function(Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel) { with (Domplate) {
+function(Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel) {
+
+var DIV = Domplate.DIV;
 
 //*************************************************************************************************
 // Home Tab
@@ -189,4 +191,4 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
 return HomeTab;
 
 //*************************************************************************************************
-}});
+});
