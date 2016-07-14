@@ -322,9 +322,9 @@ Dom.getClientOffset = function(elt)
         var style = view.getComputedStyle(elt, "");
 
         if (elt.offsetLeft)
-            coords.x += elt.offsetLeft + parseInt(style.borderLeftWidth);
+            coords.x += elt.offsetLeft + parseInt(style.borderLeftWidth, 10);
         if (elt.offsetTop)
-            coords.y += elt.offsetTop + parseInt(style.borderTopWidth);
+            coords.y += elt.offsetTop + parseInt(style.borderTopWidth, 10);
 
         if (p)
         {

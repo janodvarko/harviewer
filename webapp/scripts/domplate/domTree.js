@@ -99,7 +99,7 @@ DomTree.prototype = domplate(
         if (!row)
             return;
 
-        var level = parseInt(row.getAttribute("level"));
+        var level = parseInt(row.getAttribute("level"), 10);
         if (forceOpen && Lib.hasClass(row, "opened"))
             return;
 
@@ -110,7 +110,7 @@ DomTree.prototype = domplate(
             var tbody = row.parentNode;
             for (var firstRow = row.nextSibling; firstRow; firstRow = row.nextSibling)
             {
-                if (parseInt(firstRow.getAttribute("level")) <= level)
+                if (parseInt(firstRow.getAttribute("level"), 10) <= level)
                     break;
                 tbody.removeChild(firstRow);
             }

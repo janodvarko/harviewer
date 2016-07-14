@@ -659,7 +659,7 @@ HtmlTab.prototype = domplate(HeadersTab.prototype,
     {
         this.preview = Lib.getElementByClass(body, "netInfoHtmlPreview");
 
-        var height = parseInt(Cookies.getCookie("htmlPreviewHeight"));
+        var height = parseInt(Cookies.getCookie("htmlPreviewHeight"), 10);
         if (!isNaN(height))
             this.preview.style.height = height + "px";
 
