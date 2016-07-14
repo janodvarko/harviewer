@@ -151,8 +151,8 @@ Url.splitURLTrue = function(url)
         return {name: url, path: url};
     else if (!m[2])
         return {path: m[1], name: m[1]};
-    else
-        return {path: m[1], name: m[2]+m[3]};
+
+    return {path: m[1], name: m[2]+m[3]};
 };
 
 /**

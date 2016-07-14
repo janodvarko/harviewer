@@ -603,10 +603,10 @@ RequestList.prototype = domplate(
         // Use this _error value if provided, as it's more informative than showing '0'.
         if (file.response.status === 0 && file.response._error) {
             return file.response._error;
-        } else {
-            var status = file.response.status > 0 ? (file.response.status + " ") : "";
-            return status + file.response.statusText;
         }
+
+        var status = file.response.status > 0 ? (file.response.status + " ") : "";
+        return status + file.response.statusText;
     },
 
     getType: function(file)

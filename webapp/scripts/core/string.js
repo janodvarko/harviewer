@@ -43,8 +43,8 @@ Str.formatSize = function(bytes)
         return bytes + " B";
     else if (bytes < (1024*1024))
         return Math.round((bytes/1024)*a)/a + " KB";
-    else
-        return Math.round((bytes/(1024*1024))*a)/a + " MB";
+
+    return Math.round((bytes/(1024*1024))*a)/a + " MB";
 };
 
 /**
@@ -59,8 +59,8 @@ Str.formatTime = function(elapsed)
         return elapsed + "ms";
     else if (elapsed < 60000)
         return (Math.ceil(elapsed/10) / 100) + "s";
-    else
-        return (Math.ceil((elapsed/60000)*100)/100) + "m";
+
+    return (Math.ceil((elapsed/60000)*100)/100) + "m";
 };
 
 /**

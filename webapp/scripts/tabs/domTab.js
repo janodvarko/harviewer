@@ -249,15 +249,13 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
 
             return true;
         }
-        else
-        {
-            // Nothing has been found or we have reached the end. Reset the search object so,
-            // the search starts from the begginging again.
-            if (this.currSearch.matches.length > 0)
-                this.currSearch = this.createSearchObject(text);
 
-            return false;
-        }
+        // Nothing has been found or we have reached the end. Reset the search object so,
+        // the search starts from the begginging again.
+        if (this.currSearch.matches.length > 0)
+            this.currSearch = this.createSearchObject(text);
+
+        return false;
     },
 
     evalJsonQuery: function(expr, keyCode)

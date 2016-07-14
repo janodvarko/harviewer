@@ -59,14 +59,12 @@ Dom.getElementByClass = function(node, className)  // className, className, ...
     {
         var args1 = Arr.cloneArray(args);
         args1.unshift(child);
-        if (Css.hasClass.apply(this, args1))
+        if (Css.hasClass.apply(this, args1)) {
             return child;
-        else
-        {
-            var found = Dom.getElementByClass.apply(this, args1);
-            if (found)
-                return found;
         }
+        var found = Dom.getElementByClass.apply(this, args1);
+        if (found)
+            return found;
     }
 
     return null;

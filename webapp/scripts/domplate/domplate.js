@@ -792,11 +792,9 @@ function generateArg(val, path, args)
 
         return vals.join('+');
     }
-    else
-    {
-        args.push(val);
-        return 's' + path.staticIndex++;
-    }
+
+    args.push(val);
+    return 's' + path.staticIndex++;
 }
 
 function addParts(val, delim, block, info, escapeIt)

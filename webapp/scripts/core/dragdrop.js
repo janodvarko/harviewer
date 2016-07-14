@@ -225,10 +225,8 @@ function absoluteCursorPosition(e)
             + document.body.scrollLeft, e.clientY + document.documentElement.scrollTop
             + document.body.scrollTop);
     }
-    else
-    {
-        return new Position(e.clientX + window.scrollX, e.clientY + window.scrollY);
-    }
+
+    return new Position(e.clientX + window.scrollX, e.clientY + window.scrollY);
 }
 
 // ********************************************************************************************* //

@@ -505,8 +505,8 @@ HarModel.Loader =
 
         if (crossDomain)
             return this.loadRemoteArchive([url], callbackName, onLoaded, onError);
-        else
-            return this.loadLocalArchive(url, onLoaded, onError);
+
+        return this.loadLocalArchive(url, onLoaded, onError);
     }
 };
 
