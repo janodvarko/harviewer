@@ -53,10 +53,12 @@ Dom.getElementByClass = function(node, className)  // className, className, ...
     if (!node)
         return null;
 
-    var args = Arr.cloneArray(arguments); args.splice(0, 1);
+    var args = Arr.cloneArray(arguments);
+    args.splice(0, 1);
     for (var child = node.firstChild; child; child = child.nextSibling)
     {
-        var args1 = Arr.cloneArray(args); args1.unshift(child);
+        var args1 = Arr.cloneArray(args);
+        args1.unshift(child);
         if (Css.hasClass.apply(this, args1))
             return child;
         else
@@ -76,7 +78,8 @@ Dom.getElementsByClass = function(node, className)  // className, className, ...
     {
         for (var child = node.firstChild; child; child = child.nextSibling)
         {
-            var args1 = Arr.cloneArray(classNames); args1.unshift(child);
+            var args1 = Arr.cloneArray(classNames);
+            args1.unshift(child);
             if (Css.hasClass.apply(null, args1))
                 result.push(child);
 

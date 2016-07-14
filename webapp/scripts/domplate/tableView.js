@@ -164,7 +164,9 @@ var TableView = domplate(
             values.push({row: row, value: value});
         }
 
-        values.sort(function(a, b) { return a.value < b.value ? -1 : 1; });
+        values.sort(function(a, b) {
+            return a.value < b.value ? -1 : 1;
+        });
 
         var headerRow = thead.firstChild;
         var headerSorted = Lib.getChildByClass(headerRow, "headerSorted");

@@ -296,7 +296,9 @@ Url.parseURLEncodedText = function(text, noLimit)
         }
     }
 
-    params.sort(function(a, b) { return a.name <= b.name ? -1 : 1; });
+    params.sort(function(a, b) {
+        return a.name <= b.name ? -1 : 1;
+    });
 
     return params;
 };

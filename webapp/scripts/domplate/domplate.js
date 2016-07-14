@@ -418,7 +418,9 @@ DomplateTag.prototype =
 
         function __bind__(object, fn)
         {
-            return function(event) { return fn.apply(object, [event]); };
+            return function(event) {
+                return fn.apply(object, [event]);
+            };
         }
 
         function __link__(node, tag, args)

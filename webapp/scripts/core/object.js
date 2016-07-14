@@ -69,7 +69,9 @@ Obj.bind = function()  // fn, thisObject, args => thisObject.fn(args, arguments)
     var args = Arr.cloneArray(arguments);
     var fn = args.shift();
     var object = args.shift();
-    return function() { return fn.apply(object, Arr.arrayInsert(Arr.cloneArray(args), 0, arguments)); };
+    return function() {
+        return fn.apply(object, Arr.arrayInsert(Arr.cloneArray(args), 0, arguments));
+    };
 };
 
 Obj.bindFixed = function() // fn, thisObject, args => thisObject.fn(args);
@@ -77,7 +79,9 @@ Obj.bindFixed = function() // fn, thisObject, args => thisObject.fn(args);
     var args = Arr.cloneArray(arguments);
     var fn = args.shift();
     var object = args.shift();
-    return function() { return fn.apply(object, args); };
+    return function() {
+        return fn.apply(object, args);
+    };
 };
 
 // ********************************************************************************************* //

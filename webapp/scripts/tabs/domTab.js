@@ -142,7 +142,9 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         tables = Lib.cloneArray(tables);
 
         // Get all inputs (ie. HAR log files).
-        var inputs = tables.map(function(a) { return a.repObject.input; });
+        var inputs = tables.map(function(a) {
+            return a.repObject.input;
+        });
 
         // Instantiate search object for this panel.
         return new Search.ObjectSearch(text, inputs, false, false);
