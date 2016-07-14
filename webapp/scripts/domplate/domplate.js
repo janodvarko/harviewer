@@ -838,7 +838,7 @@ function addParts(val, delim, block, info, escapeIt)
 
 function isTag(obj)
 {
-    return (typeof(obj) === "function" || obj instanceof Function) && !!obj.tag;
+    return (typeof(obj) === "function" || obj instanceof Function) && Boolean(obj.tag);
 }
 
 function creator(tag, cons)

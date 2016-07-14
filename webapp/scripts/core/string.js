@@ -69,7 +69,7 @@ Str.formatTime = function(elapsed)
  */
 Str.formatNumber = function(number)
 {
-    number += "";
+    number = String(number);
     var x = number.split(".");
     var x1 = x[0];
     var x2 = x.length > 1 ? "." + x[1] : "";
@@ -182,7 +182,7 @@ Str.splitLines = function(text)
     else if (text.split)
         return text.split(reSplitLines);
 
-    var str = text + "";
+    var str = String(text);
     var theSplit = str.split(reSplitLines);
     return theSplit;
 };
@@ -220,7 +220,7 @@ Str.escapeHTML = function(value)
  */
 Str.cropString = function(text, limit)
 {
-    text = text + "";
+    text = String(text);
 
     var halfLimit = limit ? limit / 2 : 50;
 

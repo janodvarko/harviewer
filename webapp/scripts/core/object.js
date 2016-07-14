@@ -33,7 +33,7 @@ Obj.isFunction = function(object)
 
     return toString.call(object) === "[object Function]" ||
         Sniff.isIE && typeof object !== "string" &&
-        reFunction.test(""+object);
+        reFunction.test(String(object));
 };
 
 //***********************************************************************************************//

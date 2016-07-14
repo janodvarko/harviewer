@@ -757,7 +757,7 @@ JsonTab.prototype = domplate(TabView.Tab.prototype, {
             var domTree = new DomTree(ob);
             domTree.append(body);
         } catch (e) {
-            body.innerHTML = "" + e;
+            body.innerHTML = String(e);
         }
     }
 });
@@ -801,7 +801,7 @@ XmlTab.prototype = domplate(TabView.Tab.prototype, {
             var domTree = new DomTree(xmlDoc);
             domTree.append(body);
         } catch (e) {
-            body.innerHTML = "" + e;
+            body.innerHTML = String(e);
         }
     }
 });

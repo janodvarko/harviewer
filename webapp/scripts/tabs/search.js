@@ -234,7 +234,7 @@ Search.ObjectSearch.prototype =
 
             // Convert to lower case in case of non case sensitive search.
             var tempText = this.text;
-            var tempValue = value + "";
+            var tempValue = String(value);
 
             if (!Cookies.getBooleanCookie(caseSensitiveOption))
             {
