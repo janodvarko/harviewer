@@ -41,12 +41,7 @@ var Controller =
     {
         for (var i=0, arg; arg=arguments[i]; i++)
         {
-            // If the first argument is a string, make a selector query
-            // within the controller node context
-            if (typeof arg[0] == "string")
-            {
-                arg[0] = $$(arg[0], this.controllerContext);
-            }
+            // (typeof arg[0]) is never "string" for HAR Viewer.
 
             // bind the handler to the proper context
             var handler = arg[2];
@@ -456,7 +451,7 @@ Menu.prototype = Lib.extend(Controller,
 
                 for (var i = 0, length = selectedRadios.length; i < length; i++)
                 {
-                    radio = selectedRadios[i];
+                    var radio = selectedRadios[i];
 
                     if (radio.getAttribute("group") == group)
                     {

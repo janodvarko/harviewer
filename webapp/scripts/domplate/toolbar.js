@@ -102,7 +102,7 @@ Toolbar.prototype =
     addButton: function(button)
     {
         if (!button.tooltiptext)
-            tooltiptext = "";
+            button.tooltiptext = "";
         this.buttons.push(button);
     },
 

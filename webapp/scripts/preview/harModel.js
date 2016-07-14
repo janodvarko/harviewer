@@ -178,21 +178,6 @@ HarModel.prototype =
         var jsonString = JSON.stringify(this.input, null, "\t");
         var result = jsonString.replace(/\\\\u/g, "\\u");
         return result;
-    },
-
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-    // Statistics
-
-    getSize: function(input)
-    {
-        if (!input)
-            input = this.input;
-
-        if (!input)
-            return 0;
-
-        var jsonString = dojo.toJson(input, true);
-        return jsonString.length;
     }
 };
 

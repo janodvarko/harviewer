@@ -21,6 +21,8 @@ define("tabs/domTab", [
 function(Domplate, TabView, Lib, Strings, Toolbar, Search, DragDrop, DomTree, Cookies,
     TableView, Trace) {
 
+/* global JSONQuery*/
+
 var domplate = Domplate.domplate;
 var DIV = Domplate.DIV;
 var INPUT = Domplate.INPUT;

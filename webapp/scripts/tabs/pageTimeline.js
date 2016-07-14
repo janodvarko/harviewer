@@ -205,7 +205,7 @@ Timeline.prototype = domplate(
 
     removeListener: function(listener)
     {
-        remove(this.listeners, listener);
+        Lib.remove(this.listeners, listener);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

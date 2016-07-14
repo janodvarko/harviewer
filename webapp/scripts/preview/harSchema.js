@@ -272,7 +272,7 @@ Schema.prototype =
             }
         };
         var that = this;
-        for(i=0; i < arguments.length; i +=1) {
+        for(var i=0; i < arguments.length; i +=1) {
             doIt(that, arguments[i]);
         };
     }

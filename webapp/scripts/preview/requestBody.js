@@ -586,14 +586,14 @@ CookiesTab.prototype = domplate(HeadersTab.prototype,
     {
         var textBox = Lib.getElementByClass(body, "netInfoParamsText");
 
-        if (file.response.cookies)
+        if (this.file.response.cookies)
         {
-            this.insertHeaderRows(textBox, file.response.cookies, "Cookies", "ResponseCookies");
+            this.insertHeaderRows(textBox, this.file.response.cookies, "Cookies", "ResponseCookies");
         }
 
-        if (file.request.cookies)
+        if (this.file.request.cookies)
         {
-            this.insertHeaderRows(textBox, file.request.cookies, "Cookies", "RequestCookies");
+            this.insertHeaderRows(textBox, this.file.request.cookies, "Cookies", "RequestCookies");
         }
     }
 });

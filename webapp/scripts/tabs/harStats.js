@@ -339,9 +339,6 @@ var Pie = domplate(
         el.setAttribute("width", "100");
         pieBox.appendChild(el);
 
-        if (typeof(G_vmlCanvasManager) != "undefined")
-            G_vmlCanvasManager.initElement(el);
-
         return root;
     },
 

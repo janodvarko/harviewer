@@ -281,7 +281,7 @@ Url.parseURLEncodedText = function(text, noLimit)
                 var paramValue = args[i].substring(index + 1);
 
                 if (paramValue.length > maxValueLength && !noLimit)
-                    paramValue = Lib.$STR("LargeData");
+                    paramValue = "LargeData";
 
                 params.push({name: decodeText(paramName), value: decodeText(paramValue)});
             }

@@ -45,7 +45,7 @@
  * <div class="har" data-har="/my.har" validate="false"></div>
  * - Do not validate the loaded HAR file.
 */
-window.harInitialize = function()
+var harInitialize = window.harInitialize = function()
 {
     var script = document.getElementById("har");
     var index = script.src.lastIndexOf("/");

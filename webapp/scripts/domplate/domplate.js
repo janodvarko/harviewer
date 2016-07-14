@@ -7,6 +7,8 @@ define("domplate/domplate", [], function() {
 
 //*************************************************************************************************
 
+// Domplate MUST be global
+/* global Domplate:true */
 Domplate = {};
 
 (function(){
