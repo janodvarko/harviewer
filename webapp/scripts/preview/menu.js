@@ -13,59 +13,6 @@ var domplate = Domplate.domplate;
 var DIV = Domplate.DIV;
 
 // ********************************************************************************************* //
-// Credentials for HAR Preview
-
-/**
- * Renders a menu at the top-right corner of the preview.
- */
-function Menu() {}
-Menu.prototype =
-/** @lends Menu */
-{
-    render: function(parentNode)
-    {
-        // Render basic layout of the menu.
-        this.element = MenuPlate.render(parentNode);
-
-        // Construct toolbar and render it inside the menu.
-        this.toolbar = new Toolbar();
-
-        this.toolbar.addButton({
-            id: "credentials",
-            label: "Powered by Jan Odvarko",
-            tooltiptext: "http://www.softwareishard.com/blog/har-viewer/",
-            command: Lib.bindFixed(this.onCredentials, this, true)
-        });
-
-        /*this.toolbar.addButton({
-            id: "fullPreview",
-            label: "Open in HAR Viewer",
-            tooltiptext: "Open the current HAR file in HAR Viewer",
-            command: Lib.bindFixed(this.onFullPreview, this, true)
-        });*/
-
-        var menuContent = Lib.getElementByClass(this.element, "menuContent");
-        this.toolbar.render(menuContent);
-
-        if (Lib.isWebkit)
-            menuContent.style.paddingTop = "1px";
-    },
-
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-    // Commands
-
-    onCredentials: function()
-    {
-        // Do not remove: credentials for HAR Viewer author.
-        window.open("http://www.softwareishard.com/blog/har-viewer/");
-    },
-
-    onFullPreview: function()
-    {
-    }
-};
-
-// ********************************************************************************************* //
 
 var MenuPlate = domplate(
 {
@@ -120,6 +67,59 @@ var MenuPlate = domplate(
         return this.tag.append({object: scope}, parentNode, this);
     }
 });
+
+// ********************************************************************************************* //
+// Credentials for HAR Preview
+
+/**
+ * Renders a menu at the top-right corner of the preview.
+ */
+function Menu() {}
+Menu.prototype =
+/** @lends Menu */
+{
+    render: function(parentNode)
+    {
+        // Render basic layout of the menu.
+        this.element = MenuPlate.render(parentNode);
+
+        // Construct toolbar and render it inside the menu.
+        this.toolbar = new Toolbar();
+
+        this.toolbar.addButton({
+            id: "credentials",
+            label: "Powered by Jan Odvarko",
+            tooltiptext: "http://www.softwareishard.com/blog/har-viewer/",
+            command: Lib.bindFixed(this.onCredentials, this, true)
+        });
+
+        /*this.toolbar.addButton({
+            id: "fullPreview",
+            label: "Open in HAR Viewer",
+            tooltiptext: "Open the current HAR file in HAR Viewer",
+            command: Lib.bindFixed(this.onFullPreview, this, true)
+        });*/
+
+        var menuContent = Lib.getElementByClass(this.element, "menuContent");
+        this.toolbar.render(menuContent);
+
+        if (Lib.isWebkit)
+            menuContent.style.paddingTop = "1px";
+    },
+
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // Commands
+
+    onCredentials: function()
+    {
+        // Do not remove: credentials for HAR Viewer author.
+        window.open("http://www.softwareishard.com/blog/har-viewer/");
+    },
+
+    onFullPreview: function()
+    {
+    }
+};
 
 // ********************************************************************************************* //
 

@@ -15,6 +15,8 @@ define("harPreview", [
 
 function(RequestList, PageList, HarModel, Lib, Trace, Menu, ValidationError) {
 
+var content = document.getElementById("content");
+
 //*************************************************************************************************
 // The Preview Application
 
@@ -93,7 +95,6 @@ HarPreview.prototype =
 //*************************************************************************************************
 // Initialization
 
-var content = document.getElementById("content");
 var harPreview = content.repObject = new HarPreview();
 
 // Fire some events for listeners. This is useful for extending/customizing the viewer.

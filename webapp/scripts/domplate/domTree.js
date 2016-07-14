@@ -461,6 +461,22 @@ DomTree.Reps.Arr = domplate(DomTree.Rep,
 
 // ********************************************************************************************* //
 
+//xxxHonza: Domplate inheritance doesn't work. Modifications are propagated
+// into the base object (see: http://code.google.com/p/fbug/issues/detail?id=4425)
+var Tree = domplate(DomTree.prototype,
+{
+    createMember: function(type, name, value, level)
+    {
+        var member = DomTree.createMember(type, name, value, false, level);
+        if (level == 0)
+        {
+            member.name = "";
+            member.type = "tableCell";
+        }
+        return member;
+    }
+});
+
 DomTree.Reps.Tree = domplate(DomTree.Rep,
 {
     tag:
@@ -484,22 +500,6 @@ DomTree.Reps.Tree = domplate(DomTree.Rep,
     supportsObject: function(object, type)
     {
         return type == "object";
-    }
-});
-
-//xxxHonza: Domplate inheritance doesn't work. Modifications are propagated
-// into the base object (see: http://code.google.com/p/fbug/issues/detail?id=4425)
-var Tree = domplate(DomTree.prototype,
-{
-    createMember: function(type, name, value, level)
-    {
-        var member = DomTree.createMember(type, name, value, false, level);
-        if (level == 0)
-        {
-            member.name = "";
-            member.type = "tableCell";
-        }
-        return member;
     }
 });
 
