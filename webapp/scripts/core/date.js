@@ -71,7 +71,7 @@ Date_.fromISOString = function(text)
     }
 
     return date;
-},
+};
 
 /**
  * @param {Date} date
