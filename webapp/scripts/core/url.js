@@ -105,20 +105,20 @@ Url.splitDataURL = function(url)
     // Additional Firebug-specific properties
     if (props.hasOwnProperty('fileName'))
     {
-         var caller_URL = decodeURIComponent(props['fileName']);
-         var caller_split = Url.splitURLTrue(caller_URL);
+         var callerURL = decodeURIComponent(props['fileName']);
+         var callerSplit = Url.splitURLTrue(callerURL);
 
         if (props.hasOwnProperty('baseLineNumber'))  // this means it's probably an eval()
         {
-            props['path'] = caller_split.path;
+            props['path'] = callerSplit.path;
             props['line'] = props['baseLineNumber'];
             var hint = decodeURIComponent(props['encodedContent'].substr(0,200)).replace(/\s*$/, "");
             props['name'] =  'eval->'+hint;
         }
         else
         {
-            props['name'] = caller_split.name;
-            props['path'] = caller_split.path;
+            props['name'] = callerSplit.name;
+            props['path'] = callerSplit.path;
         }
     }
     else
