@@ -111,11 +111,9 @@ TabView.prototype =
 
     removeTab: function(tabId)
     {
-        for (var i in this.tabs)
-        {
+        for (var i = 0; i < this.tabs.length; i++) {
             var tab = this.tabs[i];
-            if (tab.id == tabId)
-            {
+            if (tab.id == tabId) {
                 this.tabs.splice(i, 1);
                 break;
             }
@@ -124,11 +122,11 @@ TabView.prototype =
 
     getTab: function(tabId)
     {
-        for (var i in this.tabs)
-        {
+        for (var i = 0; i < this.tabs.length; i++) {
             var tab = this.tabs[i];
-            if (tab.id == tabId)
+            if (tab.id == tabId) {
                 return tab;
+            }
         }
     },
 
@@ -262,7 +260,7 @@ TabView.prototype =
 
         this.showTabBar(this.tabBarVisibility);
 
-        for (var i in this.tabs)
+        for (var i = 0; i < this.tabs.length; i++)
         {
             var tab = this.tabs[i];
             var tabHeaderTag = tab.tabHeaderTag ? tab.tabHeaderTag : TabViewTempl.tabHeaderTag;

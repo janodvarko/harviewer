@@ -392,14 +392,13 @@ HarModel.Loader =
         //for (var p in inputUrls)
         //    inputUrls[p] = inputUrls[p].replace(/%/g,'%25');
 
-        var urls = [];
-        for (var p in paths)
-            urls.push(baseUrl ? baseUrl + paths[p] : paths[p]);
+        var urls = paths.map(function(path) {
+            return baseUrl ? baseUrl + path : path;
+        });
 
         // Load input data (using JSONP) from remote location.
         // http://domain/har/viewer?inputUrl=<remote-file-url>&callback=<name-of-the-callback>
-        for (var p in inputUrls)
-            urls.push(inputUrls[p]);
+        urls = urls.concat(inputUrls);
 
         if ((baseUrl || inputUrls.length > 0) && urls.length > 0)
             return this.loadRemoteArchive(urls, callbackName, callback, errorCallback);
