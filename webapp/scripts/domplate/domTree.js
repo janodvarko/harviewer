@@ -9,7 +9,17 @@ define("domplate/domTree", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function(Domplate, Lib, Trace) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TAG = Domplate.TAG;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 // ********************************************************************************************* //
 
@@ -27,13 +37,13 @@ DomTree.prototype = domplate(
     tag:
         TABLE({"class": "domTable", cellpadding: 0, cellspacing: 0, onclick: "$onClick"},
             TBODY(
-                FOR("member", "$object|memberIterator", 
+                FOR("member", "$object|memberIterator",
                     TAG("$member|getRowTag", {member: "$member"}))
             )
         ),
 
     rowTag:
-        TR({"class": "memberRow $member.open $member.type\\Row $member|hasChildren", 
+        TR({"class": "memberRow $member.open $member.type\\Row $member|hasChildren",
             $hasChildren: "$member|hasChildren",
             _repObject: "$member", level: "$member.level"},
             TD({"class": "memberLabelCell", style: "padding-left: $member.indent\\px"},
@@ -45,7 +55,7 @@ DomTree.prototype = domplate(
         ),
 
     loop:
-        FOR("member", "$members", 
+        FOR("member", "$members",
             TAG("$member|getRowTag", {member: "$member"})),
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -89,7 +99,7 @@ DomTree.prototype = domplate(
         if (!row)
             return;
 
-        var level = parseInt(row.getAttribute("level"));
+        var level = parseInt(row.getAttribute("level"), 10);
         if (forceOpen && Lib.hasClass(row, "opened"))
             return;
 
@@ -100,7 +110,7 @@ DomTree.prototype = domplate(
             var tbody = row.parentNode;
             for (var firstRow = row.nextSibling; firstRow; firstRow = row.nextSibling)
             {
-                if (parseInt(firstRow.getAttribute("level")) <= level)
+                if (parseInt(firstRow.getAttribute("level"), 10) <= level)
                     break;
                 tbody.removeChild(firstRow);
             }
@@ -157,7 +167,7 @@ DomTree.prototype = domplate(
         for (var i=0; i<rows.length; i++)
         {
             var row = rows[i];
-            if (row.repObject.value == object)
+            if (row.repObject.value === object)
                 return row;
         }
 
@@ -190,10 +200,11 @@ var OBJECTBOX =
 // ********************************************************************************************* //
 
 function hasProperties(ob) {
-    if (typeof(ob) == "string")
+    if (typeof(ob) === "string")
         return false;
 
     try {
+        // eslint-disable-next-line no-unused-vars
         for (var name in ob)
             return true;
     } catch (exc) {}
@@ -214,7 +225,7 @@ PlainObjectView.prototype.getMembers = function(object, level) {
 
     for (var p in object) {
         var propObj = object[p];
-        if (typeof(propObj) != "function"/* && typeof(propObj) != "number"*/)
+        if (typeof(propObj) !== "function"/* && typeof(propObj) != "number"*/)
             members.push(DomTree.createMember("dom", p, propObj, this.hasChildren(propObj), level));
     }
 
@@ -319,7 +330,7 @@ DomTree.Reps =
     getRep: function(object)
     {
         var type = typeof(object);
-        if (type == "object" && object instanceof String)
+        if (type === "object" && object instanceof String)
             type = "string";
 
         for (var i=0; i<this.reps.length; ++i)
@@ -338,7 +349,7 @@ DomTree.Reps =
 
         return DomTree.Rep;
     }
-}
+};
 
 // ********************************************************************************************* //
 
@@ -394,7 +405,7 @@ DomTree.Reps.Null = domplate(DomTree.Rep,
 
     supportsObject: function(object, type)
     {
-        return object == null;
+        return object === null;
     }
 });
 
@@ -409,7 +420,7 @@ DomTree.Reps.Number = domplate(DomTree.Rep,
 
     supportsObject: function(object, type)
     {
-        return type == "boolean" || type == "number";
+        return type === "boolean" || type === "number";
     }
 });
 
@@ -425,7 +436,7 @@ DomTree.Reps.String = domplate(DomTree.Rep,
 
     supportsObject: function(object, type)
     {
-        return type == "string";
+        return type === "string";
     }
 });
 
@@ -451,6 +462,22 @@ DomTree.Reps.Arr = domplate(DomTree.Rep,
 
 // ********************************************************************************************* //
 
+//xxxHonza: Domplate inheritance doesn't work. Modifications are propagated
+// into the base object (see: http://code.google.com/p/fbug/issues/detail?id=4425)
+var Tree = domplate(DomTree.prototype,
+{
+    createMember: function(type, name, value, level)
+    {
+        var member = DomTree.createMember(type, name, value, false, level);
+        if (level === 0)
+        {
+            member.name = "";
+            member.type = "tableCell";
+        }
+        return member;
+    }
+});
+
 DomTree.Reps.Tree = domplate(DomTree.Rep,
 {
     tag:
@@ -473,23 +500,7 @@ DomTree.Reps.Tree = domplate(DomTree.Rep,
 
     supportsObject: function(object, type)
     {
-        return type == "object";
-    }
-});
-
-//xxxHonza: Domplate inheritance doesn't work. Modifications are propagated
-// into the base object (see: http://code.google.com/p/fbug/issues/detail?id=4425)
-var Tree = domplate(DomTree.prototype,
-{
-    createMember: function(type, name, value, level)
-    {
-        var member = DomTree.createMember(type, name, value, false, level);
-        if (level == 0)
-        {
-            member.name = "";
-            member.type = "tableCell";
-        }
-        return member;
+        return type === "object";
     }
 });
 
@@ -501,11 +512,11 @@ DomTree.Reps.registerRep(
     DomTree.Reps.Number,
     DomTree.Reps.String,
     DomTree.Reps.Arr
-)
+);
 
 // ********************************************************************************************* //
 
 return DomTree;
 
 // ********************************************************************************************* //
-}});
+});

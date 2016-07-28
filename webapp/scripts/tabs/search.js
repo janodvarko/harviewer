@@ -13,7 +13,11 @@ define("tabs/search", [
     "core/dragdrop"
 ],
 
-function(Domplate, Lib, Strings, Toolbar, Menu, Cookies, DragDrop) { with (Domplate) {
+function(Domplate, Lib, Strings, Toolbar, Menu, Cookies, DragDrop) {
+
+var domplate = Domplate.domplate;
+var INPUT = Domplate.INPUT;
+var SPAN = Domplate.SPAN;
 
 // ********************************************************************************************* //
 // Search
@@ -71,19 +75,18 @@ Search.Box = domplate(
 
     search: function(tab, keyCode, prevText)
     {
-        var searchBox = Lib.getElementByClass(tab, "searchBox");
         var searchInput = Lib.getElementByClass(tab, "searchInput");
         searchInput.removeAttribute("status");
 
         var text = searchInput.value;
 
         // Support for incremental search, changing the text also causes search.
-        if (text == prevText && keyCode != 13)
+        if (text === prevText && keyCode !== 13)
             return;
 
         // The search input box looses focus if something is selected on the page
         // So, switch off the incremental search for webkit (works only on Enter)
-        if (keyCode != 13 && Lib.isWebkit)
+        if (keyCode !== 13 && Lib.isWebkit)
             return;
 
         var result = tab.repObject.onSearch(text, keyCode);
@@ -146,7 +149,7 @@ Search.Box = domplate(
 /**
  * Implements search over object properties and children objects. There should be no
  * cycles in the scanned object hierarchy.
- * 
+ *
  * @param {Object} text Text to search for.
  * @param {Object} object The input object to search.
  * @param {Object} reverse If true search is made backwards.
@@ -176,7 +179,7 @@ Search.ObjectSearch = function(text, object, reverse, caseSensitive)
 
     // Array of matched values.
     this.matches = [];
-}
+};
 
 Search.ObjectSearch.prototype =
 {
@@ -216,7 +219,7 @@ Search.ObjectSearch.prototype =
             scope.propIndex = propIndex;
 
             // Any children object are pushed on the stack and scaned in the next call.
-            if (typeof(value) == "object")
+            if (typeof(value) === "object")
             {
                 // Put child on the stack (alternative for recursion).
                 this.stack.push({
@@ -231,7 +234,7 @@ Search.ObjectSearch.prototype =
 
             // Convert to lower case in case of non case sensitive search.
             var tempText = this.text;
-            var tempValue = value + "";
+            var tempValue = String(value);
 
             if (!Cookies.getBooleanCookie(caseSensitiveOption))
             {
@@ -255,7 +258,7 @@ Search.ObjectSearch.prototype =
                 this.matches.push({
                     value: value,
                     startOffset: offset
-                })
+                });
 
                 // One occurence found.
                 return true;
@@ -283,7 +286,7 @@ Search.ObjectSearch.prototype =
         var match = this.getCurrentMatch();
         Lib.selectElementText(textNode, match.startOffset, match.startOffset + this.text.length);
     }
-}
+};
 
 // ********************************************************************************************* //
 
@@ -333,4 +336,4 @@ Search.Resizer = domplate(
 return Search;
 
 // ********************************************************************************************* //
-}});
+});

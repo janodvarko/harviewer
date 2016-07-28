@@ -49,7 +49,7 @@ Url.getFileExtension = function(url)
 
     // Remove query string from the URL if any.
     var queryString = url.indexOf("?");
-    if (queryString != -1)
+    if (queryString !== -1)
         url = url.substr(0, queryString);
 
     // Now get the file extension.
@@ -74,7 +74,7 @@ Url.splitURLBase = function(url)
  */
 Url.isDataURL = function(url)
 {
-    return (url && url.substr(0,5) == "data:");
+    return (url && url.substr(0,5) === "data:");
 };
 
 /**
@@ -84,7 +84,7 @@ Url.isDataURL = function(url)
 Url.splitDataURL = function(url)
 {
     var mark = url.indexOf(':', 3);
-    if (mark != 4)
+    if (mark !== 4)
         return false;   //  the first 5 chars must be 'data:'
 
     var point = url.indexOf(',', mark+1);
@@ -98,35 +98,35 @@ Url.splitDataURL = function(url)
     for (var i = 0; i < metadata.length; i++)
     {
         var nv = metadata[i].split('=');
-        if (nv.length == 2)
+        if (nv.length === 2)
             props[nv[0]] = nv[1];
     }
 
     // Additional Firebug-specific properties
     if (props.hasOwnProperty('fileName'))
     {
-         var caller_URL = decodeURIComponent(props['fileName']);
-         var caller_split = Url.splitURLTrue(caller_URL);
+         var callerURL = decodeURIComponent(props.fileName);
+         var callerSplit = Url.splitURLTrue(callerURL);
 
         if (props.hasOwnProperty('baseLineNumber'))  // this means it's probably an eval()
         {
-            props['path'] = caller_split.path;
-            props['line'] = props['baseLineNumber'];
-            var hint = decodeURIComponent(props['encodedContent'].substr(0,200)).replace(/\s*$/, "");
-            props['name'] =  'eval->'+hint;
+            props.path = callerSplit.path;
+            props.line = props.baseLineNumber;
+            var hint = decodeURIComponent(props.encodedContent.substr(0,200)).replace(/\s*$/, "");
+            props.name =  'eval->'+hint;
         }
         else
         {
-            props['name'] = caller_split.name;
-            props['path'] = caller_split.path;
+            props.name = callerSplit.name;
+            props.path = callerSplit.path;
         }
     }
     else
     {
         if (!props.hasOwnProperty('path'))
-            props['path'] = "data:";
+            props.path = "data:";
         if (!props.hasOwnProperty('name'))
-            props['name'] =  decodeURIComponent(props['encodedContent'].substr(0,200)).replace(/\s*$/, "");
+            props.name =  decodeURIComponent(props.encodedContent.substr(0,200)).replace(/\s*$/, "");
     }
 
     return props;
@@ -151,8 +151,8 @@ Url.splitURLTrue = function(url)
         return {name: url, path: url};
     else if (!m[2])
         return {path: m[1], name: m[1]};
-    else
-        return {path: m[1], name: m[2]+m[3]};
+
+    return {path: m[1], name: m[2]+m[3]};
 };
 
 /**
@@ -167,7 +167,7 @@ Url.getURLParameter = function(name)
     for (var i=0;i<vars.length;i++)
     {
         var pair = vars[i].split("=");
-        if (pair[0] == name)
+        if (pair[0] === name)
             return unescape(pair[1]);
     }
     return null;
@@ -187,7 +187,7 @@ Url.getURLParameters = function(name)
     for (var i=0;i<vars.length;i++)
     {
         var pair = vars[i].split("=");
-        if (pair[0] == name)
+        if (pair[0] === name)
             result.push(unescape(pair[1]));
     }
     return result;
@@ -207,7 +207,7 @@ Url.getHashParameters = function(name)
     for (var i=0;i<vars.length;i++)
     {
         var pair = vars[i].split("=");
-        if (pair[0] == name)
+        if (pair[0] === name)
             result.push(unescape(pair[1]));
     }
     return result;
@@ -220,12 +220,12 @@ Url.getHashParameters = function(name)
 Url.parseURLParams = function(url)
 {
     var q = url ? url.indexOf("?") : -1;
-    if (q == -1)
+    if (q === -1)
         return [];
 
     var search = url.substr(q+1);
     var h = search.lastIndexOf("#");
-    if (h != -1)
+    if (h !== -1)
         search = search.substr(0, h);
 
     if (!search)
@@ -246,7 +246,7 @@ Url.parseURLEncodedText = function(text, noLimit)
     var params = [];
 
     // In case the text is empty just return the empty parameters
-    if(text == '')
+    if (!text)
       return params;
 
     // Unescape '+' characters that are used to encode a space.
@@ -274,19 +274,20 @@ Url.parseURLEncodedText = function(text, noLimit)
         try
         {
             var index = args[i].indexOf("=");
-            if (index != -1)
+            var paramName;
+            if (index !== -1)
             {
-                var paramName = args[i].substring(0, index);
+                paramName = args[i].substring(0, index);
                 var paramValue = args[i].substring(index + 1);
 
                 if (paramValue.length > maxValueLength && !noLimit)
-                    paramValue = Lib.$STR("LargeData");
+                    paramValue = "LargeData";
 
                 params.push({name: decodeText(paramName), value: decodeText(paramValue)});
             }
             else
             {
-                var paramName = args[i];
+                paramName = args[i];
                 params.push({name: decodeText(paramName), value: ""});
             }
         }
@@ -295,7 +296,9 @@ Url.parseURLEncodedText = function(text, noLimit)
         }
     }
 
-    params.sort(function(a, b) { return a.name <= b.name ? -1 : 1; });
+    params.sort(function(a, b) {
+        return a.name <= b.name ? -1 : 1;
+    });
 
     return params;
 };

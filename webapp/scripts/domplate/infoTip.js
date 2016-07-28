@@ -9,7 +9,10 @@ define("domplate/infoTip", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function(Domplate, Lib, Trace) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
 
 //***********************************************************************************************//
 
@@ -44,7 +47,7 @@ var InfoTip = Lib.extend(
         // Distribute event to all registered listeners and show the info tip if
         // any of them return true.
         var result = Lib.dispatch2(this.listeners, "showInfoTip",
-            [infoTip, target, scrollX, y, rangeParent, rangeOffset])
+            [infoTip, target, scrollX, y, rangeParent, rangeOffset]);
 
         if (result)
         {
@@ -101,7 +104,8 @@ var InfoTip = Lib.extend(
         // There is no background image for mulitline tooltips.
         this.infoTip.setAttribute("multiline", false);
 
-        var x = event.clientX, y = event.clientY;
+        var x = event.clientX;
+        var y = event.clientY;
         this.showInfoTip(this.infoTip, event.target, x, y, event.rangeParent, event.rangeOffset);
     },
 
@@ -132,4 +136,4 @@ InfoTip.initialize();
 return InfoTip;
 
 // **********************************************************************************************//
-}});
+});

@@ -18,34 +18,36 @@ var jsTypes = {
     "application/javascript": 1,
     "application/x-javascript": 1,
     "text/js": 1
-}
+};
 
 var htmlTypes = {
     "text/plain": 1,
     "text/html": 1
-}
+};
 
 var cssTypes = {
     "text/css": 1
-}
+};
 
 var imageTypes = {
     "image/png": 1,
     "image/jpeg": 1,
     "image/gif": 1
-}
+};
 
 var flashTypes = {
     "application/x-shockwave-flash": 1
-}
+};
 
+// eslint-disable-next-line no-unused-vars
 var jsonTypes = {
     "text/x-json": 1,
     "text/x-js": 1,
     "application/json": 1,
     "application/x-js": 1
-}
+};
 
+// eslint-disable-next-line no-unused-vars
 var xmlTypes = {
     "application/xml": 1,
     "application/xhtml+xml": 1,
@@ -53,8 +55,9 @@ var xmlTypes = {
     "text/xml": 1,
     "text/xul": 1,
     "application/rdf+xml": 1
-}
+};
 
+// eslint-disable-next-line no-unused-vars
 var unknownTypes = {
     "text/xsl": 1,
     "text/sgml": 1,
@@ -188,7 +191,7 @@ StatsService.prototype = {
             // even if there is also a charset specified.
             var mimeType = response.content.mimeType;
             var contentType = mimeType ? mimeType.match(/^([^;]+)/)[1] : null;
-            var mimeType = contentType ? contentType : response.content.mimeType;
+            mimeType = contentType ? contentType : response.content.mimeType;
 
             // Collect response sizes according to the mimeType.
             if (htmlTypes[mimeType]) {
@@ -254,7 +257,7 @@ StatsService.prototype = {
             totals.request.bodySize += ensurePositive(entry.request.bodySize);
             totals.response.headersSize += ensurePositive(entry.response.headersSize);
             totals.response.bodySize += ensurePositive(response.bodySize);
-        };
+        }
 
         return totals;
     },
@@ -287,7 +290,7 @@ StatsService.prototype = {
             var resBodySize = ensurePositive(response.bodySize);
 
             // Get Cache info
-            if (entry.response.status == 206) { // Partial content
+            if (entry.response.status === 206) { // Partial content
                 totals.partial.resBodySize += resBodySize;
                 totals.partial.count++;
             } else if (HarModel.isCachedEntry(entry)) { // From cache

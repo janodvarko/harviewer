@@ -53,18 +53,18 @@ Dom.getElementByClass = function(node, className)  // className, className, ...
     if (!node)
         return null;
 
-    var args = Arr.cloneArray(arguments); args.splice(0, 1);
+    var args = Arr.cloneArray(arguments);
+    args.splice(0, 1);
     for (var child = node.firstChild; child; child = child.nextSibling)
     {
-        var args1 = Arr.cloneArray(args); args1.unshift(child);
-        if (Css.hasClass.apply(this, args1))
+        var args1 = Arr.cloneArray(args);
+        args1.unshift(child);
+        if (Css.hasClass.apply(this, args1)) {
             return child;
-        else
-        {
-            var found = Dom.getElementByClass.apply(this, args1);
-            if (found)
-                return found;
         }
+        var found = Dom.getElementByClass.apply(this, args1);
+        if (found)
+            return found;
     }
 
     return null;
@@ -72,18 +72,12 @@ Dom.getElementByClass = function(node, className)  // className, className, ...
 
 Dom.getElementsByClass = function(node, className)  // className, className, ...
 {
-    if (node.querySelectorAll)
-    {
-        var args = Arr.cloneArray(arguments); args.shift();
-        var selector = "." + args.join(".");
-        return node.querySelectorAll(selector);
-    }
-
     function iteratorHelper(node, classNames, result)
     {
         for (var child = node.firstChild; child; child = child.nextSibling)
         {
-            var args1 = Arr.cloneArray(classNames); args1.unshift(child);
+            var args1 = Arr.cloneArray(classNames);
+            args1.unshift(child);
             if (Css.hasClass.apply(null, args1))
                 result.push(child);
 
@@ -91,8 +85,16 @@ Dom.getElementsByClass = function(node, className)  // className, className, ...
         }
     }
 
+    var args = Arr.cloneArray(arguments);
+    args.shift();
+
+    if (node.querySelectorAll)
+    {
+        var selector = "." + args.join(".");
+        return node.querySelectorAll(selector);
+    }
+
     var result = [];
-    var args = Arr.cloneArray(arguments); args.shift();
     iteratorHelper(node, args, result);
     return result;
 };
@@ -121,7 +123,7 @@ Dom.isAncestor = function(node, potentialAncestor)
 {
     for (var parent = node; parent; parent = parent.parentNode)
     {
-        if (parent == potentialAncestor)
+        if (parent === potentialAncestor)
             return true;
     }
 
@@ -185,7 +187,7 @@ Dom.getElementBox = function(el)
 
 Dom.getElementPosition = function(el)
 {
-    var left = 0
+    var left = 0;
     var top = 0;
 
     do
@@ -193,16 +195,18 @@ Dom.getElementPosition = function(el)
         left += el.offsetLeft;
         top += el.offsetTop;
     }
-    while (el = el.offsetParent);
+    while (el === el.offsetParent);
 
     return {left:left, top:top};
 };
 
 Dom.getWindowSize = function()
 {
-    var width=0, height=0, el;
+    var width = 0;
+    var height = 0;
+    var el;
 
-    if (typeof window.innerWidth == "number")
+    if (typeof window.innerWidth === "number")
     {
         width = window.innerWidth;
         height = window.innerHeight;
@@ -223,7 +227,9 @@ Dom.getWindowSize = function()
 
 Dom.getWindowScrollSize = function()
 {
-    var width=0, height=0, el;
+    var width = 0;
+    var height = 0;
+    var el;
 
     // first try the document.documentElement scroll size
     if (!Sniff.isIEQuiksMode && (el=document.documentElement) &&
@@ -248,9 +254,11 @@ Dom.getWindowScrollSize = function()
 
 Dom.getWindowScrollPosition = function()
 {
-    var top=0, left=0, el;
+    var top = 0;
+    var left = 0;
+    var el;
 
-    if(typeof window.pageYOffset == "number")
+    if(typeof window.pageYOffset === "number")
     {
         top = window.pageYOffset;
         left = window.pageXOffset;
@@ -321,13 +329,13 @@ Dom.getClientOffset = function(elt)
         var style = view.getComputedStyle(elt, "");
 
         if (elt.offsetLeft)
-            coords.x += elt.offsetLeft + parseInt(style.borderLeftWidth);
+            coords.x += elt.offsetLeft + parseInt(style.borderLeftWidth, 10);
         if (elt.offsetTop)
-            coords.y += elt.offsetTop + parseInt(style.borderTopWidth);
+            coords.y += elt.offsetTop + parseInt(style.borderTopWidth, 10);
 
         if (p)
         {
-            if (p.nodeType == 1)
+            if (p.nodeType === 1)
                 addOffset(p, coords, view);
         }
         else if (elt.ownerDocument.defaultView.frameElement)

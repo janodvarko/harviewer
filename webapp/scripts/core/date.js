@@ -44,7 +44,6 @@ Date_.fromISOString = function(text)
     // http://www.w3.org/TR/NOTE-datetime
     // xxxHonza: use the one from the schema.
     var regex = /(\d\d\d\d)(-)?(\d\d)(-)?(\d\d)(T)?(\d\d)(:)?(\d\d)(:)?(\d\d)(\.\d+)?(Z|([+-])(\d\d)(:)?(\d\d))/;
-    var reg = new RegExp(regex);
     var m = text.toString().match(new RegExp(regex));
     if (!m)
         return null;
@@ -63,15 +62,15 @@ Date_.fromISOString = function(text)
     else
         date.setUTCMilliseconds(0);
 
-    if (m[13] != 'Z')
+    if (m[13] !== 'Z')
     {
         var offset = (m[15] * 60) + parseInt(m[17], 10);
-        offset *= ((m[14] == '-') ? -1 : 1);
+        offset *= ((m[14] === '-') ? -1 : 1);
         date.setTime(date.getTime() - offset * 60 * 1000);
     }
 
     return date;
-},
+};
 
 /**
  * @param {Date} date

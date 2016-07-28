@@ -9,7 +9,16 @@ define("domplate/tabView", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function(Domplate, Lib, Trace) {
+
+var domplate = Domplate.domplate;
+var A = Domplate.A;
+var DIV = Domplate.DIV;
+var TABLE = Domplate.TABLE;
+var TAG = Domplate.TAG;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 //*************************************************************************************************
 
@@ -102,11 +111,9 @@ TabView.prototype =
 
     removeTab: function(tabId)
     {
-        for (var i in this.tabs)
-        {
+        for (var i = 0; i < this.tabs.length; i++) {
             var tab = this.tabs[i];
-            if (tab.id == tabId)
-            {
+            if (tab.id === tabId) {
                 this.tabs.splice(i, 1);
                 break;
             }
@@ -115,11 +122,11 @@ TabView.prototype =
 
     getTab: function(tabId)
     {
-        for (var i in this.tabs)
-        {
+        for (var i = 0; i < this.tabs.length; i++) {
             var tab = this.tabs[i];
-            if (tab.id == tabId)
+            if (tab.id === tabId) {
                 return tab;
+            }
         }
     },
 
@@ -197,7 +204,7 @@ TabView.prototype =
             Lib.removeClass(viewBody.selectedBody, "selected");
         }
 
-        // Store info about new active tab. Each tab has to have a body, 
+        // Store info about new active tab. Each tab has to have a body,
         // which is identified by class.
         var tabBody = Lib.getElementByClass(viewBody, "tab" + view + "Body");
         if (!tabBody)
@@ -253,7 +260,7 @@ TabView.prototype =
 
         this.showTabBar(this.tabBarVisibility);
 
-        for (var i in this.tabs)
+        for (var i = 0; i < this.tabs.length; i++)
         {
             var tab = this.tabs[i];
             var tabHeaderTag = tab.tabHeaderTag ? tab.tabHeaderTag : TabViewTempl.tabHeaderTag;
@@ -272,11 +279,11 @@ TabView.prototype =
 
         return this.element;
     }
-}
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-TabView.Tab = function() {}
+TabView.Tab = function() {};
 TabView.Tab.prototype =
 {
     invalidate: function()
@@ -288,9 +295,9 @@ TabView.Tab.prototype =
     {
         this.tabView.selectTabByName(this.id);
     }
-}
+};
 
 return TabView;
 
 // ************************************************************************************************
-}});
+});

@@ -51,7 +51,7 @@ HarModel.prototype =
                 return 1;
 
             return 0;
-        })
+        });
 
         if (this.input)
         {
@@ -128,7 +128,7 @@ HarModel.prototype =
         for (var i=0; i<entries.length; i++)
         {
             var entry = entries[i];
-            if (entry.pageref == prevPageId)
+            if (entry.pageref === prevPageId)
             {
                 entry.pageref = pageId;
                 this.input.log.entries.push(entry);
@@ -178,21 +178,6 @@ HarModel.prototype =
         var jsonString = JSON.stringify(this.input, null, "\t");
         var result = jsonString.replace(/\\\\u/g, "\\u");
         return result;
-    },
-
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-    // Statistics
-
-    getSize: function(input)
-    {
-        if (!input)
-            input = this.input;
-
-        if (!input)
-            return 0;
-
-        var jsonString = dojo.toJson(input, true);
-        return jsonString.length;
     }
 };
 
@@ -260,7 +245,7 @@ HarModel.getPageEntries = function(input, page)
             result.push(entry);
 
         // Return all requests for the specified page.
-        if (page && entry.pageref == page.id)
+        if (page && entry.pageref === page.id)
             result.push(entry);
     }
 
@@ -282,7 +267,7 @@ HarModel.getParentPage = function(input, file)
 
     for (var i=0; i<pages.length; i++)
     {
-        if (pages[i].id == file.pageref)
+        if (pages[i].id === file.pageref)
             return pages[i];
     }
 
@@ -348,17 +333,17 @@ HarModel.validateRequestTimings = function(input)
 
     if (errors.length)
         throw {errors: errors, input: input};
-}
+};
 
 HarModel.isCachedEntry = function(entry) {
     var response = entry.response;
     var resBodySize = Math.max(0, response.bodySize);
-    return (response.status == 304 || (resBodySize === 0 && response.content && response.content.size > 0));
+    return (response.status === 304 || (resBodySize === 0 && response.content && response.content.size > 0));
 };
 
 HarModel.getEntrySize = function(entry) {
     var bodySize = entry.response.bodySize;
-    return (bodySize && bodySize != -1) ? bodySize : entry.response.content.size;
+    return (bodySize && bodySize !== -1) ? bodySize : entry.response.content.size;
 };
 
 HarModel.getEntryUncompressedSize = function(entry) {
@@ -382,7 +367,7 @@ HarModel.Loader =
         var baseUrl = Lib.getURLParameter("baseUrl");
 
         // Append traling slahs if missing.
-        if (baseUrl && baseUrl[baseUrl.length-1] != "/")
+        if (baseUrl && baseUrl[baseUrl.length-1] !== "/")
             baseUrl += "/";
 
         var paths = Lib.getURLParameters("path");
@@ -392,14 +377,13 @@ HarModel.Loader =
         //for (var p in inputUrls)
         //    inputUrls[p] = inputUrls[p].replace(/%/g,'%25');
 
-        var urls = [];
-        for (var p in paths)
-            urls.push(baseUrl ? baseUrl + paths[p] : paths[p]);
+        var urls = paths.map(function(path) {
+            return baseUrl ? baseUrl + path : path;
+        });
 
         // Load input data (using JSONP) from remote location.
         // http://domain/har/viewer?inputUrl=<remote-file-url>&callback=<name-of-the-callback>
-        for (var p in inputUrls)
-            urls.push(inputUrls[p]);
+        urls = urls.concat(inputUrls);
 
         if ((baseUrl || inputUrls.length > 0) && urls.length > 0)
             return this.loadRemoteArchive(urls, callbackName, callback, errorCallback);
@@ -521,8 +505,8 @@ HarModel.Loader =
 
         if (crossDomain)
             return this.loadRemoteArchive([url], callbackName, onLoaded, onError);
-        else
-            return this.loadLocalArchive(url, onLoaded, onError);
+
+        return this.loadLocalArchive(url, onLoaded, onError);
     }
 };
 
@@ -533,7 +517,7 @@ function contentToUnicode()
 {
     var newContent = {};
     for (var prop in this) {
-        if (prop != "toJSON")
+        if (prop !== "toJSON")
             newContent[prop] = this[prop];
     }
 
@@ -543,7 +527,7 @@ function contentToUnicode()
     newContent.text = Array.prototype.map.call(this.text, function(x) {
         var charCode = x.charCodeAt(0);
         if ((charCode >= 0x20 && charCode < 0x7F) ||
-             charCode == 0xA || charCode == 0xD)
+             charCode === 0xA || charCode === 0xD)
             return x.charAt(0);
 
         var unicode = charCode.toString(16).toUpperCase();

@@ -21,7 +21,16 @@ define("tabs/domTab", [
 function(Domplate, TabView, Lib, Strings, Toolbar, Search, DragDrop, DomTree, Cookies,
     TableView, Trace) {
 
-with (Domplate) {
+/* global JSONQuery*/
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var INPUT = Domplate.INPUT;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 // ********************************************************************************************* //
 // Home Tab
@@ -133,7 +142,9 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         tables = Lib.cloneArray(tables);
 
         // Get all inputs (ie. HAR log files).
-        var inputs = tables.map(function(a) { return a.repObject.input; });
+        var inputs = tables.map(function(a) {
+            return a.repObject.input;
+        });
 
         // Instantiate search object for this panel.
         return new Search.ObjectSearch(text, inputs, false, false);
@@ -191,8 +202,6 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
             var placeholder = value ? Strings.jsonQueryPlaceholder : Strings.searchPlaceholder;
             searchInput.setAttribute("placeholder", placeholder);
         }
-
-        var searchInput = Lib.getElementByClass(this._body, "searchInput");
     },
 
     onSearch: function(text, keyCode)
@@ -206,7 +215,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
             return true;
 
         // Clear previous search if the text has changed.
-        if (this.currSearch && this.currSearch.text != text)
+        if (this.currSearch && this.currSearch.text !== text)
             this.currSearch = null;
 
         // Create new search object if necessary. This objects holds current search
@@ -240,21 +249,19 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
 
             return true;
         }
-        else
-        {
-            // Nothing has been found or we have reached the end. Reset the search object so,
-            // the search starts from the begginging again.
-            if (this.currSearch.matches.length > 0)
-                this.currSearch = this.createSearchObject(text);
 
-            return false;
-        }
+        // Nothing has been found or we have reached the end. Reset the search object so,
+        // the search starts from the begginging again.
+        if (this.currSearch.matches.length > 0)
+            this.currSearch = this.createSearchObject(text);
+
+        return false;
     },
 
     evalJsonQuery: function(expr, keyCode)
     {
         // JSON Path is executed when enter key is pressed.
-        if (keyCode != 13)
+        if (keyCode !== 13)
             return true;
 
         // Eval the expression for all logs.
@@ -371,12 +378,12 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
     getDomTree: function(input)
     {
         // Iterate all existing dom-trees. There can be more if more logs
-        // is currently displayed. 
+        // is currently displayed.
         var tables = Lib.getElementsByClass(this._body, "domTable");
         for (var i=0; i<tables.length; i++)
         {
             var tree = tables[i].repObject;
-            if (tree.input == input) 
+            if (tree.input === input)
                 return tree;
         }
         return null;
@@ -437,4 +444,4 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
 return DomTab;
 
 // ********************************************************************************************* //
-}});
+});

@@ -11,7 +11,17 @@ define("preview/requestBody", [
     "syntax-highlighter/shCore"
 ],
 
-function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) { with (Domplate) {
+function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var IFRAME = Domplate.IFRAME;
+var PRE = Domplate.PRE;
+var TABLE = Domplate.TABLE;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 //*************************************************************************************************
 // Request Body
@@ -124,7 +134,7 @@ RequestBody.prototype = domplate(
 
     showDataURL: function(file)
     {
-        return file.request.url.indexOf("data:") == 0;
+        return file.request.url.indexOf("data:") === 0;
     }
 });
 
@@ -535,7 +545,7 @@ SentDataTab.prototype = domplate(HeadersTab.prototype,
             return;
 
         var textBox = Lib.getElementByClass(body, "netInfo" + this.id + "Text");
-        if (postData.mimeType == "application/x-www-form-urlencoded")
+        if (postData.mimeType === "application/x-www-form-urlencoded")
             this.insertHeaderRows(textBox, postData.params, this.id);
         else
             Lib.insertWrappedText(postData.text, textBox);
@@ -574,16 +584,16 @@ CookiesTab.prototype = domplate(HeadersTab.prototype,
 
     onUpdateBody: function(tabView, body)
     {
-        if (file.response.cookies)
+        var textBox = Lib.getElementByClass(body, "netInfoParamsText");
+
+        if (this.file.response.cookies)
         {
-            var textBox = Lib.getElementByClass(body, "netInfoParamsText");
-            this.insertHeaderRows(textBox, file.response.cookies, "Cookies", "ResponseCookies");
+            this.insertHeaderRows(textBox, this.file.response.cookies, "Cookies", "ResponseCookies");
         }
 
-        if (file.request.cookies)
+        if (this.file.request.cookies)
         {
-            var textBox = Lib.getElementByClass(body, "netInfoParamsText");
-            this.insertHeaderRows(textBox, file.request.cookies, "Cookies", "RequestCookies");
+            this.insertHeaderRows(textBox, this.file.request.cookies, "Cookies", "RequestCookies");
         }
     }
 });
@@ -649,7 +659,7 @@ HtmlTab.prototype = domplate(HeadersTab.prototype,
     {
         this.preview = Lib.getElementByClass(body, "netInfoHtmlPreview");
 
-        var height = parseInt(Cookies.getCookie("htmlPreviewHeight"));
+        var height = parseInt(Cookies.getCookie("htmlPreviewHeight"), 10);
         if (!isNaN(height))
             this.preview.style.height = height + "px";
 
@@ -711,7 +721,7 @@ DataURLTab.prototype = domplate(HeadersTab.prototype,
         var textBox = Lib.getElementByClass(body, "netInfoDataURLText");
         var data = this.file.request.url;
 
-        if (data.indexOf("data:image") == 0)
+        if (data.indexOf("data:image") === 0)
         {
             var image = body.ownerDocument.createElement("img");
             image.src = data;
@@ -747,7 +757,7 @@ JsonTab.prototype = domplate(TabView.Tab.prototype, {
             var domTree = new DomTree(ob);
             domTree.append(body);
         } catch (e) {
-            body.innerHTML = "" + e;
+            body.innerHTML = String(e);
         }
     }
 });
@@ -791,7 +801,7 @@ XmlTab.prototype = domplate(TabView.Tab.prototype, {
             var domTree = new DomTree(xmlDoc);
             domTree.append(body);
         } catch (e) {
-            body.innerHTML = "" + e;
+            body.innerHTML = String(e);
         }
     }
 });
@@ -829,4 +839,4 @@ XmlTab.canShowFile = function(file) {
 return RequestBody;
 
 //*************************************************************************************************
-}});
+});

@@ -1,0 +1,14 @@
+# 3rd party
+webapp/scripts/jquery.js
+webapp/scripts/i18n.js
+webapp/scripts/require.js
+webapp/scripts/text.js
+webapp/scripts/downloadify
+webapp/scripts/excanvas
+webapp/scripts/json-query
+webapp/scripts/preview/jsonSchema.js
+webapp/scripts/preview/ref.js
+webapp/scripts/syntax-highlighter/
+
+# Build
+webapp-build/

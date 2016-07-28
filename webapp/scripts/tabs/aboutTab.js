@@ -10,7 +10,11 @@ define("tabs/aboutTab", [
     "i18n!nls/harViewer"
 ],
 
-function(Domplate, TabView, Lib, Strings) { with (Domplate) {
+function(Domplate, TabView, Lib, Strings) {
+
+var A = Domplate.A;
+var DIV = Domplate.DIV;
+var SPAN = Domplate.SPAN;
 
 //*************************************************************************************************
 // Home Tab
@@ -59,4 +63,4 @@ AboutTab.prototype =
 return AboutTab;
 
 //*************************************************************************************************
-}});
+});

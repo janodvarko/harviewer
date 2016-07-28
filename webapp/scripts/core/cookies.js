@@ -28,7 +28,7 @@ var Cookies =
         for (var i= 0; i<cookies.length; i++)
         {
             var cookie = cookies[i].split("=");
-            if (Str.trim(cookie[0]) == name)
+            if (Str.trim(cookie[0]) === name)
                 return cookie[1].length ? unescape(Str.trim(cookie[1])) : null;
         }
     },
@@ -90,7 +90,7 @@ var Cookies =
     getBooleanCookie: function(name)
     {
         var value = this.getCookie(name);
-        return (!value || value == "false") ? false : true;
+        return (!value || value === "false") ? false : true;
     },
 
     /**

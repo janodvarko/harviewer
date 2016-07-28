@@ -82,17 +82,17 @@ var TrackerPrototype = {
 
         var newPos = absoluteCursorPosition(e);
         //newPos = newPos.Add(this.elementStartPos);
-        var newPos = newPos.Subtract(this.cursorStartPos);
+        newPos = newPos.Subtract(this.cursorStartPos);
         //newPos = newPos.Bound(lowerBound, upperBound);
         //newPos.Apply(this.element);
 
         // Only fire event if the position has been changed.
-        if (this.cursorLastPos.x == newPos.x && this.cursorLastPos.y == newPos.y)
+        if (this.cursorLastPos.x === newPos.x && this.cursorLastPos.y === newPos.y)
             return;
 
-        if (this.callbacks.onDragOver != null)
+        if (typeof this.callbacks.onDragOver === "function")
         {
-            var result = this.callbacks.onDragOver(newPos, this);
+            this.callbacks.onDragOver(newPos, this);
             this.cursorLastPos = newPos;
         }
 
@@ -127,7 +127,7 @@ var TrackerPrototype = {
         this.cursorLastPos = null;
         //this.elementStartPos = null;
 
-        if (this.callbacks.onDrop != null)
+        if (this.callbacks.onDrop !== null)
             this.callbacks.onDrop(this);
 
         this.dragging = false;
@@ -158,34 +158,34 @@ function Position(x, y)
     this.Add = function(val)
     {
         var newPos = new Position(this.x, this.y);
-        if (val != null)
+        if (val !== null && val !== undefined)
         {
             if(!isNaN(val.x))
                 newPos.x += val.x;
             if(!isNaN(val.y))
-                newPos.y += val.y
+                newPos.y += val.y;
         }
         return newPos;
-    }
+    };
 
     this.Subtract = function(val)
     {
         var newPos = new Position(this.x, this.y);
-        if (val != null)
+        if (val !== null && val !== undefined)
         {
             if(!isNaN(val.x))
                 newPos.x -= val.x;
             if(!isNaN(val.y))
-                newPos.y -= val.y
+                newPos.y -= val.y;
         }
         return newPos;
-    }
+    };
 
     this.Bound = function(lower, upper)
     {
         var newPos = this.Max(lower);
         return newPos.Min(upper);
-    }
+    };
 
     this.Check = function()
     {
@@ -197,11 +197,11 @@ function Position(x, y)
             newPos.y = 0;
 
         return newPos;
-    }
+    };
 
     this.Apply = function(element)
     {
-        if (typeof(element) == "string")
+        if (typeof(element) === "string")
             element = document.getElementById(element);
 
         if (!element)
@@ -212,7 +212,7 @@ function Position(x, y)
 
         if(!isNaN(this.y))
             element.style.top = this.y + "px";
-    }
+    };
 }
 
 // ********************************************************************************************* //
@@ -225,10 +225,8 @@ function absoluteCursorPosition(e)
             + document.body.scrollLeft, e.clientY + document.documentElement.scrollTop
             + document.body.scrollTop);
     }
-    else
-    {
-        return new Position(e.clientX + window.scrollX, e.clientY + window.scrollY);
-    }
+
+    return new Position(e.clientX + window.scrollX, e.clientY + window.scrollY);
 }
 
 // ********************************************************************************************* //

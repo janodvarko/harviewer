@@ -2,18 +2,18 @@ define("preview/jsonSchema", [], function() {
 
 //*************************************************************************************************
 
-/** 
- * JSONSchema Validator - Validates JavaScript objects using JSON Schemas 
+/**
+ * JSONSchema Validator - Validates JavaScript objects using JSON Schemas
  *	(http://www.json.com/json-schema-proposal/)
  *
  * Copyright (c) 2007 Kris Zyp SitePen (www.sitepen.com)
  * Licensed under the MIT (MIT-LICENSE.txt) license.
 To use the validator call JSONSchema.validate with an instance object and an optional schema object.
-If a schema is provided, it will be used to validate. If the instance object refers to a schema (self-validating), 
-that schema will be used to validate and the schema parameter is not necessary (if both exist, 
-both validations will occur). 
-The validate method will return an array of validation errors. If there are no errors, then an 
-empty list will be returned. A validation error will have two properties: 
+If a schema is provided, it will be used to validate. If the instance object refers to a schema (self-validating),
+that schema will be used to validate and the schema parameter is not necessary (if both exist,
+both validations will occur).
+The validate method will return an array of validation errors. If there are no errors, then an
+empty list will be returned. A validation error will have two properties:
 "property" which indicates which property had the error
 "message" which indicates what the error was
  */
@@ -22,13 +22,13 @@ var JSONSchema = {
 	validate : function(/*Any*/instance,/*Object*/schema) {
 		// Summary:
 		//  	To use the validator call JSONSchema.validate with an instance object and an optional schema object.
-		// 		If a schema is provided, it will be used to validate. If the instance object refers to a schema (self-validating), 
-		// 		that schema will be used to validate and the schema parameter is not necessary (if both exist, 
-		// 		both validations will occur). 
+		// 		If a schema is provided, it will be used to validate. If the instance object refers to a schema (self-validating),
+		// 		that schema will be used to validate and the schema parameter is not necessary (if both exist,
+		// 		both validations will occur).
 		// 		The validate method will return an object with two properties:
 		// 			valid: A boolean indicating if the instance is valid by the schema
-		// 			errors: An array of validation errors. If there are no errors, then an 
-		// 					empty list will be returned. A validation error will have two properties: 
+		// 			errors: An array of validation errors. If there are no errors, then an
+		// 					empty list will be returned. A validation error will have two properties:
 		// 						property: which indicates which property had the error
 		// 						message: which indicates what the error was
 		//
@@ -38,14 +38,14 @@ var JSONSchema = {
 		// Summary:
 		// 		The checkPropertyChange method will check to see if an value can legally be in property with the given schema
 		// 		This is slightly different than the validate method in that it will fail if the schema is readonly and it will
-		// 		not check for self-validation, it is assumed that the passed in value is already internally valid.  
-		// 		The checkPropertyChange method will return the same object type as validate, see JSONSchema.validate for 
+		// 		not check for self-validation, it is assumed that the passed in value is already internally valid.
+		// 		The checkPropertyChange method will return the same object type as validate, see JSONSchema.validate for
 		// 		information.
 		//
 		return this._validate(value,schema, property || "property");
 	},
 	_validate : function(/*Any*/instance,/*Object*/schema,/*Boolean*/ _changing) {
-	
+
 	var errors = [];
 		// validate a value against a property definition
 	function checkProp(value, schema, path,i){
@@ -54,7 +54,7 @@ var JSONSchema = {
 		function addError(message){
 			errors.push({property:path,message:message});
 		}
-		
+
 		if((typeof schema != 'object' || schema instanceof Array) && (path || typeof schema != 'function')){
 			if(typeof schema == 'function'){
 				if(!(value instanceof schema)){
@@ -74,15 +74,15 @@ var JSONSchema = {
 		// validate a value against a type definition
 		function checkType(type,value){
 			if(type){
-				if(typeof type == 'string' && type != 'any' && 
-						(type == 'null' ? value !== null : typeof value != type) && 
+				if(typeof type == 'string' && type != 'any' &&
+						(type == 'null' ? value !== null : typeof value != type) &&
 						!(value instanceof Array && type == 'array') &&
 						!(type == 'integer' && value%1===0)){
 					return [{property:path,message:(typeof value) + " value found, but a " + type + " is required"}];
 				}
 				if(type instanceof Array){
 					var unionErrors=[];
-					for(var j = 0; j < type.length; j++){ // a union type 
+					for(var j = 0; j < type.length; j++){ // a union type
 						if(!(unionErrors=checkType(type[j],value)).length){
 							break;
 						}
@@ -92,17 +92,17 @@ var JSONSchema = {
 					}
 				}else if(typeof type == 'object'){
 					var priorErrors = errors;
-					errors = []; 
+					errors = [];
 					checkProp(value,type,path);
 					var theseErrors = errors;
 					errors = priorErrors;
-					return theseErrors; 
-				} 
+					return theseErrors;
+				}
 			}
 			return [];
 		}
 		if(value === undefined){
-			if(!schema.optional){  
+			if(!schema.optional){
 				addError("is missing and it is not optional");
 			}
 		}else{
@@ -121,7 +121,7 @@ var JSONSchema = {
 							for(i=0,l=value.length; i<l; i++){
 								errors.concat(checkProp(value[i],schema.items,path,i));
 							}
-						}							
+						}
 					}
 					if(schema.minItems && value.length < schema.minItems){
 						addError("There must be a minimum of " + schema.minItems + " in the array");
@@ -141,11 +141,11 @@ var JSONSchema = {
 				if(schema.minLength && typeof value == 'string' && value.length < schema.minLength){
 					addError("must be at least " + schema.minLength + " characters long");
 				}
-				if(typeof schema.minimum !== undefined && typeof value == typeof schema.minimum && 
+				if(typeof schema.minimum !== undefined && typeof value == typeof schema.minimum &&
 						schema.minimum > value){
 					addError("must have a minimum value of " + schema.minimum);
 				}
-				if(typeof schema.maximum !== undefined && typeof value == typeof schema.maximum && 
+				if(typeof schema.maximum !== undefined && typeof value == typeof schema.maximum &&
 						schema.maximum < value){
 					addError("must have a maximum value of " + schema.maximum);
 				}
@@ -163,7 +163,7 @@ var JSONSchema = {
 						addError("does not have a value in the enumeration " + enumer.join(", "));
 					}
 				}
-				if(typeof schema.maxDecimal == 'number' && 
+				if(typeof schema.maxDecimal == 'number' &&
 					(value.toString().match(new RegExp("\\.[0-9]{" + (schema.maxDecimal + 1) + ",}")))){
 					addError("may only have " + schema.maxDecimal + " digits of decimal places");
 				}
@@ -173,13 +173,13 @@ var JSONSchema = {
 	}
 	// validate an object against a schema
 	function checkObj(instance,objTypeDef,path,additionalProp){
-	
+
 		if(typeof objTypeDef =='object'){
 			if(typeof instance != 'object' || instance instanceof Array){
 				errors.push({property:path,message:"an object is required"});
 			}
-			
-			for(var i in objTypeDef){ 
+
+			for(var i in objTypeDef){
 				if(objTypeDef.hasOwnProperty(i) && !(i.charAt(0) == '_' && i.charAt(1) == '_')){
 					var value = instance[i];
 					var propDef = objTypeDef[i];
@@ -198,7 +198,7 @@ var JSONSchema = {
 			}
 			value = instance[i];
 			if(objTypeDef && typeof objTypeDef == 'object' && !(i in objTypeDef)){
-				checkProp(value,additionalProp,path,i); 
+				checkProp(value,additionalProp,path,i);
 			}
 			if(!_changing && value && value.$schema){
 				errors = errors.concat(checkProp(value,value.$schema,path,i));
@@ -218,7 +218,7 @@ var JSONSchema = {
 	newFromSchema : function() {
 	}
 */
-}
+};
 
 return JSONSchema;
 

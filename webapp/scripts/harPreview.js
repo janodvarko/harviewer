@@ -15,6 +15,8 @@ define("harPreview", [
 
 function(RequestList, PageList, HarModel, Lib, Trace, Menu, ValidationError) {
 
+var content = document.getElementById("content");
+
 //*************************************************************************************************
 // The Preview Application
 
@@ -29,7 +31,7 @@ HarPreview.prototype =
 {
     initialize: function(content)
     {
-        this.topMenu = new Menu()
+        this.topMenu = new Menu();
         this.topMenu.render(content);
 
         // Auto load all HAR files specified in the URL.
@@ -44,7 +46,7 @@ HarPreview.prototype =
         {
             var validate = true;
             var param = Lib.getURLParameter("validate");
-            if (param == "false")
+            if (param === "false")
                 validate = false;
 
             var input = HarModel.parse(jsonString, validate);
@@ -88,12 +90,11 @@ HarPreview.prototype =
     {
         RequestList.setVisibleColumns(cols, avoidCookies);
     }
-}
+};
 
 //*************************************************************************************************
 // Initialization
 
-var content = document.getElementById("content");
 var harPreview = content.repObject = new HarPreview();
 
 // Fire some events for listeners. This is useful for extending/customizing the viewer.

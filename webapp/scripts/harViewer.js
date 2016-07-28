@@ -20,6 +20,8 @@ define("harViewer", [
 function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,
     Strings, RequestList, Lib, Trace) {
 
+var content = document.getElementById("content");
+
 // ********************************************************************************************* //
 // The Application
 
@@ -192,7 +194,6 @@ HarView.prototype = Lib.extend(new TabView(),
 // ********************************************************************************************* //
 // Initialization
 
-var content = document.getElementById("content");
 var harView = content.repObject = new HarView();
 
 // Fire some events for listeners. This is useful for extending/customizing the viewer.

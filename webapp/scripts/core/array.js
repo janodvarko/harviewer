@@ -42,8 +42,8 @@ Arr.cloneArray = function(array, fn)
        for (var i = 0; i < array.length; ++i)
            newArray.push(fn(array[i]));
    else
-       for (var i = 0; i < array.length; ++i)
-           newArray.push(array[i]);
+       for (var j = 0; j < array.length; ++j)
+           newArray.push(array[j]);
 
    return newArray;
 };
@@ -68,7 +68,7 @@ Arr.remove = function(list, item)
 {
     for (var i = 0; i < list.length; ++i)
     {
-        if (list[i] == item)
+        if (list[i] === item)
         {
             list.splice(i, 1);
             return true;

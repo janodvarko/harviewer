@@ -10,7 +10,11 @@ define("domplate/toolbar", [
     "domplate/popupMenu"
 ],
 
-function(Domplate, Lib, Trace, Menu) { with (Domplate) {
+function(Domplate, Lib, Trace, Menu) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var SPAN = Domplate.SPAN;
 
 //*************************************************************************************************
 
@@ -98,7 +102,7 @@ Toolbar.prototype =
     addButton: function(button)
     {
         if (!button.tooltiptext)
-            tooltiptext = "";
+            button.tooltiptext = "";
         this.buttons.push(button);
     },
 
@@ -106,7 +110,7 @@ Toolbar.prototype =
     {
         for (var i=0; i<this.buttons.length; i++)
         {
-            if (this.buttons[i].id == buttonId)
+            if (this.buttons[i].id === buttonId)
             {
                 this.buttons.splice(i, 1);
                 break;
@@ -124,7 +128,7 @@ Toolbar.prototype =
     {
         for (var i=0; i<this.buttons.length; i++)
         {
-            if (this.buttons[i].id == buttonId)
+            if (this.buttons[i].id === buttonId)
                 return this.buttons[i];
         }
     },
@@ -163,4 +167,4 @@ Toolbar.prototype =
 return Toolbar;
 
 // ************************************************************************************************
-}});
+});

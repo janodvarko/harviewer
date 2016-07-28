@@ -30,21 +30,21 @@ Str.formatSize = function(bytes)
     sizePrecision = (sizePrecision > 2) ? 2 : sizePrecision;
     sizePrecision = (sizePrecision < -1) ? -1 : sizePrecision;
 
-    if (sizePrecision == -1)
+    if (sizePrecision === -1)
         return bytes + " B";
 
     var a = Math.pow(10, sizePrecision);
 
-    if (bytes == -1 || bytes == undefined)
+    if (bytes === -1 || bytes === undefined)
         return "?";
-    else if (bytes == 0)
+    else if (bytes === 0)
         return "0";
     else if (bytes < 1024)
         return bytes + " B";
     else if (bytes < (1024*1024))
         return Math.round((bytes/1024)*a)/a + " KB";
-    else
-        return Math.round((bytes/(1024*1024))*a)/a + " MB";
+
+    return Math.round((bytes/(1024*1024))*a)/a + " MB";
 };
 
 /**
@@ -53,14 +53,14 @@ Str.formatSize = function(bytes)
  */
 Str.formatTime = function(elapsed)
 {
-    if (elapsed == -1)
+    if (elapsed === -1)
         return "-"; // should be &nbsp; but this will be escaped so we need something that is no whitespace
     else if (elapsed < 1000)
         return elapsed + "ms";
     else if (elapsed < 60000)
         return (Math.ceil(elapsed/10) / 100) + "s";
-    else
-        return (Math.ceil((elapsed/60000)*100)/100) + "m";
+
+    return (Math.ceil((elapsed/60000)*100)/100) + "m";
 };
 
 /**
@@ -69,7 +69,7 @@ Str.formatTime = function(elapsed)
  */
 Str.formatNumber = function(number)
 {
-    number += "";
+    number = String(number);
     var x = number.split(".");
     var x1 = x[0];
     var x2 = x.length > 1 ? "." + x[1] : "";
@@ -85,7 +85,8 @@ Str.formatNumber = function(number)
  */
 Str.formatString = function(string)
 {
-    var args = Arr.cloneArray(arguments), string = args.shift();
+    var args = Arr.cloneArray(arguments);
+    string = args.shift();
     for (var i=0; i<args.length; i++)
     {
         var value = args[i].toString();
@@ -181,7 +182,7 @@ Str.splitLines = function(text)
     else if (text.split)
         return text.split(reSplitLines);
 
-    var str = text + "";
+    var str = String(text);
     var theSplit = str.split(reSplitLines);
     return theSplit;
 };
@@ -208,7 +209,7 @@ Str.escapeHTML = function(value)
                 return "&quot;";
         }
         return "?";
-    };
+    }
     return String(value).replace(/[<>&"']/g, replaceChars);
 };
 
@@ -219,17 +220,13 @@ Str.escapeHTML = function(value)
  */
 Str.cropString = function(text, limit)
 {
-    text = text + "";
+    text = String(text);
 
-    if (!limit)
-        var halfLimit = 50;
-    else
-        var halfLimit = limit / 2;
+    var halfLimit = limit ? limit / 2 : 50;
 
-    if (text.length > limit)
-        return Str.escapeNewLines(text.substr(0, halfLimit) + "..." + text.substr(text.length-halfLimit));
-    else
-        return Str.escapeNewLines(text);
+    return (text.length > limit) ?
+        Str.escapeNewLines(text.substr(0, halfLimit) + "..." + text.substr(text.length-halfLimit)) :
+        Str.escapeNewLines(text);
 };
 
 /**

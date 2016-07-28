@@ -11,7 +11,68 @@ define("tabs/pageTimeline", [
     "preview/harModel"
 ],
 
-function(Domplate, Lib, Trace, Strings, HarModel) { with (Domplate) {
+function(Domplate, Lib, Trace, Strings, HarModel) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var PRE = Domplate.PRE;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TAG = Domplate.TAG;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
+
+//*************************************************************************************************
+
+var Selection =
+{
+    isSelected: function(bar)
+    {
+        return Lib.hasClass(bar, "selected");
+    },
+
+    toggle: function(bar)
+    {
+        Lib.toggleClass(bar, "selected");
+    },
+
+    select: function(bar)
+    {
+        if (!this.isSelected(bar))
+            Lib.setClass(bar, "selected");
+    },
+
+    unselect: function(bar)
+    {
+        if (this.isSelected(bar))
+            Lib.removeClass(bar, "selected");
+    },
+
+    getSelection: function(row)
+    {
+        var pages = [];
+        var bars = Lib.getElementsByClass(row, "pageBar");
+        for (var i=0; i<bars.length; i++)
+        {
+            var bar = bars[i];
+            if (this.isSelected(bar))
+                pages.push(bar.page);
+        }
+        return pages;
+    },
+
+    unselectAll: function(row, except)
+    {
+        var bars = Lib.getElementsByClass(row, "pageBar");
+        for (var i=0; i<bars.length; i++)
+        {
+            if (except !== bars[i])
+                this.unselect(bars[i]);
+        }
+    }
+};
 
 //*************************************************************************************************
 // Timeline
@@ -113,7 +174,7 @@ Timeline.prototype = domplate(
         if (!Lib.hasClass(bar, "pageBar"))
             return;
 
-        if (this.highlightedPage == bar.page)
+        if (this.highlightedPage === bar.page)
             return;
 
         this.highlightedPage = bar.page;
@@ -139,7 +200,7 @@ Timeline.prototype = domplate(
         var col = table.firstChild.firstChild.firstChild;
         while (col)
         {
-            if (col.firstChild.page == page)
+            if (col.firstChild.page === page)
                 return col.firstChild;
             col = col.nextSibling;
         }
@@ -162,10 +223,10 @@ Timeline.prototype = domplate(
         }
 
         // Recalculate height of all pages only if there is a new maximum.
-        if (prevMaxElapsedTime != this.maxElapsedTime)
+        if (prevMaxElapsedTime !== this.maxElapsedTime)
         {
-            for (var i=0; i<bars.length; i++)
-                bars[i].style.height = this.getHeight(bars[i].page) + "px";
+            for (var j=0; j<bars.length; j++)
+                bars[j].style.height = this.getHeight(bars[j].page) + "px";
         }
     },
 
@@ -194,7 +255,7 @@ Timeline.prototype = domplate(
 
     removeListener: function(listener)
     {
-        remove(this.listeners, listener);
+        Lib.remove(this.listeners, listener);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -322,7 +383,7 @@ Timeline.Desc = domplate(
 
         var requests = HarModel.getPageEntries(object.input, object.page);
         var count = requests.length;
-        summary += count + " " + (count == 1 ? Strings.request : Strings.requests);
+        summary += count + " " + (count === 1 ? Strings.request : Strings.requests);
 
         return summary;
     },
@@ -360,57 +421,7 @@ Timeline.Desc = domplate(
 
 //*************************************************************************************************
 
-var Selection =
-{
-    isSelected: function(bar)
-    {
-        return Lib.hasClass(bar, "selected");
-    },
-
-    toggle: function(bar)
-    {
-        Lib.toggleClass(bar, "selected");
-    },
-
-    select: function(bar)
-    {
-        if (!this.isSelected(bar))
-            Lib.setClass(bar, "selected");
-    },
-
-    unselect: function(bar)
-    {
-        if (this.isSelected(bar))
-            Lib.removeClass(bar, "selected");
-    },
-
-    getSelection: function(row)
-    {
-        var pages = [];
-        var bars = Lib.getElementsByClass(row, "pageBar");
-        for (var i=0; i<bars.length; i++)
-        {
-            var bar = bars[i];
-            if (this.isSelected(bar))
-                pages.push(bar.page);
-        }
-        return pages;
-    },
-
-    unselectAll: function(row, except)
-    {
-        var bars = Lib.getElementsByClass(row, "pageBar");
-        for (var i=0; i<bars.length; i++)
-        {
-            if (except != bars[i])
-                this.unselect(bars[i]);
-        }
-    }
-}
-
-//*************************************************************************************************
-
 return Timeline;
 
 //*************************************************************************************************
-}});
+});

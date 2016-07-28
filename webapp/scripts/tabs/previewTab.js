@@ -21,7 +21,7 @@ define("tabs/previewTab", [
 function(Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies,
     ValidationError) {
 
-with (Domplate) {
+var DIV = Domplate.DIV;
 
 //*************************************************************************************************
 // Home Tab
@@ -71,10 +71,10 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
         // Show timeline & stats by default if the cookie says so (no animation)
         // But there should be an input.
         var input = this.model.input;
-        if (input && Cookies.getCookie("timeline") == "true")
+        if (input && Cookies.getCookie("timeline") === "true")
             this.onTimeline(false);
 
-        if (input && Cookies.getCookie("stats") == "true")
+        if (input && Cookies.getCookie("stats") === "true")
             this.onStats(false);
 
         this.updateDownloadifyButton();
@@ -255,4 +255,4 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
 return PreviewTab;
 
 //*************************************************************************************************
-}});
+});

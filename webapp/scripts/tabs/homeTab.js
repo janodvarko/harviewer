@@ -14,7 +14,9 @@ define("tabs/homeTab", [
     "preview/harModel"
 ],
 
-function(Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel) { with (Domplate) {
+function(Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel) {
+
+var DIV = Domplate.DIV;
 
 //*************************************************************************************************
 // Home Tab
@@ -56,8 +58,8 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         this.validateNode = $("#validate");
         var validate = Cookies.getCookie("validate");
         if (validate)
-            this.validateNode.prop("checked", (validate == "false") ? false : true);
-        this.validateNode.change(Lib.bind(this.onValidationChange, this))
+            this.validateNode.prop("checked", (validate === "false") ? false : true);
+        this.validateNode.change(Lib.bind(this.onValidationChange, this));
 
         // Load examples
         $(".example").click(Lib.bind(this.onLoadExample, this));
@@ -130,7 +132,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         {
             var file = files[i];
             var ext = Lib.getFileExtension(file.name);
-            if (ext.toLowerCase() != "har")
+            if (ext.toLowerCase() !== "har")
                 continue;
 
             var self = this;
@@ -161,13 +163,13 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
     {
         return function fileReader()
         {
-            if (typeof(file.getAsText) != "undefined")
+            if (typeof(file.getAsText) !== "undefined")
             {
                 callback(file.getAsText(""));
                 return;
             }
 
-            if (typeof(FileReader) != "undefined")
+            if (typeof(FileReader) !== "undefined")
             {
                 var fileReader = new FileReader();
                 fileReader.onloadend = function() {
@@ -175,7 +177,7 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
                 };
                 fileReader.readAsText(file);
             }
-        }
+        };
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -189,4 +191,4 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
 return HomeTab;
 
 //*************************************************************************************************
-}});
+});

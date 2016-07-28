@@ -12,7 +12,305 @@ define("preview/requestList", [
 ],
 
 function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip, Menu) {
-with (Domplate) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
+
+// ********************************************************************************************* //
+
+/**
+ * @domplate This object represents a popup info tip with detailed timing info for an
+ * entry (request).
+ */
+var EntryTimeInfoTip = domplate(
+{
+    tableTag:
+        TABLE({"class": "timeInfoTip"},
+            TBODY()
+        ),
+
+    timingsTag:
+        FOR("time", "$timings",
+            TR({"class": "timeInfoTipRow", $collapsed: "$time|hideBar"},
+                TD({"class": "$time|getBarClass timeInfoTipBar",
+                    $loaded: "$time.loaded",
+                    $fromCache: "$time.fromCache"
+                }),
+                TD({"class": "timeInfoTipCell startTime"},
+                    "$time.start|formatStartTime"
+                ),
+                TD({"class": "timeInfoTipCell elapsedTime"},
+                    "$time.elapsed|formatTime"
+                ),
+                TD("$time|getLabel")
+            )
+        ),
+
+    startTimeTag:
+        TR(
+            TD(),
+            TD("$startTime.time|formatStartTime"),
+            TD({"class": "timeInfoTipStartLabel", "colspan": 2},
+                "$startTime|getLabel"
+            )
+        ),
+
+    separatorTag:
+        TR({},
+            TD({"class": "timeInfoTipSeparator", "colspan": 4, "height": "10px"},
+                SPAN("$label")
+            )
+        ),
+
+    eventsTag:
+        FOR("event", "$events",
+            TR({"class": "timeInfoTipEventRow"},
+                TD({"class": "timeInfoTipBar", align: "center"},
+                    DIV({"class": "$event|getPageTimingClass timeInfoTipEventBar"})
+                ),
+                TD("$event.start|formatStartTime"),
+                TD({"colspan": 2},
+                    "$event|getTimingLabel"
+                )
+            )
+        ),
+
+    hideBar: function(obj)
+    {
+        return !obj.elapsed && obj.bar === "request.phase.Blocking";
+    },
+
+    getBarClass: function(obj)
+    {
+        var className = obj.bar.substr(obj.bar.lastIndexOf(".") + 1);
+        return "net" + className + "Bar";
+    },
+
+    getPageTimingClass: function(timing)
+    {
+        return timing.classes ? timing.classes : "";
+    },
+
+    formatTime: function(time)
+    {
+        return Lib.formatTime(time.toFixed(2));
+    },
+
+    formatStartTime: function(time)
+    {
+        var positive = time > 0;
+        var label = Lib.formatTime(Math.abs(time.toFixed(2)));
+        if (!time)
+            return label;
+
+        return (positive > 0 ? "+" : "-") + label;
+    },
+
+    getLabel: function(obj)
+    {
+        return Strings[obj.bar];
+    },
+
+    getTimingLabel: function(obj)
+    {
+        return obj.bar;
+    },
+
+    render: function(requestList, row, parentNode)
+    {
+        var input = requestList.input;
+        var file = row.repObject;
+        var page = HarModel.getParentPage(input, file);
+        var pageStart = page ? Lib.parseISO8601(page.startedDateTime) : null;
+        var requestStart = Lib.parseISO8601(file.startedDateTime);
+        var infoTip = EntryTimeInfoTip.tableTag.replace({}, parentNode);
+
+        // Insert start request time.
+        var startTimeObj = {};
+
+        //xxxHonza: the request start-time should be since the page start-time
+        // but what to do if there was no parent page and the parent phase
+        // is not the first one?
+        //xxxHonza: the request start-time is since the page start-time
+        // but the other case isw not tested yet.
+        if (pageStart)
+            startTimeObj.time = requestStart - pageStart;
+        else
+            startTimeObj.time = requestStart - row.phase.startTime;
+
+        startTimeObj.bar = "request.Started";
+        this.startTimeTag.insertRows({startTime: startTimeObj}, infoTip.firstChild);
+
+        // Insert separator.
+        this.separatorTag.insertRows({label: Strings["request.phases.label"]},
+            infoTip.firstChild);
+
+        var startTime = 0;
+        var timings = [];
+
+        // Helper shortcuts
+        var blocked = file.timings.blocked;
+        var dns = file.timings.dns;
+        var ssl = file.timings.ssl; // new in HAR 1.2 xxxHonza: TODO
+        var connect = file.timings.connect;
+        var send = file.timings.send;
+        var wait = file.timings.wait;
+        var receive = file.timings.receive;
+
+        if (blocked >= 0)
+        {
+            timings.push({bar: "request.phase.Blocking",
+                elapsed: blocked,
+                start: startTime});
+        }
+
+        if (dns >= 0)
+        {
+            timings.push({bar: "request.phase.Resolving",
+                elapsed: dns,
+                start: startTime += (blocked < 0) ? 0 : blocked});
+        }
+
+        if (connect >= 0)
+        {
+            timings.push({bar: "request.phase.Connecting",
+                elapsed: connect,
+                start: startTime += (dns < 0) ? 0 : dns});
+        }
+
+        if (send >= 0)
+        {
+            timings.push({bar: "request.phase.Sending",
+                elapsed: send,
+                start: startTime += (connect < 0) ? 0 : connect});
+        }
+
+        if (wait >= 0)
+        {
+            timings.push({bar: "request.phase.Waiting",
+                elapsed: wait,
+                start: startTime += (send < 0) ? 0 : send});
+        }
+
+        if (receive >= 0)
+        {
+            timings.push({bar: "request.phase.Receiving",
+                elapsed: receive,
+                start: startTime += (wait < 0) ? 0 : wait,
+                loaded: file.loaded, fromCache: HarModel.isCachedEntry(file)});
+        }
+
+        // Insert request timing info.
+        this.timingsTag.insertRows({timings: timings}, infoTip.firstChild);
+
+        if (!page)
+            return true;
+
+        // Get page event timing info (if the page exists).
+        var events = [];
+        for (var i=0; i<row.phase.pageTimings.length; i++)
+        {
+            var timing = row.phase.pageTimings[i];
+            events.push({
+                bar: timing.description ? timing.description : timing.name,
+                start: pageStart + timing.time - requestStart,
+                classes: timing.classes,
+                time: timing.time
+            });
+        }
+
+        if (events.length)
+        {
+            events.sort(function(a, b) {
+                return (a.time < b.time) ? -1 : 1;
+            });
+
+            // Insert separator and timing info.
+            this.separatorTag.insertRows({label: Strings["request.timings.label"]},
+                infoTip.firstChild);
+            this.eventsTag.insertRows({events: events}, infoTip.firstChild);
+        }
+
+        return true;
+    }
+});
+
+// ********************************************************************************************* //
+// Entry Size Info Tip
+
+var EntrySizeInfoTip = domplate(
+{
+    tag:
+        DIV(
+            DIV({"class": "sizeInfoTip"}, "$file|getSize"),
+            DIV({"class": "sizeInfoTip", style: "display: $file|getCachedDisplayStyle"}, "$file|getCached")
+        ),
+
+    zippedTag:
+        DIV(
+            DIV({"class": "sizeInfoTip"}, "$file|getBodySize"),
+            DIV({"class": "sizeInfoTip"}, "$file|getContentSize"),
+            DIV({"class": "sizeInfoTip", style: "display: $file|getCachedDisplayStyle"}, "$file|getCached")
+        ),
+
+    getSize: function(file)
+    {
+        var bodySize = file.response.bodySize;
+        if (bodySize < 0)
+            return Strings.unknownSize;
+
+        return Lib.formatString(Strings.tooltipSize,
+            Lib.formatSize(bodySize),
+            Lib.formatNumber(bodySize));
+    },
+
+    getBodySize: function(file)
+    {
+        var bodySize = file.response.bodySize;
+        if (bodySize < 0)
+            return Strings.unknownSize;
+
+        return Lib.formatString(Strings.tooltipZippedSize,
+            Lib.formatSize(bodySize),
+            Lib.formatNumber(bodySize));
+    },
+
+    getContentSize: function(file)
+    {
+        var contentSize = file.response.content.size;
+        if (contentSize < 0)
+            return Strings.unknownSize;
+
+        return Lib.formatString(Strings.tooltipUnzippedSize,
+            Lib.formatSize(contentSize),
+            Lib.formatNumber(contentSize));
+    },
+
+    getCached: function(file)
+    {
+        return HarModel.isCachedEntry(file) ? Strings.resourceFromCache : "";
+    },
+
+    getCachedDisplayStyle: function(file)
+    {
+        return HarModel.isCachedEntry(file) ? "block" : "none";
+    },
+
+    render: function(requestList, row, parentNode)
+    {
+        var file = row.repObject;
+        if (file.response.bodySize === file.response.content.size)
+            return this.tag.replace({file: file}, parentNode);
+
+        return this.zippedTag.replace({file: file}, parentNode);
+    }
+});
 
 // ********************************************************************************************* //
 // Request List
@@ -30,13 +328,13 @@ function RequestList(input)
     this.addPageTiming({
         name: "onContentLoad",
         classes: "netContentLoadBar",
-        description: Strings["ContentLoad"]
+        description: Strings.ContentLoad
     });
 
     this.addPageTiming({
         name: "onLoad",
         classes: "netWindowLoadBar",
-        description: Strings["WindowLoad"]
+        description: Strings.WindowLoad
     });
 
     InfoTip.addListener(this);
@@ -97,7 +395,7 @@ RequestList.getVisibleColumns = function()
     }
 
     return Lib.cloneArray(RequestList.defaultColumns);
-}
+};
 
 RequestList.setVisibleColumns = function(cols, avoidCookies)
 {
@@ -115,7 +413,7 @@ RequestList.setVisibleColumns = function(cols, avoidCookies)
     // Update cookie
     if (!avoidCookies)
         Cookies.setCookie("previewCols", cols);
-}
+};
 
 // Initialize UI. List of columns is specified on the content element (used by CSS).
 RequestList.setVisibleColumns();
@@ -305,10 +603,10 @@ RequestList.prototype = domplate(
         // Use this _error value if provided, as it's more informative than showing '0'.
         if (file.response.status === 0 && file.response._error) {
             return file.response._error;
-        } else {
-            var status = file.response.status > 0 ? (file.response.status + " ") : "";
-            return status + file.response.statusText;
         }
+
+        var status = file.response.status > 0 ? (file.response.status + " ") : "";
+        return status + file.response.statusText;
     },
 
     getType: function(file)
@@ -334,7 +632,7 @@ RequestList.prototype = domplate(
     getSize: function(file)
     {
         var bodySize = file.response.bodySize;
-        var size = (bodySize && bodySize != -1) ? bodySize :
+        var size = (bodySize && bodySize !== -1) ? bodySize :
             file.response.content.size;
 
         return this.formatSize(size);
@@ -343,7 +641,7 @@ RequestList.prototype = domplate(
     isExpandable: function(file)
     {
         var hasHeaders = file.response.headers.length > 0;
-        var hasDataURL = file.request.url.indexOf("data:") == 0;
+        var hasDataURL = file.request.url.indexOf("data:") === 0;
         return hasHeaders || hasDataURL;
     },
 
@@ -386,11 +684,12 @@ RequestList.prototype = domplate(
             return;
 
         var file = row.repObject;
+        var netInfoRow;
 
         Lib.toggleClass(row, "opened");
         if (Lib.hasClass(row, "opened"))
         {
-            var netInfoRow = this.netInfoTag.insertRows({}, row)[0];
+            netInfoRow = this.netInfoTag.insertRows({}, row)[0];
             netInfoRow.repObject = file;
 
             var requestBody = new RequestBody();
@@ -398,8 +697,7 @@ RequestList.prototype = domplate(
         }
         else
         {
-            var netInfoRow = row.nextSibling;
-            var netInfoBox = Lib.getElementByClass(netInfoRow, "netInfoBody");
+            netInfoRow = row.nextSibling;
             row.parentNode.removeChild(netInfoRow);
         }
     },
@@ -438,14 +736,14 @@ RequestList.prototype = domplate(
         var phase = row.phase;
 
         // Disable the 'break layout' command for the first file in the first phase.
-        var disableBreakLayout = (phase.files[0] == file && this.phases[0] == phase);
+        var disableBreakLayout = (phase.files[0] === file && this.phases[0] === phase);
 
         var items = [
             {
                 label: Strings.menuBreakTimeline,
                 type: "checkbox",
                 disabled: disableBreakLayout,
-                checked: phase.files[0] == file && !disableBreakLayout,
+                checked: phase.files[0] === file && !disableBreakLayout,
                 command: Lib.bind(this.breakLayout, this, row)
             },
             "-",
@@ -490,7 +788,7 @@ RequestList.prototype = domplate(
     {
         var file = row.repObject;
         var phase = row.phase;
-        var layoutBroken = phase.files[0] == file;
+        var layoutBroken = phase.files[0] === file;
         row.breakLayout = !layoutBroken;
 
         // For CSS (visual separator between two phases).
@@ -526,7 +824,7 @@ RequestList.prototype = domplate(
         // The onLoad time stamp is used for proper initialization of the first phase. The first
         // phase contains all requests till onLoad is fired (even if there are time gaps).
         // Don't worry if it
-        var onLoadTime = (page && page.pageTimings) ? page.pageTimings["onLoad"] : -1;
+        var onLoadTime = (page && page.pageTimings) ? page.pageTimings.onLoad : -1;
 
         // The timing could be NaN or -1. In such case keep the value otherwise
         // make the time absolute.
@@ -565,7 +863,7 @@ RequestList.prototype = domplate(
             }
 
             // 4) The file can be also marked with breakLayout
-            if (typeof(row.breakLayout) == "boolean")
+            if (typeof(row.breakLayout) === "boolean")
             {
                 if (!phase || row.breakLayout)
                     phase = this.startPhase(file);
@@ -582,14 +880,14 @@ RequestList.prototype = domplate(
 
             // For CSS (visual separator between two phases). Except of the first file
             // in the first phase.
-            if (this.phases[0] != phase)
-                row.setAttribute("breakLayout", (phase.files[0] == file) ? "true" : "false");
+            if (this.phases[0] !== phase)
+                row.setAttribute("breakLayout", (phase.files[0] === file) ? "true" : "false");
 
-            if (phase.startTime == undefined || phase.startTime > startedDateTime)
+            if ("number" !== typeof phase.startTime || phase.startTime > startedDateTime)
                 phase.startTime = startedDateTime;
 
             // file.time represents total elapsed time of the request.
-            if (phase.endTime == undefined || phase.endTime < startedDateTime + file.time)
+            if ("number" !== typeof phase.endTime || phase.endTime < startedDateTime + file.time)
                 phase.endTime = startedDateTime + file.time;
 
             row = row.nextSibling;
@@ -609,7 +907,7 @@ RequestList.prototype = domplate(
 
     calculateFileTimes: function(page, file, phase)
     {
-        if (phase != file.phase)
+        if (phase !== file.phase)
         {
             phase = file.phase;
             this.phaseStartTime = phase.startTime;
@@ -645,7 +943,6 @@ RequestList.prototype = domplate(
         var waiting = sending + ((file.timings.wait < 0) ? 0 : file.timings.wait);
         var receiving = waiting + ((file.timings.receive < 0) ? 0 : file.timings.receive);
 
-        var elapsed = file.time;
         var startedDateTime = Lib.parseISO8601(file.startedDateTime);
         this.barOffset = (((startedDateTime-this.phaseStartTime)/this.phaseElapsed) * 100).toFixed(3);
 
@@ -689,8 +986,6 @@ RequestList.prototype = domplate(
 
     updateTimeline: function(page)
     {
-        var tbody = this.table.firstChild;
-
         var phase;
 
         // Iterate over all existing entries. Some rows aren't associated with a file
@@ -744,8 +1039,8 @@ RequestList.prototype = domplate(
             // Remove all existing timing bars first. The UI can be relayouting at this moment
             // (can happen if break layout is executed).
             var bars = Lib.getElementsByClass(timelineBar, "netPageTimingBar");
-            for (var i=0; i<bars.length; i++)
-                bars[i].parentNode.removeChild(bars[i]);
+            for (var j=0; j<bars.length; j++)
+                bars[j].parentNode.removeChild(bars[j]);
 
             // Generate UI for page timings (vertical lines displayed for the first phase)
             for (var i=0; i<phase.pageTimings.length; i++)
@@ -777,10 +1072,12 @@ RequestList.prototype = domplate(
         if (!page)
             return;
 
+        var i;
+
         // Convert registered page timings (e.g. onLoad, DOMContentLoaded) into structures
         // with label information.
         var pageTimings = [];
-        for (var i=0; page.pageTimings && i<this.pageTimings.length; i++)
+        for (i=0; page.pageTimings && i<this.pageTimings.length; i++)
         {
             var timing = this.pageTimings[i];
             var eventTime = page.pageTimings[timing.name];
@@ -806,7 +1103,7 @@ RequestList.prototype = domplate(
 
         // Iterate all existing phases.
         var phases = this.phases;
-        for (var i=0; i<phases.length; i++)
+        for (i=0; i<phases.length; i++)
         {
             var phase = phases[i];
             var nextPhase = phases[i+1];
@@ -829,7 +1126,7 @@ RequestList.prototype = domplate(
                 if (!nextPhase || time < nextPhase.startTime)
                 {
                     // 2) It occurs after the current phase started, or this is the first phase.
-                    if (i == 0 || time >= phase.startTime)
+                    if (i === 0 || time >= phase.startTime)
                     {
                         // This is the case where the time stamp occurs before the first phase
                         // started (shouldn't actually happen since there can't be a stamp made
@@ -857,7 +1154,11 @@ RequestList.prototype = domplate(
     updateSummaries: function(page)
     {
         var phases = this.phases;
-        var fileCount = 0, totalTransferredSize = 0, totalUncompressedSize = 0, cachedSize = 0, totalTime = 0;
+        var fileCount = 0;
+        var totalTransferredSize = 0;
+        var totalUncompressedSize = 0;
+        var cachedSize = 0;
+        var totalTime = 0;
         for (var i = 0; i < phases.length; ++i)
         {
             var phase = phases[i];
@@ -883,11 +1184,11 @@ RequestList.prototype = domplate(
         sizeLabel.firstChild.nodeValue = Lib.formatSize(totalTransferredSize);
 
         var uncompressedSizeLabel = Lib.getElementByClass(row, "netUncompressedSizeLabel");
-        uncompressedSizeLabel.setAttribute("collapsed", totalUncompressedSize == 0);
+        uncompressedSizeLabel.setAttribute("collapsed", totalUncompressedSize === 0);
         uncompressedSizeLabel.childNodes[1].firstChild.nodeValue = Lib.formatSize(totalUncompressedSize);
 
         var cacheSizeLabel = Lib.getElementByClass(row, "netCacheSizeLabel");
-        cacheSizeLabel.setAttribute("collapsed", cachedSize == 0);
+        cacheSizeLabel.setAttribute("collapsed", cachedSize === 0);
         cacheSizeLabel.childNodes[1].firstChild.nodeValue = Lib.formatSize(cachedSize);
 
         var timeLabel = Lib.getElementByClass(row, "netTotalTimeLabel");
@@ -902,15 +1203,18 @@ RequestList.prototype = domplate(
 
     formatRequestCount: function(count)
     {
-        return count + " " + (count == 1 ? Strings.request : Strings.requests);
+        return count + " " + (count === 1 ? Strings.request : Strings.requests);
     },
 
     summarizePhase: function(phase)
     {
-        var cachedSize = 0, totalTransferredSize = 0, totalUncompressedSize = 0;
+        var cachedSize = 0;
+        var totalTransferredSize = 0;
+        var totalUncompressedSize = 0;
 
         var fileCount = 0;
-        var minTime = 0, maxTime = 0;
+        var minTime = 0;
+        var maxTime = 0;
 
         for (var i=0; i<phase.files.length; i++)
         {
@@ -957,17 +1261,19 @@ RequestList.prototype = domplate(
         // There is more instances of RequestList object registered as info-tips listener
         // so make sure the one that is associated with the target is used.
         var table = Lib.getAncestorByClass(target, "netTable");
-        if (!table || table.repObject != this)
+        if (!table || table.repObject !== this)
             return;
 
         var row = Lib.getAncestorByClass(target, "netRow");
         if (row)
         {
+            var infoTipURL;
+
             if (Lib.getAncestorByClass(target, "netBar"))
             {
                 // There is no background image for multiline tooltips.
                 infoTip.setAttribute("multiline", true);
-                var infoTipURL = row.repObject.startedDateTime + "-nettime"; //xxxHonza the ID should be URL.
+                infoTipURL = row.repObject.startedDateTime + "-nettime"; //xxxHonza the ID should be URL.
                 // xxxHonza: there can be requests to the same URLs with different timings.
                 //if (infoTipURL == this.infoTipURL)
                 //    return true;
@@ -977,7 +1283,7 @@ RequestList.prototype = domplate(
             }
             else if (Lib.hasClass(target, "netSizeLabel"))
             {
-                var infoTipURL = row.repObject.startedDateTime + "-netsize"; //xxxHonza the ID should be URL.
+                infoTipURL = row.repObject.startedDateTime + "-netsize"; //xxxHonza the ID should be URL.
                 // xxxHonza: there can be requests to the same URLs with different response sizes.
                 //if (infoTipURL == this.infoTipURL)
                 //    return true;
@@ -1052,7 +1358,7 @@ function Phase(file)
     this.pageTimings = [];
 
     this.addFile(file);
-};
+}
 
 Phase.prototype =
 {
@@ -1069,299 +1375,9 @@ Phase.prototype =
     }
 };
 
-//***********************************************************************************************//
-
-/**
- * @domplate This object represents a popup info tip with detailed timing info for an
- * entry (request).
- */
-var EntryTimeInfoTip = domplate(
-{
-    tableTag:
-        TABLE({"class": "timeInfoTip"},
-            TBODY()
-        ),
-
-    timingsTag:
-        FOR("time", "$timings",
-            TR({"class": "timeInfoTipRow", $collapsed: "$time|hideBar"},
-                TD({"class": "$time|getBarClass timeInfoTipBar",
-                    $loaded: "$time.loaded",
-                    $fromCache: "$time.fromCache"
-                }),
-                TD({"class": "timeInfoTipCell startTime"},
-                    "$time.start|formatStartTime"
-                ),
-                TD({"class": "timeInfoTipCell elapsedTime"},
-                    "$time.elapsed|formatTime"
-                ),
-                TD("$time|getLabel")
-            )
-        ),
-
-    startTimeTag:
-        TR(
-            TD(),
-            TD("$startTime.time|formatStartTime"),
-            TD({"class": "timeInfoTipStartLabel", "colspan": 2},
-                "$startTime|getLabel"
-            )
-        ),
-
-    separatorTag:
-        TR({},
-            TD({"class": "timeInfoTipSeparator", "colspan": 4, "height": "10px"},
-                SPAN("$label")
-            )
-        ),
-
-    eventsTag:
-        FOR("event", "$events",
-            TR({"class": "timeInfoTipEventRow"},
-                TD({"class": "timeInfoTipBar", align: "center"},
-                    DIV({"class": "$event|getPageTimingClass timeInfoTipEventBar"})
-                ),
-                TD("$event.start|formatStartTime"),
-                TD({"colspan": 2},
-                    "$event|getTimingLabel"
-                )
-            )
-        ),
-
-    hideBar: function(obj)
-    {
-        return !obj.elapsed && obj.bar == "request.phase.Blocking";
-    },
-
-    getBarClass: function(obj)
-    {
-        var className = obj.bar.substr(obj.bar.lastIndexOf(".") + 1);
-        return "net" + className + "Bar";
-    },
-
-    getPageTimingClass: function(timing)
-    {
-        return timing.classes ? timing.classes : "";
-    },
-
-    formatTime: function(time)
-    {
-        return Lib.formatTime(time.toFixed(2));
-    },
-
-    formatStartTime: function(time)
-    {
-        var positive = time > 0;
-        var label = Lib.formatTime(Math.abs(time.toFixed(2)));
-        if (!time)
-            return label;
-
-        return (positive > 0 ? "+" : "-") + label;
-    },
-
-    getLabel: function(obj)
-    {
-        return Strings[obj.bar];
-    },
-
-    getTimingLabel: function(obj)
-    {
-        return obj.bar;
-    },
-
-    render: function(requestList, row, parentNode)
-    {
-        var input = requestList.input;
-        var file = row.repObject;
-        var page = HarModel.getParentPage(input, file);
-        var pageStart = page ? Lib.parseISO8601(page.startedDateTime) : null;
-        var requestStart = Lib.parseISO8601(file.startedDateTime);
-        var infoTip = EntryTimeInfoTip.tableTag.replace({}, parentNode);
-
-        // Insert start request time.
-        var startTimeObj = {};
-
-        //xxxHonza: the request start-time should be since the page start-time
-        // but what to do if there was no parent page and the parent phase
-        // is not the first one?
-        //xxxHonza: the request start-time is since the page start-time
-        // but the other case isw not tested yet.
-        if (pageStart)
-            startTimeObj.time = requestStart - pageStart;
-        else
-            startTimeObj.time = requestStart - row.phase.startTime;
-
-        startTimeObj.bar = "request.Started";
-        this.startTimeTag.insertRows({startTime: startTimeObj}, infoTip.firstChild);
-
-        // Insert separator.
-        this.separatorTag.insertRows({label: Strings["request.phases.label"]},
-            infoTip.firstChild);
-
-        var startTime = 0;
-        var timings = [];
-
-        // Helper shortcuts
-        var blocked = file.timings.blocked;
-        var dns = file.timings.dns;
-        var ssl = file.timings.ssl; // new in HAR 1.2 xxxHonza: TODO
-        var connect = file.timings.connect;
-        var send = file.timings.send;
-        var wait = file.timings.wait;
-        var receive = file.timings.receive;
-
-        if (blocked >= 0)
-        {
-            timings.push({bar: "request.phase.Blocking",
-                elapsed: blocked,
-                start: startTime});
-        }
-
-        if (dns >= 0)
-        {
-            timings.push({bar: "request.phase.Resolving",
-                elapsed: dns,
-                start: startTime += (blocked < 0) ? 0 : blocked});
-        }
-
-        if (connect >= 0)
-        {
-            timings.push({bar: "request.phase.Connecting",
-                elapsed: connect,
-                start: startTime += (dns < 0) ? 0 : dns});
-        }
-
-        if (send >= 0)
-        {
-            timings.push({bar: "request.phase.Sending",
-                elapsed: send,
-                start: startTime += (connect < 0) ? 0 : connect});
-        }
-
-        if (wait >= 0)
-        {
-            timings.push({bar: "request.phase.Waiting",
-                elapsed: wait,
-                start: startTime += (send < 0) ? 0 : send});
-        }
-
-        if (receive >= 0)
-        {
-            timings.push({bar: "request.phase.Receiving",
-                elapsed: receive,
-                start: startTime += (wait < 0) ? 0 : wait,
-                loaded: file.loaded, fromCache: HarModel.isCachedEntry(file)});
-        }
-
-        // Insert request timing info.
-        this.timingsTag.insertRows({timings: timings}, infoTip.firstChild);
-
-        if (!page)
-            return true;
-
-        // Get page event timing info (if the page exists).
-        var events = [];
-        for (var i=0; i<row.phase.pageTimings.length; i++)
-        {
-            var timing = row.phase.pageTimings[i];
-            events.push({
-                bar: timing.description ? timing.description : timing.name,
-                start: pageStart + timing.time - requestStart,
-                classes: timing.classes,
-                time: timing.time
-            });
-        }
-
-        if (events.length)
-        {
-            events.sort(function(a, b) {
-                return (a.time < b.time) ? -1 : 1;
-            });
-
-            // Insert separator and timing info.
-            this.separatorTag.insertRows({label: Strings["request.timings.label"]},
-                infoTip.firstChild);
-            this.eventsTag.insertRows({events: events}, infoTip.firstChild);
-        }
-
-        return true;
-    }
-});
-
-// ********************************************************************************************* //
-
-var EntrySizeInfoTip = domplate(
-{
-    tag:
-        DIV(
-            DIV({"class": "sizeInfoTip"}, "$file|getSize"),
-            DIV({"class": "sizeInfoTip", style: "display: $file|getCachedDisplayStyle"}, "$file|getCached")
-        ),
-
-    zippedTag:
-        DIV(
-            DIV({"class": "sizeInfoTip"}, "$file|getBodySize"),
-            DIV({"class": "sizeInfoTip"}, "$file|getContentSize"),
-            DIV({"class": "sizeInfoTip", style: "display: $file|getCachedDisplayStyle"}, "$file|getCached")
-        ),
-
-    getSize: function(file)
-    {
-        var bodySize = file.response.bodySize;
-        if (bodySize < 0)
-            return Strings.unknownSize;
-
-        return Lib.formatString(Strings.tooltipSize,
-            Lib.formatSize(bodySize),
-            Lib.formatNumber(bodySize));
-    },
-
-    getBodySize: function(file)
-    {
-        var bodySize = file.response.bodySize;
-        if (bodySize < 0)
-            return Strings.unknownSize;
-
-        return Lib.formatString(Strings.tooltipZippedSize,
-            Lib.formatSize(bodySize),
-            Lib.formatNumber(bodySize));
-    },
-
-    getContentSize: function(file)
-    {
-        var contentSize = file.response.content.size;
-        if (contentSize < 0)
-            return Strings.unknownSize;
-
-        return Lib.formatString(Strings.tooltipUnzippedSize,
-            Lib.formatSize(contentSize),
-            Lib.formatNumber(contentSize));
-    },
-
-    getCached: function(file)
-    {
-        return HarModel.isCachedEntry(file) ? Strings.resourceFromCache : "";
-    },
-
-    getCachedDisplayStyle: function(file)
-    {
-        return HarModel.isCachedEntry(file) ? "block" : "none";
-    },
-
-    render: function(requestList, row, parentNode)
-    {
-        var input = requestList.input;
-        var file = row.repObject;
-        if (file.response.bodySize == file.response.content.size)
-            return this.tag.replace({file: file}, parentNode);
-
-        return this.zippedTag.replace({file: file}, parentNode);
-    }
-});
-
 // ********************************************************************************************* //
 
 return RequestList;
 
 // ********************************************************************************************* //
-}});
+});

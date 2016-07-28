@@ -9,7 +9,10 @@ define("domplate/toolTip", [
     "core/trace"
 ],
 
-function(Domplate, Lib, Trace) { with (Domplate) {
+function(Domplate, Lib, Trace) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
 
 // ************************************************************************************************
 // Globals
@@ -94,10 +97,11 @@ ToolTip.prototype = domplate(
         if (ancestor)
             return;
 
-        var x = event.clientX, y = event.clientY;
+        var x = event.clientX;
+        var y = event.clientY;
         var box = Lib.getElementBox(this.element);
 
-        if (event.type != "click" && event.type != "mousedown")
+        if (event.type !== "click" && event.type !== "mousedown")
             box = Lib.inflateRect(box, 10, 10);
 
         // If the mouse is hovering within near neighbourhood, ignore it.
@@ -126,4 +130,4 @@ ToolTip.prototype = domplate(
 return ToolTip;
 
 // **********************************************************************************************//
-}});
+});

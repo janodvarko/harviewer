@@ -45,7 +45,7 @@
  * <div class="har" data-har="/my.har" validate="false"></div>
  * - Do not validate the loaded HAR file.
 */
-window.harInitialize = function()
+var harInitialize = window.harInitialize = function()
 {
     var script = document.getElementById("har");
     var index = script.src.lastIndexOf("/");
@@ -66,11 +66,11 @@ window.harInitialize = function()
         var expand = element.getAttribute("expand");
         var validate = element.getAttribute("validate");
 
-        var args = "?" + (path.indexOf("http:") == 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
-        if (expand != "false")
+        var args = "?" + (path.indexOf("http:") === 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
+        if (expand !== "false")
             args += "&expand=" + (expand ? expand : "true");
 
-        if (validate == "false")
+        if (validate === "false")
             args += "&validate=false";
 
         if (callback)
@@ -86,7 +86,7 @@ window.harInitialize = function()
 
         removeHarClass(element);
     }
-}
+};
 
 var re = new RegExp('(^|\\s)har(\\s|$)', "g");
 
@@ -122,8 +122,8 @@ function findHarElements()
     }
 
     var result = [];
-    for (var i=0; i<elements.length; i++)
-        result.push(elements[i]);
+    for (var j=0; j<elements.length; j++)
+        result.push(elements[j]);
 
     return result;
 }
@@ -136,7 +136,7 @@ function addEventListener(object, name, handler, direction)
         object.addEventListener(name, handler, direction);
     else
         object.attachEvent("on"+name, handler);
-};
+}
 
 harInitialize();
 

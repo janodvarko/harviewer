@@ -11,7 +11,16 @@ define("preview/pageList", [
 ],
 
 function(Domplate, Lib, Trace, Cookies, RequestList, Strings, Menu) {
-with (Domplate) {
+
+var domplate = Domplate.domplate;
+var DIV = Domplate.DIV;
+var FOR = Domplate.FOR;
+var SPAN = Domplate.SPAN;
+var TABLE = Domplate.TABLE;
+var TAG = Domplate.TAG;
+var TBODY = Domplate.TBODY;
+var TD = Domplate.TD;
+var TR = Domplate.TR;
 
 // ********************************************************************************************* //
 // Page List
@@ -24,7 +33,7 @@ function PageList(input)
 
 /**
  * @domplate This object represents a template for list of pages.
- * This list is displayed within the Preview tab. 
+ * This list is displayed within the Preview tab.
  */
 PageList.prototype = domplate(
 /** @lends PageList */
@@ -70,10 +79,10 @@ PageList.prototype = domplate(
     onClick: function(event)
     {
         var e = Lib.fixEvent(event);
-        if (Lib.isLeftClick(event)) 
+        if (Lib.isLeftClick(event))
         {
             var row = Lib.getAncestorByClass(e.target, "pageRow");
-            if (row) 
+            if (row)
             {
                 this.toggleRow(row);
                 Lib.cancelEvent(event);
@@ -87,10 +96,12 @@ PageList.prototype = domplate(
         if (opened && forceOpen)
             return;
 
+        var infoBodyRow;
+
         Lib.toggleClass(row, "opened");
         if (Lib.hasClass(row, "opened"))
         {
-            var infoBodyRow = this.bodyTag.insertRows({}, row)[0];
+            infoBodyRow = this.bodyTag.insertRows({}, row)[0];
 
             // Build request list for the expanded page.
             var requestList = this.createRequestList();
@@ -104,7 +115,7 @@ PageList.prototype = domplate(
         }
         else
         {
-            var infoBodyRow = row.nextSibling;
+            infoBodyRow = row.nextSibling;
             row.parentNode.removeChild(infoBodyRow);
         }
     },
@@ -127,7 +138,7 @@ PageList.prototype = domplate(
         for (var i=0; i<rows.length; i++)
         {
             var row = rows[i];
-            if (row.repObject == page)
+            if (row.repObject === page)
                 return row;
         }
     },
@@ -183,7 +194,7 @@ PageList.prototype = domplate(
         var lastVisibleIndex;
         var visibleColCount = 0;
 
-        var items = []
+        var items = [];
         for (var i=0; i<RequestList.columns.length; i++)
         {
             var colName = RequestList.columns[i];
@@ -204,7 +215,7 @@ PageList.prototype = domplate(
         }
 
         // If the last column is visible, disable its menu item.
-        if (visibleColCount == 1)
+        if (visibleColCount === 1)
             items[lastVisibleIndex].disabled = true;
 
         items.push("-");
@@ -236,7 +247,7 @@ PageList.prototype = domplate(
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-    // Helpers 
+    // Helpers
 
     createRequestList: function()
     {
@@ -250,11 +261,11 @@ PageList.prototype = domplate(
 
     append: function(parentNode)
     {
-        // According to the spec, network requests doesn't have to be 
+        // According to the spec, network requests doesn't have to be
         // associated with the parent page. This is to support even
         // tools that can't get this info.
         // Also if log files are merged there can be some requests not
-        // associated with any page. Make sure these are displayed too. 
+        // associated with any page. Make sure these are displayed too.
         var requestList = this.createRequestList();
         requestList.render(parentNode, null);
 
@@ -273,7 +284,7 @@ PageList.prototype = domplate(
 
             // Expand appended page by default only if there is only one page.
             // Note that there can be more page-lists (pageTable elements)
-            if (pageRows.length == 1 && pageTables.length == 1)
+            if (pageRows.length === 1 && pageTables.length === 1)
                 this.toggleRow(pageRows[0]);
 
             // If 'expand' parameter is specified expand all by default.
@@ -313,4 +324,4 @@ PageList.prototype.pageTimings = [];
 return PageList;
 
 // ********************************************************************************************* //
-}});
+});

@@ -7,6 +7,8 @@ define("domplate/domplate", [], function() {
 
 //*************************************************************************************************
 
+// Domplate MUST be global
+/* global Domplate:true */
 Domplate = {};
 
 (function(){
@@ -92,7 +94,7 @@ DomplateTag.prototype =
         this.vars = oldTag ? copyArray(oldTag.vars) : [];
 
         var attrs = args.length ? args[0] : null;
-        var hasAttrs = typeof(attrs) == "object" && !isTag(attrs);
+        var hasAttrs = typeof(attrs) === "object" && !isTag(attrs);
 
         this.children = [];
 
@@ -115,21 +117,21 @@ DomplateTag.prototype =
             var val = parseValue(args[name]);
             readPartNames(val, this.vars);
 
-            if (name.indexOf("on") == 0)
+            if (name.indexOf("on") === 0)
             {
                 var eventName = name.substr(2);
                 if (!this.listeners)
                     this.listeners = [];
                 this.listeners.push(eventName, val);
             }
-            else if (name.indexOf("_") == 0)
+            else if (name.indexOf("_") === 0)
             {
                 var propName = name.substr(1);
                 if (!this.props)
                     this.props = {};
                 this.props[propName] = val;
             }
-            else if (name.indexOf("$") == 0)
+            else if (name.indexOf("$") === 0)
             {
                 var className = name.substr(1);
                 if (!this.classes)
@@ -138,7 +140,7 @@ DomplateTag.prototype =
             }
             else
             {
-                if (name == "class" && name in this.attrs)
+                if (name === "class" && name in this.attrs)
                     this.attrs[name] += " " + val;
                 else
                     this.attrs[name] = val;
@@ -162,7 +164,10 @@ DomplateTag.prototype =
     compileMarkup: function()
     {
         this.markupArgs = [];
-        var topBlock = [], topOuts = [], blocks = [], info = {args: this.markupArgs, argIndex: 0};
+        var topBlock = [];
+        var topOuts = [];
+        var blocks = [];
+        var info = {args: this.markupArgs, argIndex: 0};
         //this.addLocals(blocks);
         this.generateMarkup(topBlock, topOuts, blocks, info);
         this.addCode(topBlock, topOuts, blocks);
@@ -218,7 +223,7 @@ DomplateTag.prototype =
                         return "&quot;";
                 }
                 return "?";
-            };
+            }
             return String(value).replace(/[<>&"']/g, replaceChars);
         }
 
@@ -242,7 +247,7 @@ DomplateTag.prototype =
             }
             catch (exc)
             {
-                if (exc != StopIteration)
+                if (exc !== StopIteration)
                     throw exc;
             }
         }
@@ -263,11 +268,11 @@ DomplateTag.prototype =
                 child.tag.getVarNames(args);
             else if (child instanceof Parts)
             {
-                for (var i = 0; i < child.parts.length; ++i)
+                for (var j = 0; j < child.parts.length; ++j)
                 {
-                    if (child.parts[i] instanceof Variable)
+                    if (child.parts[j] instanceof Variable)
                     {
-                        var name = child.parts[i].name;
+                        var name = child.parts[j].name;
                         var names = name.split(".");
                         args.push(names[0]);
                     }
@@ -280,9 +285,10 @@ DomplateTag.prototype =
     {
         topBlock.push(',"<', this.tagName, '"');
 
-        for (var name in this.attrs)
+        var name;
+        for (name in this.attrs)
         {
-            if (name != "class")
+            if (name !== "class")
             {
                 var val = this.attrs[name];
                 topBlock.push(', " ', name, '=\\""');
@@ -299,7 +305,7 @@ DomplateTag.prototype =
 
         if (this.props)
         {
-            for (var name in this.props)
+            for (name in this.props)
                 readPartNames(this.props[name], topOuts);
         }
 
@@ -309,7 +315,7 @@ DomplateTag.prototype =
             if ("class" in this.attrs)
                 addParts(this.attrs["class"], ',', topBlock, info, true);
               topBlock.push(', " "');
-            for (var name in this.classes)
+            for (name in this.classes)
             {
                 topBlock.push(', (');
                 addParts(this.classes[name], '', topBlock, info);
@@ -376,16 +382,18 @@ DomplateTag.prototype =
 
         var fnBlock = ['(function (root, context, o'];
 
-        for (var i = 0; i < path.staticIndex; ++i)
+        var i;
+
+        for (i = 0; i < path.staticIndex; ++i)
             fnBlock.push(', ', 's'+i);
 
-        for (var i = 0; i < path.renderIndex; ++i)
+        for (i = 0; i < path.renderIndex; ++i)
             fnBlock.push(', ', 'd'+i);
 
         fnBlock.push(') {\n');
-        for (var i = 0; i < path.loopIndex; ++i)
+        for (i = 0; i < path.loopIndex; ++i)
             fnBlock.push('var l', i, ' = 0;\n');
-        for (var i = 0; i < path.embedIndex; ++i)
+        for (i = 0; i < path.embedIndex; ++i)
             fnBlock.push('var e', i, ' = 0;\n');
 
         if (this.subject)
@@ -410,7 +418,9 @@ DomplateTag.prototype =
 
         function __bind__(object, fn)
         {
-            return function(event) { return fn.apply(object, [event]); }
+            return function(event) {
+                return fn.apply(object, [event]);
+            };
         }
 
         function __link__(node, tag, args)
@@ -446,10 +456,10 @@ DomplateTag.prototype =
             for (var i = 2; i < arguments.length; ++i)
             {
                 var index = arguments[i];
-                if (i == 3)
+                if (i === 3)
                     index += offset;
 
-                if (index == -1)
+                if (index === -1)
                     parent = parent.parentNode;
                 else
                     parent = parent.childNodes[index];
@@ -469,12 +479,15 @@ DomplateTag.prototype =
         if (this.listeners || this.props)
             this.generateNodePath(path, blocks);
 
+        var val;
+        var arg;
+
         if (this.listeners)
         {
             for (var i = 0; i < this.listeners.length; i += 2)
             {
-                var val = this.listeners[i+1];
-                var arg = generateArg(val, path, args);
+                val = this.listeners[i+1];
+                arg = generateArg(val, path, args);
                 blocks.push('node.addEventListener("', this.listeners[i], '", __bind__(this, ', arg, '), false);\n');
             }
         }
@@ -483,8 +496,8 @@ DomplateTag.prototype =
         {
             for (var name in this.props)
             {
-                var val = this.props[name];
-                var arg = generateArg(val, path, args);
+                val = this.props[name];
+                arg = generateArg(val, path, args);
                 blocks.push("__prop__(node, '" + name + "', " + arg + ");\n");
                 //blocks.push('node.', name, ' = ', arg, ';');
             }
@@ -669,8 +682,8 @@ DomplateLoop.prototype = copyObject(DomplateTag.prototype,
 
         //blocks.push("console.group('", loopName, "');");
         blocks.push(loopName,' = __loop__.apply(this, [', iterName, ', function(', counterName,',',loopName);
-        for (var i = 0; i < path.renderIndex; ++i)
-            blocks.push(',d'+i);
+        for (var j = 0; j < path.renderIndex; ++j)
+            blocks.push(',d'+j);
         blocks.push(') {\n');
         blocks.push(subBlocks.join(""));
         blocks.push('return ', nodeCount, ';\n');
@@ -728,7 +741,7 @@ function parseParts(str)
 
 function parseValue(val)
 {
-    return typeof(val) == 'string' ? parseParts(val) : val;
+    return typeof(val) === 'string' ? parseParts(val) : val;
 }
 
 function parseChildren(args, offset, vars, children)
@@ -779,11 +792,9 @@ function generateArg(val, path, args)
 
         return vals.join('+');
     }
-    else
-    {
-        args.push(val);
-        return 's' + path.staticIndex++;
-    }
+
+    args.push(val);
+    return 's' + path.staticIndex++;
 }
 
 function addParts(val, delim, block, info, escapeIt)
@@ -827,12 +838,7 @@ function addParts(val, delim, block, info, escapeIt)
 
 function isTag(obj)
 {
-    return (typeof(obj) == "function" || obj instanceof Function) && !!obj.tag;
-}
-
-function isDomplate(obj)
-{
-    return (typeof(obj) == "object") && !!obj.render;
+    return (typeof(obj) === "function" || obj instanceof Function) && Boolean(obj.tag);
 }
 
 function creator(tag, cons)
@@ -922,10 +928,11 @@ var Renderer =
         tableParent.innerHTML = "<table>" + html + "</table>";
 
         var tbody = tableParent.firstChild.firstChild;
-        var parent = before.tagName.toLowerCase() == "tr" ? before.parentNode : before;
-        var after = before.tagName.toLowerCase() == "tr" ? before.nextSibling : null;
+        var parent = before.tagName.toLowerCase() === "tr" ? before.parentNode : before;
+        var after = before.tagName.toLowerCase() === "tr" ? before.nextSibling : null;
 
-        var firstRow = tbody.firstChild, lastRow;
+        var firstRow = tbody.firstChild;
+        var lastRow;
         while (tbody.firstChild)
         {
             lastRow = tbody.firstChild;
@@ -939,7 +946,7 @@ var Renderer =
         if (this.tag.isLoop)
         {
             var node = firstRow.parentNode.firstChild;
-            for (; node && node != firstRow; node = node.nextSibling)
+            for (; node && node !== firstRow; node = node.nextSibling)
                 ++offset;
         }
 
@@ -987,17 +994,17 @@ var Renderer =
         var html = this.renderHTML(args, outputs, self);
 
         var root;
-        if (parent.nodeType == 1)
+        if (parent.nodeType === 1)
         {
             parent.innerHTML = html;
             root = parent.firstChild;
         }
         else
         {
-            if (!parent || parent.nodeType != 9)
+            if (!parent || parent.nodeType !== 9)
                 parent = document; //xxxHonza: There are no globals.
 
-            if (!womb || womb.ownerDocument != parent)
+            if (!womb || womb.ownerDocument !== parent)
                 womb = parent.createElement("div");
             womb.innerHTML = html;
 
@@ -1020,7 +1027,7 @@ var Renderer =
         var outputs = [];
         var html = this.renderHTML(args, outputs, self);
 
-        if (!womb || womb.ownerDocument != parent.ownerDocument)
+        if (!womb || womb.ownerDocument !== parent.ownerDocument)
             womb = parent.ownerDocument.createElement("div");
         womb.innerHTML = html;
 
@@ -1065,7 +1072,7 @@ var Renderer =
         if (this.tag.isLoop)
         {
             var node = firstCol.parentNode.firstChild;
-            for (; node && node != firstCol; node = node.nextSibling)
+            for (; node && node !== firstCol; node = node.nextSibling)
                 ++offset;
         }
 
