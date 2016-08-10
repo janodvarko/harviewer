@@ -1,5 +1,10 @@
 define("syntax-highlighter/shCore", ["exports"], function(exports) {
 
+// This code is taken from
+//   https://github.com/alexgorbatchev/syntaxhighlighter/blob/3.0.83
+// Search for "gitgrimbo" for changes made (mostly to conform to strict mode).
+//   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
+
 // HAR Viewer hacks together several SyntaxHighlighter modules,
 // so we set require to undefined to subvert require in this file.
 var require;
@@ -2246,11 +2251,16 @@ sh.Highlighter.prototype = {
 		if (this.getParam('light') == true)
 			this.params.toolbar = this.params.gutter = false;
 
-		className = 'syntaxhighlighter';
+		// gitgrimbo - className needs to be declared, but it's not actually used, so comment out.
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode/Transitioning_to_strict_mode#Setting_a_value_to_an_undeclared_variable
+		// className = 'syntaxhighlighter';
 
 		if (this.getParam('collapse') == true)
 			classes.push('collapsed');
-		
+
+		// gitgrimbo - gutter needs to be declared.
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode/Transitioning_to_strict_mode#Setting_a_value_to_an_undeclared_variable
+		var gutter;
 		if ((gutter = this.getParam('gutter')) == false)
 			classes.push('nogutter');
 
