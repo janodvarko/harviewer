@@ -1,8 +1,11 @@
+Stable URL (v2.0.17, 21 March 2016) - http://www.softwareishard.com/har/viewer/
+
+Up-to-date master - http://gitgrimbo.github.io/harviewer/master/ (and [https](https://gitgrimbo.github.io/harviewer/master/))
+
 # HAR Viewer
 
-* Author: Jan Odvarko, odvarko@gmail.com,
+* Author: Jan Odvarko, odvarko@gmail.com
 * http://www.softwareishard.com/
-* Home page: http://www.janodvarko.cz/har/viewer
 * Issue list: https://github.com/janodvarko/harviewer/issues
 * Project home: https://github.com/janodvarko/harviewer
 
@@ -47,11 +50,11 @@ HAR Viewer uses [ESLint](http://eslint.org/) for linting.  It will be installed 
 
 To show lint errors only:
 
-    node_modules\.bin\eslint --quiet webapp
+    npm run eslint
 
 To show lint errors and warnings:
 
-    node_modules\.bin\eslint webapp
+    npm run eslint-full
 
 ### Build
 

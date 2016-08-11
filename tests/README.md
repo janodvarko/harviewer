@@ -54,7 +54,7 @@ You should change these to match your own file paths, but only `FIREFOX_EXE` and
 
 3) Now go to the harviewer project root directory and run Intern tests (using the **standalone** configuration file):
 
-    node node_modules\intern\bin\intern-runner.js config=tests/intern-selenium-standalone
+    npm run test-standalone
 
 
 ## Selenium Grid
@@ -74,7 +74,7 @@ You should change these to match your own file paths, but only `FIREFOX_EXE` and
 
 4) Now go to the harviewer project root directory and run Intern tests (using the **grid** configuration file):
 
-    node node_modules\intern\bin\intern-runner.js config=tests/intern-selenium-grid
+    npm run test-grid
 
 
 # Compatibility
