@@ -46,8 +46,16 @@ AboutTab.prototype =
         body = this.bodyTag.replace({}, body);
         require(["text!tabs/aboutTab.html"], function(html)
         {
-            html = html.replace("@VERSION@", tabView.version, "g");
-            html = html.replace("@HAR_SPEC_URL@", tabView.harSpecURL, "g");
+            function replace(s, pattern, replaceWith) {
+                if (!replaceWith) {
+                    return s;
+                }
+                return s.replace(new RegExp(pattern, "g"), replaceWith);
+            }
+
+            html = replace(html, "@VERSION@", tabView.version);
+            html = replace(html, "@HAR_SPEC_URL@", tabView.harSpecURL);
+
             body.innerHTML = html;
 
             $(".linkSchema").click(Lib.bind(self.onSchema, self));
