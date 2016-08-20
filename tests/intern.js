@@ -46,6 +46,7 @@ define([
     'tests/unit/core/lib',
     'tests/unit/core/cookies',
     'tests/unit/core/mime',
+    'tests/unit/core/url',
     'tests/unit/core/StatsService'
   ]);
 
