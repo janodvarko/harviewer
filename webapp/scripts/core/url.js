@@ -156,13 +156,43 @@ Url.splitURLTrue = function(url)
 };
 
 /**
+ * Returns the query string from a URL.
+ * @param {String} url The URL to get the query string from,
+ *                     or window.location.search if none provided.
+ * @return {String} Value of the query string.
+ */
+Url.getQuery = function(url) {
+    if ("string" !== typeof url) {
+        return window.location.search.substring(1);
+    }
+    var i = url.indexOf("?");
+    return (i < 0) ? "" : url.substring(i + 1);
+};
+
+/**
+ * Returns the hash string from a URL.
+ * @param {String} url The URL to get the hash string from,
+ *                     or window.location.hash if none provided.
+ * @return {String} Value of the hash string.
+ */
+Url.getHash = function(url) {
+    if ("string" !== typeof url) {
+        return window.location.hash.substring(1);
+    }
+    var i = url.indexOf("#");
+    return (i < 0) ? "" : url.substring(i + 1);
+};
+
+/**
  * Returns value of specified parameter in the current URL.
  * @param {String} name Name of the requested parameter.
+ * @param {String} url The URL to get the parameter from,
+ *                     or window.location.search if none provided.
  * @return {String} Value of the requested parameter.
  */
-Url.getURLParameter = function(name)
+Url.getURLParameter = function(name, url)
 {
-    var query = window.location.search.substring(1);
+    var query = Url.getQuery(url);
     var vars = query.split("&");
     for (var i=0;i<vars.length;i++)
     {
@@ -177,12 +207,14 @@ Url.getURLParameter = function(name)
  * Supports multiple URL parameters with the same name. Returns array
  * of values.
  * @param {String} name Name of the requested parameter.
+ * @param {String} url The URL to get the parameters from,
+ *                     or window.location.search if none provided.
  * @return {Array} Array with values.
  */
-Url.getURLParameters = function(name)
+Url.getURLParameters = function(name, url)
 {
+    var query = Url.getQuery(url);
     var result = [];
-    var query = window.location.search.substring(1);
     var vars = query.split("&");
     for (var i=0;i<vars.length;i++)
     {
@@ -197,12 +229,14 @@ Url.getURLParameters = function(name)
  * Supports multiple hash parameters with the same name. Returns array
  * of values.
  * @param {String} name Name of the requested hash parameter.
+ * @param {String} url The URL to get the hash parameters from,
+ *                     or window.location.hash if none provided.
  * @return {Array} Array with values.
  */
-Url.getHashParameters = function(name)
+Url.getHashParameters = function(name, url)
 {
+    var query = Url.getHash(url);
     var result = [];
-    var query = window.location.hash.substring(1);
     var vars = query.split("&");
     for (var i=0;i<vars.length;i++)
     {

@@ -15,15 +15,22 @@
     border-bottom: 1px solid threedlightshadow;
 }
 
-#content h2 {
+#content h2, #content h3, #content h4 {
     color:  #DD467B;
+}
+
+#content h2 {
     font-size: 22.8px;
-    font-weight:lighter;
+    font-weight: lighter;
 }
 
 #content h3 {
-    color: #DD467B;
     font-weight: bold;
+}
+
+#content h4 {
+    font-weight: bold;
+    font-style: italic;
 }
 
 #content pre {

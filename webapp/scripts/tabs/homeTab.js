@@ -91,11 +91,11 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
     onLoadExample: function(event)
     {
         var e = Lib.fixEvent(event);
-        var path = e.target.getAttribute("path");
+        var har = e.target.getAttribute("har");
 
         var href = document.location.href;
         var index = href.indexOf("?");
-        document.location = href.substr(0, index) + "?path=" + path;
+        document.location = href.substr(0, index) + "?har=" + har;
 
         // Show timeline and stats by default if an example is displayed.
         Cookies.setCookie("timeline", true);

@@ -46,7 +46,9 @@ define([
     'tests/unit/core/lib',
     'tests/unit/core/cookies',
     'tests/unit/core/mime',
-    'tests/unit/core/StatsService'
+    'tests/unit/core/url',
+    'tests/unit/core/StatsService',
+    'tests/unit/preview/harModelLoader'
   ]);
 
   // A regular expression matching URLs to files that should not be included

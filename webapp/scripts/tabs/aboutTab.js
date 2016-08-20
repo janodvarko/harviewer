@@ -53,8 +53,14 @@ AboutTab.prototype =
                 return s.replace(new RegExp(pattern, "g"), replaceWith);
             }
 
+            function replaceHarViewerDemoUrl(html) {
+                var thisHarViewerUrl = window.location.href.split("?")[0];
+                return replace(html, "@HARVIEWER_DEMO_URL@", thisHarViewerUrl);
+            }
+
             html = replace(html, "@VERSION@", tabView.version);
             html = replace(html, "@HAR_SPEC_URL@", tabView.harSpecURL);
+            html = replaceHarViewerDemoUrl(html);
 
             body.innerHTML = html;
 
