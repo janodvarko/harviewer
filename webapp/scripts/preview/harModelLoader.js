@@ -15,17 +15,17 @@ function(Url) {
  */
 var Loader =
 {
-    run: function(callback, errorCallback)
-    {
-        var baseUrl = Url.getURLParameter("baseUrl");
+    getLoadOptions: function(url) {
+        var baseUrl = Url.getURLParameter("baseUrl", url);
 
-        // Append traling slahs if missing.
-        if (baseUrl && baseUrl[baseUrl.length-1] !== "/")
+        // Append traling slash if missing.
+        if (baseUrl && baseUrl[baseUrl.length-1] !== "/") {
             baseUrl += "/";
+        }
 
-        var paths = Url.getURLParameters("path");
-        var callbackName = Url.getURLParameter("callback");
-        var inputUrls = Url.getURLParameters("inputUrl").concat(Url.getHashParameters("inputUrl"));
+        var paths = Url.getURLParameters("path", url);
+        var callbackName = Url.getURLParameter("callback", url);
+        var inputUrls = Url.getURLParameters("inputUrl", url).concat(Url.getHashParameters("inputUrl", url));
 
         //for (var p in inputUrls)
         //    inputUrls[p] = inputUrls[p].replace(/%/g,'%25');
@@ -38,14 +38,30 @@ var Loader =
         // http://domain/har/viewer?inputUrl=<remote-file-url>&callback=<name-of-the-callback>
         urls = urls.concat(inputUrls);
 
-        if ((baseUrl || inputUrls.length > 0) && urls.length > 0)
-            return this.loadRemoteArchive(urls, callbackName, callback, errorCallback);
+        var filePath = Url.getURLParameter("path", url);
+
+        return {
+            callbackName: callbackName,
+            baseUrl: baseUrl,
+            urls: urls,
+            inputUrls: inputUrls,
+            filePath: filePath
+        };
+    },
+
+    run: function(callback, errorCallback)
+    {
+        var loadOptions = this.getLoadOptions(window.location.href);
+
+        if ((loadOptions.baseUrl || loadOptions.inputUrls.length > 0) && loadOptions.urls.length > 0) {
+            return this.loadRemoteArchive(loadOptions.urls, loadOptions.callbackName, callback, errorCallback);
+        }
 
         // The URL can specify also a locale file (with the same domain).
         // http://domain/har/viewer?path=<local-file-path>
-        var filePath = Url.getURLParameter("path");
-        if (filePath)
-            return this.loadLocalArchive(filePath, callback, errorCallback);
+        if (loadOptions.filePath) {
+            return this.loadLocalArchive(loadOptions.filePath, callback, errorCallback);
+        }
     },
 
     /**
