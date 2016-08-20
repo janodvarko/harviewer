@@ -2,7 +2,7 @@
 <h2>HTTP Archive Viewer @VERSION@</h2>
 <i>Author: Jan Odvarko, odvarko@gmail.com</i>
 <br/><br/>
-<table style="width:600px;">
+<table style="width:100%;">
 
 <tr><td>
 <p>The purpose of this online tool is to visualize
@@ -34,10 +34,16 @@ page load performance.</p>
 </td></tr>
 
 <tr><td>
-<h3>Create HARs using Firebug</h3>
-One of the tools you can use to log data transfered over HTTP protocol
-is <a href="http://getfirebug.com/">Firebug</a>. To do this you have to also install Firebug
-extension called <a href="http://www.softwareishard.com/blog/netexport/">NetExport</a>.
+<h3>Creating HARs</h3>
+
+<p>Here are some ways to save HAR contents to your file system using the major browsers:</p>
+<ul>
+<li>Chrome using <a href="https://developers.google.com/web/tools/chrome-devtools/profile/network-performance/resource-loading?hl=en#copy-save-and-clear-network-information">DevTools - Copy, save, and clear network information</a>.
+<li>Firefox using <a href="https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor#CopySave_All_As_HAR">Network Monitor - Copy/Save All As HAR</a>.
+<li>Firefox using <a href="http://getfirebug.com/">Firebug</a> with a Firebug extension called <a href="http://www.softwareishard.com/blog/netexport/">NetExport</a>.
+<li>Microsoft Edge using <a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/documentation/f12-devtools-guide/network/">F12 devtools guide - Network</a>.
+</ul>
+
 </td></tr>
 
 <tr><td>
@@ -65,24 +71,109 @@ Here is a description of individual request/response phases:</p>
 </td></tr>
 
 <tr><td>
-<h3>Online Log Files</h3>
-<p>HAR Viewer also supports JSONP and so, it's possible to load log files 
-from different domains. This allows linking your online logs and preview them
-automatically within the viewer. See live
-<a href="?inputUrl=http://www.janodvarko.cz/har/viewer/examples/inline-scripts-block.harp">example</a>.
-</p>
+<h3>Loading HAR Files</h3>
+There are several ways to load HAR files into HAR Viewer.
+
+<h4>Paste HAR File Contents</h4>
+<p>Copy a HAR file to your clipboard, paste the contents into the text area on the Home tab and
+press <button>Preview</button>.</p>
+<p>Here are some ways to copy HAR contents to your clipboard using the major browsers:</p>
+<ul>
+<li>Chrome - <a href="https://developers.google.com/web/tools/chrome-devtools/profile/network-performance/resource-loading?hl=en#copy-save-and-clear-network-information">DevTools - Copy, save, and clear network information</a>.
+<li>Firefox - <a href="https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor#CopySave_All_As_HAR">Network Monitor - Copy/Save All As HAR</a>.
+</ul>
+
+<h4>Drag and Drop</h4>
+<p>You can drag a previously saved HAR file from your file system onto HAR Viewer to load it.
+See "Creating HARs" above.</p>
+
+<h4>"har" URL Parameter</h4>
+<p>HAR Viewer can load HAR files from the network using the <b>har</b> URL parameter (this
+replaces the legacy <b>path</b> URL parameter). For example, to load a HAR file from the same
+server as HAR Viewer is running on:</p>
+<ul>
+<li><a href="@HARVIEWER_DEMO_URL@?har=examples/softwareishard.com.har">@HARVIEWER_DEMO_URL@?har=examples/softwareishard.com.har</a>
+</ul>
+
+<p>Multiple <b>har</b> URL parameters can be used to load multiple HAR files.  For example:</p>
+
+<ul>
+<li><a href="@HARVIEWER_DEMO_URL@?har=examples/softwareishard.com.har&har=examples/browser-blocking-time.har&har=examples/google.com.har">
+@HARVIEWER_DEMO_URL@?har=examples/softwareishard.com.har&har=examples/browser-blocking-time.har&har=examples/google.com.har</a>
+</ul>
+
+<p>To load a HAR file from a different server than HAR Viewer is running on (a cross-domain
+request), we need to specify the full URL to the HAR file:</p>
+
+<ul>
+<li><a href="@HARVIEWER_DEMO_URL@?har=http://my-har-server/homepage.har">@HARVIEWER_DEMO_URL@?har=http://my-har-server/homepage.har</a>
+</ul>
+
+<p>In this cross-domain case,
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">CORS</a> needs to
+be enabled on the server that serves the HAR file (<code>http://my-har-server/</code> in the
+example).  This means <a href="http://enable-cors.org/server.html">making changes to the server</a>
+to include an <code>Access-Control-Allow-Origin</code>
+HTTP response header when serving the HAR files.</p>
+<p>If you cannot make these changes to the server (e.g. you don't own/control the server that
+serves the HAR file), then you might have to use the HARP/JSONP approach (see below).</p>
+
+<p><b>NOTE: </b>If the HAR Viewer you use is served over HTTPS, then modern browsers may only let
+you load HAR files that are also served over HTTPS (not HTTP), due to
+<a href="https://blog.mozilla.org/tanvi/2013/04/10/mixed-content-blocking-enabled-in-firefox-23/">mixed content blocking</a>:</p>
+
+<ul>
+<li>Firefox - <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content">Mixed content</a>.
+<li>Chrome - <a href="https://developers.google.com/web/fundamentals/security/prevent-mixed-content/fixing-mixed-content?hl=en">Find and fix mixed content</a>.
+<li>Internet Explorer - <a href="https://support.microsoft.com/en-us/kb/2625928">"Only secure content is displayed" notification in Internet Explorer 9 or later</a>.
+</ul>
+
+<P>For example, in Chrome:</p>
+<blockquote style="font-family:monospace; color:red">
+Mixed Content: The page at 'https://gitgrimbo.github.io/harviewer/master/?har=http://raw.githubusercon…t.com/janodvarko/harviewer/master/webapp/examples/inline-scripts-block.har' was loaded over HTTPS, but requested an insecure XMLHttpRequest endpoint 'http://raw.githubusercontent.com/janodvarko/harviewer/master/webapp/examples/inline-scripts-block.har'. This request has been blocked; the content must be served over HTTPS.
+</blockquote>
+
+<P>And in Firefox:</p>
+<blockquote style="font-family:monospace; color:red">
+Blocked loading mixed active content "http://localhost:49001/webapp/examples/inline-scripts-block.har"
+</blockquote>
+
+<h4>"harp" URL Parameter</h4>
+When you want to load a cross-domain HAR file, and you can't set an
+<code>Access-Control-Allow-Origin</code> HTTP response header, you can use the <b>harp</b>
+parameter which uses <a href="https://en.wikipedia.org/wiki/JSONP">JSONP</a> (this
+replaces the legacy <b>inputUrl</b> URL parameter).  For example:</p>
+
+<ul>
+<li><a href="@HARVIEWER_DEMO_URL@?harp=https://gitgrimbo.github.io/harviewer/master/examples/inline-scripts-block.harp.js">
+@HARVIEWER_DEMO_URL@?harp=https://gitgrimbo.github.io/harviewer/master/examples/inline-scripts-block.harp.js</a>
+</ul>
+
+<p>Multiple <b>harp</b> URL parameters can be used to load multiple HARP files.  And <b>harp</b>
+can be used in combination with <b>har</b>.  For example:</p>
+
+<ul>
+<li><a href="@HARVIEWER_DEMO_URL@?har=examples/softwareishard.com.har&harp=examples/inline-scripts-block.harp.js&har=examples/google.com.har">
+@HARVIEWER_DEMO_URL@?har=examples/softwareishard.com.har&harp=examples/inline-scripts-block.harp.js&har=examples/google.com.har</a>
+</ul>
 
 <p><i>1. The Content of a *.har file must be enclosed within a callback function:</i></p>
 <code>onInputData({ "log": { ... } })</code>
 
-<p><i>2. The link displaying a *.har file (using this viewer) must specify URL of
-the file in <b>inputUrl</b> parameter:</i></p>
-<code>http://www.softwareishard.com/har/viewer/?inputUrl=http://www.example.com/netData.har</code>
-
-<p><i>3. A custom name of the callback function can be specified in a <b>callback</b> parameter
+<p><i>2. A custom name of the callback function can be specified in a <b>callback</b> URL parameter
 (by default it's <b>onInputData</b>):</i></p>
-<code>http://www.softwareishard.com/har/viewer/?inputUrl=http://www.example.com/netData.har&amp;callback=onInputData</code>
-<br/><br/>
+<code>http://www.softwareishard.com/har/viewer/?harp=http://www.example.com/netData.har&amp;callback=onInputData</code>
+
+<p><b>NOTE: </b>The HARP file should be served with a valid JavaScript content type (e.g.
+<code>application/javascript</code>), otherwise a browser may block it.  For example in Chrome:</p>
+<blockquote style="font-family:monospace; color:red">
+Refused to execute script from 'https://raw.githubusercontent.com/janodvarko/harviewer/master/webapp/examples/inline-scripts-block.harp?callback=onInputData&_=1469983147470' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.
+</blockquote>
+<p>And in IE11:</p>
+<blockquote style="font-family:monospace; color:red">
+SEC7112: Script from https://raw.githubusercontent.com/janodvarko/harviewer/master/webapp/examples/inline-scripts-block.harp?callback=onInputData&_=1469983439613 was blocked due to mime type mismatch
+</blockquote>
+</p>
 </td></tr>
 
 </table>
