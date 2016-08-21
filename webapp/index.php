@@ -9,6 +9,6 @@
     <div id="content" version="@VERSION@"></div>
     <script src="scripts/jquery.js"></script>
     <script data-main="scripts/harViewer" src="scripts/require.js"></script>
-    <?php include("ga.php") ?>
+    <!--@GOOGLE-ANALYTICS-INCLUDE@-->
 </body>
 </html>

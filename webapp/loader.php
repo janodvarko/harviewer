@@ -85,7 +85,7 @@ function onHARLoad()
 }
 </script>
 
-<?php include("ga.php") ?>
+<!--@GOOGLE-ANALYTICS-INCLUDE@-->
 
 </body>
 </html>

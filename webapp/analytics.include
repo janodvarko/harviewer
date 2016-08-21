@@ -1,0 +1,16 @@
+
+<!-- Google Analytics -->
+<script>
+// Enable Google Analytics (for publicly hosted instances) in ant.properties file
+// by setting GOOGLE-ANALYTICS-PROFILE property to ID of your profile.
+var googleAnalyticsProfile = "@GOOGLE-ANALYTICS-PROFILE@";
+if (googleAnalyticsProfile && googleAnalyticsProfile.charAt(0) !== "@") {
+
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', googleAnalyticsProfile, 'auto');
+    ga('send', 'pageview');
+
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->

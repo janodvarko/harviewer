@@ -214,11 +214,17 @@
         <preprocess infile="${app.dir}/scripts/core/trace.js"
             outfile="${build.dir}/scripts/core/trace.js" defines="_RELEASE" />
 
-        <!-- Generate version number. The version info is loaded from 'ant.properties' file. -->
-        <replace dir="${build.dir}" propertyFile="ant.properties">
-            <include name="*.php" />
-            <replacefilter token="@VERSION@" property="VERSION"/>
-            <replacefilter token="@GOOGLE-ANALYTICS-PROFILE@" property="GOOGLE-ANALYTICS-PROFILE"/>
+        <!-- Insert version number into PHP files. The version info is loaded from 'ant.properties'
+            file (or provided as a Java system property on the command line). -->
+        <replace dir="${build.dir}" includes="*.php" token="@VERSION@" value="${VERSION}" />
+
+        <!-- Insert analytics tracking id into analytics.include. -->
+        <replace dir="${build.dir}" includes="analytics.include" token="@GOOGLE-ANALYTICS-PROFILE@" value="${GOOGLE-ANALYTICS-PROFILE}" />
+
+        <!-- Load the analytics include file, as we're going to insert it into all the PHP/HTML files. -->
+        <loadfile property="analytics.include" srcFile="${build.dir}/analytics.include"/>
+        <replace dir="${build.dir}" value="${analytics.include}" includes="*.php">
+            <replacetoken><![CDATA[<!--@GOOGLE-ANALYTICS-INCLUDE@-->]]></replacetoken>
         </replace>
 
         <!-- Final version message -->

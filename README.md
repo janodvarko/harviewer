@@ -91,3 +91,9 @@ You will have to set the [optimize build configuration value](https://github.com
     optimize: "closure",
 
 (*Indicative build time - about 42 seconds*)
+
+#### Version and Google Analytics
+
+Certain build properties can be overridden at the command line.  For example, to provide the `VERSION` and `GOOGLE-ANALYTICS-PROFILE` values:
+
+`ant build -DVERSION=3.0.0 -DGOOGLE-ANALYTICS-PROFILE=TRACKING_ID_HERE`
