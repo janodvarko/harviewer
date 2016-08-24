@@ -217,6 +217,13 @@ define([
         // Clear cookies to return to clean state for other tests
         return this.remote.clearCookies();
       }
+    },
+
+    'test no headers': function() {
+      // Ensure a lack of headers doesn't prevent other RequestBody tabs from being rendered.
+      // Some HAR tools, e.g. BrowserMob, can export HARs without headers.
+      var url = harViewerBase + "?path=" + testBase + "tests/hars/no-headers.har";
+      return testSyntaxHighlighting(this.remote, url, "CSS");
     }
   });
 });

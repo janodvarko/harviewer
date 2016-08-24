@@ -49,6 +49,25 @@ var TR = Domplate.TR;
  * {@link DataURLTab}: Data URLs
  */
 function RequestBody() {}
+
+/**
+ * List of types of tab that RequestBody supports.
+ */
+RequestBody.tabTypes = [
+    HeadersTab,
+    ParamsTab,
+    SentDataTab,
+    ResponseTab,
+    HighlightedTab,
+    JsonTab,
+    XmlTab,
+    ImageTab,
+    ExternalImageTab,
+    CacheTab,
+    HtmlTab,
+    DataURLTab
+];
+
 RequestBody.prototype = domplate(
 /** @lends RequestBody */
 {
@@ -56,110 +75,31 @@ RequestBody.prototype = domplate(
     {
         // Crete tabView and append all necessary tabs.
         var tabView = new TabView("requestBody");
-        if (file.response.headers.length > 0)
-            tabView.appendTab(new HeadersTab(file));
 
-        if (file.request.queryString && file.request.queryString.length)
-            tabView.appendTab(new ParamsTab(file));
-
-        if (RequestBody.isValidPostData(file)) {
-            tabView.appendTab(new SentDataTab(file, file.request.method));
-        }
-
-        if (ResponseTab.canShowFile(file)) {
-            tabView.appendTab(new ResponseTab(file));
-        }
-
-        if (HighlightedTab.canShowFile(file)) {
-            tabView.appendTab(new HighlightedTab(file));
-        }
-
-        if (JsonTab.canShowFile(file)) {
-            tabView.appendTab(new JsonTab(file));
-        }
-
-        if (XmlTab.canShowFile(file)) {
-            tabView.appendTab(new XmlTab(file));
-        }
-
-        if (ImageTab.canShowFile(file)) {
-            tabView.appendTab(new ImageTab(file));
-        }
-
-        if (ExternalImageTab.canShowFile(file)) {
-            tabView.appendTab(new ExternalImageTab(file));
-        }
+        RequestBody.tabTypes.forEach(function(TabType) {
+            if (TabType.canShowFile(file)) {
+                tabView.appendTab(new TabType(file));
+            }
+        });
 
         //xxxHonza
         //if (file.request.cookies || file.response.cookies)
         //    tabView.appendTab(new CookiesTab(file));
 
-        if (this.showCache(file))
-            tabView.appendTab(new CacheTab(file));
-
-        if (this.showHtml(file))
-            tabView.appendTab(new HtmlTab(file));
-
-        if (this.showDataURL(file))
-            tabView.appendTab(new DataURLTab(file));
-
         // Finally, render the tabView and select the first tab by default
         var element = tabView.render(parentNode);
-        if (tabView.tabs.length > 0)
+        if (tabView.tabs.length > 0) {
             tabView.selectTabByName(tabView.tabs[0].id);
+        }
 
         return element;
-    },
-
-    showCache: function(file)
-    {
-        if (!file.cache)
-            return false;
-
-        if (!file.cache.afterRequest)
-            return false;
-
-        return true;
-    },
-
-    showHtml: function(file)
-    {
-        // The mime-type value doesn't have to match the content type exactly
-        // there can be a charset specified. So, check the prefix.
-        var mimeType = file.response.content.mimeType || "";
-        var fileMimeType = file.mimeType || "";
-        return (Lib.startsWith(mimeType, "text/html")) ||
-            (Lib.startsWith(fileMimeType, "application/xhtml+xml"));
-    },
-
-    showDataURL: function(file)
-    {
-        return file.request.url.indexOf("data:") === 0;
     }
 });
 
-RequestBody.isValidPostData = function(file) {
-    var postData = file.request.postData;
-    if (!postData) {
-        // No post data at all.
-        return false;
-    }
-
-    var paramsMissing = !Lib.isArray(postData.params) || (postData.params.length === 0);
-    var textMissing = !postData.text;
-
-    var postContentMissing = paramsMissing && textMissing;
-
-    if (postContentMissing) {
-        // (at least) Firefox 47 exports GET requests in HARs that have:
-        //   postData.mimeType = ""
-        //   postData.params = []
-        //   postData.text = ""
-        // So double-check for this and only allow such 'empty' postData for PUT and POST
-        return ["PUT", "POST"].indexOf(file.request.method) > -1;
-    }
-
-    return true;
+RequestBody.canShowFile = function(file) {
+    return RequestBody.tabTypes.some(function(TabType) {
+        return TabType.canShowFile(file);
+    });
 };
 
 RequestBody.canDecode = function(encoding) {
@@ -257,6 +197,10 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
         }
     }
 });
+
+HeadersTab.canShowFile = function(file) {
+    return (file.response.headers.length > 0);
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -400,6 +344,7 @@ ResponseTab.prototype = domplate(TabView.Tab.prototype,
         Lib.clearNode(pre);
 
         var text = this.file.response.content.text;
+
         Lib.insertWrappedText(text, pre);
     }
 });
@@ -517,10 +462,16 @@ ParamsTab.prototype = domplate(HeadersTab.prototype,
     }
 });
 
+ParamsTab.canShowFile = function(file) {
+    return (file.request.queryString && file.request.queryString.length);
+};
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-function SentDataTab(file, method)
+function SentDataTab(file)
 {
+    var method = file.request.method;
+
     // Convert to lower case and capitalize the first letter.
     method = method.charAt(0).toUpperCase() + method.slice(1).toLowerCase();
 
@@ -551,6 +502,30 @@ SentDataTab.prototype = domplate(HeadersTab.prototype,
             Lib.insertWrappedText(postData.text, textBox);
     }
 });
+
+SentDataTab.canShowFile = function(file) {
+    var postData = file.request.postData;
+    if (!postData) {
+        // No post data at all.
+        return false;
+    }
+
+    var paramsMissing = !Lib.isArray(postData.params) || (postData.params.length === 0);
+    var textMissing = !postData.text;
+
+    var postContentMissing = paramsMissing && textMissing;
+
+    if (postContentMissing) {
+        // (at least) Firefox 47 exports GET requests in HARs that have:
+        //   postData.mimeType = ""
+        //   postData.params = []
+        //   postData.text = ""
+        // So double-check for this and only allow such 'empty' postData for PUT and POST
+        return ["PUT", "POST"].indexOf(file.request.method) > -1;
+    }
+
+    return true;
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -632,6 +607,18 @@ CacheTab.prototype = domplate(HeadersTab.prototype,
     }
 });
 
+CacheTab.canShowFile = function(file) {
+    if (!file.cache) {
+        return false;
+    }
+
+    if (!file.cache.afterRequest) {
+        return false;
+    }
+
+    return true;
+};
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 /**
@@ -699,6 +686,15 @@ HtmlTab.prototype = domplate(HeadersTab.prototype,
     }
 });
 
+HtmlTab.canShowFile = function(file) {
+    // The mime-type value doesn't have to match the content type exactly
+    // there can be a charset specified. So, check the prefix.
+    var mimeType = file.response.content.mimeType || "";
+    var fileMimeType = file.mimeType || "";
+    return (Lib.startsWith(mimeType, "text/html")) ||
+        (Lib.startsWith(fileMimeType, "application/xhtml+xml"));
+};
+
 /**
  * @domplate Represents a request body tab displaying unescaped data: URLs.
  */
@@ -733,6 +729,10 @@ DataURLTab.prototype = domplate(HeadersTab.prototype,
         }
     }
 });
+
+DataURLTab.canShowFile = function(file) {
+    return file.request.url.indexOf("data:") === 0;
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

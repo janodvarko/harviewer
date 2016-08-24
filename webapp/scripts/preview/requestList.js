@@ -640,9 +640,7 @@ RequestList.prototype = domplate(
 
     isExpandable: function(file)
     {
-        var hasHeaders = file.response.headers.length > 0;
-        var hasDataURL = file.request.url.indexOf("data:") === 0;
-        return hasHeaders || hasDataURL;
+        return RequestBody.canShowFile(file);
     },
 
     formatSize: function(bytes)
