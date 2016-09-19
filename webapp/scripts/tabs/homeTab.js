@@ -109,25 +109,26 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         var e = Lib.fixEvent(event);
         Lib.cancelEvent(e);
 
-        try
-        {
+        try {
             this.handleDrop(event.originalEvent.dataTransfer);
-        }
-        catch (err)
-        {
+        } catch (err) {
             Trace.exception("HomeTab.onDrop EXCEPTION", err);
         }
     },
 
     handleDrop: function(dataTransfer)
     {
+        function notSupported(reason) {
+            alert("File drag and drop not supported for this browser [" + reason + "]");
+        }
+
         if (!dataTransfer) {
             return false;
         }
 
         var files = dataTransfer.files;
         if (!files) {
-            return;
+            return notSupported("dataTransfer.files not present");
         }
 
         var filesArr = [].slice.call(files);
@@ -160,6 +161,8 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
 
             if (reader) {
                 reader();
+            } else {
+                return notSupported("FileReader API not present");
             }
         }
 
