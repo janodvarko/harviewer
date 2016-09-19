@@ -157,7 +157,10 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
                 }
                 appendPreviews(files, idx + 1);
             });
-            reader();
+
+            if (reader) {
+                reader();
+            }
         }
 
         appendPreviews(harFiles);
@@ -176,26 +179,21 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
      *  The file to get the text for.
      * @param {fileReaderCallback} callback
      *  Callback to receive the file contents.
+     * @return {function}
+     *  The file reader function, or null if not supported.
      */
     getFileReader: function(file, callback)
     {
-        return function fileReader()
-        {
-            if (typeof(file.getAsText) !== "undefined")
-            {
-                callback(file.getAsText(""));
-                return;
-            }
-
-            if (typeof(FileReader) !== "undefined")
-            {
+        if (typeof(FileReader) !== "undefined") {
+            return function fileReader() {
                 var fileReader = new FileReader();
                 fileReader.onloadend = function() {
                     callback(fileReader.result);
                 };
                 fileReader.readAsText(file);
-            }
-        };
+            };
+        }
+        return null;
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
