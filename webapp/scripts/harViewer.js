@@ -181,6 +181,19 @@ HarView.prototype = Lib.extend(new TabView(),
     },
 
     /**
+     * Load HAR and HARP file. See {@link harModelLoader.loadArchives} for documentation.
+     */
+    loadArchives: function(hars, harps, callbackName, callback, errorCallback, doneCallback) {
+        var self = this;
+        return Loader.loadArchives(hars, harps, callbackName, function(jsonString) {
+            self.appendPreview(jsonString);
+            if (callback) {
+                callback.apply(this, arguments);
+            }
+        }, errorCallback, doneCallback);
+    },
+
+    /**
      * Use to customize list of request columns displayed by default.
      *
      * @param {String} cols Column names separated by a space.

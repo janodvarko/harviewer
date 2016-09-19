@@ -13,6 +13,24 @@ define([
   var harViewerBase = intern.config.harviewer.harViewerBase;
   var testBase = intern.config.harviewer.testBase;
 
+  function testViewerLoadsThreeHars(remote, page) {
+    // Some of these tests need a larger timeout for finding DOM elements
+    // because we need the HAR to parse/display fully before we query the DOM.
+    var findTimeout = intern.config.harviewer.findTimeout;
+    var utils = new DriverUtils(remote);
+
+    var url = testBase + page;
+
+    return remote
+      .setFindTimeout(findTimeout)
+      // Open customized viewer.
+      .get(url)
+      // Wait for 10 sec to load HAR files.
+      .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 3) || null", findTimeout))
+      .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"))
+      .then(utils.cbAssertElementsLength(".pageTable", 3));
+  }
+
   registerSuite({
     name: 'testLoadHarAPI',
 
@@ -34,40 +52,31 @@ define([
     // currently uses hard-coded callback names.
 
     'testViewer': function() {
+      // This test loads a page that will use the harViewer.loadHar() API.
+      return testViewerLoadsThreeHars(this.remote, "tests/testLoadHarAPIViewer.html.php");
+    },
+
+    'testViewer loadArchives': function() {
+      // This test loads a page that will use the harViewer.loadArchives() API.
+      return testViewerLoadsThreeHars(this.remote, "tests/testLoadArchives.html.php");
+    },
+
+    'testPreview': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
       var findTimeout = intern.config.harviewer.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
-      var url = testBase + "tests/testLoadHarAPIViewer.html.php";
+      var url = testBase + "tests/testLoadHarAPIPreview.html.php";
 
       return r
         .setFindTimeout(findTimeout)
-        // Open customized viewer.
+        // Open customized preview.
         .get(url)
         // Wait for 10 sec to load HAR files.
         .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 3) || null", findTimeout))
-        .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"))
         .then(utils.cbAssertElementsLength(".pageTable", 3));
-      },
-
-      'testPreview': function() {
-        // Some of these tests need a larger timeout for finding DOM elements
-        // because we need the HAR to parse/display fully before we query the DOM.
-        var findTimeout = intern.config.harviewer.findTimeout;
-        var r = this.remote;
-        var utils = new DriverUtils(r);
-
-        var url = testBase + "tests/testLoadHarAPIPreview.html.php";
-
-        return r
-          .setFindTimeout(findTimeout)
-          // Open customized preview.
-          .get(url)
-          // Wait for 10 sec to load HAR files.
-          .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 3) || null", findTimeout))
-          .then(utils.cbAssertElementsLength(".pageTable", 3));
-        }
+      }
   });
 });
