@@ -124,20 +124,24 @@ var Loader =
      * @param {string} callbackName
      *   Use this callback name for any HARPs (JSONP).
      * @param {function} callback
-     *   Called when all HARs/HARPs are loaded successfully.
+     *   Called when a HAR/HARP is loaded successfully.
      * @param {function} errorCallback
      *   Called when any HAR/HARP fails to load.
+     * @param {function} doneCallback
+     *   Called when all HARs/HARPs are loaded successfully.
      * @return {boolean}
      *   `true` if there was any HAR/HARP to load, `false` otherwise.
      */
-    loadArchives: function(hars, harps, callbackName, callback, errorCallback)
+    loadArchives: function(hars, harps, callbackName, callback, errorCallback, doneCallback)
     {
+        function done() {
+            if (doneCallback) {
+                doneCallback();
+            }
+        }
+
         hars = hars || [];
         harps = harps || [];
-
-        if (!hars.length && !harps.length) {
-            return false;
-        }
 
         var isHarp = false;
 
@@ -151,6 +155,8 @@ var Loader =
         }
 
         if (!url) {
+            // No HAR or HARP.  We're done.
+            done();
             return false;
         }
 
@@ -168,13 +174,16 @@ var Loader =
                     callback.apply(this, arguments);
                 }
 
-                // Asynchronously load other HAR files (jQuery doesn't like it synchronously).
-                if (hars.length + harps.length > 0) {
-                    var self = this;
-                    setTimeout(function() {
-                        self.loadArchives(hars, harps, callbackName, callback, errorCallback);
-                    }, 300);
+                if (hars.length + harps.length === 0) {
+                    done();
+                    return;
                 }
+
+                // Asynchronously load other HAR files (jQuery doesn't like it synchronously).
+                var self = this;
+                setTimeout(function() {
+                    self.loadArchives(hars, harps, callbackName, callback, errorCallback, doneCallback);
+                }, 300);
             },
 
             error: function() {
@@ -191,9 +200,13 @@ var Loader =
             ajaxOpts.jsonpCallback = callbackName;
         }
 
-        $.ajax(ajaxOpts);
+        this.ajax(ajaxOpts);
 
         return true;
+    },
+
+    ajax: function(ajaxOpts) {
+        $.ajax(ajaxOpts);
     },
 
     /**

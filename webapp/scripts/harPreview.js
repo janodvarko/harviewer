@@ -75,7 +75,7 @@ HarPreview.prototype =
     // Loading HAR files
 
     /**
-     * Load HAR file. See {@link HarView.loadHar} for documentation.
+     * Load HAR file. See {@link HarViewer.loadHar} for documentation.
      */
     loadHar: function(url, settings)
     {
@@ -85,6 +85,19 @@ HarPreview.prototype =
             settings.jsonpCallback,
             settings.success,
             settings.ajaxError);
+    },
+
+    /**
+     * Load HAR and HARP file. See {@link HarViewer.loadArchives} for documentation.
+     */
+    loadArchives: function(hars, harps, callbackName, callback, errorCallback, doneCallback) {
+        var self = this;
+        return Loader.loadArchives(hars, harps, callbackName, function(jsonString) {
+            self.appendPreview(jsonString);
+            if (callback) {
+                callback.apply(this, arguments);
+            }
+        }, errorCallback, doneCallback);
     },
 
     setPreviewColumns: function(cols, avoidCookies)
