@@ -5,7 +5,7 @@ define([
     "intern!object",
     "intern/chai!assert",
     "core/mime"
-], function (registerSuite, assert, Mime) {
+], function(registerSuite, assert, Mime) {
 
     var extractMimeTypeData = [
         ['of null returns ""', null, Error],
@@ -33,7 +33,7 @@ define([
             // we expect an error, so wrap the test
             tests[testName] = function() {
                 assert.throws(test);
-            }
+            };
         }
         return tests;
     }, {});

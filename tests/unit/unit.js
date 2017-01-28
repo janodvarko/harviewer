@@ -4,12 +4,12 @@
 define([
     'intern!object',
     'intern/chai!assert'
-], function (registerSuite, assert) {
+], function(registerSuite, assert) {
     registerSuite({
         name: 'unit',
 
-        onePlusOne: function () {
-            assert.strictEqual(1+1, 2);
+        onePlusOne: function() {
+            assert.strictEqual(1 + 1, 2);
         }
     });
 });

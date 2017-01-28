@@ -5,7 +5,7 @@ define([
     'intern!object',
     'intern/chai!assert',
     'core/cookies'
-], function (registerSuite, assert, Cookies) {
+], function(registerSuite, assert, Cookies) {
     registerSuite({
         name: 'cookies'
     });

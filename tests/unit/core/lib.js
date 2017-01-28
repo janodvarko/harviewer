@@ -5,11 +5,11 @@ define([
     'intern!object',
     'intern/chai!assert',
     'core/lib'
-], function (registerSuite, assert, Lib) {
+], function(registerSuite, assert, Lib) {
     registerSuite({
         name: 'lib',
 
-        formatNumber: function () {
+        formatNumber: function() {
             assert.strictEqual(Lib.formatNumber(0), '0', '[] is array');
         }
     });

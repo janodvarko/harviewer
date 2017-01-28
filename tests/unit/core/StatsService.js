@@ -10,7 +10,7 @@ define([
     "text!../../../selenium/tests/hars/issue-61/firefox47.har",
     "text!../../../selenium/tests/hars/issue-61/ie11.har",
     "text!../../../webapp/examples/google.com.har"
-], function (registerSuite, assert, StatsService, HarModel, issue61ChromeHar, issue61FirefoxHar, issue61IEHar, googleHar) {
+], function(registerSuite, assert, StatsService, HarModel, issue61ChromeHar, issue61FirefoxHar, issue61IEHar, googleHar) {
 
     /**
      * Utility function to assert deepEqual for each property before the whole
