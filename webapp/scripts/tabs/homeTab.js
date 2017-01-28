@@ -121,28 +121,46 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
 
     handleDrop: function(dataTransfer)
     {
-        if (!dataTransfer)
+        if (!dataTransfer) {
             return false;
+        }
 
         var files = dataTransfer.files;
-        if (!files)
+        if (!files) {
             return;
+        }
 
-        for (var i=0; i<files.length; i++)
-        {
-            var file = files[i];
+        var filesArr = [].slice.call(files);
+        var harFiles = filesArr.filter(function(file) {
             var ext = Lib.getFileExtension(file.name);
-            if (ext.toLowerCase() !== "har")
-                continue;
+            return (ext.toLowerCase() === "har");
+        });
 
-            var self = this;
-            var reader = this.getFileReader(file, function(text)
-            {
-                if (text)
+        harFiles.sort(function(f1, f2) {
+            return f1.name.localeCompare(f2.name);
+        });
+
+        var self = this;
+
+        // This function appends the previews one by one.
+        // The advantage of this (rather than trying to load all files
+        // concurrently) is if you drag-n-drop several large HAR files,
+        // you get visual feedback of the files loaded in the correct order.
+        function appendPreviews(files, idx) {
+            idx = idx || 0;
+            if (idx >= files.length) {
+                return;
+            }
+            var reader = self.getFileReader(files[idx], function(text) {
+                if (text) {
                     self.onAppendPreview(text);
+                }
+                appendPreviews(files, idx + 1);
             });
             reader();
         }
+
+        appendPreviews(harFiles);
     },
 
     /**
