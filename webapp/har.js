@@ -1,6 +1,6 @@
 /* See license.txt for terms of usage */
 
-(function () {
+(function() {
     // ********************************************************************************************* //
 
     /**
@@ -45,7 +45,7 @@
      * <div class="har" data-har="/my.har" validate="false"></div>
      * - Do not validate the loaded HAR file.
     */
-    var harInitialize = window.harInitialize = function () {
+    var harInitialize = window.harInitialize = function() {
         var script = document.getElementById("har");
         var index = script.src.lastIndexOf("/");
         var baseUrl = script.src.substr(0, index + 1);
@@ -54,8 +54,9 @@
         for (var i = 0; i < elements.length; i++) {
             var element = elements[i];
             var path = element.getAttribute("data-har");
-            if (!path)
+            if (!path) {
                 continue;
+            }
 
             var callback = element.getAttribute("data-callback");
 
@@ -65,14 +66,17 @@
             var validate = element.getAttribute("validate");
 
             var args = "?" + (path.indexOf("http:") === 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
-            if (expand !== "false")
+            if (expand !== "false") {
                 args += "&expand=" + (expand ? expand : "true");
+            }
 
-            if (validate === "false")
+            if (validate === "false") {
                 args += "&validate=false";
+            }
 
-            if (callback)
+            if (callback) {
                 args += "&callback=" + callback;
+            }
 
             var iframe = document.createElement("iframe");
             iframe.setAttribute("style", "border: 1px solid lightgray;");
@@ -86,7 +90,7 @@
         }
     };
 
-    var re = new RegExp('(^|\\s)har(\\s|$)', "g");
+    var re = new RegExp("(^|\\s)har(\\s|$)", "g");
 
     /**
      * Removes "har" class from specified element so it isn't processed twice.
@@ -104,19 +108,20 @@
         var elements = [];
         if (document.getElementsByClassName) {
             elements = document.getElementsByClassName("har");
-        }
-        else if (document.getElementsByTagName) {
+        } else if (document.getElementsByTagName) {
             var divs = document.getElementsByTagName("div");
             for (var i = 0; i < divs.length; i++) {
                 var cn = divs[i].className;
-                if (cn && cn.match(re))
+                if (cn && cn.match(re)) {
                     elements.push(divs[i]);
+                }
             }
         }
 
         var result = [];
-        for (var j = 0; j < elements.length; j++)
+        for (var j = 0; j < elements.length; j++) {
             result.push(elements[j]);
+        }
 
         return result;
     }
@@ -124,10 +129,11 @@
     function addEventListener(object, name, handler, direction) {
         direction = direction || false;
 
-        if (object.addEventListener)
+        if (object.addEventListener) {
             object.addEventListener(name, handler, direction);
-        else
+        } else {
             object.attachEvent("on" + name, handler);
+        }
     }
 
     harInitialize();

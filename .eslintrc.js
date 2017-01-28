@@ -21,10 +21,25 @@ module.exports = {
         "keyword-spacing": "warn",
 
         // Don't use reserved keywords for IE9 compatibility
-        "dot-notation": [2, { "allowKeywords": false }],
+        "dot-notation": ["error", { "allowKeywords": false }],
 
         // Domplate uses function names starting with uppercase
         "new-cap": "warn",
+
+        // HAR Viewer uses double quotes.
+        "quotes": ["error", 'double', {allowTemplateLiterals: false}],
+
+        // HAR Viewer doesn't have complete JSDoc, so add docs as edits are made.
+        "require-jsdoc": "warn",
+
+        // HAR Viewer supports non-ES6 browsers and does not transpile (yet),
+        // so have to use var.
+        "no-var": "off",
+
+        // Enforce curly braces around blocks
+        "curly": "error",
+
+        "space-before-function-paren": ["error", "never"],
 
         "yoda": "warn"
     },
