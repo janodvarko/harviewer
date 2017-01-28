@@ -239,7 +239,7 @@ PreviewTab.prototype = Lib.extend(TabView.Tab.prototype,
         });
     },
 
-    showHARSource: function(menu, input, file)
+    showHARSource: function(input, file, menu)
     {
         var domTab = this.tabView.getTab("DOM");
         if (!domTab)

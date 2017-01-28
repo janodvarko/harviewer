@@ -43,11 +43,12 @@ define([
     config.suites.push('tests/unit/unit');
   }
   config.suites = config.suites.concat([
-    'tests/unit/core/lib',
     'tests/unit/core/cookies',
+    'tests/unit/core/lib',
     'tests/unit/core/mime',
-    'tests/unit/core/url',
+    'tests/unit/core/object',
     'tests/unit/core/StatsService',
+    'tests/unit/core/url',
     'tests/unit/preview/harModelLoader'
   ]);
 

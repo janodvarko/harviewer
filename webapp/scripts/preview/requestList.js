@@ -766,12 +766,12 @@ RequestList.prototype = domplate(
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // Command Handlers
 
-    openRequest: function(event, file)
+    openRequest: function(file, event)
     {
         window.open(file.request.url);
     },
 
-    openResponse: function(event, file)
+    openResponse: function(file, event)
     {
         var response = file.response.content.text;
         var mimeType = file.response.content.mimeType;
@@ -782,7 +782,7 @@ RequestList.prototype = domplate(
         window.open(url);
     },
 
-    breakLayout: function(event, row)
+    breakLayout: function(row, event)
     {
         var file = row.repObject;
         var phase = row.phase;
