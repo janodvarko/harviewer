@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "description": "The purpose of this online tool is to visualize HTTP Archive (HAR) log files created by HTTP tracking tools. These files contain log of HTTP client/server conversation and can be used for an additional analysis of e.g. page load performance.",
   "devDependencies": {
-    "eslint": "^3.2.2",
-    "eslint-config-google": "^0.6.0",
-    "intern": "^3.3.1",
-    "jsdoc": "~3.4.0"
+    "eslint": "^3.14.1",
+    "eslint-config-google": "^0.7.1",
+    "intern": "^3.4.2",
+    "jsdoc": "~3.4.3"
   },
   "scripts": {
     "eslint": "eslint --quiet webapp",
     "eslint-full": "eslint webapp",
     "test": "intern-client config=tests/intern",
     "test-standalone": "intern-runner config=tests/intern-selenium-standalone",
-    "test-grid": "intern-runner config=tests/intern-selenium-grid"
+    "test-grid": "intern-runner config=tests/intern-selenium-grid",
+    "my-grid": "intern-runner config=tests/my-intern-selenium-grid"
   }
 }
