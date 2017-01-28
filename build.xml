@@ -12,7 +12,7 @@
     <property name="examples.dir" value="${app.dir}/examples"/>
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
-    <property name="rjs.version" value="2.2.0"/>
+    <property name="rjs.version" value="2.3.2"/>
     <property name="rjs.url" value="https://github.com/requirejs/r.js/archive/${rjs.version}.zip"/>
     <property name="rjs.cmd" value="${basedir}/r.js/dist/r.js"/>
     <property name="rjs.runner" value="node"/>
@@ -23,10 +23,10 @@
     <property name="iedriver.version" value="2.53.1"/>
     <property name="iedriver.filename" value="IEDriverServer_Win32_${iedriver.version}.zip"/>
     <property name="iedriver.url" value="https://selenium-release.storage.googleapis.com/${selenium.server.version.major}/${iedriver.filename}"/>
-    <property name="chromedriver.version" value="2.24"/>
+    <property name="chromedriver.version" value="2.27"/>
     <property name="chromedriver.filename" value="chromedriver_win32.zip"/>
     <property name="chromedriver.url" value="http://chromedriver.storage.googleapis.com/${chromedriver.version}/${chromedriver.filename}"/>
-    <property name="geckodriver.version" value="0.11.1"/>
+    <property name="geckodriver.version" value="0.13.0"/>
     <property name="geckodriver.filename" value="geckodriver-v${geckodriver.version}-win32.zip"/>
     <property name="geckodriver.url" value="https://github.com/mozilla/geckodriver/releases/download/v${geckodriver.version}/${geckodriver.filename}"/>
 
