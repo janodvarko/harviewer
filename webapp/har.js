@@ -105,35 +105,12 @@
      * Returns list of all elements with class="har" on the page.
      */
     function findHarElements() {
-        var elements = [];
-        if (document.getElementsByClassName) {
-            elements = document.getElementsByClassName("har");
-        } else if (document.getElementsByTagName) {
-            var divs = document.getElementsByTagName("div");
-            for (var i = 0; i < divs.length; i++) {
-                var cn = divs[i].className;
-                if (cn && cn.match(re)) {
-                    elements.push(divs[i]);
-                }
-            }
-        }
-
-        var result = [];
-        for (var j = 0; j < elements.length; j++) {
-            result.push(elements[j]);
-        }
-
-        return result;
+        return [].slice.call(document.getElementsByClassName("har"));
     }
 
     function addEventListener(object, name, handler, direction) {
         direction = direction || false;
-
-        if (object.addEventListener) {
-            object.addEventListener(name, handler, direction);
-        } else {
-            object.attachEvent("on" + name, handler);
-        }
+        object.addEventListener(name, handler, direction);
     }
 
     harInitialize();
