@@ -109,7 +109,7 @@
 
         <!-- Load the analytics include file, as we're going to insert it into all the PHP/HTML files. -->
         <loadfile property="analytics.include" srcFile="${build.dir}/analytics.include"/>
-        <replace dir="${build.dir}" value="${analytics.include}" includes="*.php">
+        <replace dir="${build.dir}" value="${analytics.include}" includes="*.php, *.html">
             <replacetoken><![CDATA[<!--@GOOGLE-ANALYTICS-INCLUDE@-->]]></replacetoken>
         </replace>
 
