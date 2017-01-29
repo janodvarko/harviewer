@@ -7,6 +7,7 @@
     "eslint-config-google": "^0.7.1",
     "intern": "^3.4.2",
     "jsdoc": "~3.4.3",
+    "preprocess": "^3.1.0",
     "requirejs": "^2.3.2"
   },
   "scripts": {

@@ -28,17 +28,6 @@
     <property name="geckodriver.filename" value="geckodriver-v${geckodriver.version}-win32.zip"/>
     <property name="geckodriver.url" value="https://github.com/mozilla/geckodriver/releases/download/v${geckodriver.version}/${geckodriver.filename}"/>
 
-    <path id="js-build-tasks.classpath">
-        <pathelement location="."/>
-        <fileset dir="${build.tools.dir}/js-build-tools/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-    </path>
-
-    <taskdef name="preprocess"
-        classname="com.moxiecode.ant.tasks.PreProcessTask"
-        classpathref="js-build-tasks.classpath"/>
-
     <!-- Remove the previous HAR Viewer build. -->
     <target name="clean" description="Cleans the webapp and jsdoc build folders">
         <delete dir="${build.dir}"/>
@@ -168,8 +157,11 @@
             todir="${build.dir}/scripts/preview" overwrite="true"/>
 
         <!-- Preprocess script/core/trace file to avoid using the console object -->
-        <preprocess infile="${app.dir}/scripts/core/trace.js"
-            outfile="${build.dir}/scripts/core/trace.js" defines="_RELEASE" />
+        <exec dir="${basedir}" executable="node" resolveexecutable="true">
+            <arg value="build-tools/preprocess.js"/>
+            <arg value="${app.dir}/scripts/core/trace.js"/>
+            <arg value="${build.dir}/scripts/core/trace.js"/>
+        </exec>
 
         <!-- Insert version number into PHP files. The version info is loaded from 'ant.properties'
             file (or provided as a Java system property on the command line). -->

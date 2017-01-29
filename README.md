@@ -29,7 +29,6 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 
 * Java 8 (for [Nashorn/jjs](http://docs.oracle.com/javase/8/docs/technotes/tools/windows/jjs.html) build)
 * Ant: http://ant.apache.org/
-* js-build-tools: http://code.google.com/p/js-build-tools/
 * JSDoc: http://usejsdoc.org/
 * Rhino: http://www.mozilla.org/rhino/
 * Node.js: https://nodejs.org/
