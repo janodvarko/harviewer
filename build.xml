@@ -28,12 +28,6 @@
     <property name="geckodriver.filename" value="geckodriver-v${geckodriver.version}-win32.zip"/>
     <property name="geckodriver.url" value="https://github.com/mozilla/geckodriver/releases/download/v${geckodriver.version}/${geckodriver.filename}"/>
 
-    <!-- Tools for building release package of HAR Viewer.
-        js-build-tools: http://code.google.com/p/js-build-tools/
-        js-min (ant task): http://code.google.com/p/jsmin-ant-task/
-        shrink-safe: http://shrinksafe.dojotoolkit.org/ -->
-    <property name="jsmin.jar" value="${build.tools.dir}/jsmin/jsmin.0.2.3.jar"/>
-
     <path id="js-build-tasks.classpath">
         <pathelement location="."/>
         <fileset dir="${build.tools.dir}/js-build-tools/lib">
@@ -41,10 +35,6 @@
         </fileset>
     </path>
 
-    <!-- Task definitions -->
-    <taskdef name="jsmin"
-        classname="net.matthaynes.jsmin.JSMin_Task"
-        classpath="${jsmin.jar}"/>
     <taskdef name="preprocess"
         classname="com.moxiecode.ant.tasks.PreProcessTask"
         classpathref="js-build-tasks.classpath"/>
@@ -176,13 +166,6 @@
             its content is displayed in the Schema tab -->
         <copy file="${app.dir}/scripts/preview/harSchema.js"
             todir="${build.dir}/scripts/preview" overwrite="true"/>
-
-        <!-- Copy fresh domplate to the build.dir and compile using jsmin.
-            The Google's Closure Compliler breaks the domplate code
-            (by replacing local var names like e.g.: __path__) -->
-        <copy file="${app.dir}/scripts/domplate/domplate.js"
-            todir="${build.dir}/scripts/domplate" overwrite="true"/>
-        <jsmin srcfile="${build.dir}/scripts/domplate/domplate.js" force="true"/>
 
         <!-- Preprocess script/core/trace file to avoid using the console object -->
         <preprocess infile="${app.dir}/scripts/core/trace.js"

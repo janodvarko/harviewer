@@ -24,7 +24,6 @@
                 "nls/requestList"
             ],
             excludeShallow: [
-                "domplate/domplate",
                 "core/trace"
             ]
         },
@@ -35,7 +34,6 @@
                 "nls/requestList"
             ],
             excludeShallow: [
-                "domplate/domplate",
                 "core/trace"
             ]
         }
