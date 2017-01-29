@@ -6,7 +6,8 @@
     "eslint": "^3.14.1",
     "eslint-config-google": "^0.7.1",
     "intern": "^3.4.2",
-    "jsdoc": "~3.4.3"
+    "jsdoc": "~3.4.3",
+    "requirejs": "^2.3.2"
   },
   "scripts": {
     "eslint": "eslint --quiet webapp",

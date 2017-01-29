@@ -58,14 +58,15 @@ To show lint errors and warnings:
 
 ### Build
 
-The HAR Viewer build process uses Ant as its build tool.  To see a list of available tasks, use `ant -p` at the command line.
+The HAR Viewer build process uses `Ant`, `Node.js` and `npm` as its build tools.  To see a list of available tasks, use `ant -p` at the command line.
 
-A build can be performed in one of three ways.
+Firstly, run `npm install` from the command line to install the `Node.js`/`npm` dependencies.
+
+Now a build can be performed in one of three ways.
 
 #### 1) Node.js
 
-This is the default and preferred method.  Node.js must be installed.
-To start a build, go to the project directory and execute the following command:
+This is the default and preferred method. To start a build, go to the project directory and execute the following command:
 
 `ant build`
 
