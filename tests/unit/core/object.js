@@ -7,7 +7,7 @@ define([
     "core/object"
 ], function(registerSuite, assert, Obj) {
     registerSuite({
-        name: "cookies",
+        name: "object",
 
         "bind": function() {
             var fRan = false;
