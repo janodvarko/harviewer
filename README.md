@@ -40,6 +40,10 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 
 ## Development
 
+The HAR Viewer build process uses `Ant`, `Node.js` and `npm` as its build tools.
+
+Firstly, run `npm install` from the command line to install the `Node.js`/`npm` dependencies.
+
 ### Linting
 
 HAR Viewer uses [ESLint](http://eslint.org/) for linting.  It will be installed when you run `npm install` from the project root.
@@ -54,15 +58,19 @@ To show lint errors and warnings:
 
 ### Build
 
-The HAR Viewer build process uses `Ant`, `Node.js` and `npm` as its build tools.  To see a list of available tasks, use `ant -p` at the command line.
-
-Firstly, run `npm install` from the command line to install the `Node.js`/`npm` dependencies.
+To see a list of available tasks, use `ant -p` at the command line.
 
 Go to the project directory and execute the following command:
 
 `ant build`
 
 (*Indicative build time - about 9 seconds.  Node.js v6.0.0*)
+
+### JSDoc
+
+Go to the project directory and execute the following command:
+
+`npm run jsdoc`
 
 #### Version and Google Analytics
 

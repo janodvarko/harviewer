@@ -8,7 +8,6 @@
     <!-- Directories -->
     <property name="app.dir" value="webapp"/>
     <property name="build.dir" value="${app.dir}-build"/>
-    <property name="jsdoc.build.dir" value="${app.dir}-jsdoc"/>
     <property name="examples.dir" value="${app.dir}/examples"/>
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
@@ -27,14 +26,12 @@
     <property name="geckodriver.filename" value="geckodriver-v${geckodriver.version}-win32.zip"/>
     <property name="geckodriver.url" value="https://github.com/mozilla/geckodriver/releases/download/v${geckodriver.version}/${geckodriver.filename}"/>
 
+
     <!-- Remove the previous HAR Viewer build. -->
     <target name="clean" description="Cleans the webapp and jsdoc build folders">
         <delete dir="${build.dir}"/>
         <delete dir="${jsdoc.build.dir}"/>
     </target>
-
-
-
 
 
     <!--
@@ -72,9 +69,6 @@
     </target>
 
 
-
-
-
     <!-- Run r.js build tool using Node -->
     <target name="rjs-node">
         <exec dir="${app.dir}/scripts" executable="node" resolveexecutable="true">
@@ -83,9 +77,6 @@
             <arg value="app.build.js"/>
         </exec>
     </target>
-
-
-
 
 
     <!-- Build HAR Viewer package (the result is within build.dir) -->
@@ -126,36 +117,9 @@
         <echo message="HAR Viewer version: ${VERSION} build OK"/>
     </target>
 
+
     <!-- Build HAR Viewer package (the result is within build.dir) -->
     <target name="clean-build" depends="clean, build" description="Calls the clean task then performs a build">
-    </target>
-
-    <!-- Support for generating docs from Firebug source code using npm jsdoc
-        See the output in webapp-jsdoc directory -->
-    <target name="jsdoc" description="Generate documentation">
-        <echo message="Generate doc from HAR Viewer source."/>
-
-        <!-- Clean the output direcotory -->
-        <delete dir="${jsdoc.build.dir}"/>
-
-        <!-- Parse all source files -->
-        <exec dir="${basedir}" executable="node" resolveexecutable="true">
-            <arg value="${basedir}/node_modules/jsdoc/jsdoc.js"/>
-            <arg value="${app.dir}/scripts"/>
-            <arg value="--recurse"/>
-            <arg value="--configure"/>
-            <arg value="${basedir}/jsdoc.conf.json"/>
-            <arg value="--destination"/>
-            <arg value="${jsdoc.build.dir}"/>
-            <arg value="--package"/>
-            <arg value="${basedir}/package.json"/>
-            <arg value="--readme"/>
-            <arg value="${basedir}/README.md"/>
-            <arg value="--verbose"/>
-            <arg value="--access"/>
-            <arg value="all"/>
-            <arg value="--private"/>
-        </exec>
     </target>
 
 </project>

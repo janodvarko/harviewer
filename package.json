@@ -13,6 +13,7 @@
   "scripts": {
     "eslint": "eslint --quiet webapp",
     "eslint-full": "eslint webapp",
+    "jsdoc": "jsdoc webapp/scripts --recurse --configure jsdoc.conf.json --destination webapp-jsdoc --package package.json --readme README.md --verbose --access all --private",
     "test": "intern-client config=tests/intern",
     "test-standalone": "intern-runner config=tests/intern-selenium-standalone",
     "test-grid": "intern-runner config=tests/intern-selenium-grid",
