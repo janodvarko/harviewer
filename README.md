@@ -27,10 +27,8 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 
 ## Build Tools
 
-* Java 8 (for [Nashorn/jjs](http://docs.oracle.com/javase/8/docs/technotes/tools/windows/jjs.html) build)
 * Ant: http://ant.apache.org/
 * JSDoc: http://usejsdoc.org/
-* Rhino: http://www.mozilla.org/rhino/
 * Node.js: https://nodejs.org/
 * ESLint: http://eslint.org/
 
@@ -60,36 +58,11 @@ The HAR Viewer build process uses `Ant`, `Node.js` and `npm` as its build tools.
 
 Firstly, run `npm install` from the command line to install the `Node.js`/`npm` dependencies.
 
-Now a build can be performed in one of three ways.
-
-#### 1) Node.js
-
-This is the default and preferred method. To start a build, go to the project directory and execute the following command:
+Go to the project directory and execute the following command:
 
 `ant build`
 
 (*Indicative build time - about 9 seconds.  Node.js v6.0.0*)
-
-#### 2) Java 8 with Nashorn
-
-To build using the [jjs](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/jjs.html) command, Java 8 must be installed.
-Execute the following command:
-
-`ant -Drjs.runner=nashorn build`
-
-(*Indicative build time - about 1 minute 37 seconds.  nashorn 1.8.0_92*)
-
-#### 3) Pre-Java 8 with Rhino
-
-To build using Java 7 or earlier, execute the following command:
-
-`ant -Drjs.runner=java build`
-
-You will have to set the [optimize build configuration value](https://github.com/janodvarko/harviewer/blob/0997957b3ecb9fbdb27df4260d5bc85c653fac81/webapp/scripts/app.build.js#L11) to `"closure"`, for example:
-
-    optimize: "closure",
-
-(*Indicative build time - about 42 seconds*)
 
 #### Version and Google Analytics
 

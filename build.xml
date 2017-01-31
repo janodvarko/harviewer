@@ -13,7 +13,6 @@
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
     <property name="rjs.cmd" value="${basedir}/node_modules/requirejs/bin/r.js"/>
-    <property name="rjs.runner" value="node"/>
 
     <property name="selenium.server.version" value="2.53.1"/>
     <property name="selenium.server.version.major" value="2.53"/>
@@ -76,39 +75,8 @@
 
 
 
-    <!-- Determine whether to use Node.JS or Java -->
-    <target name="rjs-determine-runner">
-        <condition property="rjs.runner.isNode">
-            <matches pattern="^node$" string="${rjs.runner}"/>
-        </condition>
-
-        <condition property="rjs.runner.isNashorn">
-            <matches pattern="^nashorn$" string="${rjs.runner}"/>
-        </condition>
-
-        <condition property="rjs.runner.isJava">
-            <matches pattern="^java$" string="${rjs.runner}"/>
-        </condition>
-
-        <fail message="Ant property 'rjs.runner' must be set to either 'node' (the default), 'nashorn' or 'java'. Value was '${rjs.runner}'.">
-            <condition>
-                <not>
-                    <or>
-                        <isset property="rjs.runner.isNode"/>
-                        <isset property="rjs.runner.isNashorn"/>
-                        <isset property="rjs.runner.isJava"/>
-                    </or>
-                </not>
-            </condition>
-        </fail>
-    </target>
-
-
-
-
-
-    <!-- Run r.js build tool (using the chosen runner) -->
-    <target name="rjs-node" depends="rjs-determine-runner" if="rjs.runner.isNode">
+    <!-- Run r.js build tool using Node -->
+    <target name="rjs-node">
         <exec dir="${app.dir}/scripts" executable="node" resolveexecutable="true">
             <arg value="${rjs.cmd}"/>
             <arg value="-o"/>
@@ -116,34 +84,12 @@
         </exec>
     </target>
 
-    <target name="rjs-nashorn" depends="rjs-determine-runner" if="rjs.runner.isNashorn">
-        <exec dir="${app.dir}/scripts" executable="jjs" resolveexecutable="true">
-            <arg value="-scripting"/>
-            <arg value="${rjs.cmd}"/>
-            <arg value="--"/>
-            <arg value="-o"/>
-            <arg value="app.build.js"/>
-        </exec>
-    </target>
-
-    <target name="rjs-java" depends="rjs-determine-runner" if="rjs.runner.isJava">
-       <java fork="true" dir="${app.dir}/scripts" classname="org.mozilla.javascript.tools.shell.Main">
-           <arg value="${rjs.cmd}"/>
-           <arg value="-o"/>
-           <arg value="app.build.js"/>
-           <classpath>
-               <pathelement location="${basedir}/r.js/lib/rhino/js.jar"/>
-               <pathelement location="${basedir}/r.js/lib/closure/compiler.jar"/>
-           </classpath>
-       </java>
-    </target>
-
 
 
 
 
     <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="build" depends="rjs-java, rjs-node, rjs-nashorn" description="Builds HAR Viewer">
+    <target name="build" depends="rjs-node" description="Builds HAR Viewer">
 
         <!-- Log info about the current OS -->
         <echo message="Building HAR Viewer on:" />
@@ -158,7 +104,7 @@
 
         <!-- Preprocess script/core/trace file to avoid using the console object -->
         <exec dir="${basedir}" executable="node" resolveexecutable="true">
-            <arg value="build-tools/preprocess.js"/>
+            <arg value="${build.tools.dir}/preprocess.js"/>
             <arg value="${app.dir}/scripts/core/trace.js"/>
             <arg value="${build.dir}/scripts/core/trace.js"/>
         </exec>
