@@ -15,7 +15,6 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 
 ## Components
 
-* Application Components:
 * RequireJS: http://requirejs.org/
 * jQuery: http://jquery.com/
 * jQuery JSON plugin: Jim Dalton (jim.dalton@furrybrains.com), based on http://www.JSON.org/json2.js
@@ -72,7 +71,7 @@ Go to the project directory and execute the following command:
 
 `npm run jsdoc`
 
-#### Version and Google Analytics
+### Version and Google Analytics
 
 Certain build properties can be overridden at the command line.  For example, to provide the `VERSION` and `GOOGLE-ANALYTICS-PROFILE` values:
 
