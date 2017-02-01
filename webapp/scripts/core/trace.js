@@ -21,7 +21,7 @@ var Trace = {
 if (typeof(console) === "undefined")
     return Trace;
 
-// #ifdef _DEBUG
+//@ifdef DEBUG
 Trace.log = function()
 {
     if (typeof(console.log) === "function")
@@ -51,7 +51,7 @@ Trace.timeEnd = function(name, message)
     if (typeof(console.timeEnd) === "function")
         console.timeEnd.apply(console, arguments);
 };
-// #endif
+//@endif
 
 return Trace;
 

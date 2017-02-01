@@ -7,11 +7,13 @@
     "eslint-config-google": "^0.7.1",
     "intern": "^3.4.2",
     "jsdoc": "~3.4.3",
+    "preprocess": "^3.1.0",
     "requirejs": "^2.3.2"
   },
   "scripts": {
     "eslint": "eslint --quiet webapp",
     "eslint-full": "eslint webapp",
+    "jsdoc": "jsdoc webapp/scripts --recurse --configure jsdoc.conf.json --destination webapp-jsdoc --package package.json --readme README.md --verbose --access all --private",
     "test": "intern-client config=tests/intern",
     "test-standalone": "intern-runner config=tests/intern-selenium-standalone",
     "test-grid": "intern-runner config=tests/intern-selenium-grid",

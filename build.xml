@@ -8,12 +8,10 @@
     <!-- Directories -->
     <property name="app.dir" value="webapp"/>
     <property name="build.dir" value="${app.dir}-build"/>
-    <property name="jsdoc.build.dir" value="${app.dir}-jsdoc"/>
     <property name="examples.dir" value="${app.dir}/examples"/>
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
     <property name="rjs.cmd" value="${basedir}/node_modules/requirejs/bin/r.js"/>
-    <property name="rjs.runner" value="node"/>
 
     <property name="selenium.server.version" value="2.53.1"/>
     <property name="selenium.server.version.major" value="2.53"/>
@@ -28,35 +26,12 @@
     <property name="geckodriver.filename" value="geckodriver-v${geckodriver.version}-win32.zip"/>
     <property name="geckodriver.url" value="https://github.com/mozilla/geckodriver/releases/download/v${geckodriver.version}/${geckodriver.filename}"/>
 
-    <!-- Tools for building release package of HAR Viewer.
-        js-build-tools: http://code.google.com/p/js-build-tools/
-        js-min (ant task): http://code.google.com/p/jsmin-ant-task/
-        shrink-safe: http://shrinksafe.dojotoolkit.org/ -->
-    <property name="jsmin.jar" value="${build.tools.dir}/jsmin/jsmin.0.2.3.jar"/>
-
-    <path id="js-build-tasks.classpath">
-        <pathelement location="."/>
-        <fileset dir="${build.tools.dir}/js-build-tools/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-    </path>
-
-    <!-- Task definitions -->
-    <taskdef name="jsmin"
-        classname="net.matthaynes.jsmin.JSMin_Task"
-        classpath="${jsmin.jar}"/>
-    <taskdef name="preprocess"
-        classname="com.moxiecode.ant.tasks.PreProcessTask"
-        classpathref="js-build-tasks.classpath"/>
 
     <!-- Remove the previous HAR Viewer build. -->
     <target name="clean" description="Cleans the webapp and jsdoc build folders">
         <delete dir="${build.dir}"/>
         <delete dir="${jsdoc.build.dir}"/>
     </target>
-
-
-
 
 
     <!--
@@ -94,42 +69,8 @@
     </target>
 
 
-
-
-
-    <!-- Determine whether to use Node.JS or Java -->
-    <target name="rjs-determine-runner">
-        <condition property="rjs.runner.isNode">
-            <matches pattern="^node$" string="${rjs.runner}"/>
-        </condition>
-
-        <condition property="rjs.runner.isNashorn">
-            <matches pattern="^nashorn$" string="${rjs.runner}"/>
-        </condition>
-
-        <condition property="rjs.runner.isJava">
-            <matches pattern="^java$" string="${rjs.runner}"/>
-        </condition>
-
-        <fail message="Ant property 'rjs.runner' must be set to either 'node' (the default), 'nashorn' or 'java'. Value was '${rjs.runner}'.">
-            <condition>
-                <not>
-                    <or>
-                        <isset property="rjs.runner.isNode"/>
-                        <isset property="rjs.runner.isNashorn"/>
-                        <isset property="rjs.runner.isJava"/>
-                    </or>
-                </not>
-            </condition>
-        </fail>
-    </target>
-
-
-
-
-
-    <!-- Run r.js build tool (using the chosen runner) -->
-    <target name="rjs-node" depends="rjs-determine-runner" if="rjs.runner.isNode">
+    <!-- Run r.js build tool using Node -->
+    <target name="rjs-node">
         <exec dir="${app.dir}/scripts" executable="node" resolveexecutable="true">
             <arg value="${rjs.cmd}"/>
             <arg value="-o"/>
@@ -137,34 +78,9 @@
         </exec>
     </target>
 
-    <target name="rjs-nashorn" depends="rjs-determine-runner" if="rjs.runner.isNashorn">
-        <exec dir="${app.dir}/scripts" executable="jjs" resolveexecutable="true">
-            <arg value="-scripting"/>
-            <arg value="${rjs.cmd}"/>
-            <arg value="--"/>
-            <arg value="-o"/>
-            <arg value="app.build.js"/>
-        </exec>
-    </target>
-
-    <target name="rjs-java" depends="rjs-determine-runner" if="rjs.runner.isJava">
-       <java fork="true" dir="${app.dir}/scripts" classname="org.mozilla.javascript.tools.shell.Main">
-           <arg value="${rjs.cmd}"/>
-           <arg value="-o"/>
-           <arg value="app.build.js"/>
-           <classpath>
-               <pathelement location="${basedir}/r.js/lib/rhino/js.jar"/>
-               <pathelement location="${basedir}/r.js/lib/closure/compiler.jar"/>
-           </classpath>
-       </java>
-    </target>
-
-
-
-
 
     <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="build" depends="rjs-java, rjs-node, rjs-nashorn" description="Builds HAR Viewer">
+    <target name="build" depends="rjs-node" description="Builds HAR Viewer">
 
         <!-- Log info about the current OS -->
         <echo message="Building HAR Viewer on:" />
@@ -177,16 +93,12 @@
         <copy file="${app.dir}/scripts/preview/harSchema.js"
             todir="${build.dir}/scripts/preview" overwrite="true"/>
 
-        <!-- Copy fresh domplate to the build.dir and compile using jsmin.
-            The Google's Closure Compliler breaks the domplate code
-            (by replacing local var names like e.g.: __path__) -->
-        <copy file="${app.dir}/scripts/domplate/domplate.js"
-            todir="${build.dir}/scripts/domplate" overwrite="true"/>
-        <jsmin srcfile="${build.dir}/scripts/domplate/domplate.js" force="true"/>
-
         <!-- Preprocess script/core/trace file to avoid using the console object -->
-        <preprocess infile="${app.dir}/scripts/core/trace.js"
-            outfile="${build.dir}/scripts/core/trace.js" defines="_RELEASE" />
+        <exec dir="${basedir}" executable="node" resolveexecutable="true">
+            <arg value="${build.tools.dir}/preprocess.js"/>
+            <arg value="${app.dir}/scripts/core/trace.js"/>
+            <arg value="${build.dir}/scripts/core/trace.js"/>
+        </exec>
 
         <!-- Insert version number into PHP files. The version info is loaded from 'ant.properties'
             file (or provided as a Java system property on the command line). -->
@@ -205,36 +117,9 @@
         <echo message="HAR Viewer version: ${VERSION} build OK"/>
     </target>
 
+
     <!-- Build HAR Viewer package (the result is within build.dir) -->
     <target name="clean-build" depends="clean, build" description="Calls the clean task then performs a build">
-    </target>
-
-    <!-- Support for generating docs from Firebug source code using npm jsdoc
-        See the output in webapp-jsdoc directory -->
-    <target name="jsdoc" description="Generate documentation">
-        <echo message="Generate doc from HAR Viewer source."/>
-
-        <!-- Clean the output direcotory -->
-        <delete dir="${jsdoc.build.dir}"/>
-
-        <!-- Parse all source files -->
-        <exec dir="${basedir}" executable="node" resolveexecutable="true">
-            <arg value="${basedir}/node_modules/jsdoc/jsdoc.js"/>
-            <arg value="${app.dir}/scripts"/>
-            <arg value="--recurse"/>
-            <arg value="--configure"/>
-            <arg value="${basedir}/jsdoc.conf.json"/>
-            <arg value="--destination"/>
-            <arg value="${jsdoc.build.dir}"/>
-            <arg value="--package"/>
-            <arg value="${basedir}/package.json"/>
-            <arg value="--readme"/>
-            <arg value="${basedir}/README.md"/>
-            <arg value="--verbose"/>
-            <arg value="--access"/>
-            <arg value="all"/>
-            <arg value="--private"/>
-        </exec>
     </target>
 
 </project>
