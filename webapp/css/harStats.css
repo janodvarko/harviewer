@@ -39,3 +39,27 @@
 .pieLabel .label {
     padding-left: 5px;
 }
+
+.TimingPie.Blocked { color: rgb(228, 214, 193) }
+.TimingPie.DNS     { color: rgb(119, 192, 203) }
+.TimingPie.SSL     { color: rgb(168, 196, 173) }
+.TimingPie.Connect { color: rgb(179, 222, 93) }
+.TimingPie.Send    { color: rgb(224, 171, 157) }
+.TimingPie.Wait    { color: rgb(163, 150, 190) }
+.TimingPie.Receive { color: rgb(194, 194, 194) }
+
+.ContentPie.HTMLText   { color: rgb(174, 234, 218) }
+.ContentPie.JavaScript { color: rgb(245, 230, 186) }
+.ContentPie.CSS        { color: rgb(212, 204, 219) }
+.ContentPie.Image      { color: rgb(220, 171, 181) }
+.ContentPie.Flash      { color: rgb(166, 156, 222) }
+.ContentPie.Others     { color: rgb(229, 171, 255) }
+
+.TrafficPie.HeadersSent     { color: rgb(247, 179, 227) }
+.TrafficPie.BodiesSent      { color: rgb(226, 160, 241) }
+.TrafficPie.HeadersReceived { color: rgb(166, 232, 166) }
+.TrafficPie.BodiesReceived  { color: rgb(168, 196, 173) }
+
+.CachePie.Downloaded { color: rgb(182, 182, 182) }
+.CachePie.Partial    { color: rgb(218, 218, 218) }
+.CachePie.FromCache  { color: rgb(239, 239, 239) }

@@ -175,6 +175,27 @@ PieBase.prototype =
     }
 };
 
+function loadColors(primaryClassName, secondaryClassName1, secondaryClassName2, secondaryClassNameN) {
+    var secondaryClassNames = [].slice.call(arguments, 1);
+    return secondaryClassNames.reduce(function(map, name) {
+        var div = $("<div>").css("display", "none").addClass(primaryClassName).addClass(name);
+        div.appendTo(document.body);
+
+        map[name] = div.css("color");
+
+        div.remove();
+
+        return map;
+    }, {});
+}
+
+var PieColors = {
+    TimingPie: loadColors("TimingPie", "Blocked", "DNS", "SSL", "Connect", "Send", "Wait", "Receive"),
+    ContentPie: loadColors("ContentPie", "HTMLText", "JavaScript", "CSS", "Image", "Flash", "Others"),
+    TrafficPie: loadColors("TrafficPie", "HeadersSent", "BodiesSent", "HeadersReceived", "BodiesReceived"),
+    CachePie: loadColors("CachePie", "Downloaded", "Partial", "FromCache")
+};
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 function TimingPie() {}
@@ -184,13 +205,13 @@ TimingPie.prototype = Lib.extend(PieBase.prototype,
     title: "Summary of request times.",
 
     data: [
-        {value: 0, label: Strings.pieLabelBlocked, color: "rgb(228, 214, 193)"},
-        {value: 0, label: Strings.pieLabelDNS,     color: "rgb(119, 192, 203)"},
-        {value: 0, label: Strings.pieLabelSSL,     color: "rgb(168, 196, 173)"},
-        {value: 0, label: Strings.pieLabelConnect, color: "rgb(179, 222, 93)"},
-        {value: 0, label: Strings.pieLabelSend,    color: "rgb(224, 171, 157)"},
-        {value: 0, label: Strings.pieLabelWait,    color: "rgb(163, 150, 190)"},
-        {value: 0, label: Strings.pieLabelReceive, color: "rgb(194, 194, 194)"}
+        {value: 0, label: Strings.pieLabelBlocked, color: PieColors.TimingPie.Blocked},
+        {value: 0, label: Strings.pieLabelDNS,     color: PieColors.TimingPie.DNS},
+        {value: 0, label: Strings.pieLabelSSL,     color: PieColors.TimingPie.SSL},
+        {value: 0, label: Strings.pieLabelConnect, color: PieColors.TimingPie.Connect},
+        {value: 0, label: Strings.pieLabelSend,    color: PieColors.TimingPie.Send},
+        {value: 0, label: Strings.pieLabelWait,    color: PieColors.TimingPie.Wait},
+        {value: 0, label: Strings.pieLabelReceive, color: PieColors.TimingPie.Receive},
     ],
 
     getLabelTooltipText: function(item)
@@ -208,12 +229,12 @@ ContentPie.prototype = Lib.extend(PieBase.prototype,
     title: "Summary of content types.",
 
     data: [
-        {value: 0, label: Strings.pieLabelHTMLText, color: "rgb(174, 234, 218)"},
-        {value: 0, label: Strings.pieLabelJavaScript, color: "rgb(245, 230, 186)"},
-        {value: 0, label: Strings.pieLabelCSS, color: "rgb(212, 204, 219)"},
-        {value: 0, label: Strings.pieLabelImage, color: "rgb(220, 171, 181)"},
-        {value: 0, label: Strings.pieLabelFlash, color: "rgb(166, 156, 222)"},
-        {value: 0, label: Strings.pieLabelOthers, color: "rgb(229, 171, 255)"}
+        {value: 0, label: Strings.pieLabelHTMLText, color: PieColors.ContentPie.HTMLText},
+        {value: 0, label: Strings.pieLabelJavaScript, color: PieColors.ContentPie.JavaScript},
+        {value: 0, label: Strings.pieLabelCSS, color: PieColors.ContentPie.CSS},
+        {value: 0, label: Strings.pieLabelImage, color: PieColors.ContentPie.Image},
+        {value: 0, label: Strings.pieLabelFlash, color: PieColors.ContentPie.Flash},
+        {value: 0, label: Strings.pieLabelOthers, color: PieColors.ContentPie.Others}
     ],
 
     getLabelTooltipText: function(item)
@@ -231,10 +252,10 @@ TrafficPie.prototype = Lib.extend(PieBase.prototype,
     title: "Summary of sent and received bodies & headers.",
 
     data: [
-        {value: 0, label: Strings.pieLabelHeadersSent, color: "rgb(247, 179, 227)"},
-        {value: 0, label: Strings.pieLabelBodiesSent, color: "rgb(226, 160, 241)"},
-        {value: 0, label: Strings.pieLabelHeadersReceived, color: "rgb(166, 232, 166)"},
-        {value: 0, label: Strings.pieLabelBodiesReceived, color: "rgb(168, 196, 173)"}
+        {value: 0, label: Strings.pieLabelHeadersSent, color: PieColors.TrafficPie.HeadersSent},
+        {value: 0, label: Strings.pieLabelBodiesSent, color: PieColors.TrafficPie.BodiesSent},
+        {value: 0, label: Strings.pieLabelHeadersReceived, color: PieColors.TrafficPie.HeadersReceived},
+        {value: 0, label: Strings.pieLabelBodiesReceived, color: PieColors.TrafficPie.BodiesReceived}
     ]
 });
 
@@ -247,9 +268,9 @@ CachePie.prototype = Lib.extend(PieBase.prototype,
     title: "Comparison of downloaded data from the server and browser cache.",
 
     data: [
-        {value: 0, label: Strings.pieLabelDownloaded, color: "rgb(182, 182, 182)"},
-        {value: 0, label: Strings.pieLabelPartial, color: "rgb(218, 218, 218)"},
-        {value: 0, label: Strings.pieLabelFromCache, color: "rgb(239, 239, 239)"}
+        {value: 0, label: Strings.pieLabelDownloaded, color: PieColors.CachePie.Downloaded},
+        {value: 0, label: Strings.pieLabelPartial, color: PieColors.CachePie.Partial},
+        {value: 0, label: Strings.pieLabelFromCache, color: PieColors.CachePie.FromCache}
     ],
 
     getLabelTooltipText: function(item)
