@@ -32,9 +32,8 @@ var PieInfoTip = domplate(
             "$text"
         ),
 
-    render: function(pie, item, parentNode)
+    render: function(text, parentNode)
     {
-        var text = pie.getLabelTooltipText(item);
         this.tag.replace({text: text}, parentNode);
     }
 });
@@ -48,7 +47,7 @@ var Pie = domplate(
             _repObject: "$pie"},
             TBODY(
                 TR(
-                    TD({"class": "pieBox", title: "$pie.title"}),
+                    TD({"class": "pieBox"}),
                     TD(
                         FOR("item", "$pie.data",
                             DIV({"class": "pieLabel", _repObject: "$item"},
@@ -139,13 +138,19 @@ var Pie = domplate(
     showInfoTip: function(infoTip, target, x, y)
     {
         var pieTable = Lib.getAncestorByClass(target, "pagePieTable");
-        if (!pieTable)
+        if (!pieTable) {
             return false;
+        }
 
         var label = Lib.getAncestorByClass(target, "pieLabel");
-        if (label)
-        {
-            PieInfoTip.render(pieTable.repObject, label.repObject, infoTip);
+        if (label) {
+            var text = pieTable.repObject.getLabelTooltipText(label.repObject);
+            PieInfoTip.render(text, infoTip);
+            return true;
+        }
+
+        if (target.tagName === "CANVAS") {
+            PieInfoTip.render(pieTable.repObject.title, infoTip);
             return true;
         }
     }
