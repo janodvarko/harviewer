@@ -1,24 +1,39 @@
 /* See license.txt for terms of usage */
 
 (function() {
-    // ********************************************************************************************* //
-
     /**
-     * Finds all elements with class="har" on the page and creates HAR preview frame for each.
+     * Finds all elements with class="har" on the page and creates HAR preview
+     * frame for each.
+     *
      * See list of attributes that can be specified on such elements:
      *
-     * class: (mandatory) elements with this class are considered as HAR preview elements.
-     *      The class is removed as soon as the element is processed. Possible additional
-     *      classes are not touched.
-     * data-har: (mandatory) source URL for target file.
-     *      1) The URL must start with 'http:' in case where the target file is located on
-     *         a different domain. The file must use HARP syntax (JSONP) in these cases.
-     *      2) Otherwise the URL is considered to be from the same domain and path relative to
-     *         the current location). The file must use HAR syntax (JSON) in these cases.
+     * class: (mandatory) elements with this class are considered as HAR
+     *      preview elements. The class is removed as soon as the element is
+     *      processed. Possible additional classes are not touched.
+     *
+     * data-har: (optional, legacy) source URL for target file.
+     *      1) The URL must start with 'http:' in case where the target file is
+     *         located on a different domain. The file must use HARP syntax
+     *         (JSONP) in these cases.
+     *      2) Otherwise the URL is considered to be from the same domain and
+     *         path relative to the current location). The file must use HAR
+     *         syntax (JSON) in these cases.
+     *
+     * data-har-url: (optional) URL for a HAR.
+     *      If the URL has a different domain to HAR Viewer, CORS must be
+     *      enabled on that domain.
+     *
+     * data-harp-url: (optional) URL for a HARP.
+     *
      * width: (optional, default: '100%') width of the preview.
+     *
      * height: (optional, default: '150px') height of the preview.
-     * expand: (optional, default: 'true') true if individual pages should be expanded.
-     * validate: (optional, default: 'true') false if HAR validation (according to the schema) should be skipped.
+     *
+     * expand: (optional, default: 'true') true if individual pages should be
+     *      expanded.
+     *
+     * validate: (optional, default: 'true') false if HAR validation (according
+     *      to the schema) should be skipped.
      *
      * Embed this script on a page:
      * <script>
@@ -50,12 +65,17 @@
         var index = script.src.lastIndexOf("/");
         var baseUrl = script.src.substr(0, index + 1);
 
-        var elements = findHarElements();
-        for (var i = 0; i < elements.length; i++) {
-            var element = elements[i];
+        var elements = findHARElements();
+        elements.forEach(function(element) {
+            // old-style path
             var path = element.getAttribute("data-har");
-            if (!path) {
-                continue;
+
+            // new-style attrs
+            var harUrl = element.getAttribute("data-har-url");
+            var harpUrl = element.getAttribute("data-harp-url");
+
+            if (!path && !harUrl && !harpUrl) {
+                return;
             }
 
             var callback = element.getAttribute("data-callback");
@@ -65,7 +85,17 @@
             var expand = element.getAttribute("expand");
             var validate = element.getAttribute("validate");
 
-            var args = "?" + (path.indexOf("http:") === 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
+            var args = "?";
+
+            if (path) {
+                // old-style handling.
+                args += (path.indexOf("http:") === 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
+            } else if (harUrl) {
+                args += "har=" + encodeURIComponent(harUrl);
+            } else if (harpUrl) {
+                args += "harp=" + encodeURIComponent(harpUrl);
+            }
+
             if (expand !== "false") {
                 args += "&expand=" + (expand ? expand : "true");
             }
@@ -83,11 +113,11 @@
             iframe.setAttribute("frameborder", "0");
             iframe.setAttribute("width", width ? width : "100%");
             iframe.setAttribute("height", height ? height : "150px");
-            iframe.setAttribute("src", baseUrl + "preview.php" + args);
+            iframe.setAttribute("src", baseUrl + "preview.html" + args);
             element.appendChild(iframe);
 
             removeHarClass(element);
-        }
+        });
     };
 
     var re = new RegExp("(^|\\s)har(\\s|$)", "g");
@@ -104,7 +134,7 @@
     /**
      * Returns list of all elements with class="har" on the page.
      */
-    function findHarElements() {
+    function findHARElements() {
         return [].slice.call(document.getElementsByClassName("har"));
     }
 
@@ -116,6 +146,4 @@
     harInitialize();
 
     addEventListener(window, "load", harInitialize, false);
-
-    // ********************************************************************************************* //
 })();

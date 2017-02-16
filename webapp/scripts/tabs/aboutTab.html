@@ -9,7 +9,7 @@
 <a href="@HAR_SPEC_URL@">
     HTTP Archive (HAR)</a>
 log files created by HTTP tracking tools. These files contain log of HTTP
-client/server conversation and can be used for an additional analysis of e.g. 
+client/server conversation and can be used for an additional analysis of e.g.
 page load performance.</p>
 
 <p>User interface of this tool is composed from the following tabs:</p>
@@ -174,6 +174,26 @@ Refused to execute script from 'https://raw.githubusercontent.com/janodvarko/har
 SEC7112: Script from https://raw.githubusercontent.com/janodvarko/harviewer/master/webapp/examples/inline-scripts-block.harp?callback=onInputData&_=1469983439613 was blocked due to mime type mismatch
 </blockquote>
 </p>
+
+<h4>Embedding</h4>
+<p>Use <code>&lt;div&gt;</code> tags with a CSS class of "har" and the <code>data-har-url</code> or <code>data-harp-url</code> attribute as follows:</p>
+<p>
+<textarea readonly rows="12" style="width: 100%">
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://gitgrimbo.github.io/harviewer/master/har.js" id="har"></script>
+</head>
+<body>
+    <div class="har" data-har-url="http://localhost:8111/my-har.har" height="800px"></div>
+    <div class="har" data-harp-url="http://localhost:8111/my-harp.harp" height="800px"></div>
+</body>
+</html>
+</textarea>
+</p>
+
 </td></tr>
 
 </table>
