@@ -26,6 +26,7 @@ var Arr = {};
 Arr.isArray = function(object)
 {
     // Supported by IE9
+    // eslint-disable-next-line max-len
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
     return Array.isArray(object);
 };

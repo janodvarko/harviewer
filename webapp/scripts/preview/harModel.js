@@ -338,7 +338,10 @@ HarModel.validateRequestTimings = function(input)
 HarModel.isCachedEntry = function(entry) {
     var response = entry.response;
     var resBodySize = Math.max(0, response.bodySize);
-    return (response.status === 304 || (resBodySize === 0 && response.content && response.content.size > 0));
+    if (response.status === 304) {
+        return true;
+    }
+    return (resBodySize === 0 && response.content && response.content.size > 0);
 };
 
 HarModel.getEntrySize = function(entry) {

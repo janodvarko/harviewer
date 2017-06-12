@@ -261,7 +261,10 @@ ImageTab.prototype = domplate(TabView.Tab.prototype,
 
         // IE9 and IE10 will set the image width and height to 0 if using the
         // createElement() approach.  The innerHTML approach works for those browsers.
-        var mustUseInnerHtmlForSvgImage = (9 === document.documentMode) || (10 === document.documentMode);
+        // https://msdn.microsoft.com/en-us/library/cc196988(v=vs.85).aspx
+        var ie9mode = (9 === document.documentMode);
+        var ie10mode = (10 === document.documentMode)
+        var mustUseInnerHtmlForSvgImage = (ie9mode || ie10mode);
         if (mustUseInnerHtmlForSvgImage) {
             addUsingInnerHtml(this.file, imageTextBox);
         } else {
@@ -423,7 +426,14 @@ HighlightedTab.canShowFile = function(file) {
 
 HighlightedTab.shouldHighlightAs = function(mimeType) {
     var mimeTypesToHighlight = {
-        javascript: ["application/javascript", "text/javascript", "application/x-javascript", "text/ecmascript", "application/ecmascript", "application/json"],
+        javascript: [
+            "application/javascript",
+            "text/javascript",
+            "application/x-javascript",
+            "text/ecmascript",
+            "application/ecmascript",
+            "application/json"
+        ],
         css: ["text/css"],
         html: ["text/html", "application/xhtml+xml"]
     };
@@ -561,14 +571,16 @@ CookiesTab.prototype = domplate(HeadersTab.prototype,
     {
         var textBox = Lib.getElementByClass(body, "netInfoParamsText");
 
-        if (this.file.response.cookies)
+        var file = this.file;
+
+        if (file.response.cookies)
         {
-            this.insertHeaderRows(textBox, this.file.response.cookies, "Cookies", "ResponseCookies");
+            this.insertHeaderRows(textBox, file.response.cookies, "Cookies", "ResponseCookies");
         }
 
-        if (this.file.request.cookies)
+        if (file.request.cookies)
         {
-            this.insertHeaderRows(textBox, this.file.request.cookies, "Cookies", "RequestCookies");
+            this.insertHeaderRows(textBox, file.request.cookies, "Cookies", "RequestCookies");
         }
     }
 });

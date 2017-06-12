@@ -51,7 +51,9 @@ var Pie = domplate(
                     TD(
                         FOR("item", "$pie.data",
                             DIV({"class": "pieLabel", _repObject: "$item"},
-                                SPAN({"class": "box", style: "background-color: $item.color"}, "&nbsp;"),
+                                SPAN({
+                                    "class": "box", style: "background-color: $item.color"
+                                }, "&nbsp;"),
                                 SPAN({"class": "label"}, "$item.label")
                             )
                         )
@@ -180,6 +182,7 @@ PieBase.prototype =
     }
 };
 
+// eslint-disable-next-line max-len
 function loadColors(primaryClassName, secondaryClassName1, secondaryClassName2, secondaryClassNameN) {
     var secondaryClassNames = [].slice.call(arguments, 1);
     return secondaryClassNames.reduce(function(map, name) {
@@ -195,10 +198,18 @@ function loadColors(primaryClassName, secondaryClassName1, secondaryClassName2, 
 }
 
 var PieColors = {
-    TimingPie: loadColors("TimingPie", "Blocked", "DNS", "SSL", "Connect", "Send", "Wait", "Receive"),
-    ContentPie: loadColors("ContentPie", "HTMLText", "JavaScript", "CSS", "Image", "Flash", "Others"),
-    TrafficPie: loadColors("TrafficPie", "HeadersSent", "BodiesSent", "HeadersReceived", "BodiesReceived"),
-    CachePie: loadColors("CachePie", "Downloaded", "Partial", "FromCache")
+    TimingPie: loadColors(
+        "TimingPie", "Blocked", "DNS", "SSL", "Connect", "Send", "Wait", "Receive"
+    ),
+    ContentPie: loadColors(
+        "ContentPie", "HTMLText", "JavaScript", "CSS", "Image", "Flash", "Others"
+    ),
+    TrafficPie: loadColors(
+        "TrafficPie", "HeadersSent", "BodiesSent", "HeadersReceived", "BodiesReceived"
+    ),
+    CachePie: loadColors(
+        "CachePie", "Downloaded", "Partial", "FromCache"
+    )
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -257,10 +268,14 @@ TrafficPie.prototype = Lib.extend(PieBase.prototype,
     title: "Summary of sent and received bodies & headers.",
 
     data: [
-        {value: 0, label: Strings.pieLabelHeadersSent, color: PieColors.TrafficPie.HeadersSent},
-        {value: 0, label: Strings.pieLabelBodiesSent, color: PieColors.TrafficPie.BodiesSent},
-        {value: 0, label: Strings.pieLabelHeadersReceived, color: PieColors.TrafficPie.HeadersReceived},
-        {value: 0, label: Strings.pieLabelBodiesReceived, color: PieColors.TrafficPie.BodiesReceived}
+        {value: 0, label: Strings.pieLabelHeadersSent,
+            color: PieColors.TrafficPie.HeadersSent},
+        {value: 0, label: Strings.pieLabelBodiesSent,
+            color: PieColors.TrafficPie.BodiesSent},
+        {value: 0, label: Strings.pieLabelHeadersReceived,
+            color: PieColors.TrafficPie.HeadersReceived},
+        {value: 0, label: Strings.pieLabelBodiesReceived,
+            color: PieColors.TrafficPie.BodiesReceived}
     ]
 });
 

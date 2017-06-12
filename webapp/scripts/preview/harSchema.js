@@ -6,6 +6,7 @@ define("preview/harSchema", [], function() {
 // HAR Schema Definition
 
 // Date time fields use ISO8601 (YYYY-MM-DDThh:mm:ss.sTZD, e.g. 2009-07-24T19:20:30.45+01:00)
+// eslint-disable-next-line max-len
 var dateTimePattern = /^(\d{4})(-)?(\d\d)(-)?(\d\d)(T)?(\d\d)(:)?(\d\d)(:)?(\d\d)(\.\d+)?(Z|([+-])(\d\d)(:)?(\d\d))/;
 
 /**
@@ -65,6 +66,7 @@ var pageType = {
         "description": "Exported web page",
         "optional": true,
         "properties": {
+            // eslint-disable-next-line max-len
             "startedDateTime": {"type": "string", "format": "date-time", "pattern": dateTimePattern},
             "id": {"type": "string", "unique": true},
             "title": {"type": "string"},
@@ -93,6 +95,7 @@ var entryType = {
         "optional": true,
         "properties": {
             "pageref": {"type": "string", "optional": true},
+            // eslint-disable-next-line max-len
             "startedDateTime": {"type": "string", "format": "date-time", "pattern": dateTimePattern},
             "time": {"type": "number", "min": 0},
             "request" : {"$ref": "requestType"},

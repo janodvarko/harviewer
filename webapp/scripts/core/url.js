@@ -112,7 +112,8 @@ Url.splitDataURL = function(url)
         {
             props.path = callerSplit.path;
             props.line = props.baseLineNumber;
-            var hint = decodeURIComponent(props.encodedContent.substr(0,200)).replace(/\s*$/, "");
+            var encodedSubstr1 = props.encodedContent.substr(0,200);
+            var hint = decodeURIComponent(encodedSubstr1).replace(/\s*$/, "");
             props.name =  'eval->'+hint;
         }
         else
@@ -123,10 +124,13 @@ Url.splitDataURL = function(url)
     }
     else
     {
-        if (!props.hasOwnProperty('path'))
+        if (!props.hasOwnProperty('path')) {
             props.path = "data:";
-        if (!props.hasOwnProperty('name'))
-            props.name =  decodeURIComponent(props.encodedContent.substr(0,200)).replace(/\s*$/, "");
+        }
+        if (!props.hasOwnProperty('name')) {
+            var encodedSubstr2 = props.encodedContent.substr(0,200);
+            props.name =  decodeURIComponent(encodedSubstr2).replace(/\s*$/, "");
+        }
     }
 
     return props;

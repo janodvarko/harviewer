@@ -55,7 +55,8 @@ var Loader =
 
         // Legacy path and inputUrl
         var paths = Url.getURLParameters("path", url);
-        var inputUrls = Url.getURLParameters("inputUrl", url).concat(Url.getHashParameters("inputUrl", url));
+        var inputUrls = Url.getURLParameters("inputUrl", url)
+            .concat(Url.getHashParameters("inputUrl", url));
 
         var urls = paths.map(function(path) {
             return baseUrl ? baseUrl + path : path;
@@ -66,7 +67,8 @@ var Loader =
 
         // New har and harp
         var hars = Url.getURLParameters("har", url);
-        var harps = Url.getURLParameters("harp", url).concat(Url.getHashParameters("harp", url));
+        var harps = Url.getURLParameters("harp", url)
+            .concat(Url.getHashParameters("harp", url));
 
         if (baseUrl) {
             hars = hars.map(function(har) {
@@ -98,13 +100,16 @@ var Loader =
 
         // New params
         if (loadOptions.hars.length > 0 || loadOptions.harps.length > 0) {
-            return this.loadArchives(loadOptions.hars, loadOptions.harps, loadOptions.callbackName, callback, errorCallback);
+            return this.loadArchives(loadOptions.hars, loadOptions.harps,
+                loadOptions.callbackName, callback, errorCallback);
         }
 
         // Legacy params
-        if ((loadOptions.baseUrl || loadOptions.inputUrls.length > 0) && loadOptions.urls.length > 0) {
+        var hasBaseUrlOrInputUrls = (loadOptions.baseUrl || loadOptions.inputUrls.length > 0);
+        if (hasBaseUrlOrInputUrls && loadOptions.urls.length > 0) {
             // The assumption here is that we load as HARP (JSONP).
-            return this.loadArchives([], loadOptions.urls, loadOptions.callbackName, callback, errorCallback);
+            return this.loadArchives([], loadOptions.urls,
+                loadOptions.callbackName, callback, errorCallback);
         }
 
         // Legacy params
@@ -112,7 +117,8 @@ var Loader =
         // http://domain/har/viewer?path=<local-file-path>
         if (loadOptions.filePath) {
             // The assumption here is that we load as HAR (XHR).
-            return this.loadArchives([loadOptions.filePath], [], loadOptions.callbackName, callback, errorCallback);
+            return this.loadArchives([loadOptions.filePath], [],
+                loadOptions.callbackName, callback, errorCallback);
         }
     },
 
@@ -182,7 +188,8 @@ var Loader =
                 // Asynchronously load other HAR files (jQuery doesn't like it synchronously).
                 var self = this;
                 setTimeout(function() {
-                    self.loadArchives(hars, harps, callbackName, callback, errorCallback, doneCallback);
+                    self.loadArchives(hars, harps,
+                        callbackName, callback, errorCallback, doneCallback);
                 }, 300);
             },
 

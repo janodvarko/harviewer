@@ -89,7 +89,8 @@
 
             if (path) {
                 // old-style handling.
-                args += (path.indexOf("http:") === 0 ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
+                var isHttp = path.indexOf("http:") === 0;
+                args += (isHttp ? "inputUrl" : "path") + "=" + encodeURIComponent(path);
             } else if (harUrl) {
                 args += "har=" + encodeURIComponent(harUrl);
             } else if (harpUrl) {

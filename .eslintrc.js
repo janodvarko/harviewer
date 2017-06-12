@@ -41,6 +41,8 @@ module.exports = {
 
         "space-before-function-paren": ["error", "never"],
 
+        "max-len": ["error", 100],
+
         "yoda": "warn"
     },
     "env": {

@@ -43,6 +43,7 @@ Date_.fromISOString = function(text)
     // eg 1997-07-16T19:20:30.451+01:00
     // http://www.w3.org/TR/NOTE-datetime
     // xxxHonza: use the one from the schema.
+    // eslint-disable-next-line max-len
     var regex = /(\d\d\d\d)(-)?(\d\d)(-)?(\d\d)(T)?(\d\d)(:)?(\d\d)(:)?(\d\d)(\.\d+)?(Z|([+-])(\d\d)(:)?(\d\d))/;
     var m = text.toString().match(new RegExp(regex));
     if (!m)

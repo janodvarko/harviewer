@@ -249,14 +249,20 @@ var EntrySizeInfoTip = domplate(
     tag:
         DIV(
             DIV({"class": "sizeInfoTip"}, "$file|getSize"),
-            DIV({"class": "sizeInfoTip", style: "display: $file|getCachedDisplayStyle"}, "$file|getCached")
+            DIV({
+                "class": "sizeInfoTip",
+                style: "display: $file|getCachedDisplayStyle"
+            }, "$file|getCached")
         ),
 
     zippedTag:
         DIV(
             DIV({"class": "sizeInfoTip"}, "$file|getBodySize"),
             DIV({"class": "sizeInfoTip"}, "$file|getContentSize"),
-            DIV({"class": "sizeInfoTip", style: "display: $file|getCachedDisplayStyle"}, "$file|getCached")
+            DIV({
+                "class": "sizeInfoTip",
+                style: "display: $file|getCachedDisplayStyle"
+            }, "$file|getCached")
         ),
 
     getSize: function(file)
@@ -479,8 +485,10 @@ RequestList.prototype = domplate(
                         "$file|getDomain")
                 ),
                 TD({"class": "netServerIPAddressCol netCol"},
-                    DIV({"class": "netServerIPAddressLabel netLabel", title: "$file|getServerIPAddress"},
-                        "$file|getServerIPAddress")
+                    DIV({
+                        "class": "netServerIPAddressLabel netLabel",
+                        title: "$file|getServerIPAddress"
+                    }, "$file|getServerIPAddress")
                 ),
                 TD({"class": "netConnectionCol netCol"},
                     DIV({"class": "netConnectionLabel netLabel", title: "$file|getConnection"},
@@ -942,7 +950,8 @@ RequestList.prototype = domplate(
         var receiving = waiting + ((file.timings.receive < 0) ? 0 : file.timings.receive);
 
         var startedDateTime = Lib.parseISO8601(file.startedDateTime);
-        this.barOffset = (((startedDateTime-this.phaseStartTime)/this.phaseElapsed) * 100).toFixed(3);
+        this.barOffset = (((startedDateTime-this.phaseStartTime)/this.phaseElapsed) * 100)
+            .toFixed(3);
 
         // Compute size of each bar. Left side of each bar starts at the
         // beginning. The first bar is on top of all and the last one is
@@ -1026,7 +1035,8 @@ RequestList.prototype = domplate(
                 waitingBar.style.left =
                 receivingBar.style.left = this.barOffset + "%";
 
-            // Sets width of all bars (using style). The width is computed according to measured timing.
+            // Sets width of all bars (using style).
+            // The width is computed according to measured timing.
             blockingBar.style.width = this.barBlockingWidth + "%";
             resolvingBar.style.width = this.barResolvingWidth + "%";
             connectingBar.style.width = this.barConnectingWidth + "%";
@@ -1193,7 +1203,8 @@ RequestList.prototype = domplate(
 
         var uncompressedSizeLabel = Lib.getElementByClass(row, "netUncompressedSizeLabel");
         uncompressedSizeLabel.setAttribute("collapsed", totalUncompressedSize === 0);
-        uncompressedSizeLabel.childNodes[1].firstChild.nodeValue = Lib.formatSize(totalUncompressedSize);
+        var uncompressedSizeTextNode = uncompressedSizeLabel.childNodes[1].firstChild;
+        uncompressedSizeTextNode.nodeValue = Lib.formatSize(totalUncompressedSize);
 
         var cacheSizeLabel = Lib.getElementByClass(row, "netCacheSizeLabel");
         cacheSizeLabel.setAttribute("collapsed", cachedSize === 0);
@@ -1281,7 +1292,9 @@ RequestList.prototype = domplate(
             {
                 // There is no background image for multiline tooltips.
                 infoTip.setAttribute("multiline", true);
-                infoTipURL = row.repObject.startedDateTime + "-nettime"; //xxxHonza the ID should be URL.
+
+                //xxxHonza the ID should be URL.
+                infoTipURL = row.repObject.startedDateTime + "-nettime";
                 // xxxHonza: there can be requests to the same URLs with different timings.
                 //if (infoTipURL == this.infoTipURL)
                 //    return true;
@@ -1291,7 +1304,8 @@ RequestList.prototype = domplate(
             }
             else if (Lib.hasClass(target, "netSizeLabel"))
             {
-                infoTipURL = row.repObject.startedDateTime + "-netsize"; //xxxHonza the ID should be URL.
+                //xxxHonza the ID should be URL.
+                infoTipURL = row.repObject.startedDateTime + "-netsize";
                 // xxxHonza: there can be requests to the same URLs with different response sizes.
                 //if (infoTipURL == this.infoTipURL)
                 //    return true;
