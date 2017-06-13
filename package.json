@@ -8,9 +8,14 @@
     "intern": "^3.4.6",
     "jsdoc": "^3.5.5",
     "preprocess": "^3.1.0",
-    "requirejs": "^2.3.3"
+    "requirejs": "^2.3.3",
+    "rimraf": "^2.6.1"
   },
   "scripts": {
+    "build": "npm run build:rjs && ant build",
+    "build:rjs": "r_js -o webapp/scripts/app.build.js",
+    "clean": "rimraf webapp-build webapp-jsdoc",
+    "clean-build": "npm run clean && npm run build",
     "eslint": "eslint --quiet webapp",
     "eslint-full": "eslint webapp",
     "jsdoc": "jsdoc webapp/scripts --recurse --configure jsdoc.conf.json --destination webapp-jsdoc --package package.json --readme README.md --verbose --access all --private",

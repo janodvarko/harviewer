@@ -11,7 +11,6 @@
     <property name="examples.dir" value="${app.dir}/examples"/>
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
-    <property name="rjs.cmd" value="${basedir}/node_modules/requirejs/bin/r.js"/>
 
     <property name="selenium.server.version" value="2.53.1"/>
     <property name="selenium.server.version.major" value="2.53"/>
@@ -25,13 +24,6 @@
     <property name="geckodriver.version" value="0.13.0"/>
     <property name="geckodriver.filename" value="geckodriver-v${geckodriver.version}-win32.zip"/>
     <property name="geckodriver.url" value="https://github.com/mozilla/geckodriver/releases/download/v${geckodriver.version}/${geckodriver.filename}"/>
-
-
-    <!-- Remove the previous HAR Viewer build. -->
-    <target name="clean" description="Cleans the webapp and jsdoc build folders">
-        <delete dir="${build.dir}"/>
-        <delete dir="${jsdoc.build.dir}"/>
-    </target>
 
 
     <!--
@@ -69,18 +61,8 @@
     </target>
 
 
-    <!-- Run r.js build tool using Node -->
-    <target name="rjs-node">
-        <exec dir="${app.dir}/scripts" executable="node" resolveexecutable="true">
-            <arg value="${rjs.cmd}"/>
-            <arg value="-o"/>
-            <arg value="app.build.js"/>
-        </exec>
-    </target>
-
-
     <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="build" depends="rjs-node" description="Builds HAR Viewer">
+    <target name="build" description="Builds HAR Viewer">
 
         <!-- Log info about the current OS -->
         <echo message="Building HAR Viewer on:" />
@@ -115,11 +97,6 @@
 
         <!-- Final version message -->
         <echo message="HAR Viewer version: ${VERSION} build OK"/>
-    </target>
-
-
-    <!-- Build HAR Viewer package (the result is within build.dir) -->
-    <target name="clean-build" depends="clean, build" description="Calls the clean task then performs a build">
     </target>
 
 </project>
