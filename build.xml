@@ -12,55 +12,6 @@
     <property file="ant.properties"/>
     <property name="build.tools.dir" value="build-tools"/>
 
-    <property name="selenium.server.version" value="2.53.1"/>
-    <property name="selenium.server.version.major" value="2.53"/>
-    <property name="selenium.server.url" value="https://selenium-release.storage.googleapis.com/${selenium.server.version.major}/selenium-server-standalone-${selenium.server.version}.jar"/>
-    <property name="iedriver.version" value="2.53.1"/>
-    <property name="iedriver.filename" value="IEDriverServer_Win32_${iedriver.version}.zip"/>
-    <property name="iedriver.url" value="https://selenium-release.storage.googleapis.com/${selenium.server.version.major}/${iedriver.filename}"/>
-    <property name="chromedriver.version" value="2.27"/>
-    <property name="chromedriver.filename" value="chromedriver_win32.zip"/>
-    <property name="chromedriver.url" value="http://chromedriver.storage.googleapis.com/${chromedriver.version}/${chromedriver.filename}"/>
-    <property name="geckodriver.version" value="0.13.0"/>
-    <property name="geckodriver.filename" value="geckodriver-v${geckodriver.version}-win32.zip"/>
-    <property name="geckodriver.url" value="https://github.com/mozilla/geckodriver/releases/download/v${geckodriver.version}/${geckodriver.filename}"/>
-
-
-    <!--
-    Downloads selenium server.  Selenium server is required for testing.
-    -->
-    <target name="get-iedriver" description="Downloads IEDriver and makes it available to the start-server.bat command">
-        <property name="iedriver.dir" value="${basedir}/selenium/iedriver"/>
-        <mkdir dir="${iedriver.dir}"/>
-        <get dest="${iedriver.dir}" verbose="true">
-            <url url="${iedriver.url}" />
-        </get>
-        <unzip src="${iedriver.dir}/${iedriver.filename}" dest="${basedir}/selenium"/>
-    </target>
-
-    <target name="get-chromedriver" description="Downloads ChromeDriver and makes it available to the start-server.bat command">
-        <property name="chromedriver.dir" value="${basedir}/selenium/chromedriver"/>
-        <mkdir dir="${chromedriver.dir}"/>
-        <get dest="${chromedriver.dir}" verbose="true">
-            <url url="${chromedriver.url}" />
-        </get>
-        <unzip src="${chromedriver.dir}/${chromedriver.filename}" dest="${basedir}/selenium"/>
-    </target>
-
-    <target name="get-geckodriver" description="Downloads GeckoDriver and makes it available to the start-server.bat command">
-        <property name="geckodriver.dir" value="${basedir}/selenium/geckodriver"/>
-        <mkdir dir="${geckodriver.dir}"/>
-        <get dest="${geckodriver.dir}" verbose="true">
-            <url url="${geckodriver.url}" />
-        </get>
-        <unzip src="${geckodriver.dir}/${geckodriver.filename}" dest="${basedir}/selenium"/>
-    </target>
-
-    <target name="get-selenium" depends="get-iedriver, get-chromedriver, get-geckodriver" description="Downloads Selenium and IE/Chrome/Gecko drivers and makes them available to the start-server.bat command">
-        <get src="${selenium.server.url}" dest="${basedir}/selenium/server/selenium-server.jar" verbose="true"/>
-    </target>
-
-
     <!-- Build HAR Viewer package (the result is within build.dir) -->
     <target name="build" description="Builds HAR Viewer">
 

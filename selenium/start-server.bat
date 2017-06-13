@@ -1,3 +1,13 @@
+REM NOTE!
+REM The preferred way to install Selenium and the drivers is to use the following commands
+REM from the HAR Viewer project root.
+
+REM   npm run selenium:install
+
+REM And then start Selenium with
+
+REM   npm run selenium:start
+
 REM Assumes IEDriverServer.exe and chromedriver.exe are in the same folder as this batch file.
 
 set          FIREFOX_EXE=c:\apps\Mozilla Firefox\47\firefox.exe
