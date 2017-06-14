@@ -8,14 +8,16 @@
     "eslint-config-google": "^0.7.1",
     "intern": "^3.4.6",
     "jsdoc": "^3.5.5",
+    "jsonfile": "^3.0.0",
     "preprocess": "^3.1.0",
+    "replace-in-file": "^2.5.0",
     "requirejs": "^2.3.3",
     "rimraf": "^2.6.1",
     "selenium-standalone": "^6.15.0",
     "shelljs": "^0.7.8"
   },
   "scripts": {
-    "build": "npm run build:rjs && ant build",
+    "build": "npm run build:rjs && node build-tools/build.js",
     "build:rjs": "r_js -o webapp/scripts/app.build.js",
     "clean": "rimraf webapp-build webapp-jsdoc",
     "clean-build": "npm run clean && npm run build",
