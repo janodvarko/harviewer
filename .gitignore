@@ -27,20 +27,9 @@
 /extension/release/
 *.graphml
 
-# Output folders.  Created during Ant build.
+# Output folders.  Created during build.
 /webapp-build/
 /webapp-jsdoc/
-
-# RequireJS file and folder.  Created during Ant build.
-/r.js.zip
-/r.js/
-
-# Selenium downloads.  Created during Ant get-selenium task.
-/selenium/server/selenium-server.jar
-/selenium/chromedriver/
-/selenium/iedriver/
-/selenium/geckodriver/
-
 
 #--------------------------------------------------
 # Files from NPM
