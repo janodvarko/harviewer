@@ -1072,22 +1072,32 @@ RequestList.prototype = domplate(
 
         var i;
 
-        // Convert registered page timings (e.g. onLoad, DOMContentLoaded) into structures
-        // with label information.
+        // Convert all page timings, both registered (e.g. onLoad, DOMContentLoaded) and
+        // non-registered (e.g. onMyCustomPageTiming) into structures with label information.
         var pageTimings = [];
-        for (i=0; page.pageTimings && i<this.pageTimings.length; i++)
-        {
-            var timing = this.pageTimings[i];
-            var eventTime = page.pageTimings[timing.name];
-            if (eventTime > 0)
-            {
-                pageTimings.push({
-                    label: timing.name,
+        var definedTimings = this.pageTimings;
+        if (page.pageTimings) {
+            Object.keys(page.pageTimings).forEach(function(key) {
+                var eventTime = page.pageTimings[key];
+                if (typeof eventTime !== "number") {
+                    return;
+                }
+                var ui = {
+                    label: key,
                     time: eventTime,
-                    classes: timing.classes,
-                    comment: timing.description
-                });
-            }
+                    classes: "",
+                    comment: key,
+                };
+                // If the timing has a definition, use the definition's values.
+                for (var i = 0; i < definedTimings.length; i++) {
+                    if (definedTimings[i].name === key) {
+                        ui.classes = definedTimings[i].classes;
+                        ui.comment = definedTimings[i].comment;
+                        break;
+                    }
+                }
+                pageTimings.push(ui);
+            });
         }
 
         // Get time-stamps generated from console.timeStamp() method (this method has been
