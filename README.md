@@ -26,7 +26,6 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 
 ## Build Tools
 
-* Ant: http://ant.apache.org/
 * JSDoc: http://usejsdoc.org/
 * Node.js: https://nodejs.org/
 * ESLint: http://eslint.org/
@@ -39,7 +38,7 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 
 ## Development
 
-The HAR Viewer build process uses `Ant`, `Node.js` and `npm` as its build tools.
+The HAR Viewer build process uses `Node.js` and `npm` as its build tools.
 
 Firstly, run `npm install` from the command line to install the `Node.js`/`npm` dependencies.
 
@@ -57,13 +56,11 @@ To show lint errors and warnings:
 
 ### Build
 
-To see a list of available tasks, use `ant -p` at the command line.
-
 Go to the project directory and execute the following command:
 
-`ant build`
+`npm run build`
 
-(*Indicative build time - about 9 seconds.  Node.js v6.0.0*)
+(*Indicative build time - about 12 seconds.  Node.js v10.2.1*)
 
 ### JSDoc
 
@@ -73,6 +70,4 @@ Go to the project directory and execute the following command:
 
 ### Version and Google Analytics
 
-Certain build properties can be overridden at the command line.  For example, to provide the `VERSION` and `GOOGLE-ANALYTICS-PROFILE` values:
-
-`ant build -DVERSION=3.0.0 -DGOOGLE-ANALYTICS-PROFILE=TRACKING_ID_HERE`
+Use the `build.json` file to set the version and Google Analytics profile.
