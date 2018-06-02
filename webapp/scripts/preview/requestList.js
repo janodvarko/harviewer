@@ -368,7 +368,8 @@ RequestList.columns = [
     "serverIPAddress",
     "connection",
     "size",
-    "timeline"
+    "uncompressedSize",
+    "timeline",
 ];
 
 /**
@@ -378,7 +379,8 @@ RequestList.defaultColumns = [
     "url",
     "status",
     "size",
-    "timeline"
+    "uncompressedSize",
+    "timeline",
 ];
 
 /**
@@ -453,6 +455,7 @@ RequestList.prototype = domplate(
                     TD({"class": "netServerIPAddressCol netCol", width: "7%"}),
                     TD({"class": "netConnectionCol netCol", width: "7%"}),
                     TD({"class": "netSizeCol netCol", width: "7%"}),
+                    TD({"class": "netUncompressedSizeCol netCol", width: "7%"}),
                     TD({"class": "netTimeCol netCol", width: "100%"}),
                     TD({"class": "netOptionsCol netCol", width: "15px"}) // Options
                 )
@@ -502,7 +505,10 @@ RequestList.prototype = domplate(
                         "$file|getConnection")
                 ),
                 TD({"class": "netSizeCol netCol"},
-                    DIV({"class": "netSizeLabel netLabel"}, "$file|getSize")
+                    DIV({"class": "netSizeLabel netLabel"}, "$file|getCompressedSize")
+                ),
+                TD({"class": "netUncompressedSizeCol netCol"},
+                    DIV({"class": "netSizeLabel netLabel"}, "$file|getUncompressedSize")
                 ),
                 TD({"class": "netTimeCol netCol"},
                     DIV({"class": "netTimelineBar"},
@@ -549,6 +555,9 @@ RequestList.prototype = domplate(
             TD({"class": "netConnectionCol netCol"}),
             TD({"class": "netTotalSizeCol netSizeCol netCol"},
                 DIV({"class": "netTotalSizeLabel netSummaryLabel"}, "0KB")
+            ),
+            TD({"class": "netTotalUncompressedSizeCol netUncompressedSizeCol netCol"},
+                DIV({"class": "netTotalUncompressedSizeLabel netSummaryLabel"}, "0KB")
             ),
             TD({"class": "netTotalTimeCol netTimeCol netCol"},
                 DIV({"class": "", style: "width: 100%"},
@@ -644,12 +653,15 @@ RequestList.prototype = domplate(
         return file.connection || "";
     },
 
-    getSize: function(file)
+    getUncompressedSize: function(file)
     {
-        var uncompressedSize = HarModel.getEntryUncompressedSize(file);
-        var transferredSize = HarModel.getEntryTransferredSize(file);
-        var size = (transferredSize > -1) ? transferredSize : uncompressedSize;
+        var size = HarModel.getEntryUncompressedSize(file);
+        return this.formatSize(size);
+    },
 
+    getCompressedSize: function(file)
+    {
+        var size = HarModel.getEntryTransferredSize(file);
         return this.formatSize(size);
     },
 
@@ -1208,6 +1220,10 @@ RequestList.prototype = domplate(
         sizeLabel.setAttribute("totalSize", totalTransferredSize);
         sizeLabel.firstChild.nodeValue = Lib.formatSize(totalTransferredSize);
 
+        var totalUncompressedSizeLabel = Lib.getElementByClass(row, "netTotalUncompressedSizeLabel");
+        totalUncompressedSizeLabel.setAttribute("totalUncompressedSize", totalUncompressedSize);
+        totalUncompressedSizeLabel.firstChild.nodeValue = Lib.formatSize(totalUncompressedSize);
+
         var uncompressedSizeLabel = Lib.getElementByClass(row, "netUncompressedSizeLabel");
         uncompressedSizeLabel.setAttribute("collapsed", totalUncompressedSize === 0);
         var uncompressedSizeTextNode = uncompressedSizeLabel.childNodes[1].firstChild;
@@ -1275,7 +1291,7 @@ RequestList.prototype = domplate(
             totalUncompressedSize: totalUncompressedSize,
             totalTransferredSize: totalTransferredSize,
             totalTime: totalTime,
-            fileCount: fileCount
+            fileCount: fileCount,
         };
     },
 

@@ -63,6 +63,7 @@
 .netServerIPAddressCol,
 .netConnectionCol,
 .netSizeCol,
+.netUncompressedSizeCol,
 .netTimeCol {
     padding-left: 8px;
 }
@@ -72,7 +73,8 @@
 }
 
 .netIndexCol,
-.netSizeCol {
+.netSizeCol,
+.netUncompressedSizeCol {
     text-align: right;
 }
 
@@ -472,6 +474,7 @@
 #content[previewCols~=serverIPAddress] TD.netServerIPAddressCol,
 #content[previewCols~=connection] TD.netConnectionCol,
 #content[previewCols~=size] TD.netSizeCol,
+#content[previewCols~=uncompressedSize] TD.netUncompressedSizeCol,
 #content[previewCols~=timeline] TD.netTimeCol,
 #content[previewCols~=type] TD.netTypeCol {
     display: table-cell;

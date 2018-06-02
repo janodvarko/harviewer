@@ -10,7 +10,8 @@ define(
         "column.label.domain": "Domain",
         "column.label.serverIPAddress": "Server IP Address",
         "column.label.connection": "Connection",
-        "column.label.size": "Size",
+        "column.label.size": "Compressed Size",
+        "column.label.uncompressedSize": "Uncompressed Size",
         "column.label.timeline": "Timeline",
         "action.label.Reset": "Reset"
     }
