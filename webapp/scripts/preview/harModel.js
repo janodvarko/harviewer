@@ -341,10 +341,14 @@ HarModel.validateRequestTimings = function(input)
 
 HarModel.isCachedEntry = function(entry) {
     var response = entry.response;
-    var resBodySize = Math.max(0, response.bodySize);
     if (response.status === 304) {
         return true;
     }
+    if (typeof response._transferSize === "number" && response._transferSize > 0) {
+        // "_transferSize" is a Chrome property.
+        return false;
+    }
+    var resBodySize = Math.max(0, response.bodySize);
     return (resBodySize === 0 && response.content && response.content.size > 0);
 };
 
