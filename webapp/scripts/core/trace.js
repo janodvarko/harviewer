@@ -28,18 +28,6 @@ Trace.log = function()
         console.log.apply(console, arguments);
 };
 
-Trace.error = function()
-{
-    if (typeof(console.error) === "function")
-        console.error.apply(console, arguments);
-};
-
-Trace.exception = function()
-{
-    if (typeof(console.error) === "function")
-        console.error.apply(console, arguments);
-};
-
 Trace.time = function()
 {
     if (typeof(console.time) === "function")
@@ -52,6 +40,18 @@ Trace.timeEnd = function(name, message)
         console.timeEnd.apply(console, arguments);
 };
 //@endif
+
+Trace.error = function()
+{
+    if (typeof(console.error) === "function")
+        console.error.apply(console, arguments);
+};
+
+Trace.exception = function()
+{
+    if (typeof(console.error) === "function")
+        console.error.apply(console, arguments);
+};
 
 return Trace;
 
