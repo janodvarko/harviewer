@@ -221,7 +221,16 @@ define([
    * @return {number|null} The number of elements found, or null (null satisfies pollUntil's wait semantics).
    */
   DriverUtils.querySelectAllInFrameAndReturnLengthOrNull = function querySelectAllInFrameAndReturnLengthOrNull(frameSelector, selector) {
-    var els = document.querySelector(frameSelector).firstChild.contentDocument.querySelectorAll(selector);
+    var frameParent = document.querySelector(frameSelector);
+    if (!frameParent) {
+      throw new Error("frameParent not found with selector " + frameSelector);
+    }
+    var frame = frameParent.firstChild;
+    if (!frame.contentDocument) {
+      throw new Error("frame does not have a contentDocument. Maybe a cross-domain issue? frame.src=" +
+        frame.src + ", window.location.href=" + window.location.href);
+    }
+    var els = frame.contentDocument.querySelectorAll(selector);
     return els.length ? els.length : null;
   };
 
