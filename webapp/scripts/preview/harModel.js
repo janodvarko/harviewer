@@ -339,30 +339,61 @@ HarModel.validateRequestTimings = function(input)
         throw {errors: errors, input: input};
 };
 
+function ensureNumber(value, default_) {
+    if (typeof value === "number") {
+        return value;
+    }
+    if (typeof default_ === "number") {
+        return default_;
+    }
+    return -1;
+}
+
 HarModel.isCachedEntry = function(entry) {
-    var response = entry.response;
-    if (response.status === 304) {
+    if (entry.response.status === 304) {
         return true;
     }
-    if (typeof response._transferSize === "number" && response._transferSize > 0) {
+    var transferSize = ensureNumber(entry.response._transferSize);
+    if (transferSize > 0) {
         // "_transferSize" is a Chrome property.
         return false;
     }
-    var resBodySize = Math.max(0, response.bodySize);
-    return (resBodySize === 0 && response.content && response.content.size > 0);
+    var resBodySize = Math.max(0, entry.response.bodySize);
+    return (resBodySize === 0 && entry.response.content && entry.response.content.size > 0);
 };
 
 HarModel.getEntrySize = function(entry) {
-    var bodySize = entry.response.bodySize;
-    return (bodySize && bodySize !== -1) ? bodySize : entry.response.content.size;
+    return HarModel.getEntryTransferredSize(entry);
 };
 
 HarModel.getEntryUncompressedSize = function(entry) {
-    return Math.max(0, entry.response.content.size) || Math.max(0, entry.response.bodySize);
+    var contentSize = ensureNumber(entry.response.content.size);
+    if (contentSize > -1) {
+        return contentSize;
+    }
+    var transferSize = ensureNumber(entry.response._transferSize);
+    if (transferSize > -1) {
+        // "_transferSize" is a Chrome property.
+        return transferSize;
+    }
+    var bodySize = ensureNumber(entry.response.bodySize);
+    if (bodySize > -1) {
+        return bodySize;
+    }
+    return 0;
 };
 
 HarModel.getEntryTransferredSize = function(entry) {
-    return (entry.response.status === 304) ? 0 : Math.max(0, entry.response.bodySize);
+    var transferSize = ensureNumber(entry.response._transferSize);
+    if (transferSize > -1) {
+        // "_transferSize" is a Chrome property.
+        return transferSize;
+    }
+    var bodySize = ensureNumber(entry.response.bodySize);
+    if (bodySize > -1) {
+        return bodySize;
+    }
+    return 0;
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
