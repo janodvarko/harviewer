@@ -347,10 +347,10 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
 
         // Iterate all pages and get titles.
         var titles = [];
-        for (var i=0; i<input.log.pages.length; i++)
-        {
-            var page = input.log.pages[i];
-            titles.push(page.title);
+        // Some IE11 HARs (11.48.17134.0/11.0.65) don't have pages
+        var pages = input.log.pages || [];
+        for (var i = 0; i < pages.length; i++) {
+            titles.push(pages[i].title);
         }
 
         // Create box for DOM tree + render list of titles for this log.
@@ -362,7 +362,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         this.splitter = new DragDrop.Tracker(element, {
             onDragStart: Lib.bind(this.onDragStart, this),
             onDragOver: Lib.bind(this.onDragOver, this),
-            onDrop: Lib.bind(this.onDrop, this)
+            onDrop: Lib.bind(this.onDrop, this),
         });
 
         this.updateSearchResultsUI();
