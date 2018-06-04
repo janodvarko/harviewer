@@ -2,13 +2,12 @@
  * Simple unit test to sanity check that Intern is working.
  */
 define([
-    "intern!object",
-    "intern/chai!assert",
-    "core/object"
-], function(registerSuite, assert, Obj) {
-    registerSuite({
-        name: "object",
+    "core/object",
+], function(Obj) {
+    var registerSuite = intern.getInterface("object").registerSuite;
+    var assert = intern.getPlugin("chai").assert;
 
+    registerSuite("core/object", {
         "bind": function() {
             var fRan = false;
             var f = function(fixedArg, runtimeArg) {
@@ -19,6 +18,6 @@ define([
             var bound = Obj.bind(f, null, "fixed-arg");
             bound("runtime-arg");
             assert.isTrue(fRan, "Bound function has run");
-        }
+        },
     });
 });

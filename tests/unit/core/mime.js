@@ -2,10 +2,10 @@
  * Test core/mime.
  */
 define([
-    "intern!object",
-    "intern/chai!assert",
-    "core/mime"
-], function(registerSuite, assert, Mime) {
+    "core/mime",
+], function(Mime) {
+    var registerSuite = intern.getInterface("object").registerSuite;
+    var assert = intern.getPlugin("chai").assert;
 
     var extractMimeTypeData = [
         ['of null returns ""', null, Error],
@@ -38,8 +38,7 @@ define([
         return tests;
     }, {});
 
-    registerSuite({
-        name: "core/mime",
-        'extractMimeType': tests
+    registerSuite("core/mime", {
+        "extractMimeType": tests,
     });
 });
