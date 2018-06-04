@@ -1,17 +1,14 @@
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+  'dojo/node!@theintern/leadfoot',
+], function(config, DriverUtils, leadfoot) {
+  const { registerSuite } = intern.getInterface("object");
+  const { assert } = intern.getPlugin("chai");
+  const { pollUntil } = leadfoot;
+  const { testBase } = config;
 
-  registerSuite({
-    name: 'testIssue39',
-
+  registerSuite('testIssue39', {
     /**
      * https://github.com/janodvarko/harviewer/issues/39
      * Query param values get dropped from URL when used as "data-har" HTML attribute.
@@ -23,9 +20,8 @@ define([
     'testIssue39': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
-      var utils = new DriverUtils(r);
 
       var url = testBase + "tests/testIssue39.html.php";
 
@@ -39,11 +35,11 @@ define([
         })
         .findByCssSelector("#previewLocalWithQueryString iframe")
         .then(function(iframe) {
-            return iframe.getAttribute("src").then(function(src) {
-                // search for the action parameter and value.
-                // "%3D" === encodeURIComponent("=")
-                assert.include(src, "action%3Dshow_me_har_file");
-            });
+          return iframe.getAttribute("src").then(function(src) {
+            // search for the action parameter and value.
+            // "%3D" === encodeURIComponent("=")
+            assert.include(src, "action%3Dshow_me_har_file");
+          });
         })
         .end() // end IFRAME
         .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#previewNonLocalWithQueryString', '.pageTable'], findTimeout))
@@ -52,11 +48,11 @@ define([
         })
         .findByCssSelector("#previewNonLocalWithQueryString iframe")
         .then(function(iframe) {
-            return iframe.getAttribute("src").then(function(src) {
-                // search for the action parameter and value.
-                // "%3D" === encodeURIComponent("=")
-                assert.include(src, "action%3Dshow_me_har_file");
-            });
+          return iframe.getAttribute("src").then(function(src) {
+            // search for the action parameter and value.
+            // "%3D" === encodeURIComponent("=")
+            assert.include(src, "action%3Dshow_me_har_file");
+          });
         })
         .end() // end IFRAME
         .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ['#previewLocalWithQueryString', '.netRow'], findTimeout))
@@ -67,6 +63,6 @@ define([
         .then(function(len) {
           assert.strictEqual(len, 11, "#previewNonLocalWithQueryString.netRow");
         });
-    }
+    },
   });
 });

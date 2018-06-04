@@ -28,7 +28,7 @@
     "selenium:install": "selenium-standalone install --config=selenium-standalone-config.js",
     "selenium:start": "selenium-standalone start --config=selenium-standalone-config.js",
     "selenium:start:debug": "cross-env DEBUG=selenium-standalone:* selenium-standalone start --config=selenium-standalone-config.js",
-    "test": "intern",
+    "test": "intern config=@all",
     "test-standalone": "intern-runner config=tests/intern-selenium-standalone",
     "test-grid": "intern-runner config=tests/intern-selenium-grid",
     "my-grid": "intern-runner config=tests/my-intern-selenium-grid"

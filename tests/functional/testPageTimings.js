@@ -3,22 +3,17 @@
  * are optional and can be omitted.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
-  './DriverUtils'
-], function(intern, registerSuite, assert, require, DriverUtils) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+  './config',
+  './DriverUtils',
+], function(config, DriverUtils) {
+  const { registerSuite } = intern.getInterface("object");
+  const { harViewerBase, testBase } = config;
 
-  registerSuite({
-    name: 'testPageTimings',
-
+  registerSuite('testPageTimings', {
     'testPageTimings': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -33,6 +28,6 @@ define([
         // The Preview tab must be selected and example HAR file loaded.
         .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"))
         .then(utils.cbAssertElementContainsText("css=.pageName", "http://127.0.0.1:1235/slow-css.html"));
-    }
+    },
   });
 });

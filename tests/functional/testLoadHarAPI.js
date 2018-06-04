@@ -3,20 +3,18 @@
  * are optional and can be omitted.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+  'dojo/node!@theintern/leadfoot',
+], function(config, DriverUtils, leadfoot) {
+  const { registerSuite } = intern.getInterface("object");
+  const { pollUntil } = leadfoot;
+  const { testBase } = config;
 
   function testViewerLoadsThreeHars(remote, page) {
     // Some of these tests need a larger timeout for finding DOM elements
     // because we need the HAR to parse/display fully before we query the DOM.
-    var findTimeout = intern.config.harviewer.findTimeout;
+    var findTimeout = config.findTimeout;
     var utils = new DriverUtils(remote);
 
     var url = testBase + page;
@@ -31,9 +29,7 @@ define([
       .then(utils.cbAssertElementsLength(".pageTable", 3));
   }
 
-  registerSuite({
-    name: 'testLoadHarAPI',
-
+  registerSuite('testLoadHarAPI', {
     // WARNING !
 
     // This test has race conditions concerning any HAR/HARP file that is loaded via JSONP.
@@ -64,7 +60,7 @@ define([
     'testPreview': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -77,6 +73,6 @@ define([
         // Wait for 10 sec to load HAR files.
         .then(pollUntil("return (document.querySelectorAll('.pageTable').length == 3) || null", findTimeout))
         .then(utils.cbAssertElementsLength(".pageTable", 3));
-      }
+    },
   });
 });

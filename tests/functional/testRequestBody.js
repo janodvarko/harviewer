@@ -2,19 +2,14 @@
  * Test content of the Schema tab.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
   './appDriver',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, appDriver, pollUntil) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
-
-  var findTimeout = intern.config.harviewer.findTimeout;
-  var timeoutForExternalImagesToLoad = 5 * 1000;
+], function(config, DriverUtils, appDriver) {
+  const { registerSuite } = intern.getInterface("object");
+  const { assert } = intern.getPlugin("chai");
+  const { harViewerBase, testBase, findTimeout } = config;
+  const timeoutForExternalImagesToLoad = 5 * 1000;
 
   function testTabBodyContainsText(remote, url, expectedPageTitle, tabName, expectedTabBody) {
     var utils = new DriverUtils(remote);
@@ -61,9 +56,7 @@ define([
       });
   }
 
-  registerSuite({
-    name: 'testRequestBody',
-
+  registerSuite('testRequestBody', {
     'testUrlParams': function() {
       var url = harViewerBase + "?path=" + testBase + "tests/hars/url-params.har";
       var expectedPageTitle = "Test Case for encoded ampersand in URL";
@@ -195,30 +188,37 @@ define([
     },
 
     'testIssue56': {
-      'testIssue56 - Handle missing response.content.mimetype gracefully': function() {
-        var r = this.remote;
-
-        var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-56/missing-content-type.har";
-        var expectedPageTitle = "CSS";
-        var expectedTabBody = "See license.txt for terms of usage";
-
-        // The HAR is invalid, so browse to base page first, turn off
-        // validation and only then do the main test.
-        // We're testing that HAR Viewer handles the lack of
-        // response.content.mimeType gracefully.
-        return r
-          .setFindTimeout(findTimeout)
-          .get(harViewerBase)
-          .then(appDriver.disableValidation())
-          .then(function() {
-            return testTabBodyContainsText(r, url, expectedPageTitle, "Response", expectedTabBody);
-          });
+      afterEach: function() {
+        // Clear cookies to return to clean state for other tests
+        const dfd = this.async();
+        this.remote
+          // clearCookies not currently working for edge 42.17134.1.0/17.17134 and driver 17134
+          .clearCookies()
+          .catch((err) => console.log(err))
+          .finally(() => dfd.resolve());
       },
 
-      teardown: function() {
-        // Clear cookies to return to clean state for other tests
-        return this.remote.clearCookies();
-      }
+      tests: {
+        'testIssue56 - Handle missing response.content.mimetype gracefully': function() {
+          var r = this.remote;
+
+          var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-56/missing-content-type.har";
+          var expectedPageTitle = "CSS";
+          var expectedTabBody = "See license.txt for terms of usage";
+
+          // The HAR is invalid, so browse to base page first, turn off
+          // validation and only then do the main test.
+          // We're testing that HAR Viewer handles the lack of
+          // response.content.mimeType gracefully.
+          return r
+            .setFindTimeout(findTimeout)
+            .get(harViewerBase)
+            .then(appDriver.disableValidation())
+            .then(function() {
+              return testTabBodyContainsText(r, url, expectedPageTitle, "Response", expectedTabBody);
+            });
+        },
+      },
     },
 
     'test no headers': function() {
@@ -226,6 +226,6 @@ define([
       // Some HAR tools, e.g. BrowserMob, can export HARs without headers.
       var url = harViewerBase + "?path=" + testBase + "tests/hars/no-headers.har";
       return testSyntaxHighlighting(this.remote, url, "CSS");
-    }
+    },
   });
 });

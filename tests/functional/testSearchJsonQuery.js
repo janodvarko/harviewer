@@ -2,24 +2,19 @@
  * Test HAR Viewer Search using JSON Query
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil',
-  'intern/dojo/node!leadfoot/keys',
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil, keys) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+  'dojo/node!@theintern/leadfoot',
+], function(config, DriverUtils, leadfoot) {
+  const { registerSuite } = intern.getInterface("object");
+  const { keys } = leadfoot;
+  const { testBase } = config;
 
-  registerSuite({
-    name: 'testSearchJsonQuery',
-
+  registerSuite('testSearchJsonQuery', {
     'testSearchJsonQuery': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -47,6 +42,6 @@ define([
         .findByCssSelector(".tabDOMBody .domBox .results.visible")
         .end()
         .then(utils.cbAssertElementsLength(".tabDOMBody .domBox .results .memberRow", 8, findTimeout));
-    }
+    },
   });
 });

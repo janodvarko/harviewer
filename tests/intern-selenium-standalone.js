@@ -8,23 +8,15 @@
 define([
   'intern/dojo/lang',
   './intern',
-  './functional-suites'
-], function(lang, base, functionalSuites) {
+  './functional-suites',
+  './functional/config',
+], function(lang, base, functionalSuites, functionalConfig) {
   var config = {
     // The port on which the instrumenting proxy will listen
     proxyPort: 9000,
 
     // A fully qualified URL to the Intern proxy
     proxyUrl: 'http://localhost:9000/',
-
-    // These are custom properties that the tests can grab.
-    // harViewerBase: The root URL to the harviewer app.
-    // testBase: The root URL to the harviewer test pages, HARs and HARPs.
-    harviewer: {
-      harViewerBase: 'http://harviewer:49001/webapp/',
-      testBase: 'http://harviewer:49001/selenium/',
-      findTimeout: 30 * 1000
-    },
 
     // Browsers to run integration testing against. Note that version numbers must be strings if used with Sauce
     // OnDemand. Options that will be permutated are browserName, version, platform, and platformVersion; any other
@@ -43,6 +35,8 @@ define([
 
     functionalSuites: functionalSuites
   };
+
+  config.harviewer = functionalConfig;
 
   return lang.mixin({}, base, config);
 });
