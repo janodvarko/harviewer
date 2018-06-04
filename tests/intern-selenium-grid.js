@@ -60,9 +60,6 @@ define([
   }, {
     browserName: 'internet explorer',
     version: '9'
-  }, {
-    browserName: 'phantomjs',
-    version: '2.0.0'
   }];
 
   var node2 = [{
@@ -74,9 +71,6 @@ define([
   }, {
     browserName: 'internet explorer',
     version: '11'
-  }, {
-    browserName: 'phantomjs',
-    version: '2.1.1'
   }];
 
 

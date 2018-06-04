@@ -55,9 +55,8 @@ This command has placeholders for the locations of:
 - A specific version of Firefox to use (for compatibility with Selenium).
 - The location of IEDriverServer.exe.
 - The location of chromedriver.exe.
-- The location of phantomjs.exe.
 
-You should change these to match your own file paths, but only `FIREFOX_EXE` and `PHANTOMJS_EXE` should need to change as the driver paths are relative to the `start-server.bat` script.
+You should change these to match your own file paths, but only `FIREFOX_EXE` should need to change as the driver paths are relative to the `start-server.bat` script.
 
 3) Now go to the harviewer project root directory and run Intern tests (using the **standalone** configuration file):
 

@@ -36,8 +36,6 @@ define([
       browserName: 'chrome'
     }, {
       browserName: 'internet explorer'
-    }, {
-      browserName: 'phantomjs'
     }],
 
     // Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
