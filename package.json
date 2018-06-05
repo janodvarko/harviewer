@@ -14,7 +14,7 @@
     "replace-in-file": "^2.5.0",
     "requirejs": "^2.3.3",
     "rimraf": "^2.6.1",
-    "selenium-standalone": "^6.15.0",
+    "selenium-standalone": "^6.15.1",
     "shelljs": "^0.7.8"
   },
   "scripts": {

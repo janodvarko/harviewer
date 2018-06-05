@@ -55,6 +55,34 @@
     "tests/unit/core/url",
     "tests/unit/preview/harModelLoader"
   ],
+  "tunnel": "selenium",
+  "tunnelOptions": {
+    "version": "3.12.0",
+    "drivers": [
+      {
+        "name": "chrome",
+        "version": "2.40"
+      },
+      {
+        "name": "firefox",
+        "version": "0.20.1"
+      },
+      {
+        "name": "ie",
+        "version": "3.4.0",
+        "arch": "ia32"
+      },
+      {
+        "name": "edge",
+        "version": "17134",
+        "_COMMENT": [
+          "Have to save the driver to",
+          "PATH_TO_HARVIEWER_REPO/node_modules/@theintern/digdug/selenium-standalone/17134/MicrosoftWebDriver.exe",
+          "until this driver is setup in selenium-standalone"
+        ]
+      }
+    ]
+  },
   "coverage": [
     "webapp/**/*.js",
     "!webapp/examples/**",
