@@ -1,4 +1,4 @@
-FROM node:6-wheezy as builder
+FROM node:8.11.2-jessie as builder
 
 RUN apt-get update -y && \
     apt-get install -y ant
