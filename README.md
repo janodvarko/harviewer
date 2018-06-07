@@ -33,7 +33,7 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 ## Testing
 
 * Selenium: http://seleniumhq.org/
-* Intern: https://theintern.github.io/ (preferred, see [tests](tests/))
+* Intern: https://theintern.io/ (preferred, see [tests](tests/))
 * PHPUnit: http://www.phpunit.de/ (deprecated, see [tests](selenium/tests))
 
 ## Development
