@@ -5,38 +5,39 @@ define([
 ], function(config, DriverUtils, leadfoot) {
   const { registerSuite } = intern.getInterface("object");
   const { assert } = intern.getPlugin("chai");
-  const { pollUntil } = leadfoot;
   const { testBase } = config;
+
+  function assertTestIsOk(expectedNetRows) {
+    return function() {
+      let iframe;
+      return this.parent
+        .findByCssSelector("iframe")
+        .then((_) => {
+          iframe = _;
+          return iframe.getAttribute("src");
+        })
+        // search for the action parameter and value.
+        // "%3D" === encodeURIComponent("=")
+        .then((src) => assert.include(src, "action%3Dshow_me_har_file"))
+        .then(() => this.parent.switchToFrame(iframe))
+        .end(Infinity)
+        .findAllByCssSelector(".pageTable")
+        .then((pageTables) => assert.strictEqual(pageTables.length, 1, ".pageTable"))
+        .findAllByCssSelector(".netRow")
+        .then((netRows) => assert.strictEqual(netRows.length, expectedNetRows, ".netRow"));
+    };
+  }
 
   function doTest(testPage, expectedNetRows) {
     // Some of these tests need a larger timeout for finding DOM elements
     // because we need the HAR to parse/display fully before we query the DOM.
     const { findTimeout } = config;
-    const r = this.remote;
-
     const url = testBase + testPage;
 
-    return r
+    return this.remote
       .setFindTimeout(findTimeout)
       .get(url)
-      .then(DriverUtils.waitForElements("iframe", 1, findTimeout))
-      .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ["#harViewerContainer", ".pageTable"], findTimeout))
-      .then(function(len) {
-        assert.strictEqual(len, 1, "#harViewerContainer.pageTable");
-      })
-      .findByCssSelector("#harViewerContainer iframe")
-      .then(function(iframe) {
-        return iframe.getAttribute("src").then(function(src) {
-          // search for the action parameter and value.
-          // "%3D" === encodeURIComponent("=")
-          assert.include(src, "action%3Dshow_me_har_file");
-        });
-      })
-      .end() // end IFRAME
-      .then(pollUntil(DriverUtils.querySelectAllInFrameAndReturnLengthOrNull, ["#harViewerContainer", ".netRow"], findTimeout))
-      .then(function(len) {
-        assert.strictEqual(len, expectedNetRows, "#harViewerContainer.netRow");
-      });
+      .then(assertTestIsOk(expectedNetRows));
   }
 
   registerSuite("testIssue39", {
