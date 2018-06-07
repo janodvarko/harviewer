@@ -1,8 +1,3 @@
-<?php
-require_once("config.php");
-$url = $harviewer_base;
-?>
-
 <!doctype html>
 <html>
 <head>
@@ -13,7 +8,7 @@ $url = $harviewer_base;
 <script>
 (function() {
     var har = document.createElement("script");
-    har.src = "<?php echo $harviewer_base ?>har.js";
+    har.src = "<%= harviewer_base %>har.js";
     har.setAttribute("id", "har");
     har.setAttribute("async", "true");
     document.documentElement.firstChild.appendChild(har);
@@ -21,7 +16,7 @@ $url = $harviewer_base;
 </script>
 
 <div id="preview" class="har"
-    data-har="<?php echo $test_base.'tests/hars/invalid.harp' ?>"
+    data-harp-url="<%= test_base %>tests/hars/invalid.harp"
     data-callback="callback_invalid"
     validate="true"></div>
 

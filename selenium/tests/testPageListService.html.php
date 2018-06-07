@@ -1,10 +1,9 @@
-<?php
-require_once("config.php");
+<%
 
 // Compute URL for an iframe used in this test.
-$url = $harviewer_base."loader.php?service=pagelist&amp;path=".
-    $test_base."tests/simple-page-load.har&amp;expand=false";
-?>
+var url = harviewer_base + "loader.html?service=preview&path=" + test_base + "tests/simple-page-load.har&expand=false";
+
+%>
 
 <!doctype html>
 <html>
@@ -24,8 +23,7 @@ function test()
 <!-- HAR log embedded in the page -->
 <iframe id="pageList" name="pageList" width="518px" height="220px" frameborder="0" border="0"
     style="border: 1px solid rgb(225, 225, 211);"
-    src="<?php echo $url; ?>"></iframe>
+    src="<%= url %>"></iframe>
 
 </body>
 </html>
-

@@ -1,12 +1,8 @@
-<?php
-require_once("config.php");
-?>
-
 <!doctype html>
 <html>
 <head>
     <title>HAR Viewer Test Case</title>
-    <base href="<?php echo $harviewer_base ?>" />
+    <base href="<%= harviewer_base %>" />
     <link rel="stylesheet" href="css/harViewer.css" type="text/css">
 </head>
 <body class="harBody">
@@ -18,8 +14,8 @@ require_once("config.php");
     {
         // Get application object
         var viewer = event.target.repObject;
-        var hars = ["<?php echo $test_base.'tests/hars/testLoad3.har' ?>", "<?php echo $test_base.'tests/hars/simple.har' ?>"];
-        var harps = ["<?php echo $test_base.'tests/hars/testLoad1.harp' ?>"];
+        var hars = ["<%= test_base %>tests/hars/testLoad3.har", "<%= test_base %>tests/hars/simple.har"];
+        var harps = ["<%= test_base %>tests/hars/testLoad1.harp"];
 
         var callback = function() {};
         var errorCallback = function() {};
