@@ -17,7 +17,7 @@ define([
       var utils = new DriverUtils(r);
 
       var viewerURL = testBase + "tests/testShowStatsAndTimelineIndex.html";
-      var harFileURL = testBase + "tests/simple-page-load.har";
+      var harFileURL = testBase + "tests/hars/simple-page-load.har";
       var url = viewerURL + "?path=" + harFileURL;
 
       return r

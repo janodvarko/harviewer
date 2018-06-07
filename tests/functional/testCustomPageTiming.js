@@ -18,7 +18,7 @@ define([
       var r = this.remote;
 
       var viewerURL = testBase + "tests/testCustomPageTimingIndex.html";
-      var harFileURL = testBase + "tests/testCustomPageTiming.har";
+      var harFileURL = testBase + "tests/hars/testCustomPageTiming.har";
       var url = viewerURL + "?path=" + harFileURL;
 
       var pollTimeout = findTimeout;
