@@ -16,7 +16,7 @@ define([
       var r = this.remote;
       var utils = new DriverUtils(r);
 
-      var viewerURL = testBase + "tests/testShowStatsAndTimelineIndex.php";
+      var viewerURL = testBase + "tests/testShowStatsAndTimelineIndex.html";
       var harFileURL = testBase + "tests/simple-page-load.har";
       var url = viewerURL + "?path=" + harFileURL;
 

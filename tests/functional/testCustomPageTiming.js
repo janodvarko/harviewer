@@ -17,7 +17,7 @@ define([
       var findTimeout = config.findTimeout;
       var r = this.remote;
 
-      var viewerURL = testBase + "tests/testCustomPageTimingIndex.php";
+      var viewerURL = testBase + "tests/testCustomPageTimingIndex.html";
       var harFileURL = testBase + "tests/testCustomPageTiming.har";
       var url = viewerURL + "?path=" + harFileURL;
 

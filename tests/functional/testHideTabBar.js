@@ -15,7 +15,7 @@ define([
       var findTimeout = config.findTimeout;
       var r = this.remote;
 
-      var url = testBase + "tests/testHideTabBarIndex.php";
+      var url = testBase + "tests/testHideTabBarIndex.html";
 
       return r
         .setFindTimeout(findTimeout)

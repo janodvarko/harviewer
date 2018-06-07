@@ -18,7 +18,7 @@ define([
       var r = this.remote;
       var utils = new DriverUtils(r);
 
-      var viewerURL = testBase + "tests/testSearchJsonQuery.html.php";
+      var viewerURL = testBase + "tests/testSearchJsonQuery.html";
       var harFileURL = testBase + "tests/hars/searchHAR.har";
       var url = viewerURL + "?path=" + harFileURL;
 

@@ -23,7 +23,7 @@ define([
       var findTimeout = config.findTimeout;
       var r = this.remote;
 
-      var url = testBase + "tests/testIssue39.html.php";
+      var url = testBase + "tests/testIssue39.html";
 
       return r
         .setFindTimeout(findTimeout)

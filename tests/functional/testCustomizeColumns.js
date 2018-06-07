@@ -38,7 +38,7 @@ define([
       var utils = new DriverUtils(r);
 
       // HAR file is specified inside the test page.
-      var viewerURL = testBase + "tests/testCustomizeColumnsPage.php";
+      var viewerURL = testBase + "tests/testCustomizeColumnsPage.html";
       var harFileURL = testBase + "tests/hars/simple.har";
       var url = viewerURL + "?path=" + harFileURL;
 
@@ -68,7 +68,7 @@ define([
       var utils = new DriverUtils(r);
 
       // HAR file is specified inside the test page.
-      var viewerURL = testBase + "tests/testCustomizeColumnsPage2.php";
+      var viewerURL = testBase + "tests/testCustomizeColumnsPage2.html";
       var harFileURL = testBase + "tests/hars/simple.har";
       var url = viewerURL + "?path=" + harFileURL;
 
@@ -97,7 +97,7 @@ define([
       var r = this.remote;
 
       // HAR file is specified inside the test page.
-      var viewerURL = testBase + "tests/testCustomizeColumnsPage3.php";
+      var viewerURL = testBase + "tests/testCustomizeColumnsPage3.html";
       var harFileURL = testBase + "tests/hars/simple.har";
       var url = viewerURL + "?path=" + harFileURL + "&expand=true";
 

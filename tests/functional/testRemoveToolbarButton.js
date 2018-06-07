@@ -14,7 +14,7 @@ define([
       var findTimeout = config.findTimeout;
       var r = this.remote;
 
-      var url = testBase + "tests/testRemoveToolbarButtonIndex.php";
+      var url = testBase + "tests/testRemoveToolbarButtonIndex.html";
 
       return r
         .setFindTimeout(findTimeout)

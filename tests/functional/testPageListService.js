@@ -14,7 +14,7 @@ define([
       var utils = new DriverUtils(r);
       return r
         .setFindTimeout(findTimeout)
-        .get(testBase + "tests/testPageListService.html.php")
+        .get(testBase + "tests/testPageListService.html")
         .switchToFrame("pageList")
         .findById("loadButton")
         .click()

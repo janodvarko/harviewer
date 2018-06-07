@@ -16,7 +16,7 @@ define([
       var r = this.remote;
       var utils = new DriverUtils(r);
 
-      var url = testBase + "tests/testRemoveTabIndex.php";
+      var url = testBase + "tests/testRemoveTabIndex.html";
 
       return r
         .setFindTimeout(findTimeout)

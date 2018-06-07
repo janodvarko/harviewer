@@ -45,8 +45,8 @@ function addConfig(req, res, next) {
 
 const app = express();
 
-app.engine("php", ejs.renderFile);
-app.set("view engine", "php");
+app.engine("html", ejs.renderFile);
+app.set("view engine", "html");
 app.set("views", [viewsDir]);
 
 // add the global app config to the response.
