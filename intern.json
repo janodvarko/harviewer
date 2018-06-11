@@ -57,6 +57,7 @@
     "tests/unit/core/object",
     "tests/unit/core/StatsService",
     "tests/unit/core/url",
+    "tests/unit/preview/harModel",
     "tests/unit/preview/harModelLoader"
   ],
   "functionalSuites": [
