@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <title>testIssue39-harp</title>
+</head>
+<body>
+
+<!-- Test remote (JSONP) HAR -->
+<div id="harViewerContainer" class="har" height="100" data-harp-url="<%= test_base %>tests/hars/testLoad1.harp?action=show_me_har_file" data-callback="callback_testLoad1"></div>
+
+<script>
+(function() {
+    var har = document.createElement("script");
+    har.src = "<%= harviewer_base %>har.js";
+    har.setAttribute("id", "har");
+    har.setAttribute("async", "true");
+    document.documentElement.firstChild.appendChild(har);
+})();
+</script>
+
+</body>
+</html>
