@@ -154,10 +154,12 @@ define([
     'testIssue62 - base64 encoded SVG as XML': function() {
       var url = harViewerBase + "?path=" + testBase + "tests/hars/issue-62/svg.base64.har";
       // TODO - Need a better way of determining if this test should be run or not.
-      if ("undefined" !== typeof atob) {
-        return testTreeView(this.remote, url, "SVG", "XML", "svg", "SVGSVGElement");
-      }
-      return true;
+      return this.remote.execute("return typeof atob")
+        .then((type) => {
+          if (type === "function") {
+            return testTreeView(this.remote, url, "SVG", "XML", "svg", "SVGSVGElement");
+          }
+        });
     },
 
     'testIssue23 - chrome51.har Image': function() {
