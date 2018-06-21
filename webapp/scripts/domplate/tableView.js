@@ -3,12 +3,12 @@
 /**
  * @module domplate/tableView
  */
-define("domplate/tableView", [
-    "domplate/domplate",
-    "core/lib",
-    "i18n!nls/tableView",
-    "domplate/domTree", //xxxHonza: hack, registered reps should be a separate module
-    "core/trace"
+define([
+    "./domplate",
+    "../core/lib",
+    "i18n!../nls/tableView",
+    "./domTree", //xxxHonza: hack, registered reps should be a separate module
+    "../core/trace",
 ],
 
 function(Domplate, Lib, Strings, DomTree, Trace) {

@@ -1,4 +1,4 @@
-define("syntax-highlighter/shCore", ["exports"], function(exports) {
+define(["exports"], function(exports) {
 
 // This code is taken from
 //   https://github.com/alexgorbatchev/syntaxhighlighter/blob/3.0.83

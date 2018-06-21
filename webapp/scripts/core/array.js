@@ -4,7 +4,7 @@
  * @module core/array
  */
 define([
-    "core/trace"
+    "./trace"
 ],
 
 function(Trace) {

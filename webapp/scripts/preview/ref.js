@@ -1,7 +1,7 @@
 /* This file comes from DOJO (adapted for requirejs): dojox/json/ref.js */
 
-define("preview/ref", [
-    "core/lib"
+define([
+    "../core/lib"
 ],
 
 function(Lib) {

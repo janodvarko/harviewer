@@ -7,7 +7,7 @@ define([
     "./array",
     "./css",
     "./sniff",
-    "core/trace"
+    "./trace"
 ],
 
 function(Arr, Css, Sniff, Trace) {

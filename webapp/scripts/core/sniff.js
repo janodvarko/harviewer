@@ -4,7 +4,7 @@
  * @module core/sniff
  */
 define([
-    "core/trace"
+    "./trace"
 ],
 
 function(Trace) {

@@ -3,10 +3,10 @@
 /**
  * @module domplate/popupMenu
  */
-define("domplate/popupMenu", [
-    "domplate/domplate",
-    "core/lib",
-    "core/trace"
+define([
+    "./domplate",
+    "../core/lib",
+    "../core/trace",
 ],
 
 function(Domplate, Lib, Trace) {

@@ -3,10 +3,10 @@
 /**
  * @module domplate/domTree
  */
-define("domplate/domTree", [
-    "domplate/domplate",
-    "core/lib",
-    "core/trace"
+define([
+    "./domplate",
+    "../core/lib",
+    "../core/trace",
 ],
 
 function(Domplate, Lib, Trace) {

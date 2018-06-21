@@ -4,7 +4,7 @@
  * @module core/events
  */
 define([
-    "core/trace"
+    "./trace"
 ],
 
 function(Trace) {

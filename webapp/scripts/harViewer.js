@@ -3,19 +3,19 @@
 /**
  * @module harViewer
  */
-define("harViewer", [
-    "domplate/tabView",
-    "tabs/homeTab",
-    "tabs/aboutTab",
-    "tabs/previewTab",
-    "tabs/schemaTab",
-    "tabs/domTab",
-    "preview/harModel",
-    "preview/harModelLoader",
-    "i18n!nls/harViewer",
-    "preview/requestList",
-    "core/lib",
-    "core/trace"
+define([
+    "./domplate/tabView",
+    "./tabs/homeTab",
+    "./tabs/aboutTab",
+    "./tabs/previewTab",
+    "./tabs/schemaTab",
+    "./tabs/domTab",
+    "./preview/harModel",
+    "./preview/harModelLoader",
+    "i18n!./nls/harViewer",
+    "./preview/requestList",
+    "./core/lib",
+    "./core/trace",
 ],
 
 function(TabView, HomeTab, AboutTab, PreviewTab, SchemaTab, DomTab, HarModel,

@@ -3,15 +3,15 @@
 /**
  * @module tabs/homeTab
  */
-define("tabs/homeTab", [
-    "domplate/domplate",
-    "domplate/tabView",
-    "core/lib",
-    "core/cookies",
-    "core/trace",
-    "i18n!nls/homeTab",
-    "text!tabs/homeTab.html",
-    "preview/harModel"
+define([
+    "../domplate/domplate",
+    "../domplate/tabView",
+    "../core/lib",
+    "../core/cookies",
+    "../core/trace",
+    "i18n!../nls/homeTab",
+    "text!./homeTab.html",
+    "../preview/harModel",
 ],
 
 function(Domplate, TabView, Lib, Cookies, Trace, Strings, HomeTabHtml, HarModel) {

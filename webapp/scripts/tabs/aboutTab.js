@@ -3,14 +3,15 @@
 /**
  * @module tabs/aboutTab
  */
-define("tabs/aboutTab", [
-    "domplate/domplate",
-    "domplate/tabView",
-    "core/lib",
-    "i18n!nls/harViewer"
+define([
+    "require",
+    "../domplate/domplate",
+    "../domplate/tabView",
+    "../core/lib",
+    "i18n!../nls/harViewer",
 ],
 
-function(Domplate, TabView, Lib, Strings) {
+function(require, Domplate, TabView, Lib, Strings) {
 
 var A = Domplate.A;
 var DIV = Domplate.DIV;
@@ -44,7 +45,7 @@ AboutTab.prototype =
     {
         var self = this;
         body = this.bodyTag.replace({}, body);
-        require(["text!tabs/aboutTab.html"], function(html)
+        require(["text!./aboutTab.html"], function(html)
         {
             function replace(s, pattern, replaceWith) {
                 if (!replaceWith) {

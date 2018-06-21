@@ -4,7 +4,7 @@
  * @module core/mime
  */
 define([
-    "core/trace"
+    "./trace"
 ],
 
 function(Trace) {

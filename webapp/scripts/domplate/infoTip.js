@@ -3,10 +3,10 @@
 /**
  * @module domplate/infoTip
  */
-define("domplate/infoTip", [
-    "domplate/domplate",
-    "core/lib",
-    "core/trace"
+define([
+    "./domplate",
+    "../core/lib",
+    "../core/trace",
 ],
 
 function(Domplate, Lib, Trace) {

@@ -3,13 +3,13 @@
 /**
  * @module tabs/harStats
  */
-define("tabs/harStats", [
-    "domplate/domplate",
-    "core/lib",
-    "core/StatsService",
-    "i18n!nls/harStats",
-    "preview/harModel",
-    "domplate/infoTip"
+define([
+    "../domplate/domplate",
+    "../core/lib",
+    "../core/StatsService",
+    "i18n!../nls/harStats",
+    "../preview/harModel",
+    "../domplate/infoTip",
 ],
 
 function(Domplate, Lib, StatsService, Strings, HarModel, InfoTip) {

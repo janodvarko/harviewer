@@ -3,9 +3,9 @@
 /**
  * @module core/StatsService
  */
-define("core/StatsService", [
-    "core/lib",
-    "preview/harModel"
+define([
+    "./lib",
+    "../preview/harModel"
 ],
 
 function(Lib, HarModel) {

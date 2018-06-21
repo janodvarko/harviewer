@@ -3,14 +3,14 @@
 /**
  * @module tabs/search
  */
-define("tabs/search", [
-    "domplate/domplate",
-    "core/lib",
-    "i18n!nls/search",
-    "domplate/toolbar",
-    "domplate/popupMenu",
-    "core/cookies",
-    "core/dragdrop"
+define([
+    "../domplate/domplate",
+    "../core/lib",
+    "i18n!../nls/search",
+    "../domplate/toolbar",
+    "../domplate/popupMenu",
+    "../core/cookies",
+    "../core/dragdrop",
 ],
 
 function(Domplate, Lib, Strings, Toolbar, Menu, Cookies, DragDrop) {

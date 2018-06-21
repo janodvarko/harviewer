@@ -4,7 +4,7 @@
  * @module core/url
  */
 define([
-    "core/trace"
+    "./trace"
 ],
 
 function(Trace) {

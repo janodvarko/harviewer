@@ -3,7 +3,7 @@
 /**
  * @module domplate/domplate
  */
-define("domplate/domplate", [], function() {
+define([], function() {
 
 //*************************************************************************************************
 

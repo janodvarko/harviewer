@@ -3,19 +3,19 @@
 /**
  * @module tabs/domTab
  */
-define("tabs/domTab", [
-    "domplate/domplate",
-    "domplate/tabView",
-    "core/lib",
-    "i18n!nls/domTab",
-    "domplate/toolbar",
-    "tabs/search",
-    "core/dragdrop",
-    "domplate/domTree",
-    "core/cookies",
-    "domplate/tableView",
-    "core/trace",
-    "json-query/JSONQuery"
+define([
+    "../domplate/domplate",
+    "../domplate/tabView",
+    "../core/lib",
+    "i18n!../nls/domTab",
+    "../domplate/toolbar",
+    "./search",
+    "../core/dragdrop",
+    "../domplate/domTree",
+    "../core/cookies",
+    "../domplate/tableView",
+    "../core/trace",
+    "../json-query/JSONQuery",
 ],
 
 function(Domplate, TabView, Lib, Strings, Toolbar, Search, DragDrop, DomTree, Cookies,

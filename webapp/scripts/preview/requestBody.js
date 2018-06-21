@@ -1,14 +1,14 @@
 /* See license.txt for terms of usage */
 
-define("preview/requestBody", [
-    "domplate/domplate",
-    "i18n!nls/requestBody",
-    "core/lib",
-    "core/cookies",
-    "domplate/tabView",
-    "domplate/domTree",
-    "core/dragdrop",
-    "syntax-highlighter/shCore"
+define([
+    "../domplate/domplate",
+    "i18n!../nls/requestBody",
+    "../core/lib",
+    "../core/cookies",
+    "../domplate/tabView",
+    "../domplate/domTree",
+    "../core/dragdrop",
+    "../syntax-highlighter/shCore",
 ],
 
 function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) {

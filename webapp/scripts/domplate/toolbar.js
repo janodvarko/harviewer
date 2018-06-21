@@ -3,11 +3,11 @@
 /**
  * @module domplate/toolbar
  */
-define("domplate/toolbar", [
-    "domplate/domplate",
-    "core/lib",
-    "core/trace",
-    "domplate/popupMenu"
+define([
+    "./domplate",
+    "../core/lib",
+    "../core/trace",
+    "./popupMenu",
 ],
 
 function(Domplate, Lib, Trace, Menu) {

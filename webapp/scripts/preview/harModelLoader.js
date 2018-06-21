@@ -4,7 +4,7 @@
  * @module preview/harModelLoader
  */
 define([
-    "core/url"
+    "../core/url",
 ],
 
 function(Url) {

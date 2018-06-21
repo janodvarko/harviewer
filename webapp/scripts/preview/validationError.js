@@ -1,10 +1,10 @@
 /* See license.txt for terms of usage */
 
-define("preview/validationError", [
-    "domplate/domplate",
-    "core/lib",
-    "core/trace",
-    "domplate/popupMenu"
+define([
+    "../domplate/domplate",
+    "../core/lib",
+    "../core/trace",
+    "../domplate/popupMenu",
 ],
 
 function(Domplate, Lib, Trace, Menu) {

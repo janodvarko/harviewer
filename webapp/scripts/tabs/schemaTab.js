@@ -3,13 +3,13 @@
 /**
  * @module tabs/schemaTab
  */
-define("tabs/schemaTab", [
-    "domplate/domplate",
-    "domplate/tabView",
-    "core/lib",
-    "i18n!nls/harViewer",
-    "syntax-highlighter/shCore",
-    "core/trace"
+define([
+    "../domplate/domplate",
+    "../domplate/tabView",
+    "../core/lib",
+    "i18n!../nls/harViewer",
+    "../syntax-highlighter/shCore",
+    "../core/trace",
 ],
 
 function(Domplate, TabView, Lib, Strings, dp, Trace) {

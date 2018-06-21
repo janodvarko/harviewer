@@ -1,14 +1,14 @@
 /* See license.txt for terms of usage */
 
-define("preview/requestList", [
-    "domplate/domplate",
-    "core/lib",
-    "i18n!nls/requestList",
-    "preview/harModel",
-    "core/cookies",
-    "preview/requestBody",
-    "domplate/infoTip",
-    "domplate/popupMenu"
+define([
+    "../domplate/domplate",
+    "../core/lib",
+    "i18n!../nls/requestList",
+    "./harModel",
+    "../core/cookies",
+    "./requestBody",
+    "../domplate/infoTip",
+    "../domplate/popupMenu",
 ],
 
 function(Domplate, Lib, Strings, HarModel, Cookies, RequestBody, InfoTip, Menu) {

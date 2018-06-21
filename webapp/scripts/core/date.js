@@ -5,7 +5,7 @@
  * @module core/date
  */
 define([
-    "core/trace"
+    "./trace"
 ],
 
 function(Trace) {

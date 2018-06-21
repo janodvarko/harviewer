@@ -1,13 +1,13 @@
 /* See license.txt for terms of usage */
 
-define("preview/pageList", [
-    "domplate/domplate",
-    "core/lib",
-    "core/trace",
-    "core/cookies",
-    "preview/requestList",
-    "i18n!nls/pageList",
-    "domplate/popupMenu"
+define([
+    "../domplate/domplate",
+    "../core/lib",
+    "../core/trace",
+    "../core/cookies",
+    "./requestList",
+    "i18n!../nls/pageList",
+    "../domplate/popupMenu",
 ],
 
 function(Domplate, Lib, Trace, Cookies, RequestList, Strings, Menu) {

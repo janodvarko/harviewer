@@ -5,13 +5,13 @@
  * @module preview/harModel
  */
 define([
-    "core/lib",
-    "preview/jsonSchema",
-    "preview/ref",
-    "preview/harSchema",
-    "core/cookies",
-    "core/trace",
-    "i18n!nls/harModel"
+    "../core/lib",
+    "./jsonSchema",
+    "./ref",
+    "./harSchema",
+    "../core/cookies",
+    "../core/trace",
+    "i18n!../nls/harModel",
 ],
 
 function(Lib, JSONSchema, Ref, HarSchema, Cookies, Trace, Strings) {

@@ -3,19 +3,19 @@
 /**
  * @module tabs/previewTab
  */
-define("tabs/previewTab", [
-    "domplate/domplate",
-    "domplate/tabView",
-    "core/lib",
-    "i18n!nls/previewTab",
-    "domplate/toolbar",
-    "tabs/pageTimeline",
-    "tabs/harStats",
-    "preview/pageList",
-    "core/cookies",
-    "preview/validationError",
-    "downloadify/js/swfobject",
-    "downloadify/src/downloadify"
+define([
+    "../domplate/domplate",
+    "../domplate/tabView",
+    "../core/lib",
+    "i18n!../nls/previewTab",
+    "../domplate/toolbar",
+    "./pageTimeline",
+    "./harStats",
+    "../preview/pageList",
+    "../core/cookies",
+    "../preview/validationError",
+    "../downloadify/js/swfobject",
+    "../downloadify/src/downloadify",
 ],
 
 function(Domplate, TabView, Lib, Strings, Toolbar, Timeline, Stats, PageList, Cookies,

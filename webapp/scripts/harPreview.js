@@ -3,15 +3,15 @@
 /**
  * @module harPreview
  */
-define("harPreview", [
-    "preview/requestList",
-    "preview/pageList",
-    "preview/harModel",
-    "preview/harModelLoader",
-    "core/lib",
-    "core/trace",
-    "preview/menu",
-    "preview/validationError"
+define([
+    "./preview/requestList",
+    "./preview/pageList",
+    "./preview/harModel",
+    "./preview/harModelLoader",
+    "./core/lib",
+    "./core/trace",
+    "./preview/menu",
+    "./preview/validationError",
 ],
 
 function(RequestList, PageList, HarModel, Loader, Lib, Trace, Menu, ValidationError) {

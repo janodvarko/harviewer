@@ -5,7 +5,7 @@
  */
 define([
     "./array",
-    "core/trace"
+    "./trace"
 ],
 
 function(Arr, Trace) {

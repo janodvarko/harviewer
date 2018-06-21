@@ -3,10 +3,10 @@
 /**
  * @module domplate/tabView
  */
-define("domplate/tabView", [
-    "domplate/domplate",
-    "core/lib",
-    "core/trace"
+define([
+    "../domplate/domplate",
+    "../core/lib",
+    "../core/trace",
 ],
 
 function(Domplate, Lib, Trace) {

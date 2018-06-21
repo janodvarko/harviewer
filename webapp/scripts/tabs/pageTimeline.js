@@ -3,12 +3,12 @@
 /**
  * @module tabs/pageTimeline
  */
-define("tabs/pageTimeline", [
-    "domplate/domplate",
-    "core/lib",
-    "core/trace",
-    "i18n!nls/pageTimeline",
-    "preview/harModel"
+define([
+    "../domplate/domplate",
+    "../core/lib",
+    "../core/trace",
+    "i18n!../nls/pageTimeline",
+    "../preview/harModel",
 ],
 
 function(Domplate, Lib, Trace, Strings, HarModel) {

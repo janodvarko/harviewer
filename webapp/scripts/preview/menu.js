@@ -1,10 +1,10 @@
 /* See license.txt for terms of usage */
 
-define("preview/menu", [
-    "domplate/domplate",
-    "core/lib",
-    "domplate/toolbar",
-    "core/trace"
+define([
+    "../domplate/domplate",
+    "../core/lib",
+    "../domplate/toolbar",
+    "../core/trace",
 ],
 
 function(Domplate, Lib, Toolbar, Trace) {
