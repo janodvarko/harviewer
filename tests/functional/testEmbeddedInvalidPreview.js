@@ -19,7 +19,7 @@ define([
       var r = this.remote;
 
       // HAR file is specified inside the test page.
-      var url = testBase + "tests/testEmbeddedInvalidPreview1.html.php";
+      var url = testBase + "tests/testEmbeddedInvalidPreview1.html";
 
       return r
         .setFindTimeout(findTimeout)
@@ -50,7 +50,7 @@ define([
       var r = this.remote;
 
       // HAR file is specified inside the test page.
-      var url = testBase + "tests/testEmbeddedInvalidPreview2.html.php";
+      var url = testBase + "tests/testEmbeddedInvalidPreview2.html";
 
       return r
         .setFindTimeout(findTimeout)

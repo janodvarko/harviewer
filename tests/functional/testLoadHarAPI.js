@@ -49,12 +49,12 @@ define([
 
     'testViewer': function() {
       // This test loads a page that will use the harViewer.loadHar() API.
-      return testViewerLoadsThreeHars(this.remote, "tests/testLoadHarAPIViewer.html.php");
+      return testViewerLoadsThreeHars(this.remote, "tests/testLoadHarAPIViewer.html");
     },
 
     'testViewer loadArchives': function() {
       // This test loads a page that will use the harViewer.loadArchives() API.
-      return testViewerLoadsThreeHars(this.remote, "tests/testLoadArchives.html.php");
+      return testViewerLoadsThreeHars(this.remote, "tests/testLoadArchives.html");
     },
 
     'testPreview': function() {
@@ -64,7 +64,7 @@ define([
       var r = this.remote;
       var utils = new DriverUtils(r);
 
-      var url = testBase + "tests/testLoadHarAPIPreview.html.php";
+      var url = testBase + "tests/testLoadHarAPIPreview.html";
 
       return r
         .setFindTimeout(findTimeout)

@@ -18,7 +18,7 @@ define([
       var findTimeout = config.findTimeout;
       var r = this.remote;
 
-      var url = testBase + "tests/testEmbeddedPreview.html.php";
+      var url = testBase + "tests/testEmbeddedPreview.html";
 
       return r
         .setFindTimeout(findTimeout)

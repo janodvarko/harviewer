@@ -16,7 +16,7 @@ define([
       var r = this.remote;
 
       // HAR file is specified inside the test page.
-      var viewerURL = testBase + "tests/testPreviewExpand.html.php";
+      var viewerURL = testBase + "tests/testPreviewExpand.html";
       var harFileURL = testBase + "tests/hars/preview-expand.har";
       var url = viewerURL + "?path=" + harFileURL;
 
@@ -34,7 +34,7 @@ define([
       var utils = new DriverUtils(r);
 
       // HAR file is specified inside the test page.
-      var viewerURL = testBase + "tests/testPreviewExpand.html.php";
+      var viewerURL = testBase + "tests/testPreviewExpand.html";
       var harFileURL = testBase + "tests/hars/multiple-pages.har";
       var url = viewerURL + "?path=" + harFileURL;
 
@@ -54,7 +54,7 @@ define([
       var utils = new DriverUtils(r);
 
       // HAR file is specified inside the test page.
-      var viewerURL = testBase + "tests/testPreviewExpand.html.php";
+      var viewerURL = testBase + "tests/testPreviewExpand.html";
       var harFileURL = testBase + "tests/hars/multiple-pages.har";
       var url = viewerURL + "?path=" + harFileURL + "&expand=true";
 

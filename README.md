@@ -33,8 +33,7 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 ## Testing
 
 * Selenium: http://seleniumhq.org/
-* Intern: https://theintern.io/ (preferred, see [tests](tests/))
-* PHPUnit: http://www.phpunit.de/ (deprecated, see [tests](selenium/tests))
+* Intern: https://theintern.io/ (see [tests](tests/))
 
 ## Development
 
@@ -58,7 +57,7 @@ To show lint errors and warnings:
 
 Go to the project directory and execute the following command:
 
-`npm run build`
+`npm run clean-build`
 
 (*Indicative build time - about 12 seconds.  Node.js v10.2.1*)
 
