@@ -2,23 +2,17 @@
  * Test API for showing page timeline and statistics by default.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+], function(config, DriverUtils) {
+  const { registerSuite } = intern.getInterface("object");
+  const { testBase } = config;
 
-  registerSuite({
-    name: 'testShowStatsAndTimeline',
-
+  registerSuite('testShowStatsAndTimeline', {
     'testShowStatsAndTimeline': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -33,6 +27,6 @@ define([
         .findByCssSelector(".pageTimelineBody.opened")
         .end()
         .findByCssSelector(".pageStatsBody.opened");
-    }
+    },
   });
 });

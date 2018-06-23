@@ -2,11 +2,10 @@
  * Test content of the Schema tab.
  */
 define([
-  'intern',
   './DriverUtils',
-  'intern/dojo/Promise',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, DriverUtils, Promise, pollUntil) {
+  'dojo/node!@theintern/leadfoot',
+], function(DriverUtils, leadfoot) {
+  const { pollUntil } = leadfoot;
 
   /**
    * Opens a HAR Viewer url, checks the first page title includes some expected text, and clicks the idx'th net label.

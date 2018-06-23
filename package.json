@@ -4,16 +4,17 @@
   "description": "The purpose of this online tool is to visualize HTTP Archive (HAR) log files created by HTTP tracking tools. These files contain log of HTTP client/server conversation and can be used for an additional analysis of e.g. page load performance.",
   "devDependencies": {
     "cross-env": "^5.0.1",
+    "dojo": "^1.13.0",
     "eslint": "^3.14.1",
     "eslint-config-google": "^0.7.1",
-    "intern": "^3.4.6",
+    "intern": "^4.2.0",
     "jsdoc": "^3.5.5",
     "jsonfile": "^3.0.0",
     "preprocess": "^3.1.0",
     "replace-in-file": "^2.5.0",
     "requirejs": "^2.3.3",
     "rimraf": "^2.6.1",
-    "selenium-standalone": "^6.15.0",
+    "selenium-standalone": "^6.15.1",
     "shelljs": "^0.7.8"
   },
   "scripts": {
@@ -27,9 +28,8 @@
     "selenium:install": "selenium-standalone install --config=selenium-standalone-config.js",
     "selenium:start": "selenium-standalone start --config=selenium-standalone-config.js",
     "selenium:start:debug": "cross-env DEBUG=selenium-standalone:* selenium-standalone start --config=selenium-standalone-config.js",
-    "test": "intern-client config=tests/intern",
-    "test-standalone": "intern-runner config=tests/intern-selenium-standalone",
-    "test-grid": "intern-runner config=tests/intern-selenium-grid",
-    "my-grid": "intern-runner config=tests/my-intern-selenium-grid"
+    "test": "intern",
+    "test:unit": "intern",
+    "test:all": "intern config=@all"
   }
 }

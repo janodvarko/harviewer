@@ -2,25 +2,20 @@
  * Test HAR Viewer API for custom page timings.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
-  './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+  './config',
+  'dojo/node!@theintern/leadfoot',
+], function(config, leadfoot) {
+  const { registerSuite } = intern.getInterface("object");
+  const { assert } = intern.getPlugin("chai");
+  const { pollUntil } = leadfoot;
+  const { testBase } = config;
 
-  registerSuite({
-    name: 'testCustomPageTiming',
-
+  registerSuite('testCustomPageTiming', {
     'testCustomPageTiming': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
-      var utils = new DriverUtils(r);
 
       var viewerURL = testBase + "tests/testCustomPageTimingIndex.php";
       var harFileURL = testBase + "tests/testCustomPageTiming.har";
@@ -39,6 +34,6 @@ define([
         .then(function(els) {
           assert.strictEqual(els.length, 4);
         });
-    }
+    },
   });
 });

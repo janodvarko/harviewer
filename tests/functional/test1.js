@@ -1,19 +1,15 @@
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
-  './DriverUtils'
-], function(intern, registerSuite, assert, require, DriverUtils) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
+  './config',
+  './DriverUtils',
+], function(config, DriverUtils) {
+  const { registerSuite } = intern.getInterface("object");
+  const { harViewerBase } = config;
 
-  registerSuite({
-    name: 'Test1',
-
+  registerSuite('Test1', {
     'testTabs': function() {
       var r = this.remote;
       var utils = new DriverUtils(r);
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       return r
         .setFindTimeout(findTimeout)
         .get(harViewerBase)
@@ -21,6 +17,6 @@ define([
         .then(utils.cbAssertElementContainsText("css=.PreviewTab", "Preview"))
         .then(utils.cbAssertElementContainsText("css=.DOMTab", "HAR"))
         .then(utils.cbAssertElementContainsText("css=.SchemaTab", "Schema"));
-    }
+    },
   });
 });

@@ -2,15 +2,14 @@
  * Load multiple HAR files into the viewer.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+  'dojo/node!@theintern/leadfoot',
+], function(config, DriverUtils, leadfoot) {
+  const { registerSuite } = intern.getInterface("object");
+  const { assert } = intern.getPlugin("chai");
+  const { pollUntil } = leadfoot;
+  const { harViewerBase, testBase } = config;
 
   function makeFiles(num) {
     var files = [];
@@ -35,7 +34,7 @@ define([
   function testWithParamName(remote, baseUrl, paramName, files, expectedNumberOfPageTables) {
     // Some of these tests need a larger timeout for finding DOM elements
     // because we need the HAR to parse/display fully before we query the DOM.
-    var findTimeout = intern.config.harviewer.findTimeout;
+    var findTimeout = config.findTimeout;
     var r = remote;
     var utils = new DriverUtils(r);
 
@@ -79,9 +78,7 @@ define([
       .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"));
   }
 
-  registerSuite({
-    name: 'testLoadMulipleFiles',
-
+  registerSuite('testLoadMulipleFiles', {
     'testLoadMulipleFiles using "path" and "baseUrl" parameters': function() {
       // Using both "path" and "baseUrl" means we're loading JSONP/HARP
       return testWithParamName(this.remote, testBase + "tests/hars/", "path", makeFiles(9));
@@ -131,6 +128,6 @@ define([
       // New "har" parameter loads all "har", so expectedNumberOfPageTables===3
       // (which is the default files.length).
       return testWithParamName(this.remote, null, "har", files);
-    }
+    },
   });
 });

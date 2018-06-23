@@ -2,10 +2,10 @@
  * Unit tests for harModelLoader.
  */
 define([
-    "intern!object",
-    "intern/chai!assert",
-    "preview/harModelLoader"
-], function (registerSuite, assert, Loader) {
+    "preview/harModelLoader",
+], function(Loader) {
+    var registerSuite = intern.getInterface("object").registerSuite;
+    var assert = intern.getPlugin("chai").assert;
 
     function assign(target, src1, src2, etc) {
         for (var i = 1; i < arguments.length; i++) {
@@ -59,7 +59,7 @@ define([
             inputUrls: [],
             hars: [],
             harps: [],
-            filePath: null
+            filePath: null,
         };
     }
 
@@ -255,7 +255,7 @@ define([
         var callbackRejecter = rejecter("callback should not be called");
         var errorCallbackRejecter = rejecter("errorCallback should not be called");
         var doneCallbackRejecter = rejecter("doneCallback should not be called");
-        var noop = function() {};
+        var noop = function() { };
         var timeout = 500;
 
         return {
@@ -267,52 +267,51 @@ define([
                 Loader.ajax = LoaderAjax;
             },
 
-            'null hars, null harps': function() {
-                var dfd = this.async(timeout);
-                Loader.loadArchives(null, null, null, callbackRejecter(dfd), errorCallbackRejecter(dfd), dfd.callback(noop));
-            },
+            tests: {
+                'null hars, null harps': function() {
+                    var dfd = this.async(timeout);
+                    Loader.loadArchives(null, null, null, callbackRejecter(dfd), errorCallbackRejecter(dfd), dfd.callback(noop));
+                },
 
-            'empty hars, empty harps': function() {
-                var dfd = this.async(timeout);
-                Loader.loadArchives([], [], null, callbackRejecter(dfd), errorCallbackRejecter(dfd), dfd.callback(noop));
-            },
+                'empty hars, empty harps': function() {
+                    var dfd = this.async(timeout);
+                    Loader.loadArchives([], [], null, callbackRejecter(dfd), errorCallbackRejecter(dfd), dfd.callback(noop));
+                },
 
-            '1 har error, empty harps': function() {
-                var dfd = this.async(timeout);
-                Loader.loadArchives(["error"], [], null, callbackRejecter(dfd), dfd.callback(noop), doneCallbackRejecter(dfd));
-            },
+                '1 har error, empty harps': function() {
+                    var dfd = this.async(timeout);
+                    Loader.loadArchives(["error"], [], null, callbackRejecter(dfd), dfd.callback(noop), doneCallbackRejecter(dfd));
+                },
 
-            '1 ok har, 1 error har, empty harps': function() {
-                var dfd = this.async(timeout);
-                var callback = counter();
-                Loader.loadArchives(["1", "error"], [], null, callback, dfd.callback(function() {
-                    assert.strictEqual(callback.count, 1, "expect callback to be called once");
-                }), doneCallbackRejecter(dfd));
-            },
+                '1 ok har, 1 error har, empty harps': function() {
+                    var dfd = this.async(timeout);
+                    var callback = counter();
+                    Loader.loadArchives(["1", "error"], [], null, callback, dfd.callback(function() {
+                        assert.strictEqual(callback.count, 1, "expect callback to be called once");
+                    }), doneCallbackRejecter(dfd));
+                },
 
-            '1 har, null harps': function() {
-                var dfd = this.async(timeout);
-                var callback = counter();
-                Loader.loadArchives(["1"], [], null, callback, errorCallbackRejecter(dfd), dfd.callback(function() {
-                    assert.strictEqual(callback.count, 1, "expect callback to be called once");
-                }));
-            },
+                '1 har, null harps': function() {
+                    var dfd = this.async(timeout);
+                    var callback = counter();
+                    Loader.loadArchives(["1"], [], null, callback, errorCallbackRejecter(dfd), dfd.callback(function() {
+                        assert.strictEqual(callback.count, 1, "expect callback to be called once");
+                    }));
+                },
 
-            '1 har, 1 harp': function() {
-                var dfd = this.async(timeout);
-                var callback = counter();
-                Loader.loadArchives(["1"], ["1"], null, callback, errorCallbackRejecter(dfd), dfd.callback(function() {
-                    assert.strictEqual(callback.count, 2, "expect callback to be called twice");
-                }));
+                '1 har, 1 harp': function() {
+                    var dfd = this.async(timeout);
+                    var callback = counter();
+                    Loader.loadArchives(["1"], ["1"], null, callback, errorCallbackRejecter(dfd), dfd.callback(function() {
+                        assert.strictEqual(callback.count, 2, "expect callback to be called twice");
+                    }));
+                }
             }
         };
     }());
 
-    var suite = {
-        name: "preview/harModelLoader",
+    registerSuite("preview/harModelLoader", {
         'getLoadOptions': getLoadOptionsSubSuite,
         'loadArchives': loadArchivesSubSuite
-    };
-
-    registerSuite(suite);
+    });
 });

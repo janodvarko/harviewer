@@ -2,15 +2,15 @@
  * Test the StatsService.
  */
 define([
-    "intern!object",
-    "intern/chai!assert",
     "core/StatsService",
     "preview/harModel",
-    "text!../../../selenium/tests/hars/issue-61/chrome51.har",
-    "text!../../../selenium/tests/hars/issue-61/firefox47.har",
-    "text!../../../selenium/tests/hars/issue-61/ie11.har",
-    "text!../../../webapp/examples/google.com.har"
-], function(registerSuite, assert, StatsService, HarModel, issue61ChromeHar, issue61FirefoxHar, issue61IEHar, googleHar) {
+    "text!selenium/tests/hars/issue-61/chrome51.har",
+    "text!selenium/tests/hars/issue-61/firefox47.har",
+    "text!selenium/tests/hars/issue-61/ie11.har",
+    "text!webapp/examples/google.com.har",
+], function(StatsService, HarModel, issue61ChromeHar, issue61FirefoxHar, issue61IEHar, googleHar) {
+    var registerSuite = intern.getInterface("object").registerSuite;
+    var assert = intern.getPlugin("chai").assert;
 
     /**
      * Utility function to assert deepEqual for each property before the whole
@@ -49,13 +49,13 @@ define([
                 ssl: 0,
                 connect: 0,
                 send: 1.9229999961680797,
-                wait:  624.1639999934711,
+                wait: 624.1639999934711,
                 receive: 27.315000006637483
             },
             content: {
                 html: { resBodySize: 529, count: 1 },
                 js: { resBodySize: 103850, count: 5 },
-                css: { resBodySize: 6219, count: 1},
+                css: { resBodySize: 6219, count: 1 },
                 image: { resBodySize: 701, count: 2 },
                 flash: { resBodySize: 0, count: 0 },
                 other: { resBodySize: 0, count: 0 }
@@ -78,7 +78,7 @@ define([
                 dns: 0,
                 ssl: 0,
                 connect: 0,
-                send:  0.8149999921442932,
+                send: 0.8149999921442932,
                 wait: 62.93499999446795,
                 receive: 10.181999983615237
             },
@@ -211,8 +211,6 @@ define([
     }
 
     var suiteInfo = {
-        name: "core/StatsService",
-
         "calcTimingsTotalsForEntries(null) throws error": function() {
             var model = null;
             var stats = new StatsService(model);
@@ -328,5 +326,5 @@ define([
     };
 
     registerHarTests(suiteInfo);
-    registerSuite(suiteInfo);
+    registerSuite("core/StatsService", suiteInfo);
 });

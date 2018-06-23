@@ -8,81 +8,65 @@ Install the following software:
 
 All of the tests within the `/tests` folder require [Intern](https://github.com/theintern/intern/).
 
-After Node.js and npm have been installed, run the following from the harviewer project root.
+After Node.js and npm have been installed, run the following from the HAR Viewer project root.
 
     npm install
 
 
 # Unit tests
 
-Start a web server from the project root, and browse to Intern's "client.html" page. E.g.:
+The unit tests can be run from the command line or in a browser.
 
-- http://localhost:9999/node_modules/intern/client.html?config=tests/intern-client
+**Command line:**
+
+Run `npm test` or `npm run test:unit` from the command line. Both will run the unit tests.
+
+**Browser:**
+
+Start a web server from the project root, and browse to Intern's client testing home page. E.g.:
+
+- http://localhost:49001/node_modules/intern/
 
 
-# Selenium Tests
+# Functional Tests
 
-The Selenium tests require [Selenium](http://www.seleniumhq.org/download/) and Intern to be installed.
+The functional tests require [Selenium](http://www.seleniumhq.org/download/) to be installed.
+
+For installing and running Selenium, there are three options:
+- Let Intern take care of it - easiest.
+- Use [selenium-standalone](https://github.com/vvo/selenium-standalone) - easy.
+- Install/run Selenium manually - hardest.
+
+## Let Intern take care of it
+
+If you use the `"tunnel": "selenium"` option in the [intern.json](intern.json) file, then Intern will automatically download Selenium server and browser drivers based on your `"tunnelOptions"` settings. This is the default testing scenario.
+
+## Use selenium-standalone
 
 Download Selenium (and the IE/Chrome/Gecko drivers) by running the following command from the project root.
 
     npm run selenium:install
 
+This command will use the settings provided in the [selenium-standalone-config.js](selenium-standalone-config.js) file to determine which Selenium server and browser drivers are downloaded. These settings are similar to those used in the `"tunnelOptions"` value mentioned in the previous section.
 
-## Selenium Standalone
-
-1) Set your HAR Viewer server base path in `tests/intern-selenium-standalone.js`.  This is where your harviewer app is running.  E.g.:
-
-```
-    harviewer: {
-      harViewerBase: 'http://localhost:49001/webapp/',
-      testBase: 'http://localhost:49001/selenium/'
-    },
-```
-
-2a) From the project root run the command:
+From the project root run the command:
 
     npm run selenium:start
 
+In order to prevent Intern from starting a Selenium server, we need to use the `null` tunnel. Either set the `"tunnel"` value to `"null"` in the [intern.json](intern.json) file, or pass the tunnel value at the command line (see below).
+
+Now go to the HAR Viewer project root directory and run Intern tests (using the **standalone** configuration file):
+
+    npm run test:all    (when null tunnel has been set in intern.json)
+
 or
 
-2b) Go to the selenium directory and run Selenium Standalone using:
-
-    start-server.bat
-
-This command has placeholders for the locations of:
-
-- A specific version of Firefox to use (for compatibility with Selenium).
-- The location of IEDriverServer.exe.
-- The location of chromedriver.exe.
-
-You should change these to match your own file paths, but only `FIREFOX_EXE` should need to change as the driver paths are relative to the `start-server.bat` script.
-
-3) Now go to the harviewer project root directory and run Intern tests (using the **standalone** configuration file):
-
-    npm run test-standalone
+    npm run test:all tunnel=null    (to override tunnel value in intern.json)
 
 
-## Selenium Grid
+## Install/run Selenium manually
 
-1) Set your HAR Viewer server base path in `tests/intern-selenium-grid.js`.  This is where your harviewer app is running.  E.g.:
-
-```
-    harviewer: {
-      harViewerBase: 'http://harviewer:49001/webapp/',
-      testBase: 'http://harviewer:49001/selenium/'
-    },
-```
-
-2) Go to the selenium directory and start Selenium as a hub using:
-
-    start-server-hub.bat
-
-3) Start your Selenium nodes and have them connect to the Selenium hub.
-
-4) Now go to the harviewer project root directory and run Intern tests (using the **grid** configuration file):
-
-    npm run test-grid
+Installing and running a Selenkum server manually is outside the scope of this README. But once you have a server set up, ensure Intern is using the `"null"` tunnel when you run the tests, as in the previous section.
 
 
 # Compatibility
@@ -132,3 +116,14 @@ Windows 10 (28 May 2018)
 - IE 11 (32bit) using IEDriverServer.exe 3.4.0 (32bit).
 - Java 1.8.0_151.
 - Selenium 3.4.0.
+
+Windows 10 (21 Jun 2018)
+
+- Node 10.3.0.
+- Intern 4.2.0.
+- Firefox 60.0.2 using geckodriver 0.20.1.
+- Chrome 67.0.3396.87 (Official Build) (64-bit) using chromedriver.exe 2.40.
+- IE 11 (32bit) using IEDriverServer.exe 3.4.0 (32bit).
+- Edge 42.17134.1.0/17.17134 using MicrosoftWebDriver.exe 17134.
+- Java 1.8.0_151.
+- Selenium 3.12.0.

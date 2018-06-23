@@ -3,11 +3,10 @@ This module aims to provide a syntax bridge between the old PHPUnit/Selenium1
 tests and new Intern/Chai/Selenium2 tests.
 */
 define([
-  "intern/chai!assert",
-  'intern/dojo/node!leadfoot/helpers/pollUntil',
-  'intern/dojo/node!leadfoot/Command',
-  'intern/dojo/Promise'
-], function(assert, pollUntil, Command, Promise) {
+  'dojo/node!@theintern/leadfoot',
+], function(leadfoot) {
+  const { assert } = intern.getPlugin("chai");
+  const { pollUntil } = leadfoot;
 
   function logThen(msg, formatIt) {
     return function(it) {
@@ -202,13 +201,13 @@ define([
       count = null;
     }
     return pollUntil(function(selector, count) {
-        var useCount = ("number" === typeof count);
-        var els = document.querySelectorAll(selector);
-        if (!useCount) {
-          return els;
-        }
-        return (els.length === count) ? els : null;
-      },
+      var useCount = ("number" === typeof count);
+      var els = document.querySelectorAll(selector);
+      if (!useCount) {
+        return els;
+      }
+      return (els.length === count) ? els : null;
+    },
       // Make sure we pass the args for the function to execute on the browser
       [selector, count],
       // timeout

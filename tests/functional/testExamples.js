@@ -1,16 +1,14 @@
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
-  './DriverUtils'
-], function(intern, registerSuite, assert, require, DriverUtils) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
+  './config',
+  './DriverUtils',
+], function(config, DriverUtils) {
+  const { registerSuite } = intern.getInterface("object");
+  const { harViewerBase } = config;
 
   function testExample(remote, exampleId, expected) {
     // Some of these tests need a larger timeout for finding DOM elements
     // because we need the HAR to parse/display fully before we query the DOM.
-    var findTimeout = intern.config.harviewer.findTimeout;
+    var findTimeout = config.findTimeout;
     var utils = new DriverUtils(remote);
     return remote
       .setFindTimeout(findTimeout)
@@ -21,9 +19,7 @@ define([
       .then(utils.cbAssertElementContainsText("css=.previewList", expected));
   }
 
-  registerSuite({
-    name: 'testExamples',
-
+  registerSuite('testExamples', {
     'example1': function() {
       return testExample(this.remote, "example1", "Cuzillion");
     },
@@ -38,6 +34,6 @@ define([
 
     'example4': function() {
       return testExample(this.remote, "example4", "Google");
-    }
+    },
   });
 });

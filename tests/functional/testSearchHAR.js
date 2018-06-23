@@ -2,24 +2,19 @@
  * Check search feature on the HAR tab.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil',
-  'intern/dojo/node!leadfoot/keys'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil, keys) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+  'dojo/node!@theintern/leadfoot',
+], function(config, DriverUtils, leadfoot) {
+  const { registerSuite } = intern.getInterface("object");
+  const { keys, pollUntil } = leadfoot;
+  const { harViewerBase, testBase } = config;
 
-  registerSuite({
-    name: 'testSearchHAR',
-
+  registerSuite('testSearchHAR', {
     'testSearchHAR': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -52,6 +47,6 @@ define([
         //.pressKeys(keys.RETURN)
         // Check selection on the page.
         .then(pollUntil("return (window.getSelection().toString() == 'Fire') || null;", findTimeout));
-    }
+    },
   });
 });

@@ -2,23 +2,17 @@
  * Test HAR Viewer API for removing an existing tab.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+], function(config, DriverUtils) {
+  const { registerSuite } = intern.getInterface("object");
+  const { testBase } = config;
 
-  registerSuite({
-    name: 'testRemoveTab',
-
+  registerSuite('testRemoveTab', {
     'testRemoveTab': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -37,6 +31,6 @@ define([
         .setFindTimeout(0)
         .then(utils.cbAssertElementsLength(".AboutTab", 0))
         .then(utils.cbAssertElementsLength(".SchemaTab", 0));
-    }
+    },
   });
 });

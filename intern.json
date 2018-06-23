@@ -1,0 +1,180 @@
+{
+  "defaultTimeout": 60000,
+  "loader": {
+    "script": "dojo",
+    "options": {
+      "config": {
+        "i18n": {
+          "_COMMENT": [
+            "A config object for i18n is required to avoid",
+            "TypeError: Cannot read property 'locale' of undefined",
+            "at Object.load  <webapp\\scripts\\i18n.js:124:43>"
+          ]
+        }
+      },
+      "paths": {
+        "text": "webapp/scripts/text",
+        "i18n": "webapp/scripts/i18n",
+        "jquery": "webapp/scripts/jquery"
+      },
+      "packages": [
+        {
+          "name": "dojo",
+          "location": "node_modules/dojo"
+        },
+        {
+          "name": "core",
+          "location": "webapp/scripts/core"
+        },
+        {
+          "name": "preview",
+          "location": "webapp/scripts/preview"
+        },
+        {
+          "name": "nls",
+          "location": "webapp/scripts/nls"
+        },
+        {
+          "name": "tabs",
+          "location": "webapp/scripts/tabs"
+        },
+        {
+          "name": "webapp",
+          "location": "webapp"
+        },
+        {
+          "name": "selenium",
+          "location": "selenium"
+        }
+      ]
+    }
+  },
+  "suites": [
+    "tests/unit/unit",
+    "tests/unit/core/cookies",
+    "tests/unit/core/lib",
+    "tests/unit/core/mime",
+    "tests/unit/core/object",
+    "tests/unit/core/StatsService",
+    "tests/unit/core/url",
+    "tests/unit/preview/harModelLoader"
+  ],
+  "functionalSuites": [
+    "tests/functional/test1",
+    "tests/functional/testExamples",
+    "tests/functional/testPageListService",
+    "tests/functional/testPreviewSource",
+    "tests/functional/testRemoteLoad",
+    "tests/functional/testLoadMultipleFiles",
+    "tests/functional/testNoPageLog",
+    "tests/functional/testPageTimings",
+    "tests/functional/testSchemaTab",
+    "tests/functional/testRequestBody",
+    "tests/functional/testRemoveTab",
+    "tests/functional/testHideTabBar",
+    "tests/functional/testShowStatsAndTimeline",
+    "tests/functional/testCustomPageTiming",
+    "tests/functional/testRemoveToolbarButton",
+    "tests/functional/testTimeStamps",
+    "tests/functional/testPhases",
+    "tests/functional/testLoadHarAPI",
+    "tests/functional/testNoPageGraph",
+    "tests/functional/testEmbeddedPreview",
+    "tests/functional/testCustomizeColumns",
+    "tests/functional/testSearchHAR",
+    "tests/functional/testPreviewExpand",
+    "tests/functional/testEmbeddedInvalidPreview",
+    "tests/functional/testSearchJsonQuery",
+    "tests/functional/testIssue39",
+    "tests/functional/testValidateCheckbox"
+  ],
+  "tunnel": "selenium",
+  "tunnelOptions": {
+    "version": "3.12.0",
+    "drivers": [
+      {
+        "name": "chrome",
+        "version": "2.40"
+      },
+      {
+        "name": "firefox",
+        "version": "0.20.1"
+      },
+      {
+        "name": "ie",
+        "version": "3.4.0",
+        "arch": "ia32"
+      },
+      {
+        "name": "edge",
+        "version": "17134",
+        "_COMMENT": [
+          "Have to save the driver to",
+          "PATH_TO_HARVIEWER_REPO/node_modules/@theintern/digdug/selenium-standalone/17134/MicrosoftWebDriver.exe",
+          "until this driver is setup in selenium-standalone"
+        ]
+      }
+    ]
+  },
+  "configs": {
+    "all": {
+      "environments": [
+        "chrome",
+        "firefox",
+        "internet explorer",
+        "MicrosoftEdge"
+      ]
+    },
+    "not-ie": {
+      "environments": [
+        "chrome",
+        "firefox",
+        "MicrosoftEdge"
+      ]
+    },
+    "chrome": {
+      "environments": [
+        "chrome"
+      ]
+    },
+    "firefox": {
+      "environments": [
+        "firefox"
+      ]
+    },
+    "ie": {
+      "environments": [
+        "internet explorer"
+      ]
+    },
+    "edge": {
+      "environments": [
+        "MicrosoftEdge"
+      ]
+    }
+  },
+  "coverage": [
+    "webapp/**/*.js",
+    "!webapp/examples/**",
+    "!webapp/scripts/domplate/**",
+    "!webapp/scripts/jquery.js",
+    "!webapp/scripts/require.js",
+    "!webapp/scripts/text.js",
+    "!webapp/scripts/i18n.js",
+    "!webapp/scripts/downloadify/**",
+    "!webapp/scripts/json-query/**",
+    "!webapp/scripts/syntax-highlighter/**"
+  ],
+  "node": {
+    "reporters": [
+      "pretty",
+      "htmlcoverage"
+    ]
+  },
+  "browser": {
+    "reporters": [
+      "html"
+    ]
+  },
+  "instrumenterOptions": {}
+}

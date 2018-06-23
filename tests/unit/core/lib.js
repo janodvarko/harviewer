@@ -1,16 +1,12 @@
-/**
- * Simple unit test to sanity check that Intern is working.
- */
 define([
-    'intern!object',
-    'intern/chai!assert',
-    'core/lib'
-], function(registerSuite, assert, Lib) {
-    registerSuite({
-        name: 'lib',
+    "core/lib",
+], function(Lib) {
+    var registerSuite = intern.getInterface("object").registerSuite;
+    var assert = intern.getPlugin("chai").assert;
 
+    registerSuite("core/lib", {
         formatNumber: function() {
-            assert.strictEqual(Lib.formatNumber(0), '0', '[] is array');
-        }
+            assert.strictEqual(Lib.formatNumber(0), "0", "[] is array");
+        },
     });
 });

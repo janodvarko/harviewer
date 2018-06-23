@@ -2,23 +2,18 @@
  * Test HAR file with entries that don't have a parent page.
  */
 define([
-  'intern',
-  'intern!object',
-  'intern/chai!assert',
-  'require',
+  './config',
   './DriverUtils',
-  'intern/dojo/node!leadfoot/helpers/pollUntil'
-], function(intern, registerSuite, assert, require, DriverUtils, pollUntil) {
-  var harViewerBase = intern.config.harviewer.harViewerBase;
-  var testBase = intern.config.harviewer.testBase;
+], function(config, DriverUtils) {
+  const { registerSuite } = intern.getInterface("object");
+  const { assert } = intern.getPlugin("chai");
+  const { harViewerBase, testBase } = config;
 
-  registerSuite({
-    name: 'testNoPageGraph',
-
+  registerSuite('testNoPageGraph', {
     'testNoPageGraph': function() {
       // Some of these tests need a larger timeout for finding DOM elements
       // because we need the HAR to parse/display fully before we query the DOM.
-      var findTimeout = intern.config.harviewer.findTimeout;
+      var findTimeout = config.findTimeout;
       var r = this.remote;
       var utils = new DriverUtils(r);
 
@@ -38,8 +33,8 @@ define([
           var bars = window.document.querySelectorAll(".netRow.loaded.isExpandable .netReceivingBar");
           return (bars) && (bars.length >= 3) &&
             ([parseInt(bars[0].style.width),
-              parseInt(bars[1].style.width),
-              parseInt(bars[2].style.width)
+            parseInt(bars[1].style.width),
+            parseInt(bars[2].style.width)
             ]);
         })
         .then(function(barWidths) {
@@ -52,6 +47,6 @@ define([
           assert.ok(barWidths[1] > 0, "barWidths[1] > 0");
           assert.ok(barWidths[2] > 0, "barWidths[2] > 0");
         });
-    }
+    },
   });
 });
