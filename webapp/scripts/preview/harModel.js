@@ -39,19 +39,23 @@ HarModel.prototype =
             return;
         }
 
+        function sortByStartedDateTime(arr) {
+            arr.sort(function(a, b) {
+                var timeA = Lib.parseISO8601(a.startedDateTime);
+                var timeB = Lib.parseISO8601(b.startedDateTime);
+                return timeA - timeB;
+            });
+        }
+
+        // Sort all pages according to the start time.
+        if (input.log.pages) {
+            sortByStartedDateTime(input.log.pages);
+        }
+
         // Sort all requests according to the start time.
-        input.log.entries.sort(function(a, b)
-        {
-            var timeA = Lib.parseISO8601(a.startedDateTime);
-            var timeB = Lib.parseISO8601(b.startedDateTime);
-
-            if (timeA < timeB)
-                return -1;
-            else if (timeA > timeB)
-                return 1;
-
-            return 0;
-        });
+        if (input.log.entries) {
+            sortByStartedDateTime(input.log.entries);
+        }
 
         if (this.input)
         {
