@@ -1,0 +1,156 @@
+{
+  "startedDateTime": "2018-06-01T19:52:34.486Z",
+  "time": 577.0000000377186,
+  "request": {
+    "method": "GET",
+    "url": "https://www.google.co.uk/",
+    "httpVersion": "http/2.0",
+    "headers": [
+      {
+        "name": ":method",
+        "value": "GET"
+      },
+      {
+        "name": ":authority",
+        "value": "www.google.co.uk"
+      },
+      {
+        "name": ":scheme",
+        "value": "https"
+      },
+      {
+        "name": ":path",
+        "value": "/"
+      },
+      {
+        "name": "upgrade-insecure-requests",
+        "value": "1"
+      },
+      {
+        "name": "user-agent",
+        "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.62 Safari/537.36"
+      },
+      {
+        "name": "accept",
+        "value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
+      },
+      {
+        "name": "accept-encoding",
+        "value": "gzip, deflate, br"
+      },
+      {
+        "name": "accept-language",
+        "value": "en-US,en;q=0.9"
+      }
+    ],
+    "queryString": [],
+    "cookies": [],
+    "headersSize": -1,
+    "bodySize": 0
+  },
+  "response": {
+    "status": 200,
+    "statusText": "",
+    "httpVersion": "http/2.0",
+    "headers": [
+      {
+        "name": "status",
+        "value": "200"
+      },
+      {
+        "name": "date",
+        "value": "Fri, 01 Jun 2018 19:52:35 GMT"
+      },
+      {
+        "name": "expires",
+        "value": "-1"
+      },
+      {
+        "name": "cache-control",
+        "value": "private, max-age=0"
+      },
+      {
+        "name": "content-type",
+        "value": "text/html; charset=UTF-8"
+      },
+      {
+        "name": "strict-transport-security",
+        "value": "max-age=3600"
+      },
+      {
+        "name": "p3p",
+        "value": "CP=\"This is not a P3P policy! See g.co/p3phelp for more info.\""
+      },
+      {
+        "name": "content-encoding",
+        "value": "br"
+      },
+      {
+        "name": "server",
+        "value": "gws"
+      },
+      {
+        "name": "x-xss-protection",
+        "value": "1; mode=block"
+      },
+      {
+        "name": "x-frame-options",
+        "value": "SAMEORIGIN"
+      },
+      {
+        "name": "set-cookie",
+        "value": "1P_JAR=2018-06-01-19; expires=Sun, 01-Jul-2018 19:52:35 GMT; path=/; domain=.google.co.uk"
+      },
+      {
+        "name": "set-cookie",
+        "value": "NID=131=Qumew8pCcAALlil1jogYLu5SVNWYwKkYeTsZHYUHNK5PPcPw77BJH7PnYwPdD6Y451bnUuFN2y0PRdbj-gE3h6a9wOBkpukvGFhsiUesQ2U0A31xnJanqlR5lbR69DI_; expires=Sat, 01-Dec-2018 19:52:35 GMT; path=/; domain=.google.co.uk; HttpOnly"
+      },
+      {
+        "name": "alt-svc",
+        "value": "quic=\":443\"; ma=2592000; v=\"43,42,41,39,35\""
+      }
+    ],
+    "cookies": [
+      {
+        "name": "1P_JAR",
+        "value": "2018-06-01-19",
+        "path": "/",
+        "domain": ".google.co.uk",
+        "expires": "2018-07-01T19:52:35.000Z",
+        "httpOnly": false,
+        "secure": false
+      },
+      {
+        "name": "NID",
+        "value": "131=Qumew8pCcAALlil1jogYLu5SVNWYwKkYeTsZHYUHNK5PPcPw77BJH7PnYwPdD6Y451bnUuFN2y0PRdbj-gE3h6a9wOBkpukvGFhsiUesQ2U0A31xnJanqlR5lbR69DI_",
+        "path": "/",
+        "domain": ".google.co.uk",
+        "expires": "2018-12-01T19:52:35.000Z",
+        "httpOnly": true,
+        "secure": false
+      }
+    ],
+    "content": {
+      "size": 222285,
+      "mimeType": "text/html"
+    },
+    "redirectURL": "",
+    "headersSize": -1,
+    "bodySize": -1,
+    "_transferSize": 66972
+  },
+  "cache": {},
+  "timings": {
+    "blocked": 0,
+    "dns": 0,
+    "ssl": 120,
+    "connect": 213,
+    "send": 0,
+    "wait": 162.99999997857958,
+    "receive": 201.00000005913898,
+    "_blocked_queueing": -1
+  },
+  "serverIPAddress": "172.217.7.227",
+  "connection": "30233",
+  "pageref": "page_1"
+}

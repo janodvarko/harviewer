@@ -53,5 +53,5 @@ define([
     },
   };
 
-  registerSuite("preview/harModel", Suite);
+  registerSuite("preview/harModel/append", Suite);
 });
