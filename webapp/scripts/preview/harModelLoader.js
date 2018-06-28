@@ -138,8 +138,7 @@ var Loader =
      * @return {boolean}
      *   `true` if there was any HAR/HARP to load, `false` otherwise.
      */
-    loadArchives: function(hars, harps, callbackName, callback, errorCallback, doneCallback)
-    {
+    loadArchives: function(hars, harps, callbackName, callback, errorCallback, doneCallback) {
         function done() {
             if (doneCallback) {
                 doneCallback();
@@ -170,27 +169,37 @@ var Loader =
             callbackName = "onInputData";
         }
 
+        var loader = this;
+
+        function handleRest() {
+            if (hars.length + harps.length === 0) {
+                done();
+                return;
+            }
+
+            // Asynchronously load other HAR files (jQuery doesn't like it synchronously).
+            setTimeout(function() {
+                loader.loadArchives(hars, harps,
+                    callbackName, callback, errorCallback, doneCallback);
+            }, 300);
+        }
+
         var ajaxOpts = {
             url: url,
             context: this,
             dataType: "json",
+
+            beforeSend: function(jqXHR, settings) {
+                jqXHR.url = settings.url;
+            },
 
             success: function() {
                 if (callback) {
                     callback.apply(this, arguments);
                 }
 
-                if (hars.length + harps.length === 0) {
-                    done();
-                    return;
-                }
-
-                // Asynchronously load other HAR files (jQuery doesn't like it synchronously).
-                var self = this;
-                setTimeout(function() {
-                    self.loadArchives(hars, harps,
-                        callbackName, callback, errorCallback, doneCallback);
-                }, 300);
+                // Try to load the rest of the HARs/HARPs
+                handleRest();
             },
 
             error: function() {
@@ -198,7 +207,10 @@ var Loader =
                 if (errorCallback) {
                     errorCallback.apply(this, arguments);
                 }
-            }
+
+                // Try to load the rest of the HARs/HARPs
+                handleRest();
+            },
         };
 
         if (isHarp) {

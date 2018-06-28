@@ -143,11 +143,23 @@ HarView.prototype = Lib.extend(new TabView(),
         Lib.fireEvent(content, "onViewerHARLoaded");
     },
 
-    onLoadError: function(jqXHR, textStatus, errorThrown)
-    {
+    onLoadError: function(jqXHR, textStatus, errorThrown) {
         var homeTab = this.getTab("Home");
-        if (homeTab)
+        var previewTab = this.getTab("Preview");
+
+        if (homeTab) {
             homeTab.loadInProgress(true, jqXHR.statusText);
+        }
+
+        if (previewTab) {
+            previewTab.appendError({
+                errors: [{
+                    property: jqXHR.statusText,
+                    message: jqXHR.url,
+                }],
+            });
+            previewTab.select();
+        }
 
         Trace.error("harModule.loadRemoteArchive; ERROR ", jqXHR, textStatus, errorThrown);
     },
