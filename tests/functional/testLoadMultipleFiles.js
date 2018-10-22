@@ -154,7 +154,7 @@ define([
       // change the middle file to be missing
       files[1] = testBase + "MISSING.harp";
       // Only 2 HARPs should load properly, and 1 error
-      return testWithParamName(this.remote, null, "harp", files, 2, 1).then(pollUntil("", 30*1000));
+      return testWithParamName(this.remote, null, "harp", files, 2, 1);
     },
   });
 });
