@@ -3,6 +3,8 @@
 define(
 {
     "root": {
+        "RequestVersion": "Request Version",
+        "ResponseVersion": "Response Version",
         "RequestHeaders": "Request Headers",
         "ResponseHeaders": "Response Headers",
         "RequestCookies": "Request Cookies",

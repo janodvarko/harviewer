@@ -140,9 +140,19 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
         TABLE({"class": "netInfoHeadersText netInfoText netInfoHeadersTable",
                 cellpadding: 0, cellspacing: 0},
             TBODY(
+                TR({"class": "netInfoResponseVersionTitle"},
+                    TD({colspan: 2},
+                        DIV({"class": "netInfoHeadersGroup"}, Strings.ResponseVersion)
+                    )
+                ),
                 TR({"class": "netInfoResponseHeadersTitle"},
                     TD({colspan: 2},
                         DIV({"class": "netInfoHeadersGroup"}, Strings.ResponseHeaders)
+                    )
+                ),
+                TR({"class": "netInfoRequestVersionTitle"},
+                    TD({colspan: 2},
+                        DIV({"class": "netInfoHeadersGroup"}, Strings.RequestVersion)
                     )
                 ),
                 TR({"class": "netInfoRequestHeadersTitle"},
@@ -174,16 +184,18 @@ HeadersTab.prototype = domplate(TabView.Tab.prototype,
 
     onUpdateBody: function(tabView, body)
     {
-        if (this.file.response.headers)
-            this.insertHeaderRows(body, this.file.response.headers, "Headers", "ResponseHeaders");
+        var responseVersion = { name: "", value: this.file.response.httpVersion };
+        this.insertHeaderRows(body, [responseVersion], "Headers", "ResponseVersion");
+        this.insertHeaderRows(body, this.file.response.headers || [], "Headers", "ResponseHeaders");
 
-        if (this.file.request.headers)
-            this.insertHeaderRows(body, this.file.request.headers, "Headers", "RequestHeaders");
+        var requestVersion = { name: "", value: this.file.request.httpVersion };
+        this.insertHeaderRows(body, [requestVersion], "Headers", "RequestVersion");
+        this.insertHeaderRows(body, this.file.request.headers || [], "Headers", "RequestHeaders");
     },
 
     insertHeaderRows: function(parentNode, headers, tableName, rowName)
     {
-        var headersTable = Lib.getElementByClass(parentNode, "netInfo"+tableName+"Table");
+        var headersTable = Lib.getElementByClass(parentNode, "netInfo" + tableName + "Table");
         var titleRow = Lib.getElementByClass(headersTable, "netInfo" + rowName + "Title");
 
         if (headers.length)
