@@ -267,31 +267,34 @@ var EntrySizeInfoTip = domplate(
 
     getSize: function(file)
     {
-        var bodySize = file.response.bodySize;
-        if (bodySize < 0)
+        var transferredSize = HarModel.getEntryTransferredSize(file);
+        if (transferredSize < 0) {
             return Strings.unknownSize;
+        }
 
         return Lib.formatString(Strings.tooltipSize,
-            Lib.formatSize(bodySize),
-            Lib.formatNumber(bodySize));
+            Lib.formatSize(transferredSize),
+            Lib.formatNumber(transferredSize));
     },
 
     getBodySize: function(file)
     {
-        var bodySize = file.response.bodySize;
-        if (bodySize < 0)
+        var transferredSize = HarModel.getEntryTransferredSize(file);
+        if (transferredSize < 0) {
             return Strings.unknownSize;
+        }
 
         return Lib.formatString(Strings.tooltipZippedSize,
-            Lib.formatSize(bodySize),
-            Lib.formatNumber(bodySize));
+            Lib.formatSize(transferredSize),
+            Lib.formatNumber(transferredSize));
     },
 
     getContentSize: function(file)
     {
-        var contentSize = file.response.content.size;
-        if (contentSize < 0)
+        var contentSize = HarModel.getEntryUncompressedSize(file);
+        if (contentSize < 0) {
             return Strings.unknownSize;
+        }
 
         return Lib.formatString(Strings.tooltipUnzippedSize,
             Lib.formatSize(contentSize),
@@ -311,8 +314,12 @@ var EntrySizeInfoTip = domplate(
     render: function(requestList, row, parentNode)
     {
         var file = row.repObject;
-        if (file.response.bodySize === file.response.content.size)
+
+        var uncompressedSize = HarModel.getEntryUncompressedSize(file);
+        var transferredSize = HarModel.getEntryTransferredSize(file);
+        if (uncompressedSize === transferredSize) {
             return this.tag.replace({file: file}, parentNode);
+        }
 
         return this.zippedTag.replace({file: file}, parentNode);
     }
@@ -639,9 +646,9 @@ RequestList.prototype = domplate(
 
     getSize: function(file)
     {
-        var bodySize = file.response.bodySize;
-        var size = (bodySize && bodySize !== -1) ? bodySize :
-            file.response.content.size;
+        var uncompressedSize = HarModel.getEntryUncompressedSize(file);
+        var transferredSize = HarModel.getEntryTransferredSize(file);
+        var size = (transferredSize > -1) ? transferredSize : uncompressedSize;
 
         return this.formatSize(size);
     },

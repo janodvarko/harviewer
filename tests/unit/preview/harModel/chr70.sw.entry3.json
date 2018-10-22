@@ -1,0 +1,108 @@
+{
+  "startedDateTime": "2018-10-21T20:46:05.388Z",
+  "time": 0.05500001134350896,
+  "request": {
+    "method": "GET",
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js",
+    "httpVersion": "http/1.1",
+    "headers": [],
+    "queryString": [],
+    "cookies": [],
+    "headersSize": -1,
+    "bodySize": 0
+  },
+  "response": {
+    "status": 200,
+    "statusText": "",
+    "httpVersion": "http/1.1",
+    "headers": [
+      {
+        "name": "date",
+        "value": "Sun, 21 Oct 2018 20:45:47 GMT"
+      },
+      {
+        "name": "content-encoding",
+        "value": "br"
+      },
+      {
+        "name": "cf-cache-status",
+        "value": "HIT"
+      },
+      {
+        "name": "status",
+        "value": "200"
+      },
+      {
+        "name": "strict-transport-security",
+        "value": "max-age=15780000; includeSubDomains"
+      },
+      {
+        "name": "last-modified",
+        "value": "Thu, 17 May 2018 09:26:38 GMT"
+      },
+      {
+        "name": "server",
+        "value": "cloudflare"
+      },
+      {
+        "name": "etag",
+        "value": "W/\"5afd4ace-4480\""
+      },
+      {
+        "name": "expect-ct",
+        "value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+      },
+      {
+        "name": "vary",
+        "value": "Accept-Encoding"
+      },
+      {
+        "name": "content-type",
+        "value": "application/javascript"
+      },
+      {
+        "name": "access-control-allow-origin",
+        "value": "*"
+      },
+      {
+        "name": "expires",
+        "value": "Fri, 11 Oct 2019 20:45:47 GMT"
+      },
+      {
+        "name": "cache-control",
+        "value": "public, max-age=30672000"
+      },
+      {
+        "name": "cf-ray",
+        "value": "46d691e31e2b91a0-EWR"
+      },
+      {
+        "name": "served-in-seconds",
+        "value": "0.001"
+      }
+    ],
+    "cookies": [],
+    "content": {
+      "size": 17536,
+      "mimeType": "application/javascript"
+    },
+    "redirectURL": "",
+    "headersSize": -1,
+    "bodySize": 0,
+    "_transferSize": 0
+  },
+  "cache": {},
+  "timings": {
+    "blocked": -1,
+    "dns": -1,
+    "ssl": -1,
+    "connect": -1,
+    "send": 0,
+    "wait": 0.04800001624971628,
+    "receive": 0.006999995093792677,
+    "_blocked_queueing": -1
+  },
+  "serverIPAddress": "",
+  "_fromCache": "memory",
+  "pageref": "page_10"
+}

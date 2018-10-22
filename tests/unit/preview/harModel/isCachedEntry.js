@@ -2,22 +2,11 @@
  * Unit tests for harModel.
  */
 define([
-    "require",
     "preview/harModel",
-], function(require, HarModel) {
+    "./withJSONFile",
+], function(HarModel, withJSONFile) {
     var registerSuite = intern.getInterface("object").registerSuite;
     var assert = intern.getPlugin("chai").assert;
-
-    function withJSONFile(jsonPath, callback) {
-        return function() {
-            var dfd = this.async(1000);
-            require(["text!" + jsonPath], function(json) {
-                var ob = JSON.parse(json);
-                callback(ob);
-                dfd.resolve();
-            });
-        };
-    }
 
     var suite = {
         "isCached": {

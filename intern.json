@@ -59,6 +59,7 @@
     "tests/unit/core/url",
     "tests/unit/preview/harModel/append",
     "tests/unit/preview/harModel/isCachedEntry",
+    "tests/unit/preview/harModel/getEntrySize",
     "tests/unit/preview/harModelLoader"
   ],
   "functionalSuites": [

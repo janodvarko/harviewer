@@ -380,7 +380,7 @@ HarModel.getEntryUncompressedSize = function(entry) {
     if (bodySize > -1) {
         return bodySize;
     }
-    return 0;
+    return -1;
 };
 
 HarModel.getEntryTransferredSize = function(entry) {
@@ -393,7 +393,7 @@ HarModel.getEntryTransferredSize = function(entry) {
     if (bodySize > -1) {
         return bodySize;
     }
-    return 0;
+    return -1;
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

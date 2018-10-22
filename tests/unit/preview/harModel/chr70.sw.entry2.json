@@ -1,0 +1,144 @@
+{
+  "startedDateTime": "2018-10-21T20:45:45.926Z",
+  "time": 108.89440800447483,
+  "request": {
+    "method": "GET",
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js",
+    "httpVersion": "http/2.0",
+    "headers": [
+      {
+        "name": ":path",
+        "value": "/ajax/libs/require.js/2.3.5/require.min.js"
+      },
+      {
+        "name": "accept-encoding",
+        "value": "gzip, deflate, br"
+      },
+      {
+        "name": "accept-language",
+        "value": "en-US,en;q=0.9"
+      },
+      {
+        "name": "user-agent",
+        "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36"
+      },
+      {
+        "name": "accept",
+        "value": "*/*"
+      },
+      {
+        "name": "referer",
+        "value": "https://www.example.com/index.html"
+      },
+      {
+        "name": ":authority",
+        "value": "cdnjs.cloudflare.com"
+      },
+      {
+        "name": ":scheme",
+        "value": "https"
+      },
+      {
+        "name": ":method",
+        "value": "GET"
+      }
+    ],
+    "queryString": [],
+    "cookies": [],
+    "headersSize": -1,
+    "bodySize": 0
+  },
+  "response": {
+    "status": 200,
+    "statusText": "",
+    "httpVersion": "http/2.0",
+    "headers": [
+      {
+        "name": "date",
+        "value": "Sun, 21 Oct 2018 20:45:47 GMT"
+      },
+      {
+        "name": "content-encoding",
+        "value": "br"
+      },
+      {
+        "name": "vary",
+        "value": "Accept-Encoding"
+      },
+      {
+        "name": "cf-cache-status",
+        "value": "HIT"
+      },
+      {
+        "name": "status",
+        "value": "200"
+      },
+      {
+        "name": "served-in-seconds",
+        "value": "0.001"
+      },
+      {
+        "name": "last-modified",
+        "value": "Thu, 17 May 2018 09:26:38 GMT"
+      },
+      {
+        "name": "server",
+        "value": "cloudflare"
+      },
+      {
+        "name": "etag",
+        "value": "W/\"5afd4ace-4480\""
+      },
+      {
+        "name": "expect-ct",
+        "value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+      },
+      {
+        "name": "strict-transport-security",
+        "value": "max-age=15780000; includeSubDomains"
+      },
+      {
+        "name": "content-type",
+        "value": "application/javascript"
+      },
+      {
+        "name": "access-control-allow-origin",
+        "value": "*"
+      },
+      {
+        "name": "cache-control",
+        "value": "public, max-age=30672000"
+      },
+      {
+        "name": "cf-ray",
+        "value": "46d691e31e2b91a0-EWR"
+      },
+      {
+        "name": "expires",
+        "value": "Fri, 11 Oct 2019 20:45:47 GMT"
+      }
+    ],
+    "cookies": [],
+    "content": {
+      "size": 17536,
+      "mimeType": "application/javascript"
+    },
+    "redirectURL": "",
+    "headersSize": -1,
+    "bodySize": -1,
+    "_transferSize": 6690
+  },
+  "cache": {},
+  "timings": {
+    "blocked": 12.7664079999635,
+    "dns": -1,
+    "ssl": -1,
+    "connect": -1,
+    "send": 1.3390000000000004,
+    "wait": 92.69099997820332,
+    "receive": 2.098000026308,
+    "_blocked_queueing": 0.40799996349960566
+  },
+  "serverIPAddress": "104.19.198.151",
+  "connection": "8634"
+}
