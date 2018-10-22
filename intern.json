@@ -122,31 +122,31 @@
   "configs": {
     "all": {
       "environments": [
-        "chrome",
-        "firefox",
+        { "browserName": "chrome", "fixSessionCapabilities": "no-detect" },
+        { "browserName": "firefox", "fixSessionCapabilities": "no-detect" },
         {
           "comment": "capability detection has started hanging for IE - turn off until it's working again",
           "browserName": "internet explorer",
           "fixSessionCapabilities": "no-detect"
         },
-        "MicrosoftEdge"
+        { "browserName": "MicrosoftEdge", "fixSessionCapabilities": "no-detect" }
       ]
     },
     "not-ie": {
       "environments": [
-        "chrome",
-        "firefox",
-        "MicrosoftEdge"
+        { "browserName": "chrome", "fixSessionCapabilities": "no-detect" },
+        { "browserName": "firefox", "fixSessionCapabilities": "no-detect" },
+        { "browserName": "MicrosoftEdge", "fixSessionCapabilities": "no-detect" }
       ]
     },
     "chrome": {
       "environments": [
-        "chrome"
+        { "browserName": "chrome", "fixSessionCapabilities": "no-detect" }
       ]
     },
     "firefox": {
       "environments": [
-        "firefox"
+        { "browserName": "firefox", "fixSessionCapabilities": "no-detect" }
       ]
     },
     "ie": {
@@ -160,7 +160,7 @@
     },
     "edge": {
       "environments": [
-        "MicrosoftEdge"
+        { "browserName": "MicrosoftEdge", "fixSessionCapabilities": "no-detect" }
       ]
     }
   },
