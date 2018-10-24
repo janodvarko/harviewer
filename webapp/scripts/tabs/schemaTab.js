@@ -34,6 +34,9 @@ SchemaTab.prototype =
             url: "scripts/preview/harSchema.js",
             context: this,
 
+            // tell jQuery not to evaluate the response as JavaScript
+            dataType: "text",
+
             success: function(response)
             {
                 var code = body.firstChild;
