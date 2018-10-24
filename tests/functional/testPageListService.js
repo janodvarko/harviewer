@@ -15,7 +15,9 @@ define([
       return r
         .setFindTimeout(findTimeout)
         .get(testBase + "tests/testPageListService.html")
-        .switchToFrame("pageList")
+        .findByCssSelector("#pageList")
+        .then(function(iframe) { return this.parent.switchToFrame(iframe); })
+        .end(Infinity)
         .findById("loadButton")
         .click()
         .then(utils.cbAssertElementContainsText("css=.pageName", "Simple Page"))
