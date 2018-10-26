@@ -55,6 +55,7 @@ replace.sync({
     files: [
         `${buildDir}/*.php`,
         `${buildDir}/*.html`,
+        `${buildDir}/examples/*.html`,
     ],
     from: /@VERSION@/g,
     to: version,
@@ -83,6 +84,7 @@ replace.sync({
     files: [
         `${buildDir}/*.php`,
         `${buildDir}/*.html`,
+        `${buildDir}/examples/*.html`,
     ],
     from: /<!--@GOOGLE-ANALYTICS-INCLUDE@-->/g,
     to: analyticsInclude,

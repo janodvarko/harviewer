@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>HTTP Archive Viewer @VERSION@ - Embedding Samples</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style>
+    h1 { font-size: 12pt; }
+  </style>
+</head>
+
+<body>
+
+<p>View source to see examples of how to embed HAR Viewer into your page.</p>
+
+<p id="embedContainer">
+  Embed <input data-role="url" placeholder="Enter HAR/HARP URL here" size="32" /> as
+  <label for="embedAsHAR">HAR<input id="embedAsHAR" type="radio" name="harOrHarp" value="HAR" checked /></label> or
+  <label for="embedAsHARP">HARP<input id="embedAsHARP" type="radio" name="harOrHarp" value="HARP" /></label> with height
+  <input data-role="height" placeholder="150px" value="150px" size="6" />
+  <button data-role="embed">Embed</button>
+  <button data-role="clear">Clear Page</button>
+</p>
+
+<script>
+(function(embedContainer) {
+  function clickEmbed(e) {
+    var url = embedContainer.querySelector("[data-role=url]").value;
+    if (!url) {
+      return alert("url is required!");
+    }
+    var height = embedContainer.querySelector("[data-role=height]").value;
+    if (height === "") {
+      height = "150px";
+    }
+    var harOrHarp = [].slice.call(embedContainer.querySelectorAll("input[name=harOrHarp]")).filter(function(input) {
+      return input.checked;
+    })[0].value;
+
+    embed(url, harOrHarp, height);
+
+    // harInitialize() provided by har.js - finds all "har" DIVs and turns into IFRAMEs
+    window.harInitialize();
+  }
+
+  function clickClear() {
+    [].slice.call(document.querySelectorAll("[data-role=embedContainer]")).forEach(function(embedContainer) {
+      embedContainer.parentElement.removeChild(embedContainer);
+    });
+  }
+
+  embedContainer.querySelector("button[data-role=embed]").addEventListener("click", clickEmbed);
+  embedContainer.querySelector("button[data-role=clear]").addEventListener("click", clickClear);
+}(document.getElementById("embedContainer")));
+
+function relativeToAbsolute(url) {
+  if (url.indexOf("//") > -1) {
+    return url;
+  }
+  // trick using <a> element to turn relative URLs into absolute.
+  var a = document.createElement("a");
+  a.href = url;
+  return a.href;
+}
+function div(attr, url, height) {
+  var div = document.createElement("div");
+  div.className = "har";
+  div.setAttribute(attr, url);
+  div.setAttribute("height", height);
+  return div;
+}
+function harDiv(url, height) {
+  return div("data-har-url", url, height);
+}
+function harpDiv(url, height) {
+  return div("data-harp-url", url, height);
+}
+function embed(url, harOrHarp, height) {
+  var d = document.createElement("div");
+  d.setAttribute("data-role", "embedContainer");
+  d.innerHTML = "<h1>" + url + " as " + harOrHarp + "</h1>";
+  d.appendChild(harOrHarp === "HAR" ? harDiv(url, height) : harpDiv(url, height));
+  document.body.appendChild(d);
+}
+// Relative URLs will be interpreted as relative to "preview.html",
+// which is the src URL of the inserted IFRAME
+// (use your browser's devtools to view the URLs of the IFRAMEs inserted in this page).
+// So use URLs that are relative to "preview.html", otherwise convert URLs that are relative
+// to THE EMBEDDING PAGE into absolute URLs for "preview.html" to load.
+</script>
+
+<!-- Examples using JavaScript to create the DOM elements that "har.js" will process. -->
+
+<script>embed(relativeToAbsolute("./browser-blocking-time.har"), "HAR", "150px")</script>
+
+<script>embed(relativeToAbsolute("./inline-scripts-block.harp.js"), "HARP", "150px")</script>
+
+<!-- Examples using HTML to create the DOM elements that "har.js" will process. -->
+
+<div data-role="embedContainer">
+<h1>HAR/HTML</h1>
+<div class="har" data-har-url="http://localhost:8080/har.har" height="150px"></div>
+</div>
+
+<div data-role="embedContainer">
+<h1>HARP/HTML</h1>
+<div class="har" data-harp-url="./examples/inline-scripts-block.harp.js" height="150px"></div>
+</div>
+
+<script src="../har.js" id="har"></script>
+<!--@GOOGLE-ANALYTICS-INCLUDE@-->
+
+</body>
+
+</html>

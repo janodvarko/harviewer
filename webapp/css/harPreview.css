@@ -1,16 +1,36 @@
 /* See license.txt for terms of usage */
 
+@import url("harView.css");
+
+/* Domplate Widgets */
 @import url("tabView.css");
+@import url("toolbar.css");
+@import url("domTree.css");
 @import url("infoTip.css");
 @import url("popupMenu.css");
-@import url("toolbar.css");
+/* @import url("tableView.css"); -- preview does not support tableView (part of JSON Query UI) */
 
+/* HAR Preview */
 @import url("pageList.css");
 @import url("requestList.css");
 @import url("requestBody.css");
 
 @import url("previewMenu.css");
+
+@import url("harStats.css");
+@import url("pageTimeline.css");
+
 @import url("validationError.css");
+
+/* Application Tabs */
+/* @import url("aboutTab.css"); -- viewer mode only */
+/* @import url("homeTab.css"); -- viewer mode only */
+/* @import url("domTab.css"); -- viewer mode only */
+/* @import url("schemaTab.css"); -- viewer mode only */
+/* @import url("previewTab.css"); -- viewer mode only */
+/* @import url("search.css"); -- viewer mode only */
 
 /* Syntax Highlighter */
 @import url("SyntaxHighlighter.css");
+
+/* @import url("dragdrop.css");  -- viewer mode only */
