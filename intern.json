@@ -92,15 +92,16 @@
   ],
   "tunnel": "selenium",
   "tunnelOptions": {
-    "version": "3.12.0",
+    "version": "3.14.0",
     "drivers": [
       {
         "name": "chrome",
-        "version": "2.40"
+        "version": "2.43"
       },
       {
+        "comment": ">0.21.0 doesn't work in Intern yet",
         "name": "firefox",
-        "version": "0.20.1"
+        "version": "0.21.0"
       },
       {
         "name": "ie",
@@ -123,7 +124,11 @@
       "environments": [
         "chrome",
         "firefox",
-        "internet explorer",
+        {
+          "comment": "capability detection has started hanging for IE - turn off until it's working again",
+          "browserName": "internet explorer",
+          "fixSessionCapabilities": "no-detect"
+        },
         "MicrosoftEdge"
       ]
     },
@@ -146,7 +151,11 @@
     },
     "ie": {
       "environments": [
-        "internet explorer"
+        {
+          "comment": "capability detection has started hanging for IE - turn off until it's working again",
+          "browserName": "internet explorer",
+          "fixSessionCapabilities": "no-detect"
+        }
       ]
     },
     "edge": {
