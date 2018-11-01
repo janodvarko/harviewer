@@ -4,6 +4,7 @@
     border-left: 1px solid #D7D7D7;
     border-right: 1px solid #D7D7D7;
     border-bottom: 1px solid #D7D7D7;
+    padding-top: 8px;
 }
 
 .netInfoRow .tabView {
@@ -15,6 +16,10 @@
     background-color: #FFFFFF;
     font-family: Monaco, monospace;
     /*overflow-x: auto; HTML is damaged in case of big (2-3MB) responses */
+}
+
+.netInfoRequestURL {
+    padding: 8px;
 }
 
 .netInfoText[selected="true"] {
