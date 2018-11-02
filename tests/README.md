@@ -12,6 +12,9 @@ After Node.js and npm have been installed, run the following from the HAR Viewer
 
     npm install
 
+Before running the functional tests, you must start the built-in [`express`](https://expressjs.com/) server to serve HAR Viewer and its functional test resources:
+
+    npm start
 
 # Unit tests
 
