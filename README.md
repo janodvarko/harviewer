@@ -53,6 +53,16 @@ To show lint errors and warnings:
 
     npm run eslint-full
 
+### Running
+
+To run HAR Viewer, run:
+
+    npm start
+
+and browse to http://localhost:49001/webapp/.
+
+`npm start` will start an [`express`](https://expressjs.com/) server that is setup to be able to serve the necessary resources for the functional tests. `express` is not necessary to serve HAR Viewer, any web server able to serve static files will do.
+
 ### Build
 
 Go to the project directory and execute the following command:
@@ -60,6 +70,12 @@ Go to the project directory and execute the following command:
 `npm run clean-build`
 
 (*Indicative build time - about 12 seconds.  Node.js v10.2.1*)
+
+To run the built HAR Viewer, run
+
+    npm start
+
+and browse to http://localhost:49001/webapp-build/ after a build.
 
 ### JSDoc
 
