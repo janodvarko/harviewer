@@ -8,13 +8,13 @@ define([
     "../domplate/tabView",
     "../domplate/domTree",
     "../core/dragdrop",
-    "../syntax-highlighter/shCore",
 ],
 
-function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop, dp) {
+function(Domplate, Strings, Lib, Cookies, TabView, DomTree, DragDrop) {
 
 var domplate = Domplate.domplate;
 var A = Domplate.A;
+var CODE = Domplate.CODE;
 var DIV = Domplate.DIV;
 var FOR = Domplate.FOR;
 var IFRAME = Domplate.IFRAME;
@@ -393,15 +393,15 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
 
     bodyTag:
         DIV({"class": "netInfoHighlightedText netInfoText"},
-            PRE({"class": "toolbar: false; brush: ", name: "code"})
+            PRE(CODE("class", "javascript"))
         ),
 
     onUpdateBody: function(tabView, body)
     {
         var responseTextBox = Lib.getElementByClass(body, "netInfoHighlightedText");
 
-        var pre = responseTextBox.firstChild;
-        Lib.clearNode(pre);
+        var code = responseTextBox.firstChild.firstChild;
+        Lib.clearNode(code);
 
         var content = this.file.response.content;
         var text = content.text;
@@ -411,7 +411,7 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
         // Highlight the syntax if the mimeType is supported.
         var brush = HighlightedTab.shouldHighlightAs(mimeType);
         if (brush) {
-            pre.className += brush;
+            code.className = brush;
 
             text = RequestBody.decode(text, content.encoding);
 
@@ -420,8 +420,14 @@ HighlightedTab.prototype = domplate(TabView.Tab.prototype,
             //pre.innerHTML = text;
 
             // Instead we insert a text node.
-            pre.appendChild(document.createTextNode(text));
-            dp.SyntaxHighlighter.highlight(pre);
+            code.appendChild(document.createTextNode(text));
+            hljs.highlightBlock(code);
+
+            // test that highlighting has worked, and set a flag that helps with testing.
+            var highlightedElement = code;
+            if (code.classList.contains("hljs")) {
+                highlightedElement.setAttribute("highlighted", true);
+            }
         }
         else
         {
