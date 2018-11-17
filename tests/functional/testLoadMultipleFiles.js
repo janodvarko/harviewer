@@ -89,13 +89,13 @@ define([
       .then(utils.cbAssertElementContainsText("css=.PreviewTab.selected", "Preview"));
   }
 
-  registerSuite("testLoadMulipleFiles", {
-    "testLoadMulipleFiles using 'path' and 'baseUrl' parameters": function() {
+  registerSuite("testLoadMultipleFiles", {
+    "testLoadMultipleFiles using 'path' and 'baseUrl' parameters": function() {
       // Using both "path" and "baseUrl" means we"re loading JSONP/HARP
       return testWithParamName(this.remote, testBase + "tests/hars/", "path", makeFiles(9));
     },
 
-    "testLoadMulipleFiles using 'path' parameter": function() {
+    "testLoadMultipleFiles using 'path' parameter": function() {
       // Using only "path" means we"re loading HAR
       // Without baseUrl, files must point to resolveable URL.
       // In this case, relative to the webapp.
@@ -108,16 +108,16 @@ define([
       return testWithParamName(this.remote, null, "path", files, 1);
     },
 
-    "testLoadMulipleFiles using 'harp' and 'baseUrl' parameter": function() {
+    "testLoadMultipleFiles using 'harp' and 'baseUrl' parameter": function() {
       return testWithParamName(this.remote, testBase + "tests/hars/", "harp", makeFiles(9));
     },
 
-    "testLoadMulipleFiles using 'harp' parameter": function() {
+    "testLoadMultipleFiles using 'harp' parameter": function() {
       const files = prefix(testBase + "tests/hars/", makeFiles(9));
       return testWithParamName(this.remote, null, "harp", files);
     },
 
-    "testLoadMulipleFiles using 'har' and 'baseUrl' parameter": function() {
+    "testLoadMultipleFiles using 'har' and 'baseUrl' parameter": function() {
       const files = [
         "browser-blocking-time.har",
         "google.com.har",
@@ -128,7 +128,7 @@ define([
       return testWithParamName(this.remote, harViewerBase + "examples/", "har", files);
     },
 
-    "testLoadMulipleFiles using 'har' parameter": function() {
+    "testLoadMultipleFiles using 'har' parameter": function() {
       const files = prefix(harViewerBase + "examples/", [
         "browser-blocking-time.har",
         "google.com.har",
@@ -139,7 +139,7 @@ define([
       return testWithParamName(this.remote, null, "har", files);
     },
 
-    "testLoadMulipleFiles using 'har' parameter - with missing HAR": function() {
+    "testLoadMultipleFiles using 'har' parameter - with missing HAR": function() {
       const files = prefix(harViewerBase + "examples/", [
         "browser-blocking-time.har",
         "MISSING.har",
@@ -149,7 +149,7 @@ define([
       return testWithParamName(this.remote, null, "har", files, 2, 1);
     },
 
-    "testLoadMulipleFiles using 'harp' parameter - with missing HARP": function() {
+    "testLoadMultipleFiles using 'harp' parameter - with missing HARP": function() {
       const files = prefix(testBase + "tests/hars/", makeFiles(3));
       // change the middle file to be missing
       files[1] = testBase + "MISSING.harp";
