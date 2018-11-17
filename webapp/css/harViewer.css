@@ -30,7 +30,7 @@
 @import url("previewTab.css");
 @import url("search.css");
 
-/* Syntax Highlighter */
-@import url("SyntaxHighlighter.css");
+/* highlight.js */
+@import url("highlightjs/tomorrow.min.css");
 
 @import url("dragdrop.css");

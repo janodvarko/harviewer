@@ -8,12 +8,12 @@ define([
     "../domplate/tabView",
     "../core/lib",
     "i18n!../nls/harViewer",
-    "../syntax-highlighter/shCore",
     "../core/trace",
 ],
 
-function(Domplate, TabView, Lib, Strings, dp, Trace) {
+function(Domplate, TabView, Lib, Strings, Trace) {
 
+var CODE = Domplate.CODE;
 var PRE = Domplate.PRE;
 
 //*************************************************************************************************
@@ -26,7 +26,7 @@ SchemaTab.prototype =
     label: Strings.schemaTabLabel,
 
     bodyTag:
-        PRE({"class": "brush: javascript; toolbar: false;", name: "code"}),
+        PRE(CODE("class", "javascript")),
 
     onUpdateBody: function(tabView, body)
     {
@@ -41,7 +41,13 @@ SchemaTab.prototype =
             {
                 var code = body.firstChild;
                 code.innerHTML = response;
-                dp.SyntaxHighlighter.highlight(code);
+                hljs.highlightBlock(code);
+
+                // test that highlighting has worked, and set a flag that helps with testing.
+                var highlightedElement = code;
+                if (code.classList.contains("hljs")) {
+                    highlightedElement.setAttribute("highlighted", true);
+                }
             },
 
             error: function(jqXHR, textStatus, errorThrown)

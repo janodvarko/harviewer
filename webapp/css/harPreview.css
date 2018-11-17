@@ -30,7 +30,7 @@
 /* @import url("previewTab.css"); -- viewer mode only */
 /* @import url("search.css"); -- viewer mode only */
 
-/* Syntax Highlighter */
-@import url("SyntaxHighlighter.css");
+/* highlight.js */
+@import url("highlightjs/tomorrow.min.css");
 
 /* @import url("dragdrop.css");  -- viewer mode only */
