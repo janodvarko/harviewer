@@ -3,11 +3,11 @@
   "version": "3.0.0-alpha.0",
   "description": "The purpose of this online tool is to visualize HTTP Archive (HAR) log files created by HTTP tracking tools. These files contain log of HTTP client/server conversation and can be used for an additional analysis of e.g. page load performance.",
   "devDependencies": {
-    "cors": "^2.8.4",
+    "cors": "^2.8.5",
     "cross-env": "^5.2.0",
     "dojo": "^1.14.2",
     "ejs": "^2.6.1",
-    "eslint": "^5.7.0",
+    "eslint": "^5.9.0",
     "eslint-config-google": "^0.11.0",
     "express": "^4.16.4",
     "intern": "^4.2.4",
@@ -18,8 +18,8 @@
     "replace-in-file": "^3.4.2",
     "requirejs": "^2.3.6",
     "rimraf": "^2.6.2",
-    "selenium-standalone": "^6.15.3",
-    "shelljs": "^0.8.2"
+    "selenium-standalone": "^6.15.4",
+    "shelljs": "^0.8.3"
   },
   "scripts": {
     "build": "run-s build:rjs build:webapp",
