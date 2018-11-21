@@ -70,6 +70,9 @@ const locals = Object.assign({}, {
 });
 app.use("/selenium/tests/", createViewHandler(path.resolve("./selenium/tests/"), locals));
 
+// index
+app.get("/", (req, res) => res.status(200).sendFile(path.resolve(__dirname, "index.html")));
+
 // fall-through to static files
 app.use("/", express.static(staticDir));
 
@@ -81,4 +84,5 @@ const server = app.listen(port, function() {
     const port = server.address().port;
 
     console.log("harviewer test server listening at http://%s:%s", host, port);
+    console.log("http://localhost:%s/webapp/", port);
 });
