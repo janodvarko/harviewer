@@ -12,6 +12,8 @@
 
     optimizeCss: "standard",
 
+    generateSourceMaps: true,
+
     modules: [
         {
             name: "harViewer",
