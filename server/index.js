@@ -20,6 +20,10 @@ const staticDir = path.resolve(".");
 
 function addConfig(req, res, next) {
     //res.locals.config = config;
+
+    // set on addConfig function by the app.listen() callback
+    res.locals.server = addConfig.server;
+
     res.locals.req = req;
     res.locals.res = res;
 
@@ -40,6 +44,17 @@ function addConfig(req, res, next) {
         }, opts));
     };
 
+    // process the views, with some context variables.
+    Object.assign(res.locals, {
+        // default context variables
+        harviewer_base: "/webapp/",
+        test_base: "/selenium/",
+    }, {
+            // the templates use different names to the config object
+            harviewer_base: functionalConfig.harViewerBase,
+            test_base: functionalConfig.testBase,
+        });
+
     next();
 }
 
@@ -58,17 +73,7 @@ app.use(cors());
 
 //app.use(/.*\.harp$/, harpHandler(staticDir, { "index": ["index.html", "index.php"] }));
 
-// process the views, with some context variables.
-const locals = Object.assign({}, {
-    // default context variables
-    harviewer_base: "/webapp/",
-    test_base: "/selenium/",
-}, {
-    // the templates use different names to the config object
-    harviewer_base: functionalConfig.harViewerBase,
-    test_base: functionalConfig.testBase,
-});
-app.use("/selenium/tests/", createViewHandler(path.resolve("./selenium/tests/"), locals));
+app.use("/selenium/tests/", createViewHandler(path.resolve("./selenium/tests/")));
 
 // index
 app.get("/", (req, res) => res.status(200).sendFile(path.resolve(__dirname, "index.html")));
@@ -82,6 +87,9 @@ const port = parseInt(args[0] || "49001");
 const server = app.listen(port, function() {
     const host = server.address().address;
     const port = server.address().port;
+
+    // pass the server object to the addConfig function
+    addConfig.server = server;
 
     console.log("harviewer test server listening at http://%s:%s", host, port);
     console.log("http://localhost:%s/webapp/", port);

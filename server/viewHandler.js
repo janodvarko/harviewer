@@ -16,7 +16,7 @@ function mapRequestToView(viewRoot, req) {
     return view;
 }
 
-function create(viewRoot, locals) {
+function create(viewRoot) {
     return function handleView(req, res, next) {
         const view = mapRequestToView(viewRoot, req);
 
@@ -25,7 +25,7 @@ function create(viewRoot, locals) {
             return;
         }
 
-        res.render(view, locals, function(err, html) {
+        res.render(view, function(err, html) {
             if (!err) {
                 res.send(html);
             } else {
