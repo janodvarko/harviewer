@@ -10,6 +10,7 @@ define([
     "i18n!../nls/domTab",
     "../domplate/toolbar",
     "./search",
+    "./ObjectSearch",
     "../core/dragdrop",
     "../domplate/domTree",
     "../core/cookies",
@@ -18,8 +19,8 @@ define([
     "../json-query/JSONQuery",
 ],
 
-function(Domplate, TabView, Lib, Strings, Toolbar, Search, DragDrop, DomTree, Cookies,
-    TableView, Trace) {
+function(Domplate, TabView, Lib, Strings, Toolbar, Search, ObjectSearch, DragDrop, DomTree,
+    Cookies, TableView, Trace) {
 
 /* global JSONQuery*/
 
@@ -147,7 +148,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         });
 
         // Instantiate search object for this panel.
-        return new Search.ObjectSearch(text, inputs, false, false);
+        return new ObjectSearch(text, inputs, false, Search.caseSensitiveCookieName);
     },
 
     getSearchOptions: function()
