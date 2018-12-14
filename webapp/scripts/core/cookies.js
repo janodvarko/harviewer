@@ -12,6 +12,25 @@ function(Str) {
 //*************************************************************************************************
 
 /**
+ * @return {string} Cookie path.
+ */
+function generateCookiePath() {
+    var path = window.location.pathname;
+
+    // Firefox 64 and IE 11 use trailing slash for client-side set cookies,
+    // Chrome 71 does not.
+    // So ensure cookie path ends in "/" for consistency
+    // https://stackoverflow.com/a/53784228/319878
+    if (!window.location.pathname.match(/\/$/)) {
+        var parts = path.split("/");
+        parts.length -= 1;
+        path = parts.join("/") + "/";
+    }
+
+    return path;
+}
+
+/**
  * Helper functions for handling cookies.
  * @alias module:core/cookies
  */
@@ -47,8 +66,11 @@ var Cookies =
         var today = new Date();
         today.setTime(today.getTime());
 
-        if (expires)
+        if (expires) {
             expires = expires * 1000 * 60 * 60 * 24;
+        }
+
+        path = (typeof path === "string") ? path : generateCookiePath();
 
         var expiresDate = new Date(today.getTime() + expires);
         document.cookie = name + "=" + escape(value) +
@@ -66,8 +88,9 @@ var Cookies =
      */
     removeCookie: function(name, path, domain)
     {
-        if (this.getCookie(name))
-        {
+        if (this.getCookie(name)) {
+            path = (typeof path === "string") ? path : generateCookiePath();
+
             document.cookie = name + "=" +
                 (path ? ";path=" + path : "") +
                 (domain ? ";domain=" + domain : "") +
