@@ -1,9 +1,10 @@
 /**
- * Test HAR Viewer API for removing an existing tab.
+ * Test HAR Viewer API for removing an existing toolbar button.
  */
 define([
   './config',
-], function(config) {
+  './DriverUtils',
+], function(config, DriverUtils) {
   const { registerSuite } = intern.getInterface("object");
   const { testBase } = config;
 
@@ -13,14 +14,23 @@ define([
       // because we need the HAR to parse/display fully before we query the DOM.
       var findTimeout = config.findTimeout;
       var r = this.remote;
+      var utils = new DriverUtils(r);
 
-      var url = testBase + "tests/testRemoveToolbarButtonIndex.html";
+      var viewerURL = testBase + "tests/testRemoveToolbarButtonIndex.html";
+      var harFileURL = testBase + "tests/hars/simple-page-load.har";
+      var url = viewerURL + "?path=" + harFileURL;
 
       return r
         .setFindTimeout(findTimeout)
-        .get(url);
-      // gitgrimbo
-      // Are we missing some assertions here?
+        .get(url)
+        // Make sure we are in the Preview tab.
+        .findByCssSelector(".PreviewTab.selected")
+        .end()
+        // Make sure the Preview toolbar exists.
+        .findByCssSelector(".previewToolbar")
+        .end()
+        // Check that there are no children of .previewToolbar (we have removed them all)
+        .then(utils.cbAssertElementsLength(".previewToolbar > *", 0));
     },
   });
 });
