@@ -96,11 +96,11 @@
   ],
   "tunnel": "selenium",
   "tunnelOptions": {
-    "version": "3.14.0",
+    "version": "3.141.59",
     "drivers": [
       {
         "name": "chrome",
-        "version": "2.43"
+        "version": "2.45"
       },
       {
         "comment": ">0.21.0 doesn't work in Intern yet",

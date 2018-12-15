@@ -1,10 +1,10 @@
 // Used with with selenium-standalone npm package
 // https://www.npmjs.com/package/selenium-standalone
 module.exports = {
-    version: "3.14.0",
+    version: "3.141.59",
     drivers: {
         chrome: {
-            version: "2.43",
+            version: "2.45",
         },
         firefox: {
             comment: ">0.21.0 doesn't work in Intern yet",
