@@ -26,7 +26,6 @@ var TR = Domplate.TR;
 function DomTree(input)
 {
     this.input = input;
-    this.view = $.isXMLDoc(input) ? new XmlView(input) : new PlainObjectView(input);
 }
 
 /**
@@ -67,7 +66,8 @@ DomTree.prototype = domplate(
 
     memberIterator: function(object)
     {
-        return this.view.getMembers(object);
+        var view = $.isXMLDoc(object) ? new XmlView(object) : new PlainObjectView(object);
+        return view.getMembers(object);
     },
 
     getValue: function(member)
@@ -125,7 +125,8 @@ DomTree.prototype = domplate(
                 if (!repObject.hasChildren)
                     return;
 
-                var members = this.view.getMembers(repObject.value, level+1);
+                var view = $.isXMLDoc(repObject.value) ? new XmlView(repObject.value) : new PlainObjectView(repObject.value);
+                var members = view.getMembers(repObject.value, level+1);
                 if (members)
                     this.loop.insertRows({members: members}, row);
             }
