@@ -74,59 +74,26 @@ Installing and running a Selenkum server manually is outside the scope of this R
 
 # Compatibility
 
-The following versions have been tested together.
+The following versions have been tested together:
 
-Windows 7 (11 Jun 2015):
+- Int - Intern
+- FF - Firefox
+- GecD - Gecko driver
+- Chr - Chrome
+- ChrD - Chrome driver
+- PhJS - PhantomJS
+- IED - IEDriverServer
+- MWD - MicrosoftWebDriver
+- Sel - Selenium
+- 32b/64b - 32 bit/64 bit
+- dnt - did not test
+- n/a - not applicable (e.g. not/no-longer part of the build/test process, browser/driver deprecated, etc)
 
-- Node 0.12.4.
-- Intern 3.0.0.
-- Firefox 27.0.2.
-- Chrome 44.0.2403.155 m using chromedriver.exe 2.16.
-- PhantomJS 2.0.0.
-- IE 11 (32bit) using IEDriverServer.exe 2.47.0 (32bit).
-- Java 1.8.0_45.
-- Ant 1.9.4.
-- Selenium 2.47.1.
-
-Windows 7 (23 May 2016):
-
-- Node 6.0.0.
-- Intern 3.2.1.
-- Firefox 46.0.1.
-- Chrome 50.0.2661.102 m using chromedriver.exe 2.21.
-- PhantomJS 2.1.1.
-- IE 11 (32bit) using IEDriverServer.exe 2.53.1 (32bit).
-- Java 1.8.0_92.
-- Ant 1.9.7.
-- Selenium 2.53.0.
-
-Windows 10 (14 June 2017)
-
-- Node 7.10.0.
-- Intern 3.4.5.
-- Firefox 54.
-- Chrome 59.0.3071.86 using chromedriver.exe 2.30.
-- IE 11 (32bit) using IEDriverServer.exe 3.4.0 (32bit).
-- Java 1.8.0_131.
-- Selenium 3.4.0.
-
-Windows 10 (28 May 2018)
-
-- Node 10.2.1.
-- Intern 3.4.6.
-- Firefox 60.0.1 using geckodriver 0.20.1.
-- Chrome 66.0.3359.181 using chromedriver.exe 2.37.
-- IE 11 (32bit) using IEDriverServer.exe 3.4.0 (32bit).
-- Java 1.8.0_151.
-- Selenium 3.4.0.
-
-Windows 10 (21 Jun 2018)
-
-- Node 10.3.0.
-- Intern 4.2.0.
-- Firefox 60.0.2 using geckodriver 0.20.1.
-- Chrome 67.0.3396.87 (Official Build) (64-bit) using chromedriver.exe 2.40.
-- IE 11 (32bit) using IEDriverServer.exe 3.4.0 (32bit).
-- Edge 42.17134.1.0/17.17134 using MicrosoftWebDriver.exe 17134.
-- Java 1.8.0_151.
-- Selenium 3.12.0.
+Date | O/S | Node | Int | FF | GecD | Chr | ChrD | PhJS | IE | IED | Edge | MWD | Java | Ant | Sel
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
+11/06 2015 | Win 7 | 0.12.4 | 3.0.0 | 27.0.2 | n/a | 44.0 | 2.16 | 2.0.0 | 11 (32b) | 2.47.0 (32b) | dnt | dnt | 1.8.0_45 | 1.9.4 | 2.47.1 |
+23/05 2016 | Win 7 | 6.0.0 | 3.2.1 | 46.0.1 | n/a | 50.0 | 2.21 | 2.1.1 | 11 (32b) | 2.53.1 (32b) | dnt | dnt | 1.8.0_92 | 1.9.7 | 2.53.0
+14/06 2017 | Win 10 | 7.10.0 | 3.4.5 | 54 | n/a | 59.0 | 2.30 | dnt | 11 (32b) | 3.4.0 (32b) | dnt | dnt | 1.8.0_131 | n/a | 3.4.0
+28/05 2018 | Win 10 | 10.2.1 | 3.4.6 | 60.0.1 | 0.20.1 | 66.0 | 2.37 | dnt | 11 (32b) | 3.4.0 (32b) | dnt | dnt | 1.8.0_151 | n/a | 3.4.0
+21/06 2018 | Win 10 | 10.3.0 | 4.2.0 | 60.0.2 | 0.20.1 | 67.0 (64b) | 2.40 | dnt | 11 (32b) | 3.4.0 (32b) | 42.17134 17.17134 | 17134 | 1.8.0_151 | n/a | 3.12.0
+16/12 2018 | Win 10 | 11.3.0 | 4.2.4 | 64.0 | 0.21.0 | 71.0 (64b) | 2.45 | dnt | 11 (32b) | 3.4.0 (32b) | dnt | dnt  | 1.8.0_171 | n/a | 3.141.59

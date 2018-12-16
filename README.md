@@ -21,7 +21,7 @@ HAR Viewer is free and open source software distributed under the [BSD License](
 * Domplate + Domplate based templates: http://getfirebug.com
 * Downloadify: http://github.com/dcneiner/Downloadify/
 * SWFObject 2.0: http://code.google.com/p/swfobject/
-* Code Syntax Highlighter: http://alexgorbatchev.com/SyntaxHighlighter/
+* Syntax highlighting: https://highlightjs.org/
 * JSON Query: https://github.com/JasonSmith/jsonquery, http://www.sitepen.com/blog/2008/07/16/jsonquery-data-querying-beyond-jsonpath/
 
 ## Build Tools
