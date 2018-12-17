@@ -132,8 +132,7 @@
           "comment": "capability detection has started hanging for IE - turn off until it's working again",
           "browserName": "internet explorer",
           "fixSessionCapabilities": "no-detect"
-        },
-        { "browserName": "MicrosoftEdge", "fixSessionCapabilities": "no-detect" }
+        }
       ]
     },
     "not-ie": {
