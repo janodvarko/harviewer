@@ -19,7 +19,9 @@
     "requirejs": "^2.3.6",
     "rimraf": "^2.6.2",
     "selenium-standalone": "^6.15.4",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.3",
+    "stylelint": "^9.9.0",
+    "stylelint-config-standard": "^18.2.0"
   },
   "scripts": {
     "build": "run-s build:rjs build:webapp",
@@ -34,6 +36,8 @@
     "selenium:start": "selenium-standalone start --config=selenium-standalone-config.js",
     "selenium:start:debug": "cross-env DEBUG=selenium-standalone:* selenium-standalone start --config=selenium-standalone-config.js",
     "start": "node server/",
+    "stylelint": "stylelint --config .stylelint.json webapp/css/*.css",
+    "stylelint:build": "stylelint --config .stylelint.json webapp-build/css/harPreview.css webapp-build/css/harViewer.css",
     "test": "intern",
     "test:unit": "intern",
     "test:all": "intern config=@all"
