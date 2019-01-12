@@ -537,9 +537,11 @@ RequestList.prototype = domplate(
         this.phases = [];
 
         // The phase interval is customizable through a cookie.
-        var phaseInterval = Cookies.getCookie("phaseInterval");
-        if (!phaseInterval)
+        // parseInt(undefined, null, non-numeric string) === NaN
+        var phaseInterval = parseInt(Cookies.getCookie("phaseInterval"));
+        if (isNaN(phaseInterval)) {
             phaseInterval = 4000;
+        }
 
         var phase = null;
 
