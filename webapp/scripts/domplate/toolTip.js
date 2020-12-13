@@ -76,13 +76,13 @@ ToolTip.prototype = domplate(
         this.onMouseEvent = Lib.bind(this.onMouseEvent, this);
 
         // Register listeners for all mouse events.
-        $(document).bind(mouseEvents, this.onMouseEvent, true);
+        $(document).on(mouseEvents, this.onMouseEvent, true);
     },
 
     removeListeners: function()
     {
         // Remove listeners for mouse events.
-        $(document).unbind(mouseEvents, this.onMouseEvent, this, true);
+        $(document).off(mouseEvents, this.onMouseEvent);
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

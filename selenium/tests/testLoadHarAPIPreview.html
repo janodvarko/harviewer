@@ -10,7 +10,7 @@
     <script src="scripts/jquery.js"></script>
     <script data-main="scripts/harPreview" src="scripts/require.js"></script>
     <script>
-    $("#content").bind("onPreviewInit", function(event)
+    $("#content").on("onPreviewInit", function(event)
     {
         // Get application object
         var viewer = event.target.repObject;

@@ -32,9 +32,9 @@ var InfoTip = Lib.extend(
     initialize: function()
     {
         var body = $("body");
-        body.bind("mouseover", Lib.bind(this.onMouseMove, this));
-        body.bind("mouseout", Lib.bind(this.onMouseOut, this));
-        body.bind("mousemove", Lib.bind(this.onMouseMove, this));
+        body.on("mouseover", Lib.bind(this.onMouseMove, this));
+        body.on("mouseout", Lib.bind(this.onMouseOut, this));
+        body.on("mousemove", Lib.bind(this.onMouseMove, this));
 
         return this.infoTip = this.tags.infoTipTag.append({}, Lib.getBody(document));
     },
