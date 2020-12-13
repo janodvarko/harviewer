@@ -270,7 +270,7 @@ PageList.prototype = domplate(
         requestList.render(parentNode, null);
 
         // If there are any pages, build regular page list.
-        var pages = this.input.log.pages;
+        var pages = this.input.log && this.input.log.pages;
         if (pages && pages.length)
         {
             // Build the page list.

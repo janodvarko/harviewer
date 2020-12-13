@@ -349,7 +349,7 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
         // Iterate all pages and get titles.
         var titles = [];
         // Some IE11 HARs (11.48.17134.0/11.0.65) don't have pages
-        var pages = input.log.pages || [];
+        var pages = input.log && input.log.pages || [];
         for (var i = 0; i < pages.length; i++) {
             titles.push(pages[i].title);
         }
@@ -398,8 +398,8 @@ DomTab.prototype = domplate(TabView.Tab.prototype,
             return;
 
         // Expand the root and 'entries' node.
-        tree.expandRow(input.log);
-        tree.expandRow(input.log.entries);
+        input.log && tree.expandRow(input.log);
+        input.log && input.log.entries && tree.expandRow(input.log.entries);
 
         // Now expand the file node and highlight it.
         var row = tree.expandRow(file);
