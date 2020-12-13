@@ -12,7 +12,7 @@
 
     optimizeCss: "standard",
 
-    generateSourceMaps: true,
+    //generateSourceMaps: true,
 
     modules: [
         {
@@ -24,9 +24,6 @@
                 "nls/previewTab",
                 "nls/requestBody",
                 "nls/requestList"
-            ],
-            excludeShallow: [
-                "core/trace"
             ]
         },
         {
@@ -34,9 +31,6 @@
             include: [
                 "nls/requestBody",
                 "nls/requestList"
-            ],
-            excludeShallow: [
-                "core/trace"
             ]
         }
     ]
