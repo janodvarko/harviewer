@@ -48,18 +48,18 @@ HarModel.prototype =
         }
 
         // Sort all pages according to the start time.
-        if (input.log.pages) {
+        if (input.log && input.log.pages) {
             sortByStartedDateTime(input.log.pages);
         }
 
         // Sort all requests according to the start time.
-        if (input.log.entries) {
+        if (input.log && input.log.entries) {
             sortByStartedDateTime(input.log.entries);
         }
 
         if (this.input)
         {
-            if (input.log.pages)
+            if (input.log && input.log.pages)
             {
                 for (var i=0; i<input.log.pages.length; i++)
                     this.importPage(input.log.pages[i], input.log.entries);
@@ -92,7 +92,7 @@ HarModel.prototype =
         if (!this.input)
             return [];
 
-        return this.input.log.pages ? this.input.log.pages : [];
+        return this.input.log && this.input.log.pages || [];
     },
 
     /**
@@ -114,7 +114,7 @@ HarModel.prototype =
 
     getAllEntries: function(page)
     {
-        return this.input ? this.input.log.entries : [];
+        return this.input && this.input.log && this.input.log.entries || [];
     },
 
     getParentPage: function(file)
@@ -124,6 +124,9 @@ HarModel.prototype =
 
     importPage: function(page, entries)
     {
+        if (!this.input.log || !this.input.log.pages) {
+            return;
+        }
         var pageId = this.getUniquePageID(page.id);
         var prevPageId = page.id;
         page.id = pageId;
@@ -142,6 +145,8 @@ HarModel.prototype =
 
     getUniquePageID: function(defaultId)
     {
+        if (!this.input.log || !this.input.log.pages)
+            return defaultId;
         var pages = this.input.log.pages;
         var hashTable = {};
         for (var i=0; i<pages.length; i++)
@@ -172,7 +177,7 @@ HarModel.prototype =
             return "";
 
         // xxxHonza: we don't have to iterate all entries again if it did already.
-        var entries = this.input.log.entries;
+        var entries = this.input.log && this.input.log.entries || [];
         for (var i=0; i<entries.length; i++) {
             var entry = entries[i];
             if (entry.response.content.text)
@@ -236,7 +241,7 @@ HarModel.getPageEntries = function(input, page)
 {
     var result = [];
 
-    var entries = input.log.entries;
+    var entries = input.log && input.log.entries;
     if (!entries)
         return result;
 
@@ -265,7 +270,7 @@ HarModel.getPageEntries = function(input, page)
  */
 HarModel.getParentPage = function(input, file)
 {
-    var pages = input.log.pages;
+    var pages = input.log && input.log.pages;
     if (!pages)
         return null;
 
@@ -286,7 +291,7 @@ HarModel.validateRequestTimings = function(input)
     var errors = [];
 
     // Iterate all request timings and check the total time.
-    var entries = input.log.entries;
+    var entries = input.log && input.log.entries;
     for (var i=0; i<entries.length; i++)
     {
         var entry = entries[i];

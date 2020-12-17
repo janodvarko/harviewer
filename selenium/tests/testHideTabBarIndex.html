@@ -9,7 +9,7 @@
     <script src="<%= harviewer_base %>scripts/jquery.js"></script>
     <script data-main="<%= harviewer_base %>scripts/harViewer" src="<%= harviewer_base %>scripts/require.js"></script>
     <script type="text/javascript">
-    $("#content").bind("onViewerPreInit", function(event)
+    $("#content").on("onViewerPreInit", function(event)
     {
         var viewer = event.target.repObject;
         viewer.showTabBar(false);

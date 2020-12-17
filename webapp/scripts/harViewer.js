@@ -86,7 +86,7 @@ HarView.prototype = Lib.extend(new TabView(),
         }
     },
 
-    appendPreview: function(jsonString)
+    appendPreview: function(jsonString, validate)
     {
         var homeTab = this.getTab("Home");
         var previewTab = this.getTab("Preview");
@@ -94,7 +94,7 @@ HarView.prototype = Lib.extend(new TabView(),
 
         try
         {
-            var validate = $("#validate").prop("checked");
+            validate = typeof validate !== 'undefined'? validate : $("#validate").prop("checked");
             var input = HarModel.parse(jsonString, validate);
             this.model.append(input);
 

@@ -50,9 +50,9 @@ HomeTab.prototype = Lib.extend(TabView.Tab.prototype,
         // Registers drag-and-drop event handlers. These will be responsible for
         // auto-loading all dropped HAR files.
         var content = $("#content");
-        content.bind("dragenter", Lib.bind(Lib.cancelEvent, Lib));
-        content.bind("dragover", Lib.bind(Lib.cancelEvent, Lib));
-        content.bind("drop", Lib.bind(this.onDrop, this));
+        content.on("dragenter", Lib.bind(Lib.cancelEvent, Lib));
+        content.on("dragover", Lib.bind(Lib.cancelEvent, Lib));
+        content.on("drop", Lib.bind(this.onDrop, this));
 
         // Update validate checkbox and register event handler.
         this.validateNode = $("#validate");

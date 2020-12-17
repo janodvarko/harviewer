@@ -187,7 +187,7 @@ Timeline.prototype = domplate(
 
     getPages: function(input)
     {
-        return input.log.pages ? input.log.pages : [];
+        return input.log && input.log.pages || [];
     },
 
     getPageBar: function(page)
