@@ -15,14 +15,12 @@ references:
   install_npm: &npm
     run:
       name: Install NPM dependencies
-      command: |
-        echo "${NPM_TOKEN}" > .npmrc
-        npm cache verify
-        yarn install
+      command: npm i
   install_cdk: &cdk
     run:
       name: Install AWS CDK CLI
       command: |
+        echo "${NPM_TOKEN}" > .npmrc
         sudo npm i -g aws-cdk --no-save
         npm i @talkspace/spa-cdk --no-save
         cdk --version
@@ -34,28 +32,13 @@ references:
       name: Build app
       command: |
         CI="" npm run build
-  merge2dev: &merge2dev
-    run:
-      name: Merge Back to Dev
-      command: |
-        chmod +x ./.circleci/merge2dev.sh
-        ./.circleci/merge2dev.sh
+
 jobs:
   test:
     <<: *docker_container
     steps:
       - checkout
       - *npm
-      - run:
-          name: Lint
-          command: |
-            npm run lint-no-fix
-      - run:
-          name: NPM audit for vulnerabilities
-          command: npm run audit
-      - run:
-          name: NPM Check
-          command: npm run npmcheck
       - *build
   
   build_and_deploy_to_test:
