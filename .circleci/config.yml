@@ -1,0 +1,101 @@
+version: 2
+references:
+  docker_container: &docker_container
+    docker:
+      - image: talktala/node-cdk:latest
+  install_aws: &aws
+    run:
+      name: Install AWS cli
+      command: |
+        sudo apt-get update
+        sudo apt-get install -y python-dev
+        sudo apt-get install -y python3-dev
+        sudo apt-get -y install python-pip
+        sudo pip install awscli --upgrade
+  install_npm: &npm
+    run:
+      name: Install NPM dependencies
+      command: |
+        echo "${NPM_TOKEN}" > .npmrc
+        npm cache verify
+        yarn install
+  install_cdk: &cdk
+    run:
+      name: Install AWS CDK CLI
+      command: |
+        sudo npm i -g aws-cdk --no-save
+        npm i @talkspace/spa-cdk --no-save
+        cdk --version
+        cdk diff && echo "No Infrastructure Changes" || echo "Infrastructure Changes Present!" && cdk deploy --progress=events --require-approval never
+        cdk deploy --require-approval never
+      no_output_timeout: 30m
+  build_app: &build
+    run:
+      name: Build app
+      command: |
+        CI="" npm run build
+  merge2dev: &merge2dev
+    run:
+      name: Merge Back to Dev
+      command: |
+        chmod +x ./.circleci/merge2dev.sh
+        ./.circleci/merge2dev.sh
+jobs:
+  test:
+    <<: *docker_container
+    steps:
+      - checkout
+      - *npm
+      - run:
+          name: Lint
+          command: |
+            npm run lint-no-fix
+      - run:
+          name: NPM audit for vulnerabilities
+          command: npm run audit
+      - run:
+          name: NPM Check
+          command: npm run npmcheck
+      - *build
+  
+  build_and_deploy_to_test:
+    <<: *docker_container
+    environment:
+      - SUBDOMAIN: 'harviewer'
+      - ACM_CERT_ARN: 'arn:aws:acm:us-east-1:469973828956:certificate/f160b1c7-b069-4aa2-9410-34527d5c9eb9'
+      - ENV: 'dev'
+    steps:
+      - checkout
+      - *aws
+      - run:
+          name: Configure CLI and Login
+          command: |
+            mkdir ~/.aws
+            echo "[default]" > ~/.aws/config
+            echo "region=us-east-1" >> ~/.aws/config
+            echo "output=text" >> ~/.aws/config
+            echo "[default]" > ~/.aws/credentials
+            echo "aws_access_key_id=${STAGING_AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
+            echo "aws_secret_access_key=${STAGING_AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
+      - *npm
+      - *build
+      - *cdk
+      - run:
+          name: Deploy app
+          command: |
+            aws s3 sync ./webapp-build/ s3://${SUBDOMAIN}-dev-spa-talkspace/ --cache-control no-cache --delete --acl public-read --exclude ".eslint*" --exclude "harfiles*"
+      
+
+workflows:
+  version: 2
+  run-tests:
+    jobs:
+      - test
+      - build_and_deploy_to_test:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - test
+
