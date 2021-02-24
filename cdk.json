@@ -1,0 +1,3 @@
+{
+    "app": "node .circleci/cdk-deploy.js"
+}
