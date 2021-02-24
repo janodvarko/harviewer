@@ -78,7 +78,7 @@ workflows:
           filters:
             branches:
               only:
-                - task/CORE-1842
+                - master
           requires:
             - test
 
