@@ -1,4 +1,5 @@
 Stable URL (v2.0.17, 21 March 2016) - http://www.softwareishard.com/har/viewer/
+![效果预览](http://www.softwareishard.com/har/images/scr-har-viewer.png)
 
 Up-to-date master - http://gitgrimbo.github.io/harviewer/master/ (and [https](https://gitgrimbo.github.io/harviewer/master/))
 
