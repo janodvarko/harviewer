@@ -3,10 +3,16 @@
   "version": "3.0.0-alpha.0",
   "description": "The purpose of this online tool is to visualize HTTP Archive (HAR) log files created by HTTP tracking tools. These files contain log of HTTP client/server conversation and can be used for an additional analysis of e.g. page load performance.",
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.3",
+    "@electron-forge/maker-deb": "^6.0.3",
+    "@electron-forge/maker-rpm": "^6.0.3",
+    "@electron-forge/maker-squirrel": "^6.0.3",
+    "@electron-forge/maker-zip": "^6.0.3",
     "cors": "^2.8.5",
     "cross-env": "^5.2.0",
     "dojo": "^1.14.2",
     "ejs": "^2.6.1",
+    "electron": "^21.3.1",
     "eslint": "^5.9.0",
     "eslint-config-google": "^0.11.0",
     "express": "^4.16.4",
@@ -40,6 +46,18 @@
     "stylelint:build": "stylelint --config .stylelint.json webapp-build/css/harPreview.css webapp-build/css/harViewer.css",
     "test": "intern",
     "test:unit": "intern",
-    "test:all": "intern config=@all"
+    "test:all": "intern config=@all",
+    "start-electron": "run-s build start-electron:dev-server",
+    "start-electron:dev-server": "electron .",
+    "start-forge": "run-s build start-forge:dev-server",
+    "start-forge:dev-server": "electron-forge start",
+    "package": "run-s build package:electron",
+    "package:electron": "electron-forge package",
+    "make": "run-s build make:electron",
+    "make:electron": "electron-forge make"
+  },
+  "main": "main.js",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
   }
 }
