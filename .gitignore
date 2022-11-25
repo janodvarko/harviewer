@@ -51,3 +51,5 @@
 
 # Test results in JUnit format.
 /report.xml
+
+out/
