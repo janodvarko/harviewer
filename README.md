@@ -86,3 +86,10 @@ Go to the project directory and execute the following command:
 ### Version and Google Analytics
 
 Use the `build.json` file to set the version and Google Analytics profile.
+
+### Electron app
+
+To bundle the HAR Viewer as a native application using the Electron framework
+to to the project directory and execute the following command:
+
+`npm run make`
