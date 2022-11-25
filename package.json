@@ -49,10 +49,12 @@
     "test:all": "intern config=@all",
     "start-electron": "run-s build start-electron:dev-server",
     "start-electron:dev-server": "electron .",
-    "start-forge": "electron-forge start",
-    "electron-package": "",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "start-forge": "run-s build start-forge:dev-server",
+    "start-forge:dev-server": "electron-forge start",
+    "package": "run-s build package:electron",
+    "package:electron": "electron-forge package",
+    "make": "run-s build make:electron",
+    "make:electron": "electron-forge make"
   },
   "main": "main.js",
   "dependencies": {
